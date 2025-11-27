@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }} | Naked Tech</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="bg-skin-bone text-ivanhoe-slate font-sans antialiased selection:bg-electric-peach selection:text-white flex flex-col min-h-screen">
+
+    <!-- Global Header / Navbar -->
+    <nav class="fixed w-full z-50 bg-skin-bone/90 backdrop-blur-sm border-b border-ivanhoe-slate/5">
+        <div class="container mx-auto px-6 h-20 flex justify-between items-center">
+            <!-- Logo -->
+            <a href="/" class="text-2xl font-bold tracking-tight text-ivanhoe-slate">
+                NAKED TECH
+            </a>
+            
+            <!-- CTA Button -->
+            <a href="/#contact" class="bg-electric-peach text-white px-6 py-2 rounded-full font-semibold text-sm transition-transform hover:scale-105 hover:bg-[#FF7A50] shadow-lg shadow-electric-peach/30">
+                GET NAKED
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content Injection -->
+    <main class="flex-grow">
+        {{ content | safe }}
+    </main>
+
+    <!-- Global Footer -->
+    <footer class="py-12 text-center text-sm border-t border-ivanhoe-slate/5 mt-auto">
+        <div class="container mx-auto px-6 space-y-4">
+            <p class="font-bold text-ivanhoe-slate">Naked Tech. Servicing Ivanhoe & Eaglemont.</p>
+            <p class="text-gray-500 italic">Please treat our technicians with respect. Look, don't touch.</p>
+            
+            <!-- Recruitment Link -->
+            <div class="pt-4">
+                <a href="/join" class="text-xs font-semibold uppercase tracking-widest text-ivanhoe-slate/60 hover:text-electric-peach hover:underline transition-colors">
+                    Join the Team
+                </a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
