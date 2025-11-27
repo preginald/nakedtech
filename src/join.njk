@@ -70,17 +70,67 @@ title: Join the Team
         </div>
     </section>
 
-    <!-- CTA Section -->
-    <section class="text-center max-w-2xl mx-auto">
-        <h2 class="text-3xl font-bold mb-6">How to Apply</h2>
-        <p class="text-lg text-gray-600 mb-8">
-            Don't send a boring cover letter. Send your CV and a link to your LinkedIn (or Instagram) to the email below. 
-            <br><span class="font-medium text-ivanhoe-slate">Tell us your favorite network protocol and your deadlift PR.</span>
-        </p>
-        
-        <a href="mailto:careers@nakedtech.au" class="inline-block bg-electric-peach text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-[#FF7A50] shadow-xl shadow-electric-peach/20 transition-all transform hover:-translate-y-1">
-            EMAIL US
-        </a>
+    <!-- CTA Section: Application Form -->
+    <section class="max-w-xl mx-auto pb-20">
+        <div class="text-center mb-10">
+            <h2 class="text-3xl font-bold mb-4">How to Apply</h2>
+            <p class="text-gray-600">
+                Show us what you've got. Keep it brief, keep it real.
+            </p>
+        </div>
+
+        <!-- The Form -->
+        <div class="bg-white p-8 md:p-10 rounded-2xl shadow-xl border border-gray-100 relative overflow-hidden">
+            <!-- Decorative accent top -->
+            <div class="absolute top-0 left-0 w-full h-2 bg-electric-peach"></div>
+
+            <!-- Update the opening <form> tag with your Formspree URL -->
+            <form action="https://formspree.io/f/xnnkdalb" method="POST" class="space-y-6">
+                
+                <!-- Hidden Field: This sets the subject line in your inbox -->
+                <input type="hidden" name="_subject" value="New Application: Naked Tech">
+
+                <!-- Name -->
+                <div>
+                    <label for="name" class="block text-sm font-bold text-ivanhoe-slate mb-2">Full Name</label>
+                    <input type="text" id="name" name="name" required placeholder="Jane Doe" 
+                        class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-electric-peach focus:ring-2 focus:ring-electric-peach/20 outline-none transition-all">
+                </div>
+
+                <!-- Email -->
+                <div>
+                    <label for="email" class="block text-sm font-bold text-ivanhoe-slate mb-2">Email Address</label>
+                    <input type="email" id="email" name="email" required placeholder="jane@example.com" 
+                        class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-electric-peach focus:ring-2 focus:ring-electric-peach/20 outline-none transition-all">
+                </div>
+
+                <!-- Social Link -->
+                <div>
+                    <label for="social" class="block text-sm font-bold text-ivanhoe-slate mb-2">LinkedIn or Instagram URL</label>
+                    <input type="url" id="social" name="social" placeholder="https://linkedin.com/in/..." 
+                        class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-electric-peach focus:ring-2 focus:ring-electric-peach/20 outline-none transition-all">
+                </div>
+
+                <!-- The Naked Question -->
+                <div>
+                    <label for="details" class="block text-sm font-bold text-ivanhoe-slate mb-2">
+                        Tell us your Deadlift PR & Favorite Network Protocol
+                    </label>
+                    <textarea id="details" name="details" rows="4" required placeholder="e.g. 140kg & DHCP because I like to lease..." 
+                        class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-electric-peach focus:ring-2 focus:ring-electric-peach/20 outline-none transition-all"></textarea>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="w-full bg-electric-peach text-white font-bold text-lg py-4 rounded-lg hover:bg-[#FF7A50] shadow-lg shadow-electric-peach/20 transition-all transform hover:-translate-y-1">
+                    APPLY NOW
+                </button>
+
+            </form>
+            
+            <p class="text-center text-xs text-gray-400 mt-6">
+                Your data is safe. We don't share it. We just judge it.
+            </p>
+        </div>
     </section>
 
 </div>
