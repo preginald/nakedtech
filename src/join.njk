@@ -85,10 +85,15 @@ title: Join the Team
             <div class="absolute top-0 left-0 w-full h-2 bg-electric-peach"></div>
 
             <!-- Update the opening <form> tag with your Formspree URL -->
-            <form action="https://formspree.io/f/xnnkdalb" method="POST" class="space-y-6">
+            <form action="/api/send" method="POST" class="space-y-6">
                 
-                <!-- Hidden Field: This sets the subject line in your inbox -->
+                <!-- CONFIGURATION FIELDS -->
+                <!-- Redirect to this page on success -->
+                <input type="hidden" name="_next" value="/thank-you">
+                <!-- Email Subject Line -->
                 <input type="hidden" name="_subject" value="New Application: Naked Tech">
+                <!-- Honeypot (Spam Trap) - Hide this with CSS -->
+                <input type="text" name="_gotcha" style="display:none">
 
                 <!-- Name -->
                 <div>
