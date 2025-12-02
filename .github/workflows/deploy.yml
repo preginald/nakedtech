@@ -1,0 +1,38 @@
+name: Deploy to Digital Ocean
+
+on:
+  push:
+    branches:
+      - main  # Or 'master', depending on your default branch name
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Deploy via SSH
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.DO_HOST }}
+        username: ${{ secrets.DO_USERNAME }}
+        key: ${{ secrets.DO_SSH_KEY }}
+        port: 22
+        script: |
+          # Stop script if any command fails
+          set -e
+          
+          # Navigate to the folder
+          cd /var/www/nakedtech.au
+          
+          # Pull the latest code
+          git pull origin main
+          
+          # Install dependencies (in case you added new plugins)
+          npm install
+          
+          # Build the site
+          npm run build
+          
+          # Optional: Restart Apache if you were doing heavy caching, 
+          # but usually not needed for static HTML updates.
+          # sudo systemctl reload apache2
