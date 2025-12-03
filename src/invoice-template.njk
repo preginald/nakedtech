@@ -1,0 +1,160 @@
+---
+layout: layouts/base.njk
+title: Invoice #001
+---
+
+<!-- Print Styles: Hides the website navigation and footer when printing -->
+<style>
+    @media print {
+        nav, footer, .no-print { display: none !important; }
+        body { background-color: white !important; }
+        .invoice-container { box-shadow: none !important; margin: 0 !important; width: 100% !important; max-width: 100% !important; }
+        main { padding-top: 0 !important; }
+    }
+</style>
+
+<div class="bg-skin-bone min-h-screen pt-32 pb-20 print:pt-0 print:pb-0">
+    
+    <!-- Invoice Container (A4 Ratio-ish) -->
+    <div class="invoice-container container max-w-4xl mx-auto bg-white p-10 md:p-16 rounded-xl shadow-lg text-ivanhoe-slate border border-gray-100">
+        
+        <!-- HEADER -->
+        <div class="flex justify-between items-start mb-12">
+            <!-- Logo -->
+            <div class="w-1/2">
+                <svg class="h-16 w-auto mb-4" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="15" y="10" width="25" height="80" fill="#2D3035"/>
+                    <path d="M40 10 L65 90 H90 V10 H65 V90" stroke="#FF8C69" stroke-width="3" stroke-linejoin="miter" stroke-linecap="square"/>
+                </svg>
+            </div>
+            
+            <!-- Invoice Details -->
+            <div class="text-right w-1/2">
+                <h1 class="text-4xl font-extrabold text-ivanhoe-slate mb-2 tracking-tight">TAX INVOICE</h1>
+                <p class="text-gray-500 font-medium">Invoice #001</p>
+                <p class="text-gray-500 text-sm mt-1">Date: 04 Dec 2025</p>
+                <p class="text-gray-500 text-sm">Due Date: 11 Dec 2025</p>
+            </div>
+        </div>
+
+        <!-- FROM / TO -->
+        <div class="flex justify-between items-start mb-16 border-t border-gray-100 pt-8">
+            <div class="w-1/2">
+                <p class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">From</p>
+                <p class="font-bold text-lg">Naked Tech Pty Ltd</p>
+                <p class="text-gray-600">ABN: 12 345 678 901</p>
+                <p class="text-gray-600">Ivanhoe, VIC 3079</p>
+                <p class="text-gray-600">hello@nakedtech.au</p>
+            </div>
+            <div class="w-1/2 text-right">
+                <p class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">To</p>
+                <p class="font-bold text-lg">Sarah Higgins</p>
+                <p class="text-gray-600">42 The Boulevard</p>
+                <p class="text-gray-600">Eaglemont, VIC 3084</p>
+            </div>
+        </div>
+
+        <!-- THE NAKED GRID -->
+        <div class="mb-12">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="border-b-2 border-ivanhoe-slate">
+                        <th class="py-4 text-sm font-bold uppercase tracking-wider text-gray-500 w-1/2">Item / Description</th>
+                        <th class="py-4 text-sm font-bold uppercase tracking-wider text-gray-500 text-center">Qty</th>
+                        <th class="py-4 text-sm font-bold uppercase tracking-wider text-gray-500 text-right">Rate</th>
+                        <th class="py-4 text-sm font-bold uppercase tracking-wider text-gray-500 text-right">Total</th>
+                    </tr>
+                </thead>
+                <tbody class="text-gray-700">
+                    
+                    <!-- Row 1: Labor -->
+                    <tr class="border-b border-gray-100">
+                        <td class="py-6">
+                            <p class="font-bold text-ivanhoe-slate">On-Site Support (Mesh Wi-Fi Install & Config)</p>
+                            <p class="text-sm text-gray-500 mt-1">Tuesday 10:00 AM - 12:30 PM</p>
+                        </td>
+                        <td class="py-6 text-center font-medium">2.5</td>
+                        <td class="py-6 text-right">$190.00</td>
+                        <td class="py-6 text-right font-bold">$475.00</td>
+                    </tr>
+
+                    <!-- Row 2: Hardware -->
+                    <tr class="border-b border-gray-100">
+                        <td class="py-6">
+                            <p class="font-bold text-ivanhoe-slate">Eero Pro 6E (3-Pack)</p>
+                            <p class="text-sm text-electric-peach mt-1 italic">Pass-through cost. No Markup.</p>
+                        </td>
+                        <td class="py-6 text-center font-medium">1</td>
+                        <td class="py-6 text-right">$999.00</td>
+                        <td class="py-6 text-right font-bold">$999.00</td>
+                    </tr>
+
+                    <!-- Row 3: Cabling -->
+                    <tr class="border-b border-gray-100">
+                        <td class="py-6">
+                            <p class="font-bold text-ivanhoe-slate">Cat6 Ethernet Cabling (10m)</p>
+                        </td>
+                        <td class="py-6 text-center font-medium">1</td>
+                        <td class="py-6 text-right">$25.00</td>
+                        <td class="py-6 text-right font-bold">$25.00</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+        <!-- TOTALS -->
+        <div class="flex justify-end mb-16">
+            <div class="w-full md:w-1/3 space-y-3">
+                <div class="flex justify-between text-gray-600">
+                    <span>Subtotal</span>
+                    <span class="font-medium">$1,499.00</span>
+                </div>
+                <div class="flex justify-between text-gray-600 pb-4 border-b border-gray-200">
+                    <span>GST (10%)</span>
+                    <span class="font-medium">$149.90</span>
+                </div>
+                <div class="flex justify-between text-2xl font-extrabold text-ivanhoe-slate">
+                    <span>Total AUD</span>
+                    <span class="text-electric-peach">$1,648.90</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAYMENT FOOTER -->
+        <div class="bg-gray-50 p-8 rounded-lg border border-gray-100 flex flex-col md:flex-row justify-between items-center gap-6">
+            
+            <!-- Bank Details -->
+            <div class="text-sm text-gray-600">
+                <p class="font-bold text-ivanhoe-slate mb-1">Bank Transfer</p>
+                <p>Account Name: <span class="font-medium">Naked Tech Pty Ltd</span></p>
+                <p>BSB: <span class="font-mono font-medium">000-000</span> | ACC: <span class="font-mono font-medium">12345678</span></p>
+            </div>
+
+            <!-- Stripe / Card -->
+            <div class="text-center md:text-right">
+                <a href="#" class="no-print inline-flex items-center text-electric-peach font-bold hover:underline">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+                    Pay securely via Stripe
+                </a>
+                <p class="text-xs text-gray-400 mt-2 print:hidden">Clicking this link opens our secure payment portal.</p>
+            </div>
+        </div>
+
+        <!-- THANK YOU NOTE -->
+        <div class="text-center mt-12">
+            <p class="text-gray-500 italic text-sm">
+                Thank you for letting us handle your hardware. We hope you enjoy the speed.
+            </p>
+        </div>
+
+    </div>
+    
+    <!-- Print Button (Hidden on Print) -->
+    <div class="text-center mt-8 no-print">
+        <button onclick="window.print()" class="bg-ivanhoe-slate text-skin-bone px-6 py-2 rounded-full font-bold hover:bg-gray-800 transition-colors shadow-lg">
+            Print / Save as PDF
+        </button>
+    </div>
+
+</div>
