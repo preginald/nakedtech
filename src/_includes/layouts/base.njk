@@ -5,26 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }} | Naked Tech</title>
     <link rel="stylesheet" href="/css/styles.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/img/logo.svg">
 </head>
 <body class="bg-skin-bone text-ivanhoe-slate font-sans antialiased selection:bg-electric-peach selection:text-white flex flex-col min-h-screen">
 
     <!-- Global Header / Navbar -->
     <nav class="fixed w-full z-50 bg-skin-bone/90 backdrop-blur-sm border-b border-ivanhoe-slate/5">
         <div class="container mx-auto px-6 h-20 flex justify-between items-center">
-            <!-- Logo -->
-            <a href="/" class="text-2xl font-bold tracking-tight text-ivanhoe-slate">
-                NAKED TECH
+            
+            <!-- Logo + Brand Name -->
+            <a href="/" class="flex items-center gap-3 group">
+                <!-- The SVG Logo -->
+                <svg class="h-8 md:h-10 w-auto transition-transform group-hover:scale-105" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="15" y="10" width="25" height="80" fill="#2D3035"/>
+                    <path d="M40 10 L65 90 H90 V10 H65 V90" stroke="#FF8C69" stroke-width="3" stroke-linejoin="miter" stroke-linecap="square"/>
+                </svg>
+                
+                <!-- The Text (Hidden on very small screens if needed, but looks good on most) -->
+                <span class="font-bold text-lg md:text-xl tracking-wide text-ivanhoe-slate group-hover:text-electric-peach transition-colors">
+                    NAKED TECH
+                </span>
             </a>
             
-            <div class="flex items-center space-x-6">
+            <div class="flex items-center space-x-3 md:space-x-6">
                 <!-- Navigation Links -->
-                <a href="/services" class="text-sm font-semibold text-ivanhoe-slate hover:text-electric-peach transition-colors hidden md:block">
+                <a href="/services" class="text-xs md:text-sm font-semibold text-ivanhoe-slate hover:text-electric-peach transition-colors">
                     SERVICES
                 </a>
 
                 <!-- CTA Button -->
-                <a href="/booking" class="bg-electric-peach text-white px-6 py-2 rounded-full font-semibold text-sm transition-transform hover:scale-105 hover:bg-[#FF7A50] shadow-lg shadow-electric-peach/30">
-                GET NAKED
+                <a href="/booking" class="bg-electric-peach text-white px-4 md:px-6 py-2 rounded-full font-semibold text-xs md:text-sm transition-transform hover:scale-105 hover:bg-[#FF7A50] shadow-lg shadow-electric-peach/30">
+                    GET NAKED
                 </a>
             </div>
         </div>
@@ -37,8 +50,18 @@
 
     <!-- Global Footer -->
     <footer class="py-12 text-center text-sm border-t border-ivanhoe-slate/5 mt-auto bg-skin-bone">
-        <div class="container mx-auto px-6 space-y-4">
-            <p class="font-bold text-ivanhoe-slate">Naked Tech. Servicing Ivanhoe & Eaglemont.</p>
+        <div class="container mx-auto px-6 space-y-6">
+            
+            <!-- Footer Branding -->
+            <div class="flex justify-center items-center gap-2 opacity-80">
+                <svg class="h-6 w-auto" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="15" y="10" width="25" height="80" fill="#2D3035"/>
+                    <path d="M40 10 L65 90 H90 V10 H65 V90" stroke="#FF8C69" stroke-width="3" stroke-linejoin="miter" stroke-linecap="square"/>
+                </svg>
+                <span class="font-bold text-lg text-ivanhoe-slate tracking-tight">NAKED TECH</span>
+            </div>
+
+            <p class="text-ivanhoe-slate">Servicing Ivanhoe & Eaglemont.</p>
             <p class="text-gray-500 italic">Please treat our technicians with respect. Look, don't touch.</p>
             
             <!-- Footer Links -->

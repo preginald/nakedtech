@@ -1,0 +1,9 @@
+<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-labelledby="nakedTechLogoTitle">
+  <title id="nakedTechLogoTitle">Naked Tech Logo</title>
+  
+  <!-- The Solid Left Pillar (Ivanhoe Slate) -->
+  <rect x="15" y="10" width="25" height="80" fill="#2D3035"/>
+  
+  <!-- The Wireframe Structure (Electric Peach) -->
+  <path d="M40 10 L65 90 H90 V10 H65 V90" stroke="#FF8C69" stroke-width="3" stroke-linejoin="miter" stroke-linecap="square"/>
+</svg>
