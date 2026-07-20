@@ -4,6 +4,8 @@ module.exports = function(eleventyConfig) {
   
   // Passthrough copy for images or static assets
   eleventyConfig.addPassthroughCopy("./src/img");
+  eleventyConfig.addPassthroughCopy("./src/assets");
+  eleventyConfig.addPassthroughCopy("./src/robots.txt");
 
   return {
     dir: {

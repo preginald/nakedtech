@@ -1,0 +1,180 @@
+---
+layout: layouts/base.njk
+pagination:
+  data: services
+  size: 1
+  alias: service
+permalink: "/services/{{ service.slug }}/index.html"
+eleventyComputed:
+  title: "{{ service.seoTitle }}"
+  description: "{{ service.seoDescription }}"
+---
+
+<header class="relative overflow-hidden bg-ivanhoe-slate text-skin-bone pt-28 pb-16 md:pt-36 md:pb-24">
+    <div class="absolute inset-0 opacity-10" aria-hidden="true">
+        <div class="absolute -right-24 -top-24 h-96 w-96 rounded-full border-[64px] border-electric-peach"></div>
+        <div class="absolute -bottom-32 left-1/3 h-72 w-72 rounded-full border-[48px] border-white"></div>
+    </div>
+
+    <div class="container relative mx-auto grid items-center gap-12 px-6 lg:grid-cols-[1.15fr_0.85fr]">
+        <div>
+            <nav aria-label="Breadcrumb" class="mb-8">
+                <ol class="flex flex-wrap items-center gap-2 text-sm text-skin-bone/70">
+                    <li><a href="/services/" class="inline-flex min-h-11 items-center hover:text-electric-peach">Services</a></li>
+                    <li aria-hidden="true">/</li>
+                    <li aria-current="page" class="text-skin-bone">{{ service.name }}</li>
+                </ol>
+            </nav>
+
+            <p class="mb-4 text-sm font-bold uppercase tracking-[0.18em] text-electric-peach">{{ service.name }} · {{ service.category }}</p>
+            <h1 class="max-w-4xl text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl lg:text-6xl">{{ service.headline }}</h1>
+            <p class="mt-6 max-w-2xl text-lg leading-relaxed text-skin-bone/80 md:text-xl">{{ service.promise }}</p>
+
+            <div class="mt-10 flex flex-col gap-4 sm:flex-row">
+                <a href="/booking/" class="inline-flex min-h-14 items-center justify-center rounded-full bg-electric-peach px-8 py-4 text-base font-bold text-ivanhoe-slate shadow-xl shadow-black/20 transition hover:-translate-y-0.5 hover:bg-[#FF7A50]">{{ service.cta }}</a>
+                <a href="#included" class="inline-flex min-h-14 items-center justify-center rounded-full border border-skin-bone/30 px-8 py-4 text-base font-bold text-skin-bone transition hover:border-electric-peach hover:text-electric-peach">See what is included</a>
+            </div>
+        </div>
+
+        <aside class="rounded-3xl border border-white/15 bg-white/10 p-6 shadow-2xl backdrop-blur-sm md:p-8" aria-label="Service pricing summary">
+            <div class="flex items-center gap-4 border-b border-white/15 pb-6">
+                <span class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-electric-peach text-ivanhoe-slate" aria-hidden="true">
+                    <svg class="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ service.iconPath }}"></path></svg>
+                </span>
+                <div>
+                    <p class="text-sm font-bold uppercase tracking-widest text-skin-bone/60">The naked breakdown</p>
+                    <p class="mt-1 text-xl font-bold">{{ service.category }}</p>
+                </div>
+            </div>
+            <dl class="space-y-6 pt-6">
+                <div>
+                    <dt class="text-sm text-skin-bone/60">Typical investment</dt>
+                    <dd class="mt-1 text-3xl font-extrabold text-electric-peach">{{ service.typicalInvestment }}</dd>
+                </div>
+                <div>
+                    <dt class="text-sm text-skin-bone/60">Pricing structure</dt>
+                    <dd class="mt-1 font-bold">{{ service.priceLine }}</dd>
+                </div>
+                <div>
+                    <dt class="text-sm text-skin-bone/60">Local call-out</dt>
+                    <dd class="mt-1 font-bold">$0 for Ivanhoe 3079</dd>
+                </div>
+            </dl>
+            <p class="mt-6 border-t border-white/15 pt-6 text-sm leading-relaxed text-skin-bone/70">{{ service.investmentNote }}</p>
+        </aside>
+    </div>
+</header>
+
+<div>
+    <section class="py-16 md:py-24" aria-labelledby="problems-heading">
+        <div class="container mx-auto px-6">
+            <div class="mx-auto max-w-3xl text-center">
+                <p class="text-sm font-bold uppercase tracking-[0.18em] text-electric-peach-ink">The symptoms</p>
+                <h2 id="problems-heading" class="mt-3 text-3xl font-extrabold tracking-tight md:text-4xl">Sound familiar?</h2>
+            </div>
+            <div class="mx-auto mt-12 grid max-w-6xl gap-6 md:grid-cols-3">
+                {% for problem in service.problems %}
+                <article class="rounded-2xl border border-ivanhoe-slate/10 bg-white p-6 shadow-sm md:p-8">
+                    <span class="text-sm font-extrabold text-electric-peach-ink" aria-hidden="true">0{{ loop.index }}</span>
+                    <h3 class="mt-4 text-xl font-bold">{{ problem.title }}</h3>
+                    <p class="mt-3 leading-relaxed text-ivanhoe-slate/70">{{ problem.body }}</p>
+                </article>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <section id="included" class="scroll-mt-24 bg-white py-16 md:py-24" aria-labelledby="included-heading">
+        <div class="container mx-auto grid gap-12 px-6 lg:grid-cols-[1fr_0.8fr] lg:items-start">
+            <div>
+                <p class="text-sm font-bold uppercase tracking-[0.18em] text-electric-peach-ink">What we set up</p>
+                <h2 id="included-heading" class="mt-3 text-3xl font-extrabold tracking-tight md:text-4xl">A complete visit, not a mystery box.</h2>
+                <ul class="mt-10 grid gap-4 sm:grid-cols-2">
+                    {% for item in service.inclusions %}
+                    <li class="flex gap-3 rounded-xl bg-skin-bone p-4">
+                        <svg class="mt-0.5 h-5 w-5 shrink-0 text-electric-peach-ink" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        <span class="leading-relaxed">{{ item }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <aside class="rounded-3xl bg-electric-peach p-8 text-ivanhoe-slate shadow-xl md:p-10">
+                <p class="text-sm font-bold uppercase tracking-widest text-ivanhoe-slate">Transparent by design</p>
+                <p class="mt-4 text-4xl font-extrabold">{{ service.typicalInvestment }}</p>
+                <p class="mt-3 text-lg font-bold">{{ service.priceLine }}</p>
+                <p class="mt-6 leading-relaxed text-ivanhoe-slate">{{ service.investmentNote }}</p>
+                <div class="mt-8 border-t border-ivanhoe-slate/25 pt-6">
+                    <p class="font-bold">Hardware sold at cost. No markups.</p>
+                    <p class="mt-2 text-sm text-ivanhoe-slate">You see the service charge and hardware cost separately.</p>
+                </div>
+            </aside>
+        </div>
+    </section>
+
+    <section id="process" class="py-16 md:py-24" aria-labelledby="process-heading">
+        <div class="container mx-auto px-6">
+            <div class="mx-auto max-w-3xl text-center">
+                <p class="text-sm font-bold uppercase tracking-[0.18em] text-electric-peach-ink">How it works</p>
+                <h2 id="process-heading" class="mt-3 text-3xl font-extrabold tracking-tight md:text-4xl">From awkward to sorted.</h2>
+            </div>
+            <ol class="mx-auto mt-12 grid max-w-6xl gap-6 md:grid-cols-3">
+                {% for step in service.process %}
+                <li class="relative rounded-2xl border-2 border-ivanhoe-slate p-6 md:p-8">
+                    <span class="absolute -top-5 left-6 flex h-10 min-w-10 items-center justify-center rounded-full bg-ivanhoe-slate px-3 text-sm font-extrabold text-skin-bone">{{ loop.index }}</span>
+                    <h3 class="mt-4 text-xl font-bold">{{ step.title }}</h3>
+                    <p class="mt-3 leading-relaxed text-ivanhoe-slate/70">{{ step.body }}</p>
+                </li>
+                {% endfor %}
+            </ol>
+        </div>
+    </section>
+
+    <section class="bg-ivanhoe-slate py-16 text-skin-bone md:py-24" aria-labelledby="assurances-heading">
+        <div class="container mx-auto px-6">
+            <div class="grid gap-10 lg:grid-cols-[0.65fr_1.35fr] lg:items-start">
+                <div>
+                    <p class="text-sm font-bold uppercase tracking-[0.18em] text-electric-peach">Nothing hidden</p>
+                    <h2 id="assurances-heading" class="mt-3 text-3xl font-extrabold tracking-tight md:text-4xl">Our clothes-off policy.</h2>
+                    <p class="mt-5 leading-relaxed text-skin-bone/70">Clear pricing, clear ownership and a setup you can understand after we leave.</p>
+                </div>
+                <div class="grid gap-4 md:grid-cols-3">
+                    {% for assurance in service.assurances %}
+                    <article class="rounded-2xl border border-white/15 bg-white/5 p-6">
+                        <h3 class="text-lg font-bold text-electric-peach">{{ assurance.title }}</h3>
+                        <p class="mt-3 text-sm leading-relaxed text-skin-bone/70">{{ assurance.body }}</p>
+                    </article>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="py-16 md:py-24" aria-labelledby="faq-heading">
+        <div class="container mx-auto px-6">
+            <div class="mx-auto max-w-3xl">
+                <p class="text-sm font-bold uppercase tracking-[0.18em] text-electric-peach-ink">Before you book</p>
+                <h2 id="faq-heading" class="mt-3 text-3xl font-extrabold tracking-tight md:text-4xl">Frequently asked, fully answered.</h2>
+                <div class="mt-10 divide-y divide-ivanhoe-slate/10 border-y border-ivanhoe-slate/10">
+                    {% for faq in service.faqs %}
+                    <details class="group py-2">
+                        <summary class="flex min-h-14 cursor-pointer list-none items-center justify-between gap-6 py-4 text-lg font-bold">
+                            <span>{{ faq.question }}</span>
+                            <span class="text-2xl font-light text-electric-peach-ink transition group-open:rotate-45" aria-hidden="true">+</span>
+                        </summary>
+                        <p class="max-w-2xl pb-6 pr-12 leading-relaxed text-ivanhoe-slate/70">{{ faq.answer }}</p>
+                    </details>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="px-6 pb-20 md:pb-28" aria-labelledby="cta-heading">
+        <div class="container mx-auto max-w-5xl overflow-hidden rounded-3xl bg-electric-peach px-6 py-12 text-center text-ivanhoe-slate shadow-2xl md:px-12 md:py-16">
+            <p class="text-sm font-bold uppercase tracking-[0.18em] text-ivanhoe-slate">Ivanhoe & Eaglemont</p>
+            <h2 id="cta-heading" class="mt-3 text-3xl font-extrabold md:text-5xl">Ready to get this sorted?</h2>
+            <p class="mx-auto mt-5 max-w-2xl text-lg text-ivanhoe-slate">Book a visit and tell us what is misbehaving. We will take it from there.</p>
+            <a href="/booking/" class="mt-8 inline-flex min-h-14 items-center justify-center rounded-full bg-ivanhoe-slate px-9 py-4 text-base font-bold text-white shadow-xl transition hover:-translate-y-0.5 hover:bg-black">{{ service.cta }}</a>
+        </div>
+    </section>
+</div>

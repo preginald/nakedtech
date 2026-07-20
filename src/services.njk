@@ -1,17 +1,18 @@
 ---
 layout: layouts/base.njk
 title: Services & Pricing
+description: Local Mesh Wi-Fi, smart security, home office and everyday tech support for Ivanhoe and Eaglemont, with transparent pricing.
 ---
 
 <div class="pt-32 pb-20 container mx-auto px-6">
 
     <!-- Hero Section -->
     <header class="max-w-4xl mx-auto text-center mb-16">
-        <h1 class="text-5xl md:text-7xl font-extrabold mb-6 text-ivanhoe-slate">
+        <h1 class="text-4xl sm:text-5xl md:text-7xl font-extrabold mb-6 text-ivanhoe-slate">
             The Menu.
         </h1>
-        <p class="text-xl text-ivanhoe-slate/80">
-            Simple pricing. No hidden fees. Just results.
+        <p class="mx-auto max-w-2xl text-lg leading-relaxed text-ivanhoe-slate/80 md:text-xl">
+            Pick the problem that sounds familiar. Every service shows you what is included, how the visit works and what the typical investment looks like.
         </p>
     </header>
 
@@ -21,7 +22,7 @@ title: Services & Pricing
             <!-- Decorative Accent -->
             <div class="absolute top-0 left-0 w-full h-2 bg-electric-peach"></div>
 
-            <h2 class="text-6xl md:text-7xl font-bold text-ivanhoe-slate mb-4">
+            <h2 class="text-4xl sm:text-5xl md:text-7xl font-bold text-ivanhoe-slate mb-4">
                 $190 <span class="text-2xl text-gray-500 font-medium">/ hour</span>
             </h2>
             
@@ -38,93 +39,45 @@ title: Services & Pricing
 
     <!-- Visual Break Image -->
     <div class="max-w-5xl mx-auto mb-24 px-6 md:px-0">
-        <img 
-            src="/img/services-hero.webp" 
-            alt="Technician installing Mesh Wi-Fi with care" 
-            class="w-full h-[400px] object-cover rounded-2xl shadow-xl"
+        <img
+            src="/img/services-hero.webp"
+            alt="Technician setting up a compact home device beside a window"
+            width="1408"
+            height="768"
+            class="h-64 w-full rounded-2xl object-cover shadow-xl md:h-[400px]"
         >
     </div>
 
     <!-- Service Grid -->
-    <section class="max-w-5xl mx-auto mb-24">
-        <div class="grid md:grid-cols-2 gap-8">
-            
-            <!-- Card A: The Full Strip -->
-            <div class="bg-white p-10 rounded-2xl shadow-md border border-gray-50 hover:shadow-xl transition-shadow flex flex-col h-full">
-                <div class="w-12 h-12 bg-skin-bone rounded-full flex items-center justify-center mb-6 text-electric-peach">
-                    <!-- Icon: Wi-Fi -->
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"></path></svg>
+    <section class="max-w-5xl mx-auto mb-24" aria-labelledby="service-options-heading">
+        <div class="mb-10 text-center">
+            <p class="text-sm font-bold uppercase tracking-[0.18em] text-electric-peach-ink">Four ways to get sorted</p>
+            <h2 id="service-options-heading" class="mt-3 text-3xl font-extrabold text-ivanhoe-slate md:text-4xl">Choose your problem.</h2>
+        </div>
+        <div class="grid gap-8 md:grid-cols-2">
+            {% for service in services %}
+            <article class="flex h-full flex-col rounded-2xl border border-gray-100 bg-white p-6 shadow-md transition hover:-translate-y-1 hover:shadow-xl md:p-10">
+                <div class="mb-6 flex h-12 w-12 items-center justify-center rounded-full bg-skin-bone text-electric-peach" aria-hidden="true">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ service.iconPath }}"></path></svg>
                 </div>
-                <h3 class="text-2xl font-bold mb-3 text-ivanhoe-slate">The Full Strip</h3>
-                <p class="text-gray-600 leading-relaxed flex-grow">
-                    Banish dead zones forever. We diagnose your home layout and install enterprise-grade Mesh Wi-Fi.
-                </p>
-                
-                <!-- Typical Investment Range -->
-                <p class="text-sm text-gray-500 italic mt-4 mb-1">
-                    Typical Investment: $900 – $1,800 (Hardware + Install)
-                </p>
-
-                <!-- Price Line -->
-                <div class="pt-4 border-t border-gray-100 text-electric-peach font-bold text-sm uppercase tracking-wide">
-                    Hourly Rate ($190/hr) + Hardware
-                </div>
-            </div>
-
-            <!-- Card B: The Bodyguard -->
-            <div class="bg-white p-10 rounded-2xl shadow-md border border-gray-50 hover:shadow-xl transition-shadow flex flex-col h-full">
-                <div class="w-12 h-12 bg-skin-bone rounded-full flex items-center justify-center mb-6 text-electric-peach">
-                    <!-- Icon: Shield/Lock -->
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-                </div>
-                <h3 class="text-2xl font-bold mb-3 text-ivanhoe-slate">The Bodyguard</h3>
-                <p class="text-gray-600 leading-relaxed flex-grow">
-                    Smart cameras, doorbells, and locks. We install the hardware and configure the apps so you feel safe.
-                </p>
-
-                <!-- Typical Investment Range -->
-                <p class="text-sm text-gray-500 italic mt-4 mb-1">
-                    Typical Investment: $600 – $2,500+ (Depends on Scope)
-                </p>
-
-                <!-- Price Line -->
-                <div class="pt-4 border-t border-gray-100 text-electric-peach font-bold text-sm uppercase tracking-wide">
-                    Hourly Rate ($190/hr) + Hardware
-                </div>
-            </div>
-
-            <!-- Card C: The Power Pose -->
-            <div class="bg-white p-10 rounded-2xl shadow-md border border-gray-50 hover:shadow-xl transition-shadow flex flex-col h-full">
-                <div class="w-12 h-12 bg-skin-bone rounded-full flex items-center justify-center mb-6 text-electric-peach">
-                    <!-- Icon: Desktop/Lightning -->
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                </div>
-                <h3 class="text-2xl font-bold mb-3 text-ivanhoe-slate">The Power Pose</h3>
-                <p class="text-gray-600 leading-relaxed flex-grow">
-                    Cable management, ergonomic monitor mounts, and video-call lighting. Your productivity sanctuary.
-                </p>
-                <!-- Price Line -->
-                <div class="mt-6 pt-4 border-t border-gray-100 text-electric-peach font-bold text-sm uppercase tracking-wide">
-                    Flat Rate: $350 (Up to 2 Hours)
-                </div>
-            </div>
-
-            <!-- Card D: The Quickie -->
-            <div class="bg-white p-10 rounded-2xl shadow-md border border-gray-50 hover:shadow-xl transition-shadow flex flex-col h-full">
-                <div class="w-12 h-12 bg-skin-bone rounded-full flex items-center justify-center mb-6 text-electric-peach">
-                    <!-- Icon: Wrench -->
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                </div>
-                <h3 class="text-2xl font-bold mb-3 text-ivanhoe-slate">The Quickie</h3>
-                <p class="text-gray-600 leading-relaxed flex-grow">
-                    Printer issues? Email acting up? Slow laptop? We come in, fix the glitch, and leave you happy.
-                </p>
-                <!-- Price Line -->
-                <div class="mt-6 pt-4 border-t border-gray-100 text-electric-peach font-bold text-sm uppercase tracking-wide">
-                    Hourly Rate ($190 Min. Charge)
-                </div>
-            </div>
-
+                <p class="text-sm font-bold uppercase tracking-widest text-electric-peach-ink">{{ service.category }}</p>
+                <h3 class="mt-2 text-2xl font-bold text-ivanhoe-slate">{{ service.name }}</h3>
+                <p class="mt-3 flex-grow leading-relaxed text-gray-600">{{ service.cardDescription }}</p>
+                <dl class="mt-6 grid grid-cols-2 gap-4 border-y border-gray-100 py-5">
+                    <div>
+                        <dt class="text-xs font-bold uppercase tracking-wide text-gray-600">Typical</dt>
+                        <dd class="mt-1 font-bold text-ivanhoe-slate">{{ service.typicalInvestment }}</dd>
+                    </div>
+                    <div>
+                        <dt class="text-xs font-bold uppercase tracking-wide text-gray-600">Structure</dt>
+                        <dd class="mt-1 text-sm font-bold text-ivanhoe-slate">{{ service.priceLine }}</dd>
+                    </div>
+                </dl>
+                <a href="/services/{{ service.slug }}/" class="mt-5 inline-flex min-h-11 items-center font-bold text-electric-peach-ink hover:text-ivanhoe-slate hover:underline">
+                    Explore {{ service.name }} <span class="ml-2" aria-hidden="true">→</span>
+                </a>
+            </article>
+            {% endfor %}
         </div>
     </section>
 
@@ -135,7 +88,7 @@ title: Services & Pricing
             Tell us what you need, and we'll send our best guy.
         </p>
         
-        <a href="/booking" class="inline-block bg-ivanhoe-slate text-skin-bone px-10 py-4 rounded-full font-bold text-lg hover:bg-gray-800 shadow-xl transition-all transform hover:-translate-y-1">
+        <a href="/booking/" class="inline-flex min-h-14 items-center justify-center rounded-full bg-ivanhoe-slate px-10 py-4 text-lg font-bold text-skin-bone shadow-xl transition-all hover:-translate-y-1 hover:bg-gray-800">
         BOOK A TECHNICIAN
         </a>
     </section>

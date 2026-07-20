@@ -9,7 +9,7 @@
 	  "build": "npm-run-all build:*",
 	  "build:11ty": "eleventy",
 	  "build:css": "tailwindcss -i ./src/css/styles.css -o ./_site/css/styles.css --minify",
-	  "test": "echo \"Error: no test specified\" && exit 1"
+	  "test": "npm run build && node scripts/site-audit.mjs"
   },
   "keywords": [],
   "author": "",

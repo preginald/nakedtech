@@ -1,42 +1,61 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-AU">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }} | Naked Tech</title>
+    {% set pageDescription = description or "Straightforward home technology support for Ivanhoe and Eaglemont, with transparent pricing and hardware sold at cost." %}
+    <meta name="description" content="{{ pageDescription }}">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#F7F4EF">
+    <link rel="canonical" href="https://nakedtech.au{{ page.url }}">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Naked Tech">
+    <meta property="og:title" content="{{ title }} | Naked Tech">
+    <meta property="og:description" content="{{ pageDescription }}">
+    <meta property="og:url" content="https://nakedtech.au{{ page.url }}">
+    <meta property="og:image" content="https://nakedtech.au/img/nakedtech_hero_technician.webp">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ title }} | Naked Tech">
+    <meta name="twitter:description" content="{{ pageDescription }}">
+    <meta name="twitter:image" content="https://nakedtech.au/img/nakedtech_hero_technician.webp">
     <link rel="stylesheet" href="/css/styles.css">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="/img/logo.svg">
+    <link rel="icon" type="image/svg+xml" href="/assets/img/logo.svg">
 </head>
-<body class="bg-skin-bone text-ivanhoe-slate font-sans antialiased selection:bg-electric-peach selection:text-white flex flex-col min-h-screen">
+<body class="bg-skin-bone text-ivanhoe-slate font-sans antialiased selection:bg-electric-peach selection:text-ivanhoe-slate flex flex-col min-h-screen">
+
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-ivanhoe-slate focus:px-5 focus:py-3 focus:font-bold focus:text-white">
+        Skip to content
+    </a>
 
     <!-- Global Header / Navbar -->
-    <nav class="fixed w-full z-50 bg-skin-bone/90 backdrop-blur-sm border-b border-ivanhoe-slate/5">
+    <nav aria-label="Primary navigation" class="fixed w-full z-50 bg-skin-bone/90 backdrop-blur-sm border-b border-ivanhoe-slate/5">
         <div class="container mx-auto px-6 h-20 flex justify-between items-center">
             
             <!-- Logo + Brand Name -->
-            <a href="/" class="flex items-center gap-3 group">
+            <a href="/" class="group flex min-h-11 items-center gap-2 md:gap-3" aria-label="Naked Tech home">
                 <!-- The SVG Logo -->
-                <svg class="h-8 md:h-10 w-auto transition-transform group-hover:scale-105" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg class="h-8 md:h-10 w-auto transition-transform group-hover:scale-105" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
                     <rect x="15" y="10" width="25" height="80" fill="#2D3035"/>
                     <path d="M40 10 L65 90 H90 V10 H65 V90" stroke="#FF8C69" stroke-width="3" stroke-linejoin="miter" stroke-linecap="square"/>
                 </svg>
                 
                 <!-- The Text (Hidden on very small screens if needed, but looks good on most) -->
-                <span class="font-bold text-lg md:text-xl tracking-wide text-ivanhoe-slate group-hover:text-electric-peach transition-colors">
+                <span class="whitespace-nowrap text-sm font-bold tracking-wide text-ivanhoe-slate transition-colors group-hover:text-electric-peach md:text-xl">
                     NAKED TECH
                 </span>
             </a>
             
-            <div class="flex items-center space-x-3 md:space-x-6">
+            <div class="flex items-center space-x-2 md:space-x-4">
                 <!-- Navigation Links -->
-                <a href="/services" class="text-xs md:text-sm font-semibold text-ivanhoe-slate hover:text-electric-peach transition-colors">
+                <a href="/services/" class="inline-flex min-h-11 items-center px-2 text-xs font-semibold text-ivanhoe-slate transition-colors hover:text-electric-peach md:text-sm"{% if '/services/' in page.url %} aria-current="page"{% endif %}>
                     SERVICES
                 </a>
 
                 <!-- CTA Button -->
-                <a href="/booking" class="bg-electric-peach text-white px-4 md:px-6 py-2 rounded-full font-semibold text-xs md:text-sm transition-transform hover:scale-105 hover:bg-[#FF7A50] shadow-lg shadow-electric-peach/30">
+                <a href="/booking/" class="inline-flex min-h-11 items-center whitespace-nowrap rounded-full bg-electric-peach px-3 text-xs font-bold text-ivanhoe-slate shadow-lg shadow-electric-peach/30 transition-transform hover:scale-105 hover:bg-[#FF7A50] md:px-6 md:text-sm">
                     GET NAKED
                 </a>
             </div>
@@ -44,7 +63,7 @@
     </nav>
 
     <!-- Main Content Injection -->
-    <main class="flex-grow">
+    <main id="main-content" class="flex-grow">
         {{ content | safe }}
     </main>
 
@@ -54,7 +73,7 @@
             
             <!-- Footer Branding -->
             <div class="flex justify-center items-center gap-2 opacity-80">
-                <svg class="h-6 w-auto" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg class="h-6 w-auto" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
                     <rect x="15" y="10" width="25" height="80" fill="#2D3035"/>
                     <path d="M40 10 L65 90 H90 V10 H65 V90" stroke="#FF8C69" stroke-width="3" stroke-linejoin="miter" stroke-linecap="square"/>
                 </svg>
@@ -62,33 +81,33 @@
             </div>
 
             <p class="text-ivanhoe-slate">Servicing Ivanhoe & Eaglemont.</p>
-            <p class="text-gray-500 italic">Please treat our technicians with respect. Look, don't touch.</p>
+            <p class="text-sm text-gray-600 italic">Please treat our technicians with respect. Look, don't touch.</p>
             
             <!-- Footer Links -->
-            <div class="pt-6 flex flex-wrap justify-center items-center gap-4 md:gap-6 text-xs font-semibold uppercase tracking-widest text-ivanhoe-slate/60">
-                <a href="/join" class="hover:text-electric-peach hover:underline transition-colors">
+            <div class="flex flex-wrap items-center justify-center gap-x-4 pt-6 text-xs font-semibold uppercase tracking-widest text-gray-700 md:gap-x-6">
+                <a href="/join/" class="inline-flex min-h-11 items-center transition-colors hover:text-electric-peach hover:underline">
                     Join the Team
                 </a>
                 <span class="text-gray-300 hidden md:inline">|</span>
-                <a href="/toolkit" class="hover:text-electric-peach hover:underline transition-colors">
+                <a href="/toolkit/" class="inline-flex min-h-11 items-center transition-colors hover:text-electric-peach hover:underline">
                     The Toolkit
                 </a>
                 <span class="text-gray-300 hidden md:inline">|</span>
-                <a href="/legal" class="hover:text-electric-peach hover:underline transition-colors">
+                <a href="/legal/" class="inline-flex min-h-11 items-center transition-colors hover:text-electric-peach hover:underline">
                     House Rules
                 </a>
                 <span class="text-gray-300 hidden md:inline">|</span>
-                <a href="/privacy" class="hover:text-electric-peach hover:underline transition-colors">
+                <a href="/privacy/" class="inline-flex min-h-11 items-center transition-colors hover:text-electric-peach hover:underline">
                     Privacy Policy
                 </a>
             </div>
 
             <!-- Corporate Entity & Upsell -->
             <div class="mt-8 pt-8 border-t border-ivanhoe-slate/10 flex flex-col items-center">
-                <p class="text-xs text-gray-400 mb-2">
-                    Naked Tech is a trading name of <span class="font-bold text-ivanhoe-slate/60">Digital Sanctum</span>.
+                <p class="text-xs text-gray-600 mb-2">
+                    Naked Tech is a trading name of <span class="font-bold text-ivanhoe-slate">Digital Sanctum</span>.
                 </p>
-                <a href="https://digitalsanctum.com.au" target="_blank" class="text-xs font-medium text-electric-peach hover:text-ivanhoe-slate hover:underline transition-colors">
+                <a href="https://digitalsanctum.com.au" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center text-xs font-medium text-electric-peach-ink transition-colors hover:text-ivanhoe-slate hover:underline">
                     Need Business IT? Visit Digital Sanctum.
                 </a>
             </div>

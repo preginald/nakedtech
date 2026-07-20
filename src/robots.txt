@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://nakedtech.au/sitemap.xml

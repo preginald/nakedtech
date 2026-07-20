@@ -1,0 +1,18 @@
+---
+permalink: /sitemap.xml
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    {% set routes = ["/", "/services/", "/booking/", "/toolkit/", "/join/", "/legal/", "/privacy/"] %}
+    {% for route in routes %}
+    <url>
+        <loc>https://nakedtech.au{{ route }}</loc>
+    </url>
+    {% endfor %}
+    {% for service in services %}
+    <url>
+        <loc>https://nakedtech.au/services/{{ service.slug }}/</loc>
+    </url>
+    {% endfor %}
+</urlset>

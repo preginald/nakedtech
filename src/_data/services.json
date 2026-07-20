@@ -1,0 +1,174 @@
+[
+  {
+    "slug": "full-strip",
+    "name": "The Full Strip",
+    "category": "Whole-home Mesh Wi-Fi",
+    "seoTitle": "Mesh Wi-Fi Installation Ivanhoe",
+    "seoDescription": "Whole-home Mesh Wi-Fi design, installation and setup for Ivanhoe and Eaglemont homes, with transparent pricing and hardware sold at cost.",
+    "headline": "Wi-Fi that reaches the rooms where you actually use it.",
+    "promise": "We diagnose the weak spots, design the right Mesh Wi-Fi layout, install the hardware and leave you with a network you understand.",
+    "cardDescription": "Diagnose weak spots and install enterprise-grade Mesh Wi-Fi for more reliable coverage throughout your home.",
+    "typicalInvestment": "$900–$1,800",
+    "investmentNote": "Typical total including hardware and installation. Final scope depends on your property and coverage needs.",
+    "priceLine": "$190/hour + hardware",
+    "iconPath": "M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0",
+    "problems": [
+      {"title": "Rooms drop out", "body": "The connection is fine beside the router, then disappears where work, streaming or smart devices happen."},
+      {"title": "Extenders disappoint", "body": "A patchwork of boosters creates extra network names, unreliable hand-offs and more things to reset."},
+      {"title": "Nobody can explain it", "body": "You have equipment, apps and flashing lights, but no clear picture of what is connected or why it is slow."}
+    ],
+    "inclusions": [
+      "On-site review of your layout and current network",
+      "Coverage and access-point placement plan",
+      "Mesh Wi-Fi hardware installation and configuration",
+      "Network naming, security and device connection setup",
+      "Practical handover so you know how the system works",
+      "Tidy-up of redundant networking equipment where appropriate"
+    ],
+    "process": [
+      {"title": "Show us the weak spots", "body": "Tell us where the signal drops, what you use there and which devices matter most."},
+      {"title": "We map and install", "body": "We assess the property, recommend an appropriate layout and configure the Mesh system."},
+      {"title": "Walk away connected", "body": "We connect priority devices, explain the setup and leave the network ready for everyday use."}
+    ],
+    "assurances": [
+      {"title": "No hardware markup", "body": "Recommended hardware is sold at cost, so the advice is not shaped by a sales margin."},
+      {"title": "Local call-out included", "body": "There is no call-out fee for Ivanhoe 3079 appointments."},
+      {"title": "Plain-English handover", "body": "You get a clear explanation of what was installed and how to use it."}
+    ],
+    "faqs": [
+      {"question": "Do I need to buy the Mesh hardware first?", "answer": "No. We can assess the layout and recommend suitable hardware. If you already own equipment, we can review whether it fits the job."},
+      {"question": "Will Mesh Wi-Fi make my internet plan faster?", "answer": "Mesh Wi-Fi improves coverage and the connection inside your home; it cannot increase the speed supplied by your internet plan. We will separate those two issues during diagnosis."},
+      {"question": "Why is the investment shown as a range?", "answer": "Homes differ in size, construction and coverage needs. The range reflects the usual combination of hardware and installation, with the final scope agreed for your property."}
+    ],
+    "cta": "Book a Wi-Fi visit"
+  },
+  {
+    "slug": "bodyguard",
+    "name": "The Bodyguard",
+    "category": "Smart home security",
+    "seoTitle": "Smart Home Security Installation Ivanhoe",
+    "seoDescription": "Smart camera, video doorbell and lock installation for Ivanhoe and Eaglemont homes, configured clearly with hardware sold at cost.",
+    "headline": "See what is happening at home without wrestling with the apps.",
+    "promise": "We help choose, install and configure smart cameras, doorbells and locks so the hardware and the app work together as one understandable system.",
+    "cardDescription": "Install and configure smart cameras, video doorbells and locks so your home security is easier to see and manage.",
+    "typicalInvestment": "$600–$2,500+",
+    "investmentNote": "Typical total depends on the number of devices, selected hardware and installation scope.",
+    "priceLine": "$190/hour + hardware",
+    "iconPath": "M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z",
+    "problems": [
+      {"title": "Alerts become noise", "body": "Notifications fire all day, so the one event you care about gets buried among false alarms."},
+      {"title": "Devices live in separate apps", "body": "The doorbell, cameras and lock each have their own setup, account and confusing permission model."},
+      {"title": "Coverage fails at the edge", "body": "Outdoor and entry devices are only useful when the Wi-Fi and placement support a reliable connection."}
+    ],
+    "inclusions": [
+      "Review of entry points, visibility needs and existing devices",
+      "Hardware recommendations suited to the agreed scope",
+      "Installation and configuration of supported smart devices",
+      "App setup, account access and practical notification tuning",
+      "Connection of devices to your home network",
+      "Handover covering everyday viewing and control"
+    ],
+    "process": [
+      {"title": "Choose what matters", "body": "We clarify which entries or areas you need to monitor and how you want to receive alerts."},
+      {"title": "Install the right system", "body": "We place and configure the agreed devices, then connect them to your network and apps."},
+      {"title": "Take control", "body": "We walk through live view, alerts and access so you can operate the system without guesswork."}
+    ],
+    "assurances": [
+      {"title": "No hardware markup", "body": "Hardware is sold at cost rather than used as a hidden source of margin."},
+      {"title": "Scope before spend", "body": "The number and type of devices are agreed around what you actually need."},
+      {"title": "You keep access", "body": "The handover is designed around your accounts and your ability to manage the system."}
+    ],
+    "faqs": [
+      {"question": "Can you work with devices I already own?", "answer": "Often, yes. We will first check compatibility, condition and whether the existing devices suit the coverage and app experience you want."},
+      {"question": "Do you provide ongoing monitoring?", "answer": "This service covers smart-device selection, installation and configuration. It is not a staffed alarm-monitoring service."},
+      {"question": "Why can the price vary so much?", "answer": "A single doorbell is a different job from several cameras, locks and network improvements. Device count, placement and hardware choice determine the final scope."}
+    ],
+    "cta": "Book a security visit"
+  },
+  {
+    "slug": "power-pose",
+    "name": "The Power Pose",
+    "category": "Home office setup",
+    "seoTitle": "Home Office Technology Setup Ivanhoe",
+    "seoDescription": "A cleaner, better-connected Ivanhoe home office with monitor mounting, cable management and video-call lighting, set up from $350 for two hours.",
+    "headline": "A home office that looks composed and works that way too.",
+    "promise": "We straighten the cables, position the screens and improve the video-call setup so your workspace supports the work instead of interrupting it.",
+    "cardDescription": "Turn a cluttered desk into a cleaner, better-connected workspace with cable management, monitor mounting and video-call lighting.",
+    "typicalInvestment": "$350",
+    "investmentNote": "Flat rate for up to two hours. Any required hardware is additional and discussed with you.",
+    "priceLine": "Flat rate · up to 2 hours",
+    "iconPath": "M13 10V3L4 14h7v7l9-11h-7z",
+    "problems": [
+      {"title": "The desk fights back", "body": "Cables snag, chargers migrate and every change turns into another improvised adapter."},
+      {"title": "Calls look and sound rough", "body": "The screen, camera and light are in the wrong places, making every meeting harder than it needs to be."},
+      {"title": "The setup never feels finished", "body": "The equipment works individually, but the whole workspace still looks temporary and behaves unpredictably."}
+    ],
+    "inclusions": [
+      "Workspace and equipment review",
+      "Cable routing and practical desk organisation",
+      "Monitor arm or mount setup where suitable",
+      "Dock, charger and peripheral connection tidy-up",
+      "Camera position and video-call lighting setup",
+      "Final test of the everyday work setup"
+    ],
+    "process": [
+      {"title": "Show us how you work", "body": "We identify the devices, calls and daily movements your setup needs to support."},
+      {"title": "Reset the workspace", "body": "We route, mount, connect and position the equipment around that workflow."},
+      {"title": "Test the pose", "body": "We check screens, peripherals and a real camera view before calling the setup complete."}
+    ],
+    "assurances": [
+      {"title": "A defined starting price", "body": "The standard service is a $350 flat rate for up to two hours."},
+      {"title": "Function before decoration", "body": "The setup is organised around how you work, not just how the desk looks in a photo."},
+      {"title": "One joined-up check", "body": "We test the equipment as a working desk setup rather than treating each item in isolation."}
+    ],
+    "faqs": [
+      {"question": "Does the $350 include monitor arms or other hardware?", "answer": "The flat rate covers up to two hours of setup work. Any hardware needed for your chosen setup is discussed separately before installation."},
+      {"question": "Can you help me choose what to buy?", "answer": "Yes. If the current equipment does not support the layout you want, we can help identify the practical gaps before you spend."},
+      {"question": "What should I have ready for the visit?", "answer": "Have the devices, chargers and accessories you regularly use available, plus access to the desk and nearby power points."}
+    ],
+    "cta": "Book an office reset"
+  },
+  {
+    "slug": "quickie",
+    "name": "The Quickie",
+    "category": "Everyday tech support",
+    "seoTitle": "Home Tech Support Ivanhoe",
+    "seoDescription": "Straightforward in-home help for printers, email, slow laptops and everyday technology problems in Ivanhoe and Eaglemont, from $190.",
+    "headline": "One annoying tech problem. One straightforward visit.",
+    "promise": "Bring us the printer that will not print, the email that stopped syncing or the laptop that feels slow. We diagnose the problem, explain the options and work through the practical fix.",
+    "cardDescription": "Get practical help with printers, email, slow laptops and the everyday glitches that are wasting your time.",
+    "typicalInvestment": "$190 minimum",
+    "investmentNote": "Includes the first hour. Additional time is billed in 30-minute blocks at the standard hourly rate.",
+    "priceLine": "$190 minimum charge",
+    "iconPath": "M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065zM15 12a3 3 0 11-6 0 3 3 0 016 0z",
+    "problems": [
+      {"title": "The printer disappeared", "body": "It worked yesterday, now every device insists it is offline and the queue will not clear."},
+      {"title": "Email stopped behaving", "body": "Messages are missing, accounts will not sync or a password change has broken the setup across devices."},
+      {"title": "Everything feels slow", "body": "The laptop starts, but updates, storage or background clutter make every basic task take too long."}
+    ],
+    "inclusions": [
+      "Diagnosis of the problem you booked us to address",
+      "Plain-English explanation of the likely cause and options",
+      "Practical troubleshooting and configuration within the visit",
+      "Testing on the devices involved",
+      "Advice on any parts, replacement or follow-up that may be needed",
+      "A clean handover of the working setup or next decision"
+    ],
+    "process": [
+      {"title": "Name the annoyance", "body": "Tell us what is happening, which devices are involved and what changed before the problem began."},
+      {"title": "We diagnose it", "body": "We reproduce the issue, isolate the likely cause and explain the practical options."},
+      {"title": "Fix, test, explain", "body": "We work through the agreed fix, test the result and show you what changed."}
+    ],
+    "assurances": [
+      {"title": "A clear minimum", "body": "The first hour is covered by the $190 minimum charge, with extra time billed in 30-minute blocks."},
+      {"title": "No mystery language", "body": "You get an understandable diagnosis rather than a wall of technical jargon."},
+      {"title": "No forced hardware sale", "body": "If replacement equipment is the sensible option, we explain why; hardware is not marked up."}
+    ],
+    "faqs": [
+      {"question": "Can every problem be fixed in one visit?", "answer": "Not always. Some faults need replacement parts, account recovery or work from an internet or software provider. We will explain the blocker and the next practical step if the fix cannot be completed on the spot."},
+      {"question": "What happens if the job takes longer than an hour?", "answer": "After the one-hour minimum, additional time is billed in 30-minute blocks at the standard hourly rate."},
+      {"question": "Should I have passwords ready?", "answer": "If the issue involves an account, email, Wi-Fi or an app, having the relevant login details available can prevent avoidable delays. You should enter sensitive passwords yourself."}
+    ],
+    "cta": "Book a tech fix"
+  }
+]
