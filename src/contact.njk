@@ -48,8 +48,9 @@ description: Call Naked Tech on 03 7068 5422 or send us a message. Servicing Iva
             </div>
 
             <!-- EMBED AREA -->
-            <div class="w-full" style="min-height: 500px;">
+            <div class="w-full">
                 <iframe 
+                    id="contact-form"
                     src="https://forms.digitalsanctum.com.au/f/nakedtech-contact"
                     width="100%" 
                     height="650"
@@ -68,6 +69,17 @@ description: Call Naked Tech on 03 7068 5422 or send us a message. Servicing Iva
 
     </div>
 </section>
+
+<script>
+window.addEventListener('message', function(e) {
+    if (e.data && e.data.type === 'sanctum-forms:resize') {
+        var iframe = document.getElementById('contact-form');
+        if (iframe && e.data.height) {
+            iframe.style.height = e.data.height + 'px';
+        }
+    }
+});
+</script>
 
 <!-- Info Cards Row -->
 <section class="bg-white py-16 md:py-20">
