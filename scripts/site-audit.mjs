@@ -32,6 +32,8 @@ const expectedRoutes = [
   '/services/power-pose/',
   '/services/quickie/',
   '/booking/',
+  '/contact/',
+  '/brand/',
   '/toolkit/',
   '/join/',
   '/legal/',
@@ -106,8 +108,12 @@ for (const slug of ['full-strip', 'bodyguard', 'power-pose', 'quickie']) {
     assert(html.includes(`id="${sectionId}"`), `${slug}: #${sectionId} section rendered`)
   }
   assert(html.includes('Hardware sold at cost. No markups.'), `${slug}: transparent hardware policy rendered`)
-  assert(html.includes('href="/booking/"'), `${slug}: booking CTA rendered`)
+  assert(html.includes('href="/contact/"'), `${slug}: contact CTA rendered`)
 }
+
+const baseHtml = readFileSync(join(root, 'index.html'), 'utf8')
+assert(baseHtml.includes('03 7068 5422'), 'phone number present in header/nav')
+assert(baseHtml.includes('href="tel:+61370685422"'), 'phone number is tel: link')
 
 if (failures.length) {
   console.error(`Site audit failed with ${failures.length} issue(s):`)

@@ -1,48 +1,14 @@
 ---
 layout: layouts/base.njk
-title: Book a Technician
+title: Redirecting…
 ---
-
-<!-- Hero Section (Dark Mode) -->
-<header class="bg-ivanhoe-slate text-skin-bone pt-32 pb-12">
-    <div class="container mx-auto px-6 text-center max-w-4xl">
-        <h1 class="text-5xl md:text-6xl font-extrabold mb-6 tracking-tight">
-            Lock it <span class="text-electric-peach">in.</span>
-        </h1>
-        <p class="text-xl opacity-90 font-light">
-            Secure your slot. No back-and-forth emails. Just results.
-        </p>
-    </div>
-</header>
-
-<!-- Booking Widget Container -->
-<div class="bg-skin-bone min-h-screen py-12">
-    <div class="container mx-auto px-4 max-w-5xl">
-        
-        <!-- The "Window" Wrapper -->
-        <div class="bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200">
-            
-            <!-- Fake Browser Header (Aesthetic touch) -->
-            <div class="bg-gray-100 border-b border-gray-200 px-4 py-3 flex items-center gap-2">
-                <div class="w-3 h-3 rounded-full bg-red-400"></div>
-                <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
-                <div class="w-3 h-3 rounded-full bg-green-400"></div>
-                <div class="ml-4 text-xs text-gray-400 font-mono">secure-booking.system</div>
-            </div>
-
-            <!-- EMBED AREA -->
-            <div class="w-full h-[800px] bg-white">
-                
-                <!-- Google Calendar Appointment Scheduling begin -->
-                <iframe src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ1R-d60VmKLERTSgewYDTOpAxhgyMXQKw5gBajASZC06RWxbJPKTBqNq2cuoF6G6MkRgN5JQ2Vr?gv=true" style="border: 0" width="100%" height="600" frameborder="0"></iframe>
-                <!-- end Google Calendar Appointment Scheduling -->
-
-            </div>
-        </div>
-
-        <p class="text-center text-gray-600 text-sm mt-8 italic">
-            Not sure which service fits? <a href="/services/" class="font-bold text-ivanhoe-slate underline hover:text-electric-peach-ink">Compare the four services.</a>
-        </p>
-
-    </div>
+<div class="pt-40 pb-24 container mx-auto px-6 text-center max-w-2xl">
+    <h1 class="text-4xl font-extrabold mb-4 text-ivanhoe-slate">We've moved.</h1>
+    <p class="text-lg text-ivanhoe-slate/70 mb-8">
+        Our booking page is now part of the new Contact page. You'll be redirected automatically.
+    </p>
+    <a href="/contact/" class="inline-flex min-h-14 items-center justify-center rounded-full bg-electric-peach px-8 py-4 text-base font-bold text-ivanhoe-slate shadow-lg shadow-electric-peach/30 transition-transform hover:scale-105 hover:bg-[#FF7A50]">
+        Go to Contact Page
+    </a>
+    <meta http-equiv="refresh" content="0;url=/contact/">
 </div>
