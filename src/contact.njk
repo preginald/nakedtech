@@ -78,6 +78,20 @@ window.addEventListener('message', function(e) {
             iframe.style.height = e.data.height + 'px';
         }
     }
+    // Track form submission via postMessage
+    if (e.data && e.data.type === 'sanctum-forms:submitted') {
+        if (typeof fbq === 'function') {
+            fbq('track', 'Lead');
+        }
+    }
+});
+
+// Track phone number clicks
+document.addEventListener('click', function(e) {
+    var el = e.target.closest('a[href^="tel:"]');
+    if (el && typeof fbq === 'function') {
+        fbq('track', 'Contact');
+    }
 });
 </script>
 
