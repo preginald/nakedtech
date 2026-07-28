@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-AU">
 <head>
+    <meta charset="UTF-8">
     <!-- Meta Pixel Code -->
     <script>
     !function(f,b,e,v,n,t,s)
@@ -30,10 +31,12 @@
     <!-- End Google tag -->
 
     <meta name="facebook-domain-verification" content="e39577w58corh6d10dbpf0l5qwekoz" />
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }} | Naked Tech</title>
     {% set pageDescription = description or "Straightforward home technology support for Ivanhoe and Eaglemont, with transparent pricing and hardware sold at cost." %}
+    {% set pageOgImage = ogImage or "/img/nakedtech_hero_technician.webp" %}
+    {% set pageOgImageWidth = ogImageWidth or 1408 %}
+    {% set pageOgImageHeight = ogImageHeight or 768 %}
     <meta name="description" content="{{ pageDescription }}">
     <meta name="robots" content="index, follow">
     <meta name="theme-color" content="#F7F4EF">
@@ -44,19 +47,19 @@
     <meta property="og:description" content="{{ pageDescription }}">
     <meta property="og:url" content="https://nakedtech.au{{ page.url }}">
     <meta property="og:locale" content="en_AU">
-    <meta property="og:image" content="https://nakedtech.au/img/nakedtech_hero_technician.webp">
-    <meta property="og:image:width" content="1408">
-    <meta property="og:image:height" content="768">
+    <meta property="og:image" content="https://nakedtech.au{{ pageOgImage }}">
+    <meta property="og:image:width" content="{{ pageOgImageWidth }}">
+    <meta property="og:image:height" content="{{ pageOgImageHeight }}">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ title }} | Naked Tech">
     <meta name="twitter:description" content="{{ pageDescription }}">
-    <meta name="twitter:image" content="https://nakedtech.au/img/nakedtech_hero_technician.webp">
+    <meta name="twitter:image" content="https://nakedtech.au{{ pageOgImage }}">
     <link rel="stylesheet" href="/css/styles.css">
     
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/assets/img/logo.svg">
 </head>
-<body class="bg-skin-bone text-ivanhoe-slate font-sans antialiased selection:bg-electric-peach selection:text-ivanhoe-slate flex flex-col min-h-screen">
+<body class="bg-skin-bone text-ivanhoe-slate font-sans antialiased selection:bg-electric-peach selection:text-ivanhoe-slate flex flex-col min-h-screen"{% if landing and landing.id %} data-pain-point="{{ landing.id }}"{% endif %}>
 
     <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-ivanhoe-slate focus:px-5 focus:py-3 focus:font-bold focus:text-white">
         Skip to content
@@ -161,6 +164,29 @@
             </div>
         </div>
     </footer>
+
+    <script data-phone-click-tracking>
+    (function() {
+        document.addEventListener('click', function(e) {
+            var target = e.target;
+            var link = target && typeof target.closest === 'function'
+                ? target.closest('a[href^="tel:"]')
+                : null;
+            if (!link) return;
+
+            var context = { page_path: window.location.pathname };
+            var painPoint = document.body.dataset.painPoint;
+            if (painPoint) context.pain_point = painPoint;
+
+            if (typeof fbq === 'function') {
+                fbq('track', 'Contact', context);
+            }
+            if (typeof gtag === 'function') {
+                gtag('event', 'phone_click', context);
+            }
+        });
+    })();
+    </script>
 
 </body>
 </html>

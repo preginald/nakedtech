@@ -1,0 +1,124 @@
+{% macro contactForm(props) %}
+{% set formId = props.id or 'contact' %}
+{% set formKicker = props.kicker or 'Prefer to write?' %}
+{% set formHeading = props.heading or 'Send us a message.' %}
+{% set formIntroduction = props.introduction or 'Tell us what is misbehaving and how you would like us to reach you. We will get back within one business day.' %}
+{% set iframeTitle = props.iframeTitle or 'Contact Naked Tech' %}
+<section id="{{ formId }}" class="bg-skin-bone min-h-screen py-16 md:py-24" data-contact-form-root data-pain-point="{{ props.painPoint or '' }}">
+    <div class="container mx-auto px-6 max-w-3xl">
+        <div class="text-center mb-12">
+            <p class="text-sm font-bold uppercase tracking-[0.2em] text-electric-peach-ink mb-3">{{ formKicker }}</p>
+            <h2 class="text-3xl md:text-4xl font-bold text-ivanhoe-slate">{{ formHeading }}</h2>
+            <p class="mt-4 text-ivanhoe-slate/70 max-w-xl mx-auto leading-relaxed">
+                {{ formIntroduction }}
+            </p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200">
+            <div class="bg-gray-100 border-b border-gray-200 px-4 py-3 flex items-center gap-2" aria-hidden="true">
+                <div class="w-3 h-3 rounded-full bg-red-400"></div>
+                <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+                <div class="w-3 h-3 rounded-full bg-green-400"></div>
+                <div class="ml-4 text-xs text-gray-400 font-mono">message.nakedtech.au</div>
+            </div>
+
+            <div class="w-full">
+                <iframe
+                    src="https://forms.digitalsanctum.com.au/f/nakedtech-contact"
+                    width="100%"
+                    height="650"
+                    frameborder="0"
+                    scrolling="no"
+                    class="w-full"
+                    title="{{ iframeTitle }}"
+                    loading="lazy"
+                    data-contact-form-frame>
+                </iframe>
+            </div>
+        </div>
+
+        <p class="text-center text-gray-500 text-xs mt-6">
+            Your details are handled by Digital Sanctum's secure forms platform and will never be shared or sold.
+        </p>
+    </div>
+</section>
+<script data-contact-form-tracking>
+(function() {
+    var script = document.currentScript;
+    var root = script && script.previousElementSibling;
+    var iframe = root && root.querySelector('[data-contact-form-frame]');
+    var formsOrigin = 'https://forms.digitalsanctum.com.au';
+    var contextSent = false;
+    var startTracked = false;
+    var submissionTracked = false;
+
+    if (!root || !iframe) return;
+
+    function eventContext() {
+        var context = { page_path: window.location.pathname };
+        var painPoint = (root.dataset.painPoint || '').trim();
+        if (painPoint) context.pain_point = painPoint;
+        return context;
+    }
+
+    function formContext() {
+        var context = eventContext();
+        var params = new URLSearchParams(window.location.search);
+        var utmKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'];
+
+        utmKeys.forEach(function(key) {
+            var value = params.get(key);
+            if (value) {
+                value = value.trim();
+                if (value) context[key] = value;
+            }
+        });
+
+        return context;
+    }
+
+    window.addEventListener('message', function(e) {
+        if (e.origin !== formsOrigin) return;
+        if (e.source !== iframe.contentWindow) return;
+        if (!e.data || Object.prototype.toString.call(e.data) !== '[object Object]') return;
+
+        if (e.data.type === 'sanctum-forms:ready' && e.data.version === 1) {
+            if (contextSent) return;
+            contextSent = true;
+            iframe.contentWindow.postMessage({
+                type: 'sanctum-forms:context',
+                version: 1,
+                context: formContext()
+            }, formsOrigin);
+            return;
+        }
+
+        if (e.data.type === 'sanctum-forms:started' && e.data.version === 1) {
+            if (startTracked) return;
+            startTracked = true;
+            if (typeof gtag === 'function') {
+                gtag('event', 'form_start', eventContext());
+            }
+            return;
+        }
+
+        if (e.data.type === 'sanctum-forms:resize') {
+            if (typeof e.data.height !== 'number' || !Number.isFinite(e.data.height) || e.data.height <= 0) return;
+            iframe.style.height = e.data.height + 'px';
+            return;
+        }
+
+        if (e.data.type !== 'sanctum-forms:submitted' || submissionTracked) return;
+        submissionTracked = true;
+
+        var context = eventContext();
+        if (typeof fbq === 'function') {
+            fbq('track', 'Lead', context);
+        }
+        if (typeof gtag === 'function') {
+            gtag('event', 'generate_lead', context);
+        }
+    });
+})();
+</script>
+{% endmacro %}

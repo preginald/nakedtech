@@ -4,6 +4,8 @@ title: Contact Naked Tech
 description: Call Naked Tech on 03 7068 5422 or send us a message. Servicing Ivanhoe and Eaglemont with transparent home technology support.
 ---
 
+{% from "components/contact-form.njk" import contactForm %}
+
 <!-- Hero Section (Dark Mode) -->
 <header class="bg-ivanhoe-slate text-skin-bone pt-32 pb-16 md:pt-40 md:pb-20">
     <div class="container mx-auto px-6 text-center max-w-4xl">
@@ -25,75 +27,12 @@ description: Call Naked Tech on 03 7068 5422 or send us a message. Servicing Iva
     </div>
 </header>
 
-<!-- Form Section -->
-<section class="bg-skin-bone min-h-screen py-16 md:py-24">
-    <div class="container mx-auto px-6 max-w-3xl">
-        
-        <div class="text-center mb-12">
-            <p class="text-sm font-bold uppercase tracking-[0.2em] text-electric-peach-ink mb-3">Prefer to write?</p>
-            <h2 class="text-3xl md:text-4xl font-bold text-ivanhoe-slate">Send us a message.</h2>
-            <p class="mt-4 text-ivanhoe-slate/70 max-w-xl mx-auto leading-relaxed">
-                Tell us what is misbehaving and how you would like us to reach you. We will get back within one business day.
-            </p>
-        </div>
-
-        <!-- Sanctum Forms Embed -->
-        <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200">
-            <!-- Fake Browser Header (Aesthetic touch) -->
-            <div class="bg-gray-100 border-b border-gray-200 px-4 py-3 flex items-center gap-2">
-                <div class="w-3 h-3 rounded-full bg-red-400"></div>
-                <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
-                <div class="w-3 h-3 rounded-full bg-green-400"></div>
-                <div class="ml-4 text-xs text-gray-400 font-mono">message.nakedtech.au</div>
-            </div>
-
-            <!-- EMBED AREA -->
-            <div class="w-full">
-                <iframe 
-                    id="contact-form"
-                    src="https://forms.digitalsanctum.com.au/f/nakedtech-contact"
-                    width="100%" 
-                    height="650"
-                    frameborder="0"
-                    scrolling="no"
-                    class="w-full"
-                    title="Contact Naked Tech"
-                    loading="lazy">
-                </iframe>
-            </div>
-        </div>
-
-        <p class="text-center text-gray-500 text-xs mt-6">
-            Your details are handled by Digital Sanctum's secure forms platform and will never be shared or sold.
-        </p>
-
-    </div>
-</section>
-
-<script>
-window.addEventListener('message', function(e) {
-    if (e.data && e.data.type === 'sanctum-forms:resize') {
-        var iframe = document.getElementById('contact-form');
-        if (iframe && e.data.height) {
-            iframe.style.height = e.data.height + 'px';
-        }
-    }
-    // Track form submission via postMessage
-    if (e.data && e.data.type === 'sanctum-forms:submitted') {
-        if (typeof fbq === 'function') {
-            fbq('track', 'Lead');
-        }
-    }
-});
-
-// Track phone number clicks
-document.addEventListener('click', function(e) {
-    var el = e.target.closest('a[href^="tel:"]');
-    if (el && typeof fbq === 'function') {
-        fbq('track', 'Contact');
-    }
-});
-</script>
+{{ contactForm({
+    id: 'contact',
+    kicker: 'Prefer to write?',
+    heading: 'Send us a message.',
+    introduction: 'Tell us what is misbehaving and how you would like us to reach you. We will get back within one business day.'
+}) }}
 
 <!-- Info Cards Row -->
 <section class="bg-white py-16 md:py-20">
