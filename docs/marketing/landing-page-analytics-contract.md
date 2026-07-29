@@ -1,6 +1,6 @@
 # Naked Tech Landing-Page Analytics Contract
 
-**Status:** Phase 4 / P4-T2a production owner-notification repair verified; P4-T3 platform evidence pending<br>
+**Status:** Phase 4 complete; P4-T3 passed in GA4 DebugView, Meta Events Manager, Sanctum Forms and Sanctum Notify<br>
 **Applies to:** pain-point landing pages, shared telephone tracking, and the shared Sanctum Forms integration<br>
 **Canonical plan:** `.hermes/plans/2026-07-28_123314-naked-tech-pain-point-landing-pages.md`
 
@@ -119,12 +119,12 @@ The executor runs the exact inline scripts from the generated landing pages and 
 | Wrong-origin and wrong-source messages | No context, analytics event, or resize side effect | Rejected for both pages; no additional analytics calls; trusted 720px height remained unchanged |
 | Invalid resize payload | No resize or analytics side effect | Rejected for both pages |
 
-### Evidence limits and next gates
+### P4-T1 evidence limits
 
 - A no-UTM visit covers the custom-event behaviour shared by direct and organic traffic. GA4 determines acquisition source from its own collection context and referrer; this script does not fabricate that classification.
 - Form start and submission were exercised with synthetic protocol messages from the trusted origin/window. No real form was submitted and no production record was created.
 - The P4-T1 context handshake proves what the parent sends; the separate P4-T2 evidence below establishes current provider receipt, storage and operator exposure.
-- P4-T3 must collect end-to-end GA4 DebugView and Meta Events Manager evidence after the final routes are approved for deployment.
+- P4-T3 platform evidence collected after deployment is recorded below.
 
 ## P4-T2 Sanctum Forms provider capability verification
 
@@ -194,11 +194,48 @@ The Forms migration used its own versioned frontend path rather than a direct da
 
 One labelled production submission then supplied `wifi_dropouts`, the Wi-Fi landing path and all four verification UTMs. Forms created submission `6b70ef82-9b48-418a-8718-697cc4a62960` with the context in its separate JSONB column. Notify created row `7c9bd7f7-6fb0-42b7-af20-7d24ce983014` using `form-submission`; the notification retained the same context and reached final status `sent` with an empty error field. This proves final delivery state rather than Forms' intermediate HTTP-202 queue acceptance. Historical dead-letter rows were retained and no production data was deleted.
 
-## Verification evidence required before launch
+## P4-T3 production platform verification
 
-- A pain-page load emits one `view_service` and one `ViewContent` with the expected identifier.
-- One telephone-link activation emits one `phone_click` and one `Contact` and is reported as a micro-conversion.
-- First form interaction emits one `form_start` and no Meta lead event.
-- One successful test submission emits one `generate_lead` and one `Lead`.
-- Replayed or wrong-origin messages emit no analytics events and do not resize the iframe.
-- Browser-console, GA4 DebugView, and Meta Events Manager evidence agree on event names and pain context.
+**Website release:** Naked Tech commit `dc6f93e` (`feat(marketing): launch pain-point landing pages`)<br>
+**Deployment:** GitHub Actions run `30418774880`, completed successfully for exact head `dc6f93e9f2218e188a096362d5d4ceaff26d5840`<br>
+**Controlled browser window:** 29 July 2026, 14:01:36–14:02:21 AEST<br>
+**GA4 property:** Digital Sanctum → Naked Tech Website, property `547079333`<br>
+**Meta dataset:** Naked Tech Website, Pixel `1010322558552545`; Test Events code `TEST99475`
+
+The retained production journey loaded each canonical pain page once with the approved paid-social campaign parameters. On the Wi-Fi page it activated one telephone link without opening a dialler, performed one first form interaction, and submitted one clearly labelled enquiry. After successful submission, trusted replays plus malformed, wrong-origin and wrong-source message controls were dispatched. The browser then loaded the slow-computer page once without starting or submitting its form.
+
+### GA4 DebugView evidence
+
+| Event | Expected | DebugView observed | Context evidence |
+|---|---:|---:|---|
+| `view_service` | 2 | 2 | Slow-computer event showed `slow_computer`, `/services/slow-computer-help-ivanhoe/`, `slow_computer_v1`, source `facebook`, medium `paid_social`, campaign `naked_tech_pain_points_01`; the instrumented Wi-Fi request carried the matching Wi-Fi values |
+| `phone_click` | 1 | 1 | Wi-Fi event carried `wifi_dropouts` and `/services/wifi-dropouts-ivanhoe/` |
+| `form_start` | 1 | 1 | First meaningful Wi-Fi form interaction only |
+| `generate_lead` | 1 | 1 | DebugView detail showed `wifi_dropouts` and `/services/wifi-dropouts-ivanhoe/` |
+
+DebugView also showed two ordinary `page_view` events, one per canonical page. These are baseline collection events rather than additional lead conversions.
+
+### Meta Events Manager evidence
+
+All contractual browser events were marked **Processed** in Test Events using manual Pixel setup:
+
+| Event | Expected | Events Manager observed | Platform detail |
+|---|---:|---:|---|
+| `ViewContent` | 2 | 2 | Wi-Fi event `ob3_plugin-set_7b369affe5731f4f748c8e010af708cf647a5e1c506fbe945cc4e1c03a9254bd` carried `wifi_dropouts`, the canonical Wi-Fi path and `wifi_dropouts_v1`; slow-computer event `ob3_plugin-set_995853b79b587a3c3368ffc816d5dd8590fffa81ea13bddfc5fae4246bb042c7` carried the corresponding slow-computer values |
+| `Contact` | 1 | 1 | Event `ob3_plugin-set_ff7af5231009430561e182508e667257900c75da7f4e15aed35e44f8d41e3704` |
+| `Lead` | 1 | 1 | Event `ob3_plugin-set_848d967433ed0c986a95b4fa4bf9d20689f0e50e649ef05fc623aa913cf832e0` |
+
+Meta also emitted one automatically logged `SubscribedButtonClick`. It is not owned by the contractual website implementation and is not counted as a telephone, form-start or lead conversion.
+
+### Retained Forms and final Notify evidence
+
+The approved marker was absent before the test and produced exactly one retained Forms row:
+
+- Forms submission `9cde7885-97ed-4fed-bba0-185e7261a209` at `2026-07-29 04:01:58.449609+00`;
+- `notify_status: sent` with dispatch timestamp `2026-07-29 04:01:58.507443+00`;
+- separate context contained `wifi_dropouts`, `/services/wifi-dropouts-ivanhoe/`, `facebook`, `paid_social`, `naked_tech_pain_points_01`, and `wifi_dropouts_v1`;
+- downstream Notify row `ec7dfd6e-42ba-45bd-87c2-e054b20884ad` used `form-submission`, retained the identical context, reached final `sent`, and had no error.
+
+The successful form renderer response was observed in-browser. Replayed trusted lifecycle messages and malformed, wrong-origin and wrong-source controls produced no additional contractual events. The two-page run produced no browser console errors or page exceptions.
+
+**P4-T3 result:** passed. Phase 4 exit evidence is complete; tracking distinguishes pain-page views, telephone micro-conversions, form starts and submitted leads with page-level pain and campaign context.

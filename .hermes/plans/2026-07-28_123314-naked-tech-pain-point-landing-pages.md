@@ -11,9 +11,9 @@
 **Canonical strategy:** `docs/marketing/2026-07-28-facebook-campaign-and-landing-page-strategy.md`<br>
 **Obsidian copy:** `Sanctum Digital/Projects/Naked Tech/Naked Tech - Facebook Campaign and Landing Page Strategy - 2026-07-28.md`<br>
 **Created:** 28 July 2026 12:33 AEST<br>
-**Status:** Phase 4 in progress; P4-T2a complete
-**Current phase:** Phase 4
-**Next task:** P4-T3 — end-to-end GA4 and Meta platform verification
+**Status:** Phase 4 complete; P4-T3 passed
+**Current phase:** Phase 5 not started
+**Next task:** P5-T1 — build matching creative briefs only after a new-session scope check
 
 ---
 
@@ -43,7 +43,7 @@ This section is the continuity mechanism. Follow it instead of importing the ful
 | 1. Reusable Nunjucks landing-page system | Complete | Data contract, metadata overrides, secure shared form, shared sales layout and reusable full-page audit verified | Phase 2 |
 | 2. Wi-Fi pilot landing page | Complete | User approved the responsive pilot, offer hierarchy and visual treatment; 477 audit checks passed | Phase 3 |
 | 3. Slow computer / Windows landing page | Complete | Page verified using unchanged template contract | Phase 4 |
-| 4. Funnel attribution and form context | In progress | P4-T1 local matrix, P4-T2 persistence and P4-T2a final owner delivery passed | P4-T3 |
+| 4. Funnel attribution and form context | Complete | P4-T1 matrix, P4-T2/P4-T2a persistence and delivery, and P4-T3 live GA4/Meta evidence passed | Phase 5 |
 | 5. Meta two-concept experiment | Not started | Both ads approved, tracking verified, campaign live | Start only after Phases 2–4 |
 | 6. Measurement and decision | Not started | Ad-level funnel report and explicit decision | Begin after spend/sample gate |
 | 7. Organic/search expansion | Not started | Prioritised pages shipped from measured demand | Begin after Phase 6 |
@@ -508,11 +508,13 @@ For each, record expected GA4 and Meta events and parameters.
 
 ## P4-T3 — End-to-end verification
 
-- [ ] Verify Events Manager receives `ViewContent`, `Contact`, and `Lead` as designed.
-- [ ] Verify GA4 DebugView receives `view_service`, `phone_click`, `form_start`, and `generate_lead` as designed.
-- [ ] Confirm each event fires once.
-- [ ] Confirm the `postMessage` origin check rejects messages from other origins.
-- [ ] Document actual evidence in `docs/marketing/landing-page-analytics-contract.md`.
+- [x] Verify Events Manager receives `ViewContent`, `Contact`, and `Lead` as designed.
+- [x] Verify GA4 DebugView receives `view_service`, `phone_click`, `form_start`, and `generate_lead` as designed.
+- [x] Confirm each event fires once.
+- [x] Confirm the `postMessage` origin check rejects messages from other origins.
+- [x] Document actual evidence in `docs/marketing/landing-page-analytics-contract.md`.
+
+**Production evidence:** Naked Tech commit `dc6f93e` deployed successfully through GitHub Actions run `30418774880`. During the controlled 14:01:36–14:02:21 AEST window, GA4 DebugView for property `547079333` received `view_service` ×2 and `phone_click`, `form_start`, `generate_lead` ×1 each. Meta Test Events for Pixel `1010322558552545` received processed `ViewContent` ×2 and `Contact`, `Lead` ×1 each, with the expected Wi-Fi and slow-computer page/pain/campaign values. Replays plus malformed, wrong-origin and wrong-source controls added no events. One approved retained Forms row (`9cde7885-97ed-4fed-bba0-185e7261a209`) preserved the Wi-Fi path, pain and four UTMs; Notify row `ec7dfd6e-42ba-45bd-87c2-e054b20884ad` used `form-submission`, retained identical context and reached final `sent` with no error.
 
 **Exit criterion:** Tracking distinguishes page view, phone click and submitted lead, with page-level pain context.
 
@@ -869,4 +871,15 @@ YYYY-MM-DD — Phase/task:
 - Delivery: Notify row `7c9bd7f7-6fb0-42b7-af20-7d24ce983014` used `form-submission` and reached final `sent` with no error
 - Historical dead letters retained; no data or test submissions deleted
 - Next task: P4-T3 — collect GA4 DebugView and Meta Events Manager evidence with exact event cardinality
+```
+
+```text
+2026-07-29 — P4-T3 production platform verification complete
+- Release: Naked Tech `dc6f93e`; GitHub Actions run `30418774880` succeeded and both canonical routes served the new output
+- GA4: DebugView property `547079333` received `view_service` ×2 and `phone_click`, `form_start`, `generate_lead` ×1 each
+- Meta: Pixel `1010322558552545` received processed `ViewContent` ×2 and `Contact`, `Lead` ×1 each with correct pain/path/content
+- Controls: trusted replays plus malformed, wrong-origin and wrong-source messages added zero contractual events; no browser errors
+- Forms: one retained row `9cde7885-97ed-4fed-bba0-185e7261a209` stored Wi-Fi pain/path and all four approved UTMs
+- Notify: row `ec7dfd6e-42ba-45bd-87c2-e054b20884ad` used `form-submission`, retained identical context and reached final `sent` with no error
+- Decision: Phase 4 complete; Phase 5 remains not started pending a new-session scope check
 ```
