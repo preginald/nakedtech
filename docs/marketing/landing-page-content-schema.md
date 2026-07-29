@@ -59,8 +59,8 @@ The canonical URL is derived from `permalink`. The public H1 is derived from `la
 
 | Field | Type | Presence | Contract |
 |---|---|---:|---|
-| `label` | string | **Required** | Short label for the approved starting offer. Do not imply a fixed-price resolution when only diagnosis or first-hour work is approved. |
-| `price` | string | **Required** | Owner-approved display text, including qualifiers such as `from` or `including the first hour` where applicable. If no price is approved, page authoring is blocked; do not invent one. |
+| `label` | string | **Required** | Short label for the approved starting offer. Do not imply a fixed-price resolution when only a fixed-scope diagnosis is approved. |
+| `price` | string | **Required** | Owner-approved display text, including qualifiers such as `from` where applicable. Naked Tech prices projects rather than hours; if no project price is approved, page authoring is blocked and the author must not invent one. |
 | `note` | string | **Required** | Explicit scope and exclusions, including dependencies on third parties, hardware, follow-up work or geography where relevant. Silence is not an exclusion statement. |
 
 ### `landing.cta`

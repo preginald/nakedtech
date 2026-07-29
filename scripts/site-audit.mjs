@@ -35,6 +35,29 @@ function inlineScript(html, marker) {
   return html.match(new RegExp(`<script[^>]*${marker}[^>]*>([\\s\\S]*?)<\\/script>`, 'i'))?.[1]
 }
 
+function documentTitle(html) {
+  return html.match(/<title>([^<]+)<\/title>/i)?.[1]?.trim()
+}
+
+function metaContent(html, key) {
+  for (const tag of html.match(/<meta\b[^>]*>/gi) || []) {
+    const name = tag.match(/\b(?:name|property)=(["'])(.*?)\1/i)?.[2]
+    if (name !== key) continue
+    return tag.match(/\bcontent=(["'])(.*?)\1/i)?.[2]?.trim()
+  }
+  return undefined
+}
+
+function canonicalUrl(html) {
+  return html.match(/<link\s+rel=["']canonical["']\s+href=["']([^"']+)["']/i)?.[1]?.trim()
+}
+
+function jsonLdBlocks(html) {
+  return [...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)]
+    .filter((match) => /\btype=["']application\/ld\+json["']/i.test(match[1]))
+    .map((match) => match[2].trim())
+}
+
 const expectedRoutes = [
   '/',
   '/services/',
@@ -42,6 +65,7 @@ const expectedRoutes = [
   '/services/bodyguard/',
   '/services/power-pose/',
   '/services/quickie/',
+  '/services/slow-computer-help-ivanhoe/',
   '/booking/',
   '/contact/',
   '/brand/',
@@ -52,9 +76,107 @@ const expectedRoutes = [
   '/thank-you/'
 ]
 
+// Register approved public pain-page routes here as they are created.
+// The non-public template contract remains exercised by the in-memory fixture below.
+const landingPageAudits = [
+  {
+    route: '/services/wifi-dropouts-ivanhoe/',
+    title: 'Wi-Fi Dropout Diagnosis Ivanhoe &amp; Eaglemont | Naked Tech',
+    description: 'Fixed-price Wi-Fi dropout diagnosis for Ivanhoe and Eaglemont homes, separating NBN, router, placement, interference and coverage problems.',
+    canonical: 'https://nakedtech.au/services/wifi-dropouts-ivanhoe/',
+    ogImage: 'https://nakedtech.au/img/services-hero.webp',
+    primaryLabel: 'Book the $190 Wi-Fi diagnosis',
+    primaryHref: '#contact',
+    robots: 'index, follow',
+    sitemap: 'present'
+  },
+  {
+    route: '/services/slow-computer-help-ivanhoe/',
+    title: 'Slow Computer Help Ivanhoe &amp; Eaglemont | Naked Tech',
+    description: 'Slow-computer diagnosis from $190 for Ivanhoe and Eaglemont, with Windows 11 compatibility and repair, upgrade or replacement advice.',
+    canonical: 'https://nakedtech.au/services/slow-computer-help-ivanhoe/',
+    ogImage: 'https://nakedtech.au/img/slow-computer-help-og.webp',
+    primaryLabel: 'Book a slow-computer diagnosis',
+    primaryHref: '#contact',
+    robots: 'index, follow',
+    sitemap: 'present'
+  }
+]
+
+const requiredLandingSectionIds = [
+  'offer',
+  'symptoms',
+  'diagnosis',
+  'included',
+  'process',
+  'proof',
+  'pricing',
+  'faq',
+  'contact'
+]
+
+function auditLandingPageHtml(audit, html, metadataEntries, sitemapXml) {
+  const page = audit.route
+
+  if (audit.robots) {
+    assert(metaContent(html, 'robots') === audit.robots, `${page}: robots directive is ${audit.robots}`)
+  }
+  if (audit.sitemap === 'absent') {
+    assert(!sitemapXml.includes(audit.canonical), `${page}: non-public fixture is absent from sitemap`)
+  }
+  if (audit.sitemap === 'present') {
+    assert(sitemapXml.includes(audit.canonical), `${page}: public landing page is present in sitemap`)
+  }
+
+  assert((html.match(/<h1\b/gi) || []).length === 1, `${page}: exactly one h1`)
+
+  for (const sectionId of requiredLandingSectionIds) {
+    assert(countOccurrences(html, `id="${sectionId}"`) === 1, `${page}: exactly one #${sectionId} section rendered`)
+  }
+
+  assert(html.includes(`href="${audit.primaryHref}"`), `${page}: primary CTA target rendered`)
+  assert(html.includes(audit.primaryLabel), `${page}: primary CTA label rendered`)
+  assert(/href=["']tel:\+\d{10,15}["']/i.test(html), `${page}: telephone link rendered`)
+  assert(html.includes('<iframe'), `${page}: form iframe rendered`)
+  assert(html.includes('data-contact-form-frame'), `${page}: shared form iframe marker rendered`)
+  assert(html.includes('https://forms.digitalsanctum.com.au/f/nakedtech-contact'), `${page}: shared Forms endpoint rendered`)
+
+  const metadataChecks = [
+    ['title', documentTitle(html), audit.title],
+    ['description', metaContent(html, 'description'), audit.description],
+    ['canonical', canonicalUrl(html), audit.canonical],
+    ['Open Graph image', metaContent(html, 'og:image'), audit.ogImage]
+  ]
+
+  for (const [label, actual, expected] of metadataChecks) {
+    assert(actual === expected, `${page}: unique ${label} matches the page contract`)
+  }
+
+  assert(metadataEntries.filter((entry) => entry.title === audit.title).length === 1, `${page}: title is unique across audited pages`)
+  assert(metadataEntries.filter((entry) => entry.description === audit.description).length === 1, `${page}: description is unique across audited pages`)
+  assert(metadataEntries.filter((entry) => entry.canonical === audit.canonical).length === 1, `${page}: canonical is unique across audited pages`)
+  assert(metadataEntries.filter((entry) => entry.ogImage === audit.ogImage).length === 1, `${page}: Open Graph image is unique across audited pages`)
+
+  const structuredData = jsonLdBlocks(html)
+  assert(structuredData.length > 0, `${page}: JSON-LD block rendered`)
+  for (const [index, block] of structuredData.entries()) {
+    try {
+      const value = JSON.parse(block)
+      assert(value['@type'] === 'Service', `${page}: JSON-LD block ${index + 1} describes a Service`)
+    } catch (error) {
+      failures.push(`${page}: JSON-LD block ${index + 1} parses as JSON (${error.message})`)
+    }
+  }
+
+  for (const marker of ['â', 'Â', '�']) {
+    assert(!html.includes(marker), `${page}: landing copy has no mojibake marker ${JSON.stringify(marker)}`)
+  }
+}
+
 const robotsPath = join(root, 'robots.txt')
+const sitemapPath = join(root, 'sitemap.xml')
 assert(existsSync(robotsPath), 'robots.txt exists')
-assert(existsSync(join(root, 'sitemap.xml')), 'sitemap.xml exists')
+assert(existsSync(sitemapPath), 'sitemap.xml exists')
 if (existsSync(robotsPath)) {
   assert(readFileSync(robotsPath, 'utf8').includes('https://nakedtech.au/sitemap.xml'), 'robots.txt advertises sitemap')
 }
@@ -127,6 +249,129 @@ for (const file of htmlFiles) {
   }
 }
 
+const generatedMetadata = htmlFiles.map((file) => {
+  const html = readFileSync(file, 'utf8')
+  return {
+    file,
+    title: documentTitle(html),
+    description: metaContent(html, 'description'),
+    canonical: canonicalUrl(html),
+    ogImage: metaContent(html, 'og:image')
+  }
+})
+
+const sitemapXml = existsSync(sitemapPath) ? readFileSync(sitemapPath, 'utf8') : ''
+
+for (const audit of landingPageAudits) {
+  const file = routeToFile(audit.route)
+  assert(existsSync(file), `landing page exists: ${audit.route}`)
+  if (!existsSync(file)) continue
+  auditLandingPageHtml(audit, readFileSync(file, 'utf8'), generatedMetadata, sitemapXml)
+}
+
+const inMemoryLandingAudit = {
+  route: '/__fixtures__/landing-page/',
+  title: 'Landing Template Fixture | Naked Tech',
+  description: 'Synthetic noindex copy used only to verify the reusable Naked Tech landing-page template contract.',
+  canonical: 'https://nakedtech.au/__fixtures__/landing-page/',
+  ogImage: 'https://nakedtech.au/img/toolkit-flatlay.webp',
+  primaryLabel: 'Open the synthetic enquiry form',
+  primaryHref: '#contact',
+  robots: 'noindex, nofollow',
+  sitemap: 'absent'
+}
+
+assert(!existsSync(routeToFile(inMemoryLandingAudit.route)), 'temporary generated landing-page fixture is absent')
+
+const inMemoryLandingContext = {
+  title: 'Landing Template Fixture',
+  description: inMemoryLandingAudit.description,
+  robots: inMemoryLandingAudit.robots,
+  ogImage: '/img/toolkit-flatlay.webp',
+  ogImageWidth: 1408,
+  ogImageHeight: 768,
+  page: { url: inMemoryLandingAudit.route },
+  site: JSON.parse(readFileSync(new URL('../src/_data/site.json', import.meta.url), 'utf8')),
+  landing: {
+    id: 'template_fixture',
+    eyebrow: 'Synthetic landing-page fixture',
+    headline: 'A complete non-public page for testing the shared template',
+    promise: 'Synthetic copy exercises every required conversion section without publishing a commercial claim.',
+    offer: {
+      label: 'Automated test offer',
+      price: 'Synthetic fixture only',
+      note: 'This in-memory fixture is not a public offer, guarantee, testimonial, or statement of service scope.'
+    },
+    cta: {
+      primaryLabel: inMemoryLandingAudit.primaryLabel,
+      primaryHref: inMemoryLandingAudit.primaryHref,
+      phoneLabel: 'Call Naked Tech from the template fixture'
+    },
+    symptoms: [
+      { title: 'First synthetic symptom', description: 'Exercises the first symptom card without describing a real customer.' },
+      { title: 'Second synthetic symptom', description: 'Exercises the second symptom card with plain fixture copy.' },
+      { title: 'Third synthetic symptom', description: 'Exercises the required third symptom card and exact item count.' }
+    ],
+    diagnosis: {
+      heading: 'Synthetic diagnostic sequence',
+      summary: 'The fixture verifies that assessment can precede recommendations without promising an outcome.',
+      checks: [
+        { title: 'First synthetic check', description: 'Exercises one diagnostic card without claiming a real check occurred.' },
+        { title: 'Second synthetic check', description: 'Exercises an additional diagnostic card and reusable grid layout.' }
+      ]
+    },
+    inclusions: [
+      { title: 'Fixture deliverable one', description: 'Confirms the shared layout renders a scoped inclusion.' },
+      { title: 'Fixture deliverable two', description: 'Confirms multiple inclusions render in both relevant sections.' }
+    ],
+    process: [
+      { title: 'Synthetic step one', description: 'Supplies the first required process step.' },
+      { title: 'Synthetic step two', description: 'Supplies the second required process step.' },
+      { title: 'Synthetic step three', description: 'Supplies the third required process step.' }
+    ],
+    proofPoints: [
+      { title: 'Fixture proof one', description: 'Synthetic proof text used only by the audit.', source: 'Automated P1-T5 fixture data' },
+      { title: 'Fixture proof two', description: 'A second trust point verifies the proof layout.', source: 'Automated P1-T5 fixture data' },
+      { title: 'Fixture proof three', description: 'A third trust point completes the required count.', source: 'Automated P1-T5 fixture data' }
+    ],
+    faqs: [
+      { question: 'Is this a real public offer?', answer: 'No. It is synthetic noindex copy used only by the automated audit.' },
+      { question: 'Does this fixture make commercial claims?', answer: 'No. Its values are explicitly synthetic.' },
+      { question: 'Why does it include every section?', answer: 'Complete data proves the full reusable layout contract.' }
+    ],
+    form: {
+      heading: 'Synthetic enquiry form heading',
+      introduction: 'The shared form is rendered only to verify the integration markup.',
+      contextKey: 'template_fixture'
+    },
+    schema: {
+      serviceType: 'Synthetic landing-page template fixture',
+      areaServed: ['Synthetic test area']
+    }
+  }
+}
+
+const landingEnvironment = nunjucks.configure(includesRoot, { autoescape: true })
+const landingLayoutSource = readFileSync(join(includesRoot, 'layouts', 'sales-landing-page.njk'), 'utf8')
+  .replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n/, '')
+const inMemoryLandingContent = landingEnvironment.renderString(landingLayoutSource, inMemoryLandingContext)
+const inMemoryLandingHtml = landingEnvironment.render('layouts/base.njk', {
+  ...inMemoryLandingContext,
+  content: inMemoryLandingContent
+})
+const inMemoryLandingMetadata = {
+  title: documentTitle(inMemoryLandingHtml),
+  description: metaContent(inMemoryLandingHtml, 'description'),
+  canonical: canonicalUrl(inMemoryLandingHtml),
+  ogImage: metaContent(inMemoryLandingHtml, 'og:image')
+}
+auditLandingPageHtml(
+  inMemoryLandingAudit,
+  inMemoryLandingHtml,
+  [...generatedMetadata, inMemoryLandingMetadata],
+  sitemapXml
+)
+
 for (const slug of ['full-strip', 'bodyguard', 'power-pose', 'quickie']) {
   const file = routeToFile(`/services/${slug}/`)
   if (!existsSync(file)) continue
@@ -136,6 +381,16 @@ for (const slug of ['full-strip', 'bodyguard', 'power-pose', 'quickie']) {
   }
   assert(html.includes('Hardware sold at cost. No markups.'), `${slug}: transparent hardware policy rendered`)
   assert(html.includes('href="/contact/"'), `${slug}: contact CTA rendered`)
+}
+
+const quickieHtml = readFileSync(routeToFile('/services/quickie/'), 'utf8')
+assert(
+  quickieHtml.includes('href="/services/slow-computer-help-ivanhoe/"'),
+  'quickie: dedicated slow-computer diagnosis link rendered'
+)
+
+for (const supersededRoute of ['/wifi-dropouts-ivanhoe/', '/slow-computer-help-ivanhoe/']) {
+  assert(!existsSync(routeToFile(supersededRoute)), `${supersededRoute}: superseded root route is absent`)
 }
 
 const baseHtml = readFileSync(join(root, 'index.html'), 'utf8')
@@ -400,7 +655,7 @@ if (phoneTrackingScript) {
   }
 
   vm.runInNewContext(phoneTrackingScript, {
-    window: { location: { pathname: '/wifi-dropouts-ivanhoe/' } },
+    window: { location: { pathname: '/services/wifi-dropouts-ivanhoe/' } },
     document: documentObject,
     fbq: (...args) => fbqCalls.push(args),
     gtag: (...args) => gtagCalls.push(args)
@@ -415,9 +670,9 @@ if (phoneTrackingScript) {
     assert(metaContactCalls.length === 1, 'one telephone activation produces exactly one Meta Contact')
     assert(gaPhoneCalls.length === 1, 'one telephone activation produces exactly one GA4 phone_click')
     assert(metaContactCalls[0]?.[2]?.pain_point === 'wifi_dropouts', 'Meta Contact includes page pain-point context')
-    assert(metaContactCalls[0]?.[2]?.page_path === '/wifi-dropouts-ivanhoe/', 'Meta Contact includes page-path context')
+    assert(metaContactCalls[0]?.[2]?.page_path === '/services/wifi-dropouts-ivanhoe/', 'Meta Contact includes page-path context')
     assert(gaPhoneCalls[0]?.[2]?.pain_point === 'wifi_dropouts', 'GA4 phone_click includes page pain-point context')
-    assert(gaPhoneCalls[0]?.[2]?.page_path === '/wifi-dropouts-ivanhoe/', 'GA4 phone_click includes page-path context')
+    assert(gaPhoneCalls[0]?.[2]?.page_path === '/services/wifi-dropouts-ivanhoe/', 'GA4 phone_click includes page-path context')
   }
 }
 

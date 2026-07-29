@@ -34,6 +34,13 @@ eleventyComputed:
                 <a href="/contact/" class="inline-flex min-h-14 items-center justify-center rounded-full bg-electric-peach px-8 py-4 text-base font-bold text-ivanhoe-slate shadow-xl shadow-black/20 transition hover:-translate-y-0.5 hover:bg-[#FF7A50]">{{ service.cta }}</a>
                 <a href="#included" class="inline-flex min-h-14 items-center justify-center rounded-full border border-skin-bone/30 px-8 py-4 text-base font-bold text-skin-bone transition hover:border-electric-peach hover:text-electric-peach">See what is included</a>
             </div>
+            {% if service.diagnosticLink %}
+            <p class="mt-6 text-sm text-skin-bone/75">
+                {{ service.diagnosticIntro or "Not sure Mesh is the answer?" }}
+                <a href="{{ service.diagnosticLink }}" class="font-bold text-electric-peach underline decoration-2 underline-offset-4 hover:text-white">{{ service.diagnosticLabel }}</a>
+                {{ service.diagnosticSuffix or "before committing to hardware." }}
+            </p>
+            {% endif %}
         </div>
 
         <aside class="rounded-3xl border border-white/15 bg-white/10 p-6 shadow-2xl backdrop-blur-sm md:p-8" aria-label="Service pricing summary">
@@ -57,7 +64,7 @@ eleventyComputed:
                 </div>
                 <div>
                     <dt class="text-sm text-skin-bone/60">Local call-out</dt>
-                    <dd class="mt-1 font-bold">$0 for Ivanhoe 3079</dd>
+                    <dd class="mt-1 font-bold">Included for Ivanhoe & Eaglemont</dd>
                 </div>
             </dl>
             <p class="mt-6 border-t border-white/15 pt-6 text-sm leading-relaxed text-skin-bone/70">{{ service.investmentNote }}</p>

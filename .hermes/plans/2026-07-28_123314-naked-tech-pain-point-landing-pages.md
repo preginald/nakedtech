@@ -11,9 +11,9 @@
 **Canonical strategy:** `docs/marketing/2026-07-28-facebook-campaign-and-landing-page-strategy.md`<br>
 **Obsidian copy:** `Sanctum Digital/Projects/Naked Tech/Naked Tech - Facebook Campaign and Landing Page Strategy - 2026-07-28.md`<br>
 **Created:** 28 July 2026 12:33 AEST<br>
-**Status:** Phase 1 in progress<br>
-**Current phase:** Phase 1<br>
-**Next task:** P1-T4 — create the shared sales landing-page layout
+**Status:** Phase 4 in progress; P4-T2a complete
+**Current phase:** Phase 4
+**Next task:** P4-T3 — end-to-end GA4 and Meta platform verification
 
 ---
 
@@ -40,10 +40,10 @@ This section is the continuity mechanism. Follow it instead of importing the ful
 | Phase | Status | Exit evidence | Next action |
 |---|---|---|---|
 | 0. Conversion integrity baseline | Complete | Campaign baseline preserved; charset/browser audits pass; analytics contract recorded | Phase 1 |
-| 1. Reusable Nunjucks landing-page system | In progress | P1-T1 contract, P1-T2 metadata overrides and P1-T3 secure shared form verified; shared sales layout pending | P1-T4 |
-| 2. Wi-Fi pilot landing page | Not started | User-approved responsive page | Start after Phase 1 |
-| 3. Slow computer / Windows landing page | Not started | Page verified using unchanged template contract | Start after Phase 2 approval |
-| 4. Funnel attribution and form context | Not started | View, phone, form-start and Lead evidence captured | Can overlap final Phase 3 verification |
+| 1. Reusable Nunjucks landing-page system | Complete | Data contract, metadata overrides, secure shared form, shared sales layout and reusable full-page audit verified | Phase 2 |
+| 2. Wi-Fi pilot landing page | Complete | User approved the responsive pilot, offer hierarchy and visual treatment; 477 audit checks passed | Phase 3 |
+| 3. Slow computer / Windows landing page | Complete | Page verified using unchanged template contract | Phase 4 |
+| 4. Funnel attribution and form context | In progress | P4-T1 local matrix, P4-T2 persistence and P4-T2a final owner delivery passed | P4-T3 |
 | 5. Meta two-concept experiment | Not started | Both ads approved, tracking verified, campaign live | Start only after Phases 2–4 |
 | 6. Measurement and decision | Not started | Ad-level funnel report and explicit decision | Begin after spend/sample gate |
 | 7. Organic/search expansion | Not started | Prioritised pages shipped from measured demand | Begin after Phase 6 |
@@ -76,11 +76,13 @@ This section is the continuity mechanism. Follow it instead of importing the ful
 - Launching more than two paid pain-point concepts simultaneously.
 - Changing the four existing service pages unless a phase explicitly names the change.
 
-### Commercial decisions that must not be invented
+### Commercial decisions and gates
 
-- Whether the diagnostic-first offer is exactly `$190 including the first hour`.
-- Whether wording such as “Peter has supported home computer users since 2004” is approved.
-- Whether Eaglemont shares the no-call-out policy currently stated for Ivanhoe 3079.
+- The Wi-Fi diagnostic is an approved `$190 fixed-price project`, not an hourly engagement.
+- Naked Tech's approved business-wide pricing policy is per project rather than hourly; legacy hourly, minimum-charge and time-block wording on the existing service pages must be normalised to fixed-scope project language.
+- A short suitability call may be free; the skilled onsite diagnosis is not free and is not automatically credited to later work.
+- “Peter has supported home computer users since 2004” is approved.
+- Ivanhoe and Eaglemont both share the no-call-out policy.
 - Whether scam/security assistance includes remote support, in-home support, or both.
 - Whether new pages should cover service areas beyond Ivanhoe and Eaglemont.
 
@@ -180,7 +182,7 @@ src/
 └── sitemap.njk
 ```
 
-Each page declares an explicit permalink, such as `/wifi-dropouts-ivanhoe/index.html`, and sets `layout: layouts/sales-landing-page.njk`.
+Each page declares an explicit permalink, such as `/services/wifi-dropouts-ivanhoe/index.html`, and sets `layout: layouts/sales-landing-page.njk`.
 
 ## P1-T1 — Define the page data contract
 
@@ -285,16 +287,16 @@ landing:
 
 **Subtasks:**
 
-- [ ] Implement a mobile-first hero with the exact pain above the fold.
-- [ ] Keep the phone number available without making the user leave the page.
-- [ ] Make `Learn More`/form progression the primary paid-social path; retain phone as an immediate option.
-- [ ] Reuse existing Tailwind tokens: `skin-bone`, `ivanhoe-slate`, `electric-peach`, `electric-peach-ink`.
-- [ ] Preserve one H1 and logical H2/H3 hierarchy.
-- [ ] Keep touch targets at least 44px high and visible focus states.
-- [ ] Render approved trust evidence only.
-- [ ] Render Service JSON-LD from page data and ensure valid JSON escaping.
-- [ ] Add page-view analytics once per page using the analytics contract.
-- [ ] Avoid hiding essential content behind animation or JavaScript.
+- [x] Implement a mobile-first hero with the exact pain above the fold.
+- [x] Keep the phone number available without making the user leave the page.
+- [x] Make `Learn More`/form progression the primary paid-social path; retain phone as an immediate option.
+- [x] Reuse existing Tailwind tokens: `skin-bone`, `ivanhoe-slate`, `electric-peach`, `electric-peach-ink`.
+- [x] Preserve one H1 and logical H2/H3 hierarchy.
+- [x] Keep touch targets at least 44px high and visible focus states.
+- [x] Render approved trust evidence only.
+- [x] Render Service JSON-LD from page data and ensure valid JSON escaping.
+- [x] Add page-view analytics once per page using the analytics contract.
+- [x] Avoid hiding essential content behind animation or JavaScript.
 
 **Exit criterion:** The layout renders all required sections from structured data and remains usable without client-side JavaScript.
 
@@ -305,16 +307,16 @@ landing:
 
 **Subtasks:**
 
-- [ ] Create a noindex fixture with complete synthetic non-public copy.
-- [ ] Add the fixture route to a dedicated landing-page audit list, not the public sitemap.
-- [ ] Assert exactly one H1.
-- [ ] Assert every required section ID is present.
-- [ ] Assert primary CTA, telephone link and form iframe are present.
-- [ ] Assert unique title, description, canonical and OG image.
-- [ ] Parse and validate JSON-LD as JSON.
-- [ ] Assert no common mojibake markers.
-- [ ] Run `npm run test`; expect a full pass.
-- [ ] Remove the fixture before the first production page is deployed, while retaining reusable audit helpers.
+- [x] Create a noindex fixture with complete synthetic non-public copy.
+- [x] Add the fixture route to a dedicated landing-page audit list, not the public sitemap.
+- [x] Assert exactly one H1.
+- [x] Assert every required section ID is present.
+- [x] Assert primary CTA, telephone link and form iframe are present.
+- [x] Assert unique title, description, canonical and OG image.
+- [x] Parse and validate JSON-LD as JSON.
+- [x] Assert no common mojibake markers.
+- [x] Run `npm run test`; expect a full pass.
+- [x] Remove the fixture before the first production page is deployed, while retaining reusable audit helpers.
 
 **Exit criterion:** The template contract is enforced by the build audit rather than agent memory.
 
@@ -330,18 +332,20 @@ landing:
 
 **Decisions required:**
 
-- [ ] Confirm the diagnostic-first starting price.
-- [ ] Confirm no-call-out geography.
-- [ ] Confirm whether diagnosis can be booked without committing to Mesh hardware.
-- [ ] Approve “since 2004” experience wording or omit it.
-- [ ] Identify any current reviews that may be used with permission.
+- [x] Confirm the Wi-Fi diagnostic-first starting price.
+- [x] Confirm no-call-out geography: Ivanhoe and Eaglemont.
+- [x] Confirm diagnosis can be booked without committing to Mesh hardware.
+- [x] Approve “since 2004” experience wording.
+- [x] Confirm no current reviews are available for use at this stage.
+
+**Owner decisions recorded 28 July 2026:** The pilot is specifically a Wi-Fi dropout/dead-zone diagnostic covering the NBN service, router, placement, interference and coverage before hardware is recommended. The onsite diagnosis is a `$190 fixed-price project`, not free or hourly; a short suitability call may be free, and the diagnostic fee is not automatically credited to later work. Diagnosis is available without a Mesh commitment, the no-call-out area is Ivanhoe and Eaglemont, “since 2004” is approved, and no review content will be used.
 
 **Exit criterion:** Every commercial claim has an owner-approved source.
 
 ## P2-T2 — Create page content
 
 **Create:** `src/landing-pages/wifi-dropouts.njk`<br>
-**Permalink:** `/wifi-dropouts-ivanhoe/index.html`
+**Permalink:** `/services/wifi-dropouts-ivanhoe/index.html`
 
 **Required message:**
 
@@ -349,15 +353,15 @@ landing:
 
 **Subtasks:**
 
-- [ ] Write exact pain H1 and local subheading.
-- [ ] Write three symptom cards: room dropouts, intermittent/cutting-out connection, extenders or multiple network names.
-- [ ] Explain the diagnostic sequence without promising a fix that depends on third parties.
-- [ ] Define inclusions for the first visit.
-- [ ] Explain when Mesh is and is not appropriate.
-- [ ] Write pricing and exclusions in approved language.
-- [ ] Write three to six FAQs using customer language.
-- [ ] Add a unique, honest OG image or use the existing default until a specific creative is approved.
-- [ ] Set `landing.id: wifi_dropouts` and page-specific analytics values.
+- [x] Write exact pain H1 and local subheading.
+- [x] Write three symptom cards: room dropouts, intermittent/cutting-out connection, extenders or multiple network names.
+- [x] Explain the diagnostic sequence without promising a fix that depends on third parties.
+- [x] Define inclusions for the first visit.
+- [x] Explain when Mesh is and is not appropriate.
+- [x] Write pricing and exclusions in approved language.
+- [x] Write three to six FAQs using customer language.
+- [x] Add a unique, honest OG image or use the existing default until a specific creative is approved.
+- [x] Set `landing.id: wifi_dropouts` and page-specific analytics values.
 
 **Exit criterion:** Copy answers exact problem, price, process, trust and next-step questions without forcing a Mesh sale.
 
@@ -370,11 +374,11 @@ landing:
 
 **Subtasks:**
 
-- [ ] Add the canonical route to the sitemap.
-- [ ] Add route and landing-section assertions to the site audit.
-- [ ] Add at least one relevant internal link from the existing Wi-Fi service ecosystem.
-- [ ] Do not replace `/services/full-strip/`; clarify the relationship between diagnosis and full Mesh installation.
-- [ ] Verify all internal links resolve.
+- [x] Add the canonical route to the sitemap.
+- [x] Add route and landing-section assertions to the site audit.
+- [x] Add at least one relevant internal link from the existing Wi-Fi service ecosystem.
+- [x] Do not replace `/services/full-strip/`; clarify the relationship between diagnosis and full Mesh installation.
+- [x] Verify all internal links resolve.
 
 **Exit criterion:** The page is discoverable, indexed appropriately and connected to the existing service architecture.
 
@@ -390,23 +394,23 @@ landing:
 
 **Subtasks:**
 
-- [ ] Verify the ad promise, location, starting offer and CTA are visible without scrolling on common mobile sizes.
-- [ ] Verify no content overlaps, truncates or produces horizontal scrolling.
-- [ ] Verify telephone links and form interaction.
-- [ ] Verify keyboard navigation, focus state and heading order.
-- [ ] Verify browser console contains no errors.
-- [ ] Verify Pixel/GA events fire once with `wifi_dropouts`.
-- [ ] Capture desktop and mobile screenshots for review.
+- [x] Verify the ad promise, location, starting offer and CTA are visible without scrolling on common mobile sizes.
+- [x] Verify no content overlaps, truncates or produces horizontal scrolling.
+- [x] Verify telephone links and form interaction.
+- [x] Verify keyboard navigation, focus state and heading order.
+- [x] Verify browser console contains no errors.
+- [x] Verify Pixel/GA events fire once with `wifi_dropouts`.
+- [x] Capture desktop and mobile screenshots for review.
 
 **Exit criterion:** All automated and manual checks pass.
 
 ## P2-T5 — User visual and sales review checkpoint
 
-**Status after implementation:** `Awaiting user review`
+**Status after implementation:** `Complete`
 
-- [ ] Present only the Wi-Fi pilot page and evidence.
-- [ ] Do not start the slow-computer page until the user approves the core landing-page structure.
-- [ ] If the user rejects the structure, revise the template rather than patching the same issue separately on future pages.
+- [x] Present only the Wi-Fi pilot page and evidence.
+- [x] Do not start the slow-computer page until the user approves the core landing-page structure.
+- [x] User confirmed the template structure, offer hierarchy and visual treatment on 28 July 2026; no template revision was required.
 
 **Exit criterion:** Explicit approval of template structure, offer hierarchy and visual treatment.
 
@@ -416,34 +420,42 @@ landing:
 
 **Objective:** Demonstrate that a second pain page can be produced by changing structured content rather than duplicating layout code.
 
+**Status:** `Complete` — P3-T1 through P3-T3 completed 29 July 2026.
+
 ## P3-T1 — Decide one page versus two
 
-- [ ] Review whether “slow computer” and “Windows 10 support ended” share one buyer journey.
-- [ ] Default to one page at `/slow-computer-help-ivanhoe/` with a Windows lifecycle section.
-- [ ] Create a separate Windows 10 page only if query/ad evidence shows a distinct promise and conversion path.
+- [x] Review whether “slow computer” and “Windows 10 support ended” share one buyer journey.
+- [x] Default to one page at `/services/slow-computer-help-ivanhoe/` with a Windows lifecycle section.
+- [x] Create a separate Windows 10 page only if query/ad evidence shows a distinct promise and conversion path.
+
+**Decision recorded 28 July 2026:** Use one `/services/slow-computer-help-ivanhoe/` page. The two entry triggers converge on the same assessment and outcome: establish device condition and Windows 11 compatibility, then explain whether repair, upgrade, an interim supported path, or replacement with data transfer/setup is proportionate. Current AU autocomplete is qualitatively split between symptom/fix language for slow computers and informational “what now/should I upgrade/compatibility check” language for Windows, but the exact local Windows-upgrade seed produced no suggestions and does not establish a separate local-service conversion path. The available Meta export is campaign-level Wi-Fi data only, so there is no slow-PC-versus-Windows ad evidence. Microsoft likewise presents Windows 10 end of support as one options workflow covering compatibility, upgrade, Extended Security Updates and replacement. Split later only if search/ad evidence demonstrates material Windows-specific demand **and** an owner-approved distinct offer and conversion path; autocomplete is not search-volume evidence.
 
 ## P3-T2 — Create the page
 
 **Create:** `src/landing-pages/slow-computer-help.njk`<br>
-**Permalink:** `/slow-computer-help-ivanhoe/index.html`
+**Permalink:** `/services/slow-computer-help-ivanhoe/index.html`
+
+**Commercial gate before authoring:** Owner approval is required for the starting offer, displayed price, included work and exclusions. Do not infer these from the existing everyday-tech service or the Wi-Fi diagnostic.
+
+**Owner approval recorded 29 July 2026:** `From $190` fixed-price diagnosis and decision project. The exact scope and price are agreed before work. It includes diagnosis, safe straightforward fixes within scope, and a repair/upgrade/replace recommendation. Parts, account recovery, data transfer/new-computer setup, provider work and follow-up are separate; there is no one-visit guarantee.
 
 **Required content:**
 
-- [ ] Slow startup, freezing, storage/update problems and background clutter symptoms.
-- [ ] Malware/security check described without claiming every slow device has malware.
-- [ ] Windows 11 compatibility and Windows 10 end-of-support decision support.
-- [ ] Repair/upgrade/replace decision framework.
-- [ ] Data transfer and replacement setup where appropriate.
-- [ ] Approved starting price and exclusions.
-- [ ] Clear statement that not every fault can be fixed in one visit.
+- [x] Slow startup, freezing, storage/update problems and background clutter symptoms.
+- [x] Malware/security check described without claiming every slow device has malware.
+- [x] Windows 11 compatibility and Windows 10 end-of-support decision support.
+- [x] Repair/upgrade/replace decision framework.
+- [x] Data transfer and replacement setup where appropriate.
+- [x] Approved starting price and exclusions.
+- [x] Clear statement that not every fault can be fixed in one visit.
 
 ## P3-T3 — Verify unchanged template contract
 
-- [ ] Add route to sitemap and audit.
-- [ ] Run full tests and build.
-- [ ] Confirm no template branch was added solely for this page unless genuinely required.
-- [ ] Verify `slow_computer` analytics parameters.
-- [ ] Complete desktop/mobile browser checks.
+- [x] Add route to sitemap and audit.
+- [x] Run full tests and build.
+- [x] Confirm no template branch was added solely for this page unless genuinely required.
+- [x] Verify `slow_computer` analytics parameters.
+- [x] Complete desktop/mobile browser checks.
 
 **Exit criterion:** The second page ships through the shared template with no copied layout markup.
 
@@ -457,22 +469,42 @@ landing:
 
 Create a test matrix covering:
 
-- [ ] Facebook Wi-Fi URL with `utm_content=wifi_dropouts_v1`
-- [ ] Facebook slow-PC URL with `utm_content=slow_computer_v1`
-- [ ] Organic direct visit with no UTMs
-- [ ] Telephone click
-- [ ] Form start
-- [ ] Successful form submission
+- [x] Facebook Wi-Fi URL with `utm_content=wifi_dropouts_v1`
+- [x] Facebook slow-PC URL with `utm_content=slow_computer_v1`
+- [x] Organic direct visit with no UTMs
+- [x] Telephone click
+- [x] Form start
+- [x] Successful form submission
 
 For each, record expected GA4 and Meta events and parameters.
 
+**P4-T1 evidence:** `scripts/analytics-matrix.mjs` executes the exact scripts from clean generated pages with analytics calls intercepted locally. `npm run build && npm run audit:analytics` passed 14 scenarios and 62 assertions across both final routes. Paid views mapped the two approved `utm_content` values to `campaign_content`; no-UTM views omitted it; telephone, start and successful-submission events matched their names, page paths, pain identifiers and exact-once contracts. Protocol-v1 context handshakes carried only the four approved UTMs, while repeated trusted messages, wrong origins, wrong sources and invalid resize payloads produced no duplicates or false conversions. Full expected/observed evidence and limitations are recorded in `docs/marketing/landing-page-analytics-contract.md`.
+
 ## P4-T2 — Preserve pain context through the form
 
-- [ ] Inspect Sanctum Forms capabilities before changing schemas.
-- [ ] Prefer a hidden/default `pain_point` field only if officially supported and verified.
-- [ ] Preserve UTMs in analytics even if the external form cannot store them.
-- [ ] Avoid creating multiple nearly identical forms unless a single form cannot carry the required context.
-- [ ] Verify notification or submission data identifies the problem context where technically possible.
+- [x] Inspect Sanctum Forms capabilities before changing schemas.
+- [x] Prefer a hidden/default `pain_point` field only if officially supported and verified.
+- [x] Preserve UTMs in analytics even if the external form cannot store them.
+- [x] Avoid creating multiple nearly identical forms unless a single form cannot carry the required context.
+- [x] Verify notification or submission data identifies the problem context where technically possible.
+
+**P4-T2 evidence:** Production Sanctum Forms is deployed at commit `5ca4b19` with service state `active` and Alembic revision `0020 (head)`. The live `nakedtech-contact` renderer exposes protocol-v1 `ready`, `context`, `started`, `resize` and `submitted` messages, uses exact approved origins, and contains no wildcard `postMessage` target. Its dedicated `_sf_context` transport is server-sanitised into the separate non-null JSONB `submissions.context` column; it is not a respondent answer or hidden/default field. Existing production records prove persistence without creating another submission: 2 of 28 submissions had non-empty context, both for `nakedtech-contact`, with page/pain/UTM metadata kept separate. The production parent `/contact/` loaded the same form and changed its iframe from the 650px fallback to the trusted 858px reported height. Targeted provider coverage passed 73 backend tests and one frontend attribution-detail test.
+
+**Decision:** Keep one shared `nakedtech-contact` form. Send only the documented `pain_point`, `page_path` and four UTM keys through protocol v1, retain normal analytics attribution independently, and do not add visible/hidden tracking fields or clone the form. The authenticated submission record, exports and operator surfaces identify the problem context. Provider source/tests include context in owner notification data while excluding it from respondent receipts, but cross-service verification found that the current configured owner template never renders because it is missing from Notify.
+
+## P4-T2a — Restore owner notification delivery
+
+- [x] Inspect the Forms admin/frontend update path before changing the instance/template configuration.
+- [x] Choose the durable fix: add the intended tracked `general-contact-notification` Notify template or deliberately migrate the form to a verified existing owner template.
+- [x] Render the separate attribution context in the owner email while keeping it out of respondent receipts.
+- [x] Add Notify template coverage for answers, attribution, escaping and missing optional context.
+- [x] After explicit deployment approval, run one labelled submission and verify the Notify row reaches `sent`, not merely that Forms receives HTTP 202.
+
+**Root cause and durable choice:** The configured `general-contact-notification` slug exists only in production data: it is absent from both repositories and their histories, and is not in Forms' official `NOTIFY_TEMPLATE_SLUGS` catalogue. Codifying that ghost slug would preserve configuration drift. The durable path is to use the official `form-submission` owner template, which is already the Forms default and catalogue entry, and make that template render the separate context object.
+
+**Local remediation evidence:** `/home/preginald/Dev/sanctum-notify/sanctum_notify/templates/form-submission.html` now renders an optional, separately labelled Attribution table without changing respondent answer rendering. `tests/test_template_service.py` covers required answers, full pain/page/UTM context, absent/empty context and HTML escaping. The focused class passed 13 tests; the full Notify suite passed 269 with 3 skipped; repository-wide Ruff check and format check passed. A rendered Naked Tech preview had separate readable Submission details and Attribution tables with zero horizontal overflow. The Forms frontend's actual path is `TemplateEditorPage.jsx` → `PATCH /api/v1/templates/{id}` to create a new version, followed by `TemplateDetailPage.jsx` → `POST /api/v1/templates/{template_id}/upgrade/{instance_id}` to move the pinned `nakedtech-contact` instance from its current version 1.
+
+**Production evidence:** Notify commit `06d8470` was pushed, present in the production checkout, restarted cleanly and returned a healthy database/dispatcher state. A production-side render probe confirmed the deployed `form-submission` template includes the Attribution section and all supplied context values. Through the authenticated Forms frontend API path, `Naked Tech Contact` was updated from v1 to v2 with `notify_template_id: form-submission`, and the live `nakedtech-contact` instance was explicitly upgraded while retaining its four fields, one owner recipient, active status, endpoint and origin allowlist. One labelled submission (`6b70ef82-9b48-418a-8718-697cc4a62960`) persisted the full pain/page/four-UTM context. Its corresponding Notify row (`7c9bd7f7-6fb0-42b7-af20-7d24ce983014`) used `form-submission`, retained the same context and reached final status `sent` with no error. The historical dead-letter rows remain as evidence and were not deleted.
 
 ## P4-T3 — End-to-end verification
 
@@ -498,13 +530,13 @@ For each, record expected GA4 and Meta events and parameters.
 
 - [ ] One pain only: unreliable Wi-Fi in rooms where people actually use it.
 - [ ] Promise diagnosis before hardware.
-- [ ] Destination `/wifi-dropouts-ivanhoe/` with unique UTMs.
+- [ ] Destination `/services/wifi-dropouts-ivanhoe/` with unique UTMs.
 - [ ] CTA defaults to `Learn More`; telephone remains available on page.
 
 ### Concept B — Slow computer / Windows
 
 - [ ] One pain only: chronically slow Windows computer and uncertainty about repair versus replacement.
-- [ ] Destination `/slow-computer-help-ivanhoe/` with unique UTMs.
+- [ ] Destination `/services/slow-computer-help-ivanhoe/` with unique UTMs.
 - [ ] CTA defaults to `Learn More`.
 
 **Guardrails:**
@@ -652,7 +684,7 @@ Record spend, sample size, funnel ratios, lead quality and rationale.
 | Landing template becomes a second generic service page | Message match remains weak | Require exact pain, offer and page ID in the data contract |
 | Many pages create token/context bloat | Future agents load unrelated copy | Individual page files; read only current page plus shared template |
 | Meta spend fragments across concepts | No concept receives a meaningful sample | One ad set; two concepts maximum; equal or sequential spend |
-| Mesh price frightens diagnostic traffic | Clicks fail before enquiry | Lead with approved first-hour diagnosis; Mesh only if needed |
+| Mesh price frightens diagnostic traffic | Clicks fail before enquiry | Lead with the approved fixed-price diagnosis; Mesh only if evidence supports it |
 | Form cannot carry page/UTM context | Lead attribution remains ambiguous | Verify Forms capability; preserve context in analytics; avoid guessing |
 | Duplicate Pixel events | Results overcounted | One shared handler and explicit one-event verification |
 | Scam page overpromises recovery | Trust/legal harm | Clear service boundary and government/bank escalation guidance |
@@ -719,4 +751,122 @@ YYYY-MM-DD — Phase/task:
 - Decision: one component owns trusted form messages; base layout owns telephone events; non-public in-memory fixture bridges the P1-T4/P1-T5 dependency
 - Limitation: Forms exposes no supported context-field or form-start message; defer stored attribution/form-start to P4-T2
 - Next task: P1-T4
+```
+
+```text
+2026-07-28 — P1-T4 complete
+- State before: shared page-data contract and form existed; sales layout was absent
+- Files changed: sales landing-page layout, shared site contact data and canonical plan
+- Verification: in-memory render passed 9 section IDs, one H1, three phone links, safe JSON-LD and one page-view tracker; `npm run test` passed 398 checks/15 pages
+- Decision: structured page data drives all conversion sections; private proof sources never render; essential content is server-rendered
+- Blocker/open question: none for the layout; commercial claims remain gated in Phase 2
+- Next task: P1-T5
+```
+
+```text
+2026-07-28 — P1-T5 and Phase 1 complete
+- State before: P1-T4 complete; no generated landing-page route or reusable full-page audit existed
+- Files changed: base robots override, reusable site-audit helpers and canonical plan; temporary source fixture created, verified, then removed
+- Contract: one H1; nine section IDs; primary CTA, telephone and iframe; unique metadata; valid Service JSON-LD; no mojibake
+- Verification: generated noindex fixture passed 444 checks/16 pages; final in-memory fixture passed `npm run test` with 430 checks/15 pages
+- Decision: keep the contract active in memory and register approved public routes in the dedicated audit list; no fixture route survives
+- Blocker/open question: only the Wi-Fi diagnostic starting price remains; the other four P2-T1 decisions are recorded
+- Next task: P2-T1 — confirm the Wi-Fi diagnostic price
+```
+
+```text
+2026-07-28 — P2-T1–P2-T4 complete; P2-T5 awaiting review
+- State before: Wi-Fi diagnostic scope was approved but its commercial structure was unresolved
+- Files changed: Wi-Fi pilot page, sitemap, landing audit, Wi-Fi service link, shared mobile navigation/touch targets, project-pricing copy and canonical plan
+- Verification: `npm run test` passed 477 checks/16 pages; responsive browser checks passed at 360/390/768/1280 with no page overflow or console errors
+- Analytics/form: GA `view_service` and Meta `ViewContent` each fired once with `wifi_dropouts`; trusted form events deduplicated; live form fields accepted input without submission
+- Decision: `$190 fixed-price` onsite diagnosis; optional free short triage; no automatic fee credit; no Mesh commitment; Ivanhoe and Eaglemont; no reviews
+- Evidence: `/services/wifi-dropouts-ivanhoe/`; screenshots in `/home/preginald/Downloads/nakedtech-qa/`
+- Next task: P2-T5 — owner review; do not start Phase 3 before approval
+```
+
+```text
+2026-07-28 — P2-T5 and Phase 2 complete
+- State before: responsive Wi-Fi pilot passed implementation and verification; owner review remained
+- Decision: owner confirmed the template structure, `$190 fixed` offer hierarchy and visual treatment
+- Verification: prior P2 evidence remains 477 checks/16 pages plus 360/390/768/1280 browser review
+- Next task: P3-T1 — decide one slow-computer/Windows page versus two
+```
+
+```text
+2026-07-28 — P3-T1 complete; Phase 3 in progress
+- State before: combined page was the default, pending buyer-journey and evidence review
+- Evidence: AU autocomplete, campaign CSV and current Microsoft lifecycle guidance reviewed
+- Query/ad finding: two entry vocabularies, but no distinct local Windows offer/path or ad-level evidence
+- Decision: one `/services/slow-computer-help-ivanhoe/` page with a substantive Windows lifecycle section
+- Split gate: material Windows-specific search/ad demand plus an approved distinct offer and conversion path
+- Blocker/open question: P3-T2 price, inclusions and exclusions require owner approval
+- Next task: P3-T2 commercial approval, then author the thin page data file
+```
+
+```text
+2026-07-29 — P3-T2–P3-T3 and Phase 3 complete
+- State before: one combined route was approved, but the commercial offer remained gated
+- Owner decision: from $190 fixed-price diagnosis/decision project; named inclusions, exclusions and no one-visit guarantee
+- Files changed: thin slow-computer page data, custom OG card, sitemap/audit registration, Quickie internal link and synchronized strategy records
+- Verification: 530 checks/17 pages passed; build passed; 360/390/768/1280 browser checks showed zero overflow and no console errors
+- Analytics: `view_service`, `phone_click`, `ViewContent`/`Contact` wiring and form context carry `slow_computer`; campaign content preserves `slow_computer_v1`
+- Decision: shared sales layout remained unchanged; Windows lifecycle stays substantive inside the one buyer journey
+- Next task: P4-T1 — create and execute the UTM/event verification matrix
+```
+
+```text
+2026-07-29 — Final pain-page route architecture approved
+- Decision: place both durable pain pages under `/services/` while retaining the `-ivanhoe` local-intent slugs
+- Canonicals: `/services/wifi-dropouts-ivanhoe/` and `/services/slow-computer-help-ivanhoe/`
+- Service boundary: Ivanhoe and Eaglemont only for the foreseeable future; titles, copy and `areaServed` name both
+- SEO guardrail: no cloned Eaglemont or future suburb variants without materially distinct local value and an actual service-area change
+- Verification: 532 checks/17 pages passed; new routes returned 200, superseded roots 404; canonical, OG, sitemap, internal links and JSON-LD passed
+- Responsive/analytics: 360/390/768/1280 showed zero overflow; `view_service`/`ViewContent` carried the new page path and UTM content exactly once
+- Build safety: `prebuild` now removes `_site` so obsolete generated routes cannot survive a permalink change or deployment build
+- Deployment: neither new route has been published; superseded root routes never went live and need no redirect
+- Next task: verified handoff, then P4-T1 in a fresh session
+```
+
+```text
+2026-07-29 — P4-T1 UTM/event matrix complete
+- State before: Phase 3 complete locally; final routes undeployed; P4-T1 was next
+- Files changed: analytics matrix executor, package test hook, analytics contract and canonical plan
+- Verification: `npm run test` passed 532 site checks/17 pages plus 14 matrix scenarios/62 assertions; syntax and diff checks passed
+- Evidence: paid/direct views, phone, form start/submission, context handshake, replay and trust-boundary controls covered on both routes
+- Limitation: local parent-script interception only; no real submission or GA4/Meta platform evidence claimed
+- Next task: P4-T2 — inspect current Forms provider behaviour and persisted submission context before changes
+```
+
+```text
+2026-07-29 — P4-T2 Forms context capability inspection complete
+- State before: parent protocol was locally verified; production provider receipt/persistence remained unproven
+- Production: Forms commit `5ca4b19`, service active, migration `0020 (head)`; live child exposes the complete exact-origin v1 contract
+- Persistence: 2/28 existing submissions have separate context, both `nakedtech-contact`; answers and attribution remain separate
+- Verification: 73 backend provider tests and one frontend attribution-detail test passed; live `/contact/` resized 650px → 858px
+- Decision: reuse one form and dedicated JSONB context; no hidden/default field, schema change or duplicate form
+- Blocker: both corresponding Notify rows dead-lettered; configured `general-contact-notification` template is missing
+- Next task: P4-T2a — restore/verify owner notification delivery, then P4-T3 platform evidence
+```
+
+```text
+2026-07-29 — P4-T2a local owner-notification remediation ready
+- Root cause: production-only `general-contact-notification` slug is absent from both repos/history and the official Forms catalogue
+- Decision: migrate to official `form-submission`; do not create a template solely to legitimise stale configuration
+- Notify changes: optional separate Attribution table plus tests for full/empty/missing/unsafe context
+- Verification: 13 focused tests; 269 passed/3 skipped full suite; Ruff checks and rendered zero-overflow preview passed
+- Forms path: template editor PATCH creates a version; template detail Upgrade moves the pinned instance to that version
+- Production: unchanged and still dead-lettering; no commit, deploy, configuration mutation or test submission performed
+- Next task: after explicit approval, commit/deploy Notify, migrate/upgrade the form, submit once and verify actual Notify `sent`
+```
+
+```text
+2026-07-29 — P4-T2a production owner-notification repair complete
+- Notify: commit `06d8470` deployed; service health and production context-render probe passed
+- Forms: `Naked Tech Contact` v2 now selects official `form-submission`; live instance explicitly upgraded from v1
+- Integrity: active endpoint, four fields, one owner recipient and allowed origins preserved after upgrade
+- Submission: one labelled row `6b70ef82-9b48-418a-8718-697cc4a62960` persisted pain/page/four-UTM context
+- Delivery: Notify row `7c9bd7f7-6fb0-42b7-af20-7d24ce983014` used `form-submission` and reached final `sent` with no error
+- Historical dead letters retained; no data or test submissions deleted
+- Next task: P4-T3 — collect GA4 DebugView and Meta Events Manager evidence with exact event cardinality
 ```

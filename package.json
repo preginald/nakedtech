@@ -6,10 +6,12 @@
 	  "start": "npm-run-all -p dev:*",
 	  "dev:11ty": "eleventy --serve",
 	  "dev:css": "tailwindcss -i ./src/css/styles.css -o ./_site/css/styles.css --watch",
+	  "prebuild": "rm -rf _site",
 	  "build": "npm-run-all build:*",
 	  "build:11ty": "eleventy",
 	  "build:css": "tailwindcss -i ./src/css/styles.css -o ./_site/css/styles.css --minify",
-	  "test": "npm run build && node scripts/site-audit.mjs"
+	  "audit:analytics": "node scripts/analytics-matrix.mjs",
+	  "test": "npm run build && node scripts/site-audit.mjs && npm run audit:analytics"
   },
   "keywords": [],
   "author": "",

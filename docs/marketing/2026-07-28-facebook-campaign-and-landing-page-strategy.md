@@ -109,9 +109,11 @@ The entry offer should therefore be diagnostic-first:
 
 > **Wi-Fi keeps dropping out? We will determine whether the cause is the NBN service, router, placement, interference or coverage before recommending new hardware.**
 
-Suggested price framing, subject to commercial approval:
+Approved final price framing (owner decision recorded 28 July 2026):
 
-> **$190 including the first hour. No call-out fee in Ivanhoe 3079. Mesh only if the diagnosis shows it is needed.**
+> **$190 fixed-price Wi-Fi Dropout Diagnosis. No call-out fee in Ivanhoe or Eaglemont. Mesh only if the diagnosis shows it is needed.**
+
+Naked Tech's business-wide pricing policy is per project rather than hourly. The release therefore normalises legacy hourly, minimum-charge and time-block wording on the existing service pages to fixed-scope project language.
 
 ---
 
@@ -259,18 +261,18 @@ Therefore:
 
 ### Page 1: Wi-Fi dropouts and dead zones
 
-Suggested route: `/wifi-dropouts-ivanhoe/`
+Approved route: `/services/wifi-dropouts-ivanhoe/`
 
 Core promise:
 
 - Diagnose before selling hardware
 - Separate NBN speed, router, placement, interference and coverage causes
 - Use Mesh only when the diagnosis supports it
-- Expose the $190 first-hour entry point and local call-out policy
+- Expose the approved $190 fixed-price diagnosis and local call-out policy
 
 ### Page 2: Slow computer and Windows support
 
-Suggested route: `/slow-computer-help-ivanhoe/`
+Approved route: `/services/slow-computer-help-ivanhoe/`
 
 Core promise:
 
@@ -280,6 +282,36 @@ Core promise:
 - Offer data transfer and setup when replacement is the better option
 
 A separate `/windows-10-upgrade-help-ivanhoe/` page should be considered only if research and campaign data support distinct intent.
+
+#### P3-T1 page-split decision — 28 July 2026
+
+Use one `/services/slow-computer-help-ivanhoe/` page with a substantive Windows lifecycle section rather than two pages.
+
+- “Slow computer” and “Windows 10 support ended” are different entry triggers but converge on one commercial journey: assess device condition and Windows 11 compatibility, then decide among repair, upgrade, an interim supported path, or replacement with data transfer/setup.
+- AU Google/Bing autocomplete showed symptom/fix/service language around slow computers and mainly informational “what now,” “should I upgrade” and compatibility-check language around Windows. The exact `windows 10 upgrade help melbourne` seed returned no Google suggestions. This is qualitative query-language evidence, not proof of search volume or absence of demand.
+- The available Meta export contains campaign-level Wi-Fi delivery only and no ad-, click- or landing-page-level evidence for either slow computers or Windows. It cannot justify a separate Windows conversion path.
+- Microsoft’s current end-of-support guidance itself presents compatibility checking, Windows 11 upgrade, Extended Security Updates and replacement as one options workflow.
+- A later split requires both material Windows-specific query/ad evidence and an owner-approved distinct offer and CTA. A second page should not be created merely because the informational vocabulary differs.
+
+#### P3-T2/P3-T3 implementation record — 29 July 2026
+
+The combined page is implemented at `/services/slow-computer-help-ivanhoe/` through the unchanged shared sales-landing-page template.
+
+- Approved offer: `From $190` fixed-price diagnosis and decision project, with exact scope and price agreed before work starts.
+- Included: diagnosis, safe straightforward fixes within the agreed scope, Windows lifecycle assessment, and a plain-English repair/upgrade/replace recommendation.
+- Separate work: parts, account recovery, provider work, data transfer/new-computer setup and follow-up. The page explicitly states that not every fault can be completed in one visit.
+- The page covers slow startup, freezing, storage/update/background software, security indicators, device condition, Windows 11 compatibility and Windows 10 support options without implying malware or forced replacement.
+- The route is in the sitemap and automated landing-page audit, has an internal link from The Quickie, and uses a unique 1200×630 problem-specific Open Graph image.
+- Verification passed 530 automated checks across 17 generated pages plus build, desktop/tablet/mobile review at 360/390/768/1280, zero measured horizontal overflow, valid Service JSON-LD, and `slow_computer` page-view/telephone/form context.
+- No separate Windows page, copied layout or page-specific template branch was introduced.
+
+#### Final route architecture — 29 July 2026
+
+- Both pain pages live beneath the existing `/services/` hierarchy because they are durable commercial service pages, even though they retain a distinct conversion-focused template and problem-first copy.
+- Final canonical routes are `/services/wifi-dropouts-ivanhoe/` and `/services/slow-computer-help-ivanhoe/`.
+- The `-ivanhoe` location remains because Naked Tech serves only Ivanhoe and Eaglemont for the foreseeable future; it improves local message match and discourages out-of-area enquiries.
+- Eaglemont is represented in titles, descriptions, visible copy, offer boundaries and `areaServed`; it does not receive a cloned suburb page.
+- Do not create additional suburb variants without a genuine operating-area change and materially distinct local value. This avoids a duplicated service-by-suburb doorway-page matrix.
 
 ### Page 3: Scam and computer-security help
 
@@ -384,6 +416,7 @@ A telephone-link click is a micro-conversion, not proof of a completed call.
 - Meta export: `/home/preginald/Downloads/Naked-Tech-Ads-Campaigns-28-Jun-2026-27-Jul-2026.csv`
 - Archived site: https://web.archive.org/web/20140125191948/http://www.yourpcmatters.com/
 - Microsoft Windows 10 support status: https://support.microsoft.com/en-au/windows/windows-10-support-has-ended-on-october-14-2025-2ca8b313-1946-43d3-b55c-2b95b107f281
+- Google Search autocomplete (`gl=au`) and Bing autosuggest (`market=en-AU`), queried 28 July 2026 for slow-computer, Windows-end-of-support, compatibility and local-upgrade seed phrases
 - Scamwatch statistics: https://www.scamwatch.gov.au/research-and-resources/scam-statistics
 - ACCC broadband performance data: https://www.accc.gov.au/consumers/telecommunications-and-internet/broadband-performance-data
 - Current contact implementation: `src/contact.njk`
