@@ -1,0 +1,74 @@
+[
+  {
+    "id": "wifi_dropouts",
+    "path": "/services/wifi-dropouts-ivanhoe/",
+    "navTitle": "Wi-Fi keeps dropping",
+    "navDescription": "Find the cause before buying hardware",
+    "label": "Wi-Fi dropout diagnosis",
+    "title": "Wi-Fi keeps dropping out",
+    "description": "Separate NBN, router, placement, interference and coverage problems before buying more equipment.",
+    "price": "$190 fixed · incl. GST",
+    "cta": "See the diagnosis",
+    "iconPath": "M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"
+  },
+  {
+    "id": "slow_computer",
+    "path": "/services/slow-computer-help-ivanhoe/",
+    "navTitle": "Computer running slowly",
+    "navDescription": "Decide whether to fix, upgrade or replace",
+    "label": "Slow Computer Performance Assessment",
+    "title": "Computer running slowly",
+    "description": "Understand what is slowing it down and whether fixing, upgrading or replacing it is the sensible next step.",
+    "price": "$190 fixed · incl. GST",
+    "cta": "See the assessment",
+    "iconPath": "M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+  },
+  {
+    "id": "scam_security",
+    "path": "/services/scam-security-help-ivanhoe/",
+    "navTitle": "Scam or account concern",
+    "navDescription": "Calm onsite security help",
+    "label": "Scam & account-security assessment",
+    "title": "Scam or account concern",
+    "description": "Calmly review what happened, inspect the affected device and prioritise the next safe actions.",
+    "price": "$250 fixed · incl. GST",
+    "cta": "Get scam & security help",
+    "iconPath": "M12 2l7 4v5c0 5-3.5 9.5-7 11-3.5-1.5-7-6-7-11V6l7-4zm-3 10l2 2 4-4"
+  },
+  {
+    "id": "new_computer_setup",
+    "path": "/services/new-computer-setup-data-transfer-ivanhoe/",
+    "navTitle": "Setting up a new computer",
+    "navDescription": "Windows setup & data transfer",
+    "label": "Standard Windows Move",
+    "title": "Setting up a new computer",
+    "description": "Move one user and up to 250 GB from a healthy Windows computer to a new Windows 11 computer.",
+    "price": "$550 fixed · incl. GST",
+    "cta": "Check whether it fits",
+    "iconPath": "M7 7h10M7 7l3-3M7 7l3 3m7 7H7m10 0l-3-3m3 3l-3 3"
+  },
+  {
+    "id": "printer_help",
+    "path": "/services/printer-help-ivanhoe/",
+    "navTitle": "Printer won’t print or scan",
+    "navDescription": "Troubleshoot one existing printer",
+    "label": "Printer Troubleshooting Visit",
+    "title": "Printer won’t print or scan",
+    "description": "Troubleshoot one existing printer with one primary device and get a clear next step if hardware or provider action is needed.",
+    "price": "$190 fixed · incl. GST",
+    "cta": "See the printer visit",
+    "iconPath": "M6 9V4h12v5M6 17H4a2 2 0 01-2-2v-4a2 2 0 012-2h16a2 2 0 012 2v4a2 2 0 01-2 2h-2m-12-3h12v6H6v-6zm12-2h.01"
+  },
+  {
+    "id": "email_help",
+    "path": "/services/email-help-ivanhoe/",
+    "navTitle": "Email stopped working",
+    "navDescription": "One personal account on one device",
+    "label": "Personal Email Troubleshooting Visit",
+    "title": "Email stopped working",
+    "description": "Troubleshoot one existing personal email account on one supported device, with credentials kept under your control.",
+    "price": "$190 fixed · incl. GST",
+    "cta": "See the email visit",
+    "iconPath": "M3 8l7.89 5.26a2 2 0 002.22 0L21 8m-18 8V6a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2z"
+  }
+]

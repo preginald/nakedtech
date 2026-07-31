@@ -87,7 +87,7 @@ const landingPageAudits = [
   {
     route: '/services/wifi-dropouts-ivanhoe/',
     title: 'Wi-Fi Dropout Diagnosis Ivanhoe &amp; Eaglemont | Naked Tech',
-    description: 'Fixed-price Wi-Fi dropout diagnosis for Ivanhoe and Eaglemont homes, separating NBN, router, placement, interference and coverage problems.',
+    description: 'Fixed-price $190 incl. GST Wi-Fi dropout diagnosis for Ivanhoe and Eaglemont homes, separating NBN, router, placement, interference and coverage problems.',
     canonical: 'https://nakedtech.au/services/wifi-dropouts-ivanhoe/',
     ogImage: 'https://nakedtech.au/img/services-hero.webp',
     painPoint: 'wifi_dropouts',
@@ -99,7 +99,7 @@ const landingPageAudits = [
   {
     route: '/services/slow-computer-help-ivanhoe/',
     title: 'Slow Computer Help Ivanhoe &amp; Eaglemont | Naked Tech',
-    description: 'Fixed-price $190 onsite slow-computer assessment for Ivanhoe and Eaglemont, with Windows compatibility and a written fix, upgrade or replace plan.',
+    description: 'Fixed-price $190 incl. GST onsite slow-computer assessment for Ivanhoe and Eaglemont, with Windows compatibility and a written fix, upgrade or replace plan.',
     canonical: 'https://nakedtech.au/services/slow-computer-help-ivanhoe/',
     ogImage: 'https://nakedtech.au/img/slow-computer-help-og.webp',
     painPoint: 'slow_computer',
@@ -120,7 +120,7 @@ const landingPageAudits = [
 landingPageAudits.push({
   route: '/services/scam-security-help-ivanhoe/',
   title: 'Scam &amp; Account Security Help Ivanhoe &amp; Eaglemont | Naked Tech',
-  description: 'Calm $250 onsite scam and account-security assessment for Ivanhoe and Eaglemont, covering devices, browsers, exposed accounts and practical next steps.',
+  description: 'Calm $250 incl. GST onsite scam and account-security assessment for Ivanhoe and Eaglemont, covering devices, browsers, exposed accounts and practical next steps.',
   canonical: 'https://nakedtech.au/services/scam-security-help-ivanhoe/',
   ogImage: 'https://nakedtech.au/img/scam-security-help-og.webp',
   painPoint: 'scam_security',
@@ -566,7 +566,7 @@ auditLandingPageHtml(
   sitemapXml
 )
 
-for (const slug of ['full-strip', 'bodyguard', 'power-pose', 'quickie']) {
+for (const slug of ['full-strip', 'power-pose', 'quickie']) {
   const file = routeToFile(`/services/${slug}/`)
   if (!existsSync(file)) continue
   const html = readFileSync(file, 'utf8')
@@ -609,11 +609,20 @@ for (const route of [
 ]) {
   assert(servicesMain.includes(`href="${route}"`), `services: direct problem route rendered in main (${route})`)
 }
-assert(countOccurrences(servicesMain, 'data-project-service') === 4, 'services: four broader project routes rendered')
-for (const slug of ['full-strip', 'bodyguard', 'power-pose', 'quickie']) {
+assert(countOccurrences(servicesMain, 'data-project-service') === 3, 'services: three supported broader project routes rendered')
+for (const slug of ['full-strip', 'power-pose', 'quickie']) {
   assert(servicesMain.includes(`href="/services/${slug}/"`), `services: broader project route rendered in main (${slug})`)
 }
+assert(!servicesHtml.includes('href="/services/bodyguard/"'), 'retired Bodyguard offer is absent from services navigation and catalogue')
+assert(!servicesMain.includes('Smart home security'), 'services: unsupported smart-home security offer is not advertised')
 assert(servicesMain.includes('$550 fixed · incl. GST'), 'services: approved new-computer price summary rendered')
+for (const price of ['$190 fixed · incl. GST', '$250 fixed · incl. GST', '$550 fixed · incl. GST']) {
+  assert(servicesMain.includes(price), `services: GST-inclusive problem-service price rendered (${price})`)
+}
+for (const investment of ['$900–$1,800 incl. GST', '$350 incl. GST', 'From $190 incl. GST']) {
+  assert(servicesMain.includes(investment), `services: GST-inclusive project investment rendered (${investment})`)
+}
+assert(servicesMain.includes('All published prices include GST.'), 'services: GST inclusion is stated beside pricing explanation')
 assert(servicesMain.includes('Money may still be at risk?'), 'services: urgent bank-first guidance rendered')
 assert(servicesHtml.includes('href="#how-it-works"'), 'services navigation: how-it-works link targets local overview')
 assert(!servicesHtml.includes('href="/#how-it-works"'), 'services navigation: no cross-page how-it-works link remains')
@@ -629,6 +638,12 @@ assert(
 )
 assert(canonicalUrl(servicesHtml) === 'https://nakedtech.au/services/', 'services: canonical URL is stable')
 assert(metaContent(servicesHtml, 'og:image') === 'https://nakedtech.au/img/nakedtech_hero_technician.webp', 'services: default Open Graph image remains stable')
+
+const retiredBodyguardHtml = readFileSync(routeToFile('/services/bodyguard/'), 'utf8')
+assert(metaContent(retiredBodyguardHtml, 'robots') === 'noindex, follow', 'retired Bodyguard route is excluded from search indexing')
+assert(retiredBodyguardHtml.includes('content="0;url=/services/"'), 'retired Bodyguard route redirects visitors to current services')
+assert(retiredBodyguardHtml.includes('This service is no longer offered.'), 'retired Bodyguard route explains the service withdrawal')
+assert(!sitemapXml.includes('https://nakedtech.au/services/bodyguard/'), 'retired Bodyguard route is absent from the sitemap')
 
 for (const supersededRoute of ['/wifi-dropouts-ivanhoe/', '/slow-computer-help-ivanhoe/', '/printer-help-ivanhoe/', '/email-help-ivanhoe/']) {
   assert(!existsSync(routeToFile(supersededRoute)), `${supersededRoute}: superseded root route is absent`)

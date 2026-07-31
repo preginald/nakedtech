@@ -48,65 +48,17 @@ description: Straightforward in-home technology help for Ivanhoe and Eaglemont, 
         </div>
 
         <div class="mx-auto mt-12 grid max-w-6xl gap-5 md:grid-cols-2 lg:grid-cols-6">
-            <a href="/services/wifi-dropouts-ivanhoe/" class="group flex h-full flex-col rounded-3xl border border-line bg-canvas p-7 shadow-sm transition hover:-translate-y-1 hover:border-accent/60 hover:shadow-xl lg:col-span-2">
+            {% for problemService in problemServices %}
+            <a href="{{ problemService.path }}" class="group flex h-full flex-col rounded-3xl border border-line bg-canvas p-7 shadow-sm transition hover:-translate-y-1 hover:border-accent/60 hover:shadow-xl lg:col-span-2">
                 <span class="flex h-12 w-12 items-center justify-center rounded-full bg-accent/20 text-accent-ink" aria-hidden="true">
-                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"></path></svg>
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ problemService.iconPath }}"></path></svg>
                 </span>
-                <p class="mt-6 text-xs font-bold uppercase tracking-[0.16em] text-accent-ink">$190 fixed diagnosis</p>
-                <h3 class="mt-2 text-2xl font-bold">Wi-Fi keeps dropping</h3>
-                <p class="mt-3 flex-grow leading-relaxed text-ink/65">Separate NBN, router, placement, interference and coverage problems before buying more equipment.</p>
-                <span class="mt-6 inline-flex items-center font-bold text-ink group-hover:text-accent-ink">Diagnose the Wi-Fi <span class="ml-2" aria-hidden="true">→</span></span>
+                <p class="mt-6 text-xs font-bold uppercase tracking-[0.16em] text-accent-ink">{{ problemService.price }}</p>
+                <h3 class="mt-2 text-2xl font-bold">{{ problemService.title }}</h3>
+                <p class="mt-3 flex-grow leading-relaxed text-ink/65">{{ problemService.description }}</p>
+                <span class="mt-6 inline-flex items-center font-bold text-ink group-hover:text-accent-ink">{{ problemService.cta }} <span class="ml-2 transition group-hover:translate-x-1" aria-hidden="true">→</span></span>
             </a>
-
-            <a href="/services/slow-computer-help-ivanhoe/" class="group flex h-full flex-col rounded-3xl border border-line bg-canvas p-7 shadow-sm transition hover:-translate-y-1 hover:border-accent/60 hover:shadow-xl lg:col-span-2">
-                <span class="flex h-12 w-12 items-center justify-center rounded-full bg-accent/20 text-accent-ink" aria-hidden="true">
-                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                </span>
-                <p class="mt-6 text-xs font-bold uppercase tracking-[0.16em] text-accent-ink">$190 fixed assessment</p>
-                <h3 class="mt-2 text-2xl font-bold">Computer running slowly</h3>
-                <p class="mt-3 flex-grow leading-relaxed text-ink/65">Understand what is slowing it down and whether the sensible answer is to fix, upgrade or replace it.</p>
-                <span class="mt-6 inline-flex items-center font-bold text-ink group-hover:text-accent-ink">Assess the computer <span class="ml-2" aria-hidden="true">→</span></span>
-            </a>
-
-            <a href="/services/scam-security-help-ivanhoe/" class="group flex h-full flex-col rounded-3xl border border-line bg-canvas p-7 shadow-sm transition hover:-translate-y-1 hover:border-accent/60 hover:shadow-xl lg:col-span-2">
-                <span class="flex h-12 w-12 items-center justify-center rounded-full bg-accent/20 text-accent-ink" aria-hidden="true">
-                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2l7 4v5c0 5-3.5 9.5-7 11-3.5-1.5-7-6-7-11V6l7-4zm-3 10l2 2 4-4"></path></svg>
-                </span>
-                <p class="mt-6 text-xs font-bold uppercase tracking-[0.16em] text-accent-ink">$250 fixed assessment</p>
-                <h3 class="mt-2 text-2xl font-bold">Scam or account concern</h3>
-                <p class="mt-3 flex-grow leading-relaxed text-ink/65">Calmly review what happened, inspect the affected device and prioritise the next safe actions.</p>
-                <span class="mt-6 inline-flex items-center font-bold text-ink group-hover:text-accent-ink">Get scam &amp; security help <span class="ml-2" aria-hidden="true">→</span></span>
-            </a>
-
-            <a href="/services/new-computer-setup-data-transfer-ivanhoe/" class="group flex h-full flex-col rounded-3xl border border-line bg-canvas p-7 shadow-sm transition hover:-translate-y-1 hover:border-accent/60 hover:shadow-xl lg:col-span-2">
-                <span class="flex h-12 w-12 items-center justify-center rounded-full bg-accent/20 text-accent-ink" aria-hidden="true">
-                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h10M7 7l3-3M7 7l3 3m7 7H7m10 0l-3-3m3 3l-3 3"></path></svg>
-                </span>
-                <p class="mt-6 text-xs font-bold uppercase tracking-[0.16em] text-accent-ink">$550 fixed · incl. GST</p>
-                <h3 class="mt-2 text-2xl font-bold">Setting up a new computer</h3>
-                <p class="mt-3 flex-grow leading-relaxed text-ink/65">Move up to 250 GB from one healthy Windows computer to one new Windows 11 computer, with setup, everyday apps and handover included.</p>
-                <span class="mt-6 inline-flex items-center font-bold text-ink group-hover:text-accent-ink">See the $550 Windows move <span class="ml-2" aria-hidden="true">→</span></span>
-            </a>
-
-            <a href="/services/printer-help-ivanhoe/" class="group flex h-full flex-col rounded-3xl border border-line bg-canvas p-7 shadow-sm transition hover:-translate-y-1 hover:border-accent/60 hover:shadow-xl lg:col-span-2">
-                <span class="flex h-12 w-12 items-center justify-center rounded-full bg-accent/20 text-accent-ink" aria-hidden="true">
-                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 9V4h12v5M6 17H4a2 2 0 01-2-2v-4a2 2 0 012-2h16a2 2 0 012 2v4a2 2 0 01-2 2h-2m-12-3h12v6H6v-6zm12-2h.01"></path></svg>
-                </span>
-                <p class="mt-6 text-xs font-bold uppercase tracking-[0.16em] text-accent-ink">$190 fixed · incl. GST</p>
-                <h3 class="mt-2 text-2xl font-bold">Printer won’t print</h3>
-                <p class="mt-3 flex-grow leading-relaxed text-ink/65">Troubleshoot one existing printer with one primary computer or mobile device, then understand the practical next step.</p>
-                <span class="mt-6 inline-flex items-center font-bold text-ink group-hover:text-accent-ink">See the printer visit <span class="ml-2" aria-hidden="true">→</span></span>
-            </a>
-
-            <a href="/services/email-help-ivanhoe/" class="group flex h-full flex-col rounded-3xl border border-line bg-canvas p-7 shadow-sm transition hover:-translate-y-1 hover:border-accent/60 hover:shadow-xl lg:col-span-2">
-                <span class="flex h-12 w-12 items-center justify-center rounded-full bg-accent/20 text-accent-ink" aria-hidden="true">
-                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8m-18 8V6a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path></svg>
-                </span>
-                <p class="mt-6 text-xs font-bold uppercase tracking-[0.16em] text-accent-ink">$190 fixed · incl. GST</p>
-                <h3 class="mt-2 text-2xl font-bold">Email stopped working</h3>
-                <p class="mt-3 flex-grow leading-relaxed text-ink/65">Troubleshoot one existing personal email account on one supported device without handing over control of your credentials.</p>
-                <span class="mt-6 inline-flex items-center font-bold text-ink group-hover:text-accent-ink">See the email visit <span class="ml-2" aria-hidden="true">→</span></span>
-            </a>
+            {% endfor %}
 
             <a href="/services/" class="group rounded-3xl bg-inverse p-7 text-inverse-ink shadow-xl transition hover:-translate-y-1 hover:bg-black hover:shadow-2xl md:col-span-2 lg:col-span-6 lg:flex lg:items-center lg:gap-7">
                 <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-accent text-ivanhoe-slate" aria-hidden="true">
@@ -139,7 +91,7 @@ description: Straightforward in-home technology help for Ivanhoe and Eaglemont, 
             <a href="/services/" class="inline-flex min-h-12 items-center font-bold text-ink hover:text-accent-ink hover:underline">Compare all services &amp; pricing <span class="ml-2" aria-hidden="true">→</span></a>
         </div>
 
-        <div class="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+        <div class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {% for service in services %}
             <article class="flex h-full flex-col rounded-3xl border border-line bg-surface p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
                 <div class="flex h-12 w-12 items-center justify-center rounded-full bg-canvas text-accent-ink" aria-hidden="true">

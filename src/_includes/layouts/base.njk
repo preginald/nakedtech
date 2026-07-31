@@ -120,30 +120,12 @@
                         <svg class="h-3.5 w-3.5 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </summary>
                     <div class="absolute right-0 top-full mt-2 max-h-[calc(100vh-6rem)] w-80 overflow-y-auto rounded-2xl border border-line bg-surface p-2 shadow-2xl">
-                        <a href="/services/wifi-dropouts-ivanhoe/" class="block rounded-xl px-4 py-3 transition-colors hover:bg-surface-muted"{% if page.url == '/services/wifi-dropouts-ivanhoe/' %} aria-current="page"{% endif %}>
-                            <span class="block font-bold">Wi-Fi keeps dropping</span>
-                            <span class="mt-1 block text-sm text-muted">Fixed-price diagnosis</span>
+                        {% for problemService in problemServices %}
+                        <a href="{{ problemService.path }}" class="block rounded-xl px-4 py-3 transition-colors hover:bg-surface-muted"{% if page.url == problemService.path %} aria-current="page"{% endif %}>
+                            <span class="block font-bold">{{ problemService.navTitle }}</span>
+                            <span class="mt-1 block text-sm text-muted">{{ problemService.navDescription }}</span>
                         </a>
-                        <a href="/services/slow-computer-help-ivanhoe/" class="block rounded-xl px-4 py-3 transition-colors hover:bg-surface-muted"{% if page.url == '/services/slow-computer-help-ivanhoe/' %} aria-current="page"{% endif %}>
-                            <span class="block font-bold">Computer running slowly</span>
-                            <span class="mt-1 block text-sm text-muted">Performance assessment</span>
-                        </a>
-                        <a href="/services/printer-help-ivanhoe/" class="block rounded-xl px-4 py-3 transition-colors hover:bg-surface-muted"{% if page.url == '/services/printer-help-ivanhoe/' %} aria-current="page"{% endif %}>
-                            <span class="block font-bold">Printer won’t print</span>
-                            <span class="mt-1 block text-sm text-muted">Fixed-price troubleshooting</span>
-                        </a>
-                        <a href="/services/email-help-ivanhoe/" class="block rounded-xl px-4 py-3 transition-colors hover:bg-surface-muted"{% if page.url == '/services/email-help-ivanhoe/' %} aria-current="page"{% endif %}>
-                            <span class="block font-bold">Email stopped working</span>
-                            <span class="mt-1 block text-sm text-muted">Personal email troubleshooting</span>
-                        </a>
-                        <a href="/services/scam-security-help-ivanhoe/" class="block rounded-xl px-4 py-3 transition-colors hover:bg-surface-muted"{% if page.url == '/services/scam-security-help-ivanhoe/' %} aria-current="page"{% endif %}>
-                            <span class="block font-bold">Scam or account concern</span>
-                            <span class="mt-1 block text-sm text-muted">Calm onsite security help</span>
-                        </a>
-                        <a href="/services/new-computer-setup-data-transfer-ivanhoe/" class="block rounded-xl px-4 py-3 transition-colors hover:bg-surface-muted"{% if page.url == '/services/new-computer-setup-data-transfer-ivanhoe/' %} aria-current="page"{% endif %}>
-                            <span class="block font-bold">Setting up a new computer</span>
-                            <span class="mt-1 block text-sm text-muted">Windows setup &amp; data transfer</span>
-                        </a>
+                        {% endfor %}
                     </div>
                 </details>
 
@@ -184,12 +166,9 @@
                     </summary>
                     <div class="fixed left-4 right-4 top-[4.5rem] max-h-[calc(100vh-5.5rem)] overflow-y-auto rounded-2xl border border-line bg-surface p-3 shadow-2xl sm:left-auto sm:w-96">
                         <p class="px-4 pb-2 pt-3 text-xs font-bold uppercase tracking-[0.16em] text-accent-ink">What do you need help with?</p>
-                        <a href="/services/wifi-dropouts-ivanhoe/" class="block rounded-xl px-4 py-3 font-bold transition-colors hover:bg-surface-muted">Wi-Fi keeps dropping</a>
-                        <a href="/services/slow-computer-help-ivanhoe/" class="block rounded-xl px-4 py-3 font-bold transition-colors hover:bg-surface-muted">Computer running slowly</a>
-                        <a href="/services/printer-help-ivanhoe/" class="block rounded-xl px-4 py-3 font-bold transition-colors hover:bg-surface-muted">Printer won’t print</a>
-                        <a href="/services/email-help-ivanhoe/" class="block rounded-xl px-4 py-3 font-bold transition-colors hover:bg-surface-muted">Email stopped working</a>
-                        <a href="/services/scam-security-help-ivanhoe/" class="block rounded-xl px-4 py-3 font-bold transition-colors hover:bg-surface-muted">Scam or account concern</a>
-                        <a href="/services/new-computer-setup-data-transfer-ivanhoe/" class="block rounded-xl px-4 py-3 font-bold transition-colors hover:bg-surface-muted">Setting up a new computer</a>
+                        {% for problemService in problemServices %}
+                        <a href="{{ problemService.path }}" class="block rounded-xl px-4 py-3 font-bold transition-colors hover:bg-surface-muted"{% if page.url == problemService.path %} aria-current="page"{% endif %}>{{ problemService.navTitle }}</a>
+                        {% endfor %}
                         <div class="my-2 border-t border-line"></div>
                         <a href="/services/" class="flex min-h-11 items-center rounded-xl px-4 font-bold transition-colors hover:bg-surface-muted"{% if page.url == '/services/' %} aria-current="page"{% endif %}>Services &amp; pricing</a>
                         <a href="{{ howItWorksHref }}" class="flex min-h-11 items-center rounded-xl px-4 font-bold transition-colors hover:bg-surface-muted">How it works</a>
@@ -242,11 +221,9 @@
                 <nav aria-label="Problem help">
                     <h2 class="text-xs font-bold uppercase tracking-[0.18em] text-accent">Help with a problem</h2>
                     <ul class="mt-5 space-y-1 text-inverse-ink/70">
-                        <li><a href="/services/wifi-dropouts-ivanhoe/" class="inline-flex min-h-10 items-center transition hover:text-accent">Wi-Fi keeps dropping</a></li>
-                        <li><a href="/services/slow-computer-help-ivanhoe/" class="inline-flex min-h-10 items-center transition hover:text-accent">Computer running slowly</a></li>
-                        <li><a href="/services/printer-help-ivanhoe/" class="inline-flex min-h-10 items-center transition hover:text-accent">Printer won’t print</a></li>
-                        <li><a href="/services/email-help-ivanhoe/" class="inline-flex min-h-10 items-center transition hover:text-accent">Email stopped working</a></li>
-                        <li><a href="/services/scam-security-help-ivanhoe/" class="inline-flex min-h-10 items-center transition hover:text-accent">Scam or account concern</a></li>
+                        {% for problemService in problemServices %}
+                        <li><a href="{{ problemService.path }}" class="inline-flex min-h-10 items-center transition hover:text-accent">{{ problemService.navTitle }}</a></li>
+                        {% endfor %}
                         <li><a href="/services/" class="inline-flex min-h-10 items-center font-bold text-inverse-ink transition hover:text-accent">Something else</a></li>
                     </ul>
                 </nav>
@@ -255,7 +232,6 @@
                     <h2 class="text-xs font-bold uppercase tracking-[0.18em] text-accent">Services &amp; projects</h2>
                     <ul class="mt-5 space-y-1 text-inverse-ink/70">
                         <li><a href="/services/full-strip/" class="inline-flex min-h-10 items-center transition hover:text-accent">Mesh Wi-Fi</a></li>
-                        <li><a href="/services/bodyguard/" class="inline-flex min-h-10 items-center transition hover:text-accent">Smart-home security</a></li>
                         <li><a href="/services/power-pose/" class="inline-flex min-h-10 items-center transition hover:text-accent">Home-office setup</a></li>
                         <li><a href="/services/new-computer-setup-data-transfer-ivanhoe/" class="inline-flex min-h-10 items-center transition hover:text-accent">New computer setup &amp; transfer</a></li>
                         <li><a href="/services/quickie/" class="inline-flex min-h-10 items-center transition hover:text-accent">Everyday tech support</a></li>

@@ -8,8 +8,8 @@
     "headline": "Wi-Fi that reaches the rooms where you actually use it.",
     "promise": "We diagnose the weak spots, design the right Mesh Wi-Fi layout, install the hardware and leave you with a network you understand.",
     "cardDescription": "Diagnose weak spots and install enterprise-grade Mesh Wi-Fi for more reliable coverage throughout your home.",
-    "typicalInvestment": "$900–$1,800",
-    "investmentNote": "Typical total including hardware and installation. Final scope depends on your property and coverage needs.",
+    "typicalInvestment": "$900–$1,800 incl. GST",
+    "investmentNote": "Typical GST-inclusive total including hardware and installation. Final scope depends on your property and coverage needs.",
     "priceLine": "Fixed project quote + hardware at cost",
     "iconPath": "M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0",
     "problems": [
@@ -45,59 +45,16 @@
     "diagnosticLabel": "Start with the $190 Wi-Fi diagnosis"
   },
   {
-    "slug": "bodyguard",
-    "name": "The Bodyguard",
-    "category": "Smart home security",
-    "seoTitle": "Smart Home Security Installation Ivanhoe",
-    "seoDescription": "Smart camera, video doorbell and lock installation for Ivanhoe and Eaglemont homes, configured clearly with hardware sold at cost.",
-    "headline": "See what is happening at home without wrestling with the apps.",
-    "promise": "We help choose, install and configure smart cameras, doorbells and locks so the hardware and the app work together as one understandable system.",
-    "cardDescription": "Install and configure smart cameras, video doorbells and locks so your home security is easier to see and manage.",
-    "typicalInvestment": "$600–$2,500+",
-    "investmentNote": "Typical total depends on the number of devices, selected hardware and installation scope.",
-    "priceLine": "Fixed project quote + hardware at cost",
-    "iconPath": "M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z",
-    "problems": [
-      {"title": "Alerts become noise", "body": "Notifications fire all day, so the one event you care about gets buried among false alarms."},
-      {"title": "Devices live in separate apps", "body": "The doorbell, cameras and lock each have their own setup, account and confusing permission model."},
-      {"title": "Coverage fails at the edge", "body": "Outdoor and entry devices are only useful when the Wi-Fi and placement support a reliable connection."}
-    ],
-    "inclusions": [
-      "Review of entry points, visibility needs and existing devices",
-      "Hardware recommendations suited to the agreed scope",
-      "Installation and configuration of supported smart devices",
-      "App setup, account access and practical notification tuning",
-      "Connection of devices to your home network",
-      "Handover covering everyday viewing and control"
-    ],
-    "process": [
-      {"title": "Choose what matters", "body": "We clarify which entries or areas you need to monitor and how you want to receive alerts."},
-      {"title": "Install the right system", "body": "We place and configure the agreed devices, then connect them to your network and apps."},
-      {"title": "Take control", "body": "We walk through live view, alerts and access so you can operate the system without guesswork."}
-    ],
-    "assurances": [
-      {"title": "No hardware markup", "body": "Hardware is sold at cost rather than used as a hidden source of margin."},
-      {"title": "Scope before spend", "body": "The number and type of devices are agreed around what you actually need."},
-      {"title": "You keep access", "body": "The handover is designed around your accounts and your ability to manage the system."}
-    ],
-    "faqs": [
-      {"question": "Can you work with devices I already own?", "answer": "Often, yes. We will first check compatibility, condition and whether the existing devices suit the coverage and app experience you want."},
-      {"question": "Do you provide ongoing monitoring?", "answer": "This service covers smart-device selection, installation and configuration. It is not a staffed alarm-monitoring service."},
-      {"question": "Why can the price vary so much?", "answer": "A single doorbell is a different job from several cameras, locks and network improvements. Device count, placement and hardware choice determine the final scope."}
-    ],
-    "cta": "Book a security visit"
-  },
-  {
     "slug": "power-pose",
     "name": "The Power Pose",
     "category": "Home office setup",
     "seoTitle": "Home Office Technology Setup Ivanhoe",
-    "seoDescription": "A cleaner, better-connected Ivanhoe and Eaglemont home office with monitor mounting, cable management and video-call lighting as a $350 fixed-price project.",
+    "seoDescription": "A cleaner, better-connected Ivanhoe and Eaglemont home office with monitor mounting, cable management and video-call lighting as a $350 fixed-price project including GST.",
     "headline": "A home office that looks composed and works that way too.",
     "promise": "We straighten the cables, position the screens and improve the video-call setup so your workspace supports the work instead of interrupting it.",
     "cardDescription": "Turn a cluttered desk into a cleaner, better-connected workspace with cable management, monitor mounting and video-call lighting.",
-    "typicalInvestment": "$350",
-    "investmentNote": "Fixed project price for the standard home-office reset. Any required hardware is additional and discussed with you.",
+    "typicalInvestment": "$350 incl. GST",
+    "investmentNote": "GST-inclusive fixed project price for the standard home-office reset. Any required hardware is additional and discussed with you.",
     "priceLine": "Fixed project price",
     "iconPath": "M13 10V3L4 14h7v7l9-11h-7z",
     "problems": [
@@ -139,8 +96,8 @@
     "headline": "One annoying tech problem. One straightforward visit.",
     "promise": "Tell us about the one everyday technology problem getting in your way. We confirm whether this service fits or a dedicated assessment is the better starting point, then agree the scope and price before work begins.",
     "cardDescription": "Get practical help with one everyday home-technology problem that does not fit a dedicated assessment or setup.",
-    "typicalInvestment": "From $190",
-    "investmentNote": "The project scope and fixed price are agreed before work starts. Parts or follow-up work are quoted separately if needed.",
+    "typicalInvestment": "From $190 incl. GST",
+    "investmentNote": "The project scope and GST-inclusive fixed price are agreed before work starts. Parts or follow-up work are quoted separately if needed.",
     "priceLine": "Fixed project price",
     "iconPath": "M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065zM15 12a3 3 0 11-6 0 3 3 0 016 0z",
     "problems": [
