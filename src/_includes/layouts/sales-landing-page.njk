@@ -22,63 +22,134 @@ layout: layouts/base.njk
 {% endif %}
 {%- endmacro %}
 
+{% macro editorialVisual(visual, interactive) -%}
+<section class="bg-surface py-12 md:py-20" aria-labelledby="{{ visual.headingId or 'landing-visual-heading' }}"{% if interactive %} data-reveal{% endif %}>
+    <div class="container mx-auto grid max-w-6xl gap-8 px-6 lg:grid-cols-[1.35fr_0.65fr] lg:items-center">
+        <figure class="group overflow-hidden rounded-3xl shadow-xl">
+            <img src="{{ visual.image }}" alt="{{ visual.alt }}" width="{{ visual.width }}" height="{{ visual.height }}" loading="lazy" decoding="async" class="aspect-[40/21] w-full object-cover motion-safe:transition-transform motion-safe:duration-700 motion-safe:group-hover:scale-[1.02]">
+        </figure>
+        <div>
+            <p class="text-sm font-bold uppercase tracking-[0.18em] text-accent-ink">{{ visual.eyebrow }}</p>
+            <h2 id="{{ visual.headingId or 'landing-visual-heading' }}" class="mt-3 text-3xl font-extrabold tracking-tight md:text-4xl">{{ visual.heading }}</h2>
+            <p class="mt-5 leading-relaxed text-ink/70">{{ visual.description }}</p>
+        </div>
+    </div>
+</section>
+{%- endmacro %}
+
+{% set isGuidedService = landing.variant == 'guided-service' %}
+{% set offerDetailHref = '#symptoms' %}
+{% set offerDetailLabel = 'See what we check' %}
+{% if isGuidedService %}
+    {% set offerDetailHref = '#fit' %}
+    {% set offerDetailLabel = landing.offer.detailLabel or 'See if this fixed service fits' %}
+{% endif %}
+
 {% if landing.interactive %}<script>document.documentElement.classList.add('landing-reveal-ready')</script>{% endif %}
 
-<header id="offer" class="relative scroll-mt-20 overflow-hidden bg-ivanhoe-slate pt-28 pb-16 text-skin-bone md:pt-36 md:pb-24">
+<header id="offer" class="relative scroll-mt-20 overflow-hidden bg-inverse pt-28 pb-16 text-inverse-ink md:pt-36 md:pb-24">
     <div class="absolute inset-0 opacity-10" aria-hidden="true">
-        <div class="absolute -right-24 -top-24 h-96 w-96 rounded-full border-[64px] border-electric-peach"></div>
+        <div class="absolute -right-24 -top-24 h-96 w-96 rounded-full border-[64px] border-accent"></div>
         <div class="absolute -bottom-32 left-1/4 h-72 w-72 rounded-full border-[48px] border-white"></div>
     </div>
 
     <div class="container relative mx-auto grid items-center gap-10 px-6 lg:grid-cols-[1.15fr_0.85fr] lg:gap-14">
         <div>
-            <p class="text-sm font-bold uppercase tracking-[0.18em] text-electric-peach">{{ landing.eyebrow }}</p>
+            <p class="text-sm font-bold uppercase tracking-[0.18em] text-accent">{{ landing.eyebrow }}</p>
             <h1 class="mt-4 max-w-4xl text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl lg:text-6xl">{{ landing.headline }}</h1>
-            <p class="mt-6 max-w-2xl text-lg leading-relaxed text-skin-bone/80 md:text-xl">{{ landing.promise }}</p>
+            <p class="mt-6 max-w-2xl text-lg leading-relaxed text-inverse-ink/80 md:text-xl">{{ landing.promise }}</p>
 
             <div class="mt-9 flex flex-col gap-4 sm:flex-row">
-                <a href="{{ landing.cta.primaryHref }}" class="inline-flex min-h-14 items-center justify-center rounded-full bg-electric-peach px-8 py-4 text-base font-bold text-ivanhoe-slate shadow-xl shadow-black/20 transition hover:-translate-y-0.5 hover:bg-[#FF7A50]">
+                {% if isGuidedService %}
+                <a href="{{ site.phone.href }}" aria-label="{{ landing.cta.phoneLabel }}" class="inline-flex min-h-14 items-center justify-center gap-2 whitespace-nowrap rounded-full bg-accent px-4 py-4 text-sm font-bold text-ivanhoe-slate shadow-xl shadow-black/20 transition hover:-translate-y-0.5 hover:bg-[#FF7A50] sm:gap-3 sm:px-8 sm:text-base" data-hero-phone-primary>
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                    {{ landing.cta.phoneCtaLabel or site.phone.display }}
+                </a>
+                <a href="{{ landing.cta.primaryHref }}" class="inline-flex min-h-14 items-center justify-center rounded-full border border-skin-bone/35 px-8 py-4 text-base font-bold text-inverse-ink transition hover:border-accent hover:text-accent" data-hero-form-secondary>
                     {{ landing.cta.primaryLabel }}
                 </a>
-                <a href="{{ site.phone.href }}" aria-label="{{ landing.cta.phoneLabel }}" class="inline-flex min-h-14 items-center justify-center gap-3 rounded-full border border-skin-bone/35 px-8 py-4 text-base font-bold text-skin-bone transition hover:border-electric-peach hover:text-electric-peach">
+                {% else %}
+                <a href="{{ landing.cta.primaryHref }}" class="inline-flex min-h-14 items-center justify-center rounded-full bg-accent px-8 py-4 text-base font-bold text-ivanhoe-slate shadow-xl shadow-black/20 transition hover:-translate-y-0.5 hover:bg-[#FF7A50]">
+                    {{ landing.cta.primaryLabel }}
+                </a>
+                <a href="{{ site.phone.href }}" aria-label="{{ landing.cta.phoneLabel }}" class="inline-flex min-h-14 items-center justify-center gap-3 rounded-full border border-skin-bone/35 px-8 py-4 text-base font-bold text-inverse-ink transition hover:border-accent hover:text-accent">
                     <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
                     {{ site.phone.display }}
                 </a>
+                {% endif %}
             </div>
         </div>
 
         <aside class="rounded-3xl border border-white/15 bg-white/10 p-6 shadow-2xl backdrop-blur-sm md:p-8" aria-label="Starting offer">
-            <p class="text-sm font-bold uppercase tracking-[0.18em] text-skin-bone/60">{{ landing.offer.label }}</p>
-            <p class="mt-3 text-4xl font-extrabold tracking-tight text-electric-peach">{{ landing.offer.price }}</p>
-            <p class="mt-5 border-t border-white/15 pt-5 text-sm leading-relaxed text-skin-bone/75">{{ landing.offer.note }}</p>
-            <a href="#symptoms" class="mt-6 inline-flex min-h-11 items-center font-bold text-skin-bone transition hover:text-electric-peach hover:underline">
-                See what we check <span class="ml-2" aria-hidden="true">↓</span>
+            <p class="text-sm font-bold uppercase tracking-[0.18em] text-inverse-ink/60">{{ landing.offer.label }}</p>
+            <p class="mt-3 text-4xl font-extrabold tracking-tight text-accent">{{ landing.offer.price }}</p>
+            <p class="mt-5 border-t border-white/15 pt-5 text-sm leading-relaxed text-inverse-ink/75">{{ landing.offer.note }}</p>
+            <a href="{{ offerDetailHref }}" class="mt-6 inline-flex min-h-11 items-center font-bold text-inverse-ink transition hover:text-accent hover:underline">
+                {{ offerDetailLabel }} <span class="ml-2" aria-hidden="true">↓</span>
             </a>
         </aside>
     </div>
 </header>
 
 {% if landing.urgentCallout %}
-<aside class="border-y border-electric-peach/30 bg-electric-peach/10 py-7" aria-label="Urgent financial guidance"{% if landing.interactive %} data-reveal{% endif %}>
+<aside class="border-y border-accent/30 bg-accent/10 py-7" aria-label="Urgent financial guidance"{% if landing.interactive %} data-reveal{% endif %}>
     <div class="container mx-auto flex max-w-5xl flex-col gap-2 px-6 md:flex-row md:items-start md:gap-8">
-        <p class="shrink-0 font-extrabold text-ivanhoe-slate">{{ landing.urgentCallout.label }}</p>
-        <p class="leading-relaxed text-ivanhoe-slate/75">{{ landing.urgentCallout.message }}</p>
+        <p class="shrink-0 font-extrabold text-ink">{{ landing.urgentCallout.label }}</p>
+        <p class="leading-relaxed text-ink/75">{{ landing.urgentCallout.message }}</p>
     </div>
 </aside>
 {% endif %}
 
+{% if isGuidedService %}
+<section id="fit" class="scroll-mt-20 py-16 md:py-24" aria-labelledby="fit-heading" data-guided-fit{% if landing.interactive %} data-reveal{% endif %}>
+    <div class="container mx-auto px-6">
+        <div class="mx-auto max-w-3xl text-center">
+            <p class="text-sm font-bold uppercase tracking-[0.18em] text-accent-ink">A clear starting point</p>
+            <h2 id="fit-heading" class="mt-3 text-3xl font-extrabold tracking-tight md:text-4xl">{{ landing.fit.heading }}</h2>
+            <p class="mt-5 text-lg leading-relaxed text-ink/70">{{ landing.fit.introduction }}</p>
+        </div>
+        <div class="mx-auto mt-12 grid max-w-6xl gap-6 lg:grid-cols-2">
+            <article class="rounded-3xl border border-accent/35 bg-accent/10 p-7 md:p-9" data-fit-good>
+                <p class="text-sm font-bold uppercase tracking-[0.18em] text-accent-ink">{{ landing.fit.standardLabel }}</p>
+                <ul class="mt-6 space-y-4">
+                    {% for item in landing.fit.standard %}
+                    <li class="flex gap-3 leading-relaxed text-ink/80">
+                        <svg class="mt-0.5 h-5 w-5 shrink-0 text-accent-ink" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        <span>{{ item }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </article>
+            <article class="rounded-3xl border border-line bg-surface p-7 md:p-9" data-fit-not>
+                <p class="text-sm font-bold uppercase tracking-[0.18em] text-muted">{{ landing.fit.separateLabel }}</p>
+                <ul class="mt-6 space-y-4">
+                    {% for item in landing.fit.separate %}
+                    <li class="flex gap-3 leading-relaxed text-ink/75">
+                        <span class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-line text-xs font-bold text-muted" aria-hidden="true">→</span>
+                        <span>{{ item }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </article>
+        </div>
+    </div>
+</section>
+{% if landing.visual %}
+{{ editorialVisual(landing.visual, landing.interactive) }}
+{% endif %}
+{% else %}
 <section id="symptoms" class="scroll-mt-20 py-16 md:py-24" aria-labelledby="symptoms-heading"{% if landing.interactive %} data-reveal{% endif %}>
     <div class="container mx-auto px-6">
         <div class="mx-auto max-w-3xl text-center">
-            <p class="text-sm font-bold uppercase tracking-[0.18em] text-electric-peach-ink">The symptoms</p>
+            <p class="text-sm font-bold uppercase tracking-[0.18em] text-accent-ink">The symptoms</p>
             <h2 id="symptoms-heading" class="mt-3 text-3xl font-extrabold tracking-tight md:text-4xl">Does this sound familiar?</h2>
         </div>
         <div class="mx-auto mt-12 grid max-w-6xl gap-6 md:grid-cols-3">
             {% for symptom in landing.symptoms %}
-            <article class="rounded-2xl border border-ivanhoe-slate/10 bg-white p-6 shadow-sm md:p-8{% if landing.interactive %} landing-card-interactive{% endif %}">
-                <span class="text-sm font-extrabold text-electric-peach-ink" aria-hidden="true">0{{ loop.index }}</span>
+            <article class="rounded-2xl border border-line bg-surface p-6 shadow-sm md:p-8{% if landing.interactive %} landing-card-interactive{% endif %}">
+                <span class="text-sm font-extrabold text-accent-ink" aria-hidden="true">0{{ loop.index }}</span>
                 <h3 class="mt-4 text-xl font-bold">{{ symptom.title }}</h3>
-                <p class="mt-3 leading-relaxed text-ivanhoe-slate/70">{{ symptom.description }}</p>
+                <p class="mt-3 leading-relaxed text-ink/70">{{ symptom.description }}</p>
             </article>
             {% endfor %}
         </div>
@@ -86,52 +157,44 @@ layout: layouts/base.njk
 </section>
 
 {% if landing.visual %}
-<section class="bg-white py-12 md:py-20" aria-labelledby="landing-visual-heading"{% if landing.interactive %} data-reveal{% endif %}>
-    <div class="container mx-auto grid max-w-6xl gap-8 px-6 lg:grid-cols-[1.35fr_0.65fr] lg:items-center">
-        <img src="{{ landing.visual.image }}" alt="{{ landing.visual.alt }}" width="{{ landing.visual.width }}" height="{{ landing.visual.height }}" class="aspect-[40/21] w-full rounded-3xl object-cover shadow-xl">
-        <div>
-            <p class="text-sm font-bold uppercase tracking-[0.18em] text-electric-peach-ink">{{ landing.visual.eyebrow }}</p>
-            <h2 id="landing-visual-heading" class="mt-3 text-3xl font-extrabold tracking-tight md:text-4xl">{{ landing.visual.heading }}</h2>
-            <p class="mt-5 leading-relaxed text-ivanhoe-slate/70">{{ landing.visual.description }}</p>
-        </div>
-    </div>
-</section>
+{{ editorialVisual(landing.visual, landing.interactive) }}
 {% endif %}
 
-<section id="diagnosis" class="scroll-mt-20 bg-white py-16 md:py-24" aria-labelledby="diagnosis-heading"{% if landing.interactive %} data-reveal{% endif %}>
+<section id="diagnosis" class="scroll-mt-20 bg-surface py-16 md:py-24" aria-labelledby="diagnosis-heading"{% if landing.interactive %} data-reveal{% endif %}>
     <div class="container mx-auto grid gap-12 px-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
         <div class="lg:sticky lg:top-28">
-            <p class="text-sm font-bold uppercase tracking-[0.18em] text-electric-peach-ink">Diagnose before buying</p>
+            <p class="text-sm font-bold uppercase tracking-[0.18em] text-accent-ink">Diagnose before buying</p>
             <h2 id="diagnosis-heading" class="mt-3 text-3xl font-extrabold tracking-tight md:text-4xl">{{ landing.diagnosis.heading }}</h2>
-            <p class="mt-5 text-lg leading-relaxed text-ivanhoe-slate/70">{{ landing.diagnosis.summary }}</p>
+            <p class="mt-5 text-lg leading-relaxed text-ink/70">{{ landing.diagnosis.summary }}</p>
         </div>
         <div class="grid gap-4 sm:grid-cols-2">
             {% for check in landing.diagnosis.checks %}
-            <article class="rounded-2xl border border-transparent bg-skin-bone p-6 md:p-8{% if landing.interactive %} landing-card-interactive{% endif %}">
-                <span class="flex h-11 w-11 items-center justify-center rounded-full bg-electric-peach/20 text-electric-peach-ink" aria-hidden="true">
+            <article class="rounded-2xl border border-transparent bg-canvas p-6 md:p-8{% if landing.interactive %} landing-card-interactive{% endif %}">
+                <span class="flex h-11 w-11 items-center justify-center rounded-full bg-accent/20 text-accent-ink" aria-hidden="true">
                     {{ diagnosisIcon(check.icon) }}
                 </span>
                 <h3 class="mt-5 text-xl font-bold">{{ check.title }}</h3>
-                <p class="mt-3 leading-relaxed text-ivanhoe-slate/70">{{ check.description }}</p>
+                <p class="mt-3 leading-relaxed text-ink/70">{{ check.description }}</p>
             </article>
             {% endfor %}
         </div>
     </div>
 </section>
+{% endif %}
 
 <section id="included" class="scroll-mt-20 py-16 md:py-24" aria-labelledby="included-heading"{% if landing.interactive %} data-reveal{% endif %}>
     <div class="container mx-auto px-6">
         <div class="mx-auto max-w-3xl text-center">
-            <p class="text-sm font-bold uppercase tracking-[0.18em] text-electric-peach-ink">What is included</p>
-            <h2 id="included-heading" class="mt-3 text-3xl font-extrabold tracking-tight md:text-4xl">Clear scope. No mystery box.</h2>
+            <p class="text-sm font-bold uppercase tracking-[0.18em] text-accent-ink">What is included</p>
+            <h2 id="included-heading" class="mt-3 text-3xl font-extrabold tracking-tight md:text-4xl">{{ landing.inclusionsHeading or 'Clear scope. No mystery box.' }}</h2>
         </div>
         <div class="mx-auto mt-12 grid max-w-6xl gap-5 md:grid-cols-2">
             {% for inclusion in landing.inclusions %}
-            <article class="flex gap-4 rounded-2xl border border-ivanhoe-slate/10 bg-white p-6 shadow-sm md:p-8{% if landing.interactive %} landing-card-interactive{% endif %}">
-                <svg class="mt-1 h-6 w-6 shrink-0 text-electric-peach-ink" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            <article class="flex gap-4 rounded-2xl border border-line bg-surface p-6 shadow-sm md:p-8{% if landing.interactive %} landing-card-interactive{% endif %}">
+                <svg class="mt-1 h-6 w-6 shrink-0 text-accent-ink" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                 <div>
                     <h3 class="text-xl font-bold">{{ inclusion.title }}</h3>
-                    <p class="mt-3 leading-relaxed text-ivanhoe-slate/70">{{ inclusion.description }}</p>
+                    <p class="mt-3 leading-relaxed text-ink/70">{{ inclusion.description }}</p>
                 </div>
             </article>
             {% endfor %}
@@ -139,36 +202,49 @@ layout: layouts/base.njk
     </div>
 </section>
 
-<section id="process" class="scroll-mt-20 bg-ivanhoe-slate py-16 text-skin-bone md:py-24" aria-labelledby="process-heading"{% if landing.interactive %} data-reveal{% endif %}>
+<section id="process" class="scroll-mt-20 bg-inverse py-16 text-inverse-ink md:py-24" aria-labelledby="process-heading"{% if landing.interactive %} data-reveal{% endif %}>
     <div class="container mx-auto px-6">
         <div class="mx-auto max-w-3xl text-center">
-            <p class="text-sm font-bold uppercase tracking-[0.18em] text-electric-peach">How it works</p>
-            <h2 id="process-heading" class="mt-3 text-3xl font-extrabold tracking-tight md:text-4xl">From frustrating to understood.</h2>
+            <p class="text-sm font-bold uppercase tracking-[0.18em] text-accent">How it works</p>
+            <h2 id="process-heading" class="mt-3 text-3xl font-extrabold tracking-tight md:text-4xl">{{ landing.processHeading or 'From frustrating to understood.' }}</h2>
         </div>
         <ol class="mx-auto mt-14 grid max-w-6xl gap-8 md:grid-cols-3">
             {% for step in landing.process %}
             <li class="relative rounded-2xl border border-white/15 bg-white/5 p-6 pt-9 md:p-8 md:pt-10">
-                <span class="absolute -top-5 left-6 flex h-11 min-w-11 items-center justify-center rounded-full bg-electric-peach px-3 text-sm font-extrabold text-ivanhoe-slate">{{ loop.index }}</span>
-                <h3 class="text-xl font-bold text-electric-peach">{{ step.title }}</h3>
-                <p class="mt-3 leading-relaxed text-skin-bone/75">{{ step.description }}</p>
+                <span class="absolute -top-5 left-6 flex h-11 min-w-11 items-center justify-center rounded-full bg-accent px-3 text-sm font-extrabold text-ivanhoe-slate">{{ loop.index }}</span>
+                <h3 class="text-xl font-bold text-accent">{{ step.title }}</h3>
+                <p class="mt-3 leading-relaxed text-inverse-ink/75">{{ step.description }}</p>
             </li>
             {% endfor %}
         </ol>
     </div>
 </section>
 
+{% if landing.safetyNote %}
+<aside id="safety" class="scroll-mt-20 border-y border-accent/30 bg-accent/10 py-10 md:py-12" aria-labelledby="safety-heading"{% if landing.interactive %} data-reveal{% endif %}>
+    <div class="container mx-auto grid max-w-5xl gap-4 px-6 md:grid-cols-[0.45fr_1.55fr] md:gap-10">
+        <div>
+            <p class="text-sm font-bold uppercase tracking-[0.18em] text-accent-ink">{{ landing.safetyNote.label }}</p>
+            <h2 id="safety-heading" class="mt-3 text-2xl font-extrabold tracking-tight md:text-3xl">{{ landing.safetyNote.heading }}</h2>
+        </div>
+        <p class="leading-relaxed text-ink/75 md:text-lg">{{ landing.safetyNote.message }}</p>
+    </div>
+</aside>
+{% endif %}
+
+{% if not isGuidedService %}
 <section id="proof" class="scroll-mt-20 py-16 md:py-24" aria-labelledby="proof-heading"{% if landing.interactive %} data-reveal{% endif %}>
     <div class="container mx-auto px-6">
         <div class="grid gap-10 lg:grid-cols-[0.65fr_1.35fr] lg:items-start">
             <div>
-                <p class="text-sm font-bold uppercase tracking-[0.18em] text-electric-peach-ink">Why Naked Tech</p>
+                <p class="text-sm font-bold uppercase tracking-[0.18em] text-accent-ink">Why Naked Tech</p>
                 <h2 id="proof-heading" class="mt-3 text-3xl font-extrabold tracking-tight md:text-4xl">Trust should be visible.</h2>
             </div>
             <div class="grid gap-5 md:grid-cols-3">
                 {% for proof in landing.proofPoints %}
-                <article class="rounded-2xl border border-ivanhoe-slate/10 bg-white p-6 shadow-sm{% if landing.interactive %} landing-card-interactive{% endif %}">
-                    <h3 class="text-lg font-bold text-ivanhoe-slate">{{ proof.title }}</h3>
-                    <p class="mt-3 text-sm leading-relaxed text-ivanhoe-slate/70">{{ proof.description }}</p>
+                <article class="rounded-2xl border border-line bg-surface p-6 shadow-sm{% if landing.interactive %} landing-card-interactive{% endif %}">
+                    <h3 class="text-lg font-bold text-ink">{{ proof.title }}</h3>
+                    <p class="mt-3 text-sm leading-relaxed text-ink/70">{{ proof.description }}</p>
                 </article>
                 {% endfor %}
             </div>
@@ -176,25 +252,25 @@ layout: layouts/base.njk
     </div>
 </section>
 
-<section id="pricing" class="scroll-mt-20 bg-white py-16 md:py-24" aria-labelledby="pricing-heading"{% if landing.interactive %} data-reveal{% endif %}>
+<section id="pricing" class="scroll-mt-20 bg-surface py-16 md:py-24" aria-labelledby="pricing-heading"{% if landing.interactive %} data-reveal{% endif %}>
     <div class="container mx-auto px-6">
         <div class="mx-auto grid max-w-6xl overflow-hidden rounded-3xl shadow-2xl lg:grid-cols-[0.9fr_1.1fr]">
-            <div class="bg-electric-peach p-7 text-ivanhoe-slate md:p-10 lg:p-12">
+            <div class="bg-accent p-7 text-ivanhoe-slate md:p-10 lg:p-12">
                 <p class="text-sm font-bold uppercase tracking-[0.18em]">{{ landing.offer.label }}</p>
                 <h2 id="pricing-heading" class="mt-3 text-3xl font-extrabold tracking-tight md:text-4xl">{{ landing.offer.price }}</h2>
                 <p class="mt-6 leading-relaxed">{{ landing.offer.note }}</p>
                 <div class="mt-8{% if landing.stackedPricingCtas %} grid gap-3{% else %} flex flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row{% endif %}">
-                    <a href="{{ landing.cta.primaryHref }}" class="inline-flex min-h-14 items-center justify-center rounded-full bg-ivanhoe-slate px-8 py-4 text-base font-bold text-white transition hover:-translate-y-0.5 hover:bg-black{% if landing.stackedPricingCtas %} w-full whitespace-nowrap{% endif %}">{{ landing.cta.primaryLabel }}</a>
-                    <a href="{{ site.phone.href }}" aria-label="{{ landing.cta.phoneLabel }}" class="inline-flex min-h-14 items-center justify-center rounded-full border-2 border-ivanhoe-slate px-8 py-4 text-base font-bold text-ivanhoe-slate transition hover:bg-ivanhoe-slate hover:text-white{% if landing.stackedPricingCtas %} w-full whitespace-nowrap{% endif %}">{{ site.phone.display }}</a>
+                    <a href="{{ landing.cta.primaryHref }}" class="inline-flex min-h-14 items-center justify-center rounded-full bg-inverse px-8 py-4 text-base font-bold text-white transition hover:-translate-y-0.5 hover:bg-black{% if landing.stackedPricingCtas %} w-full whitespace-nowrap{% endif %}">{{ landing.cta.primaryLabel }}</a>
+                    <a href="{{ site.phone.href }}" aria-label="{{ landing.cta.phoneLabel }}" class="inline-flex min-h-14 items-center justify-center rounded-full border-2 border-ivanhoe-slate px-8 py-4 text-base font-bold text-ivanhoe-slate transition hover:bg-inverse hover:text-white{% if landing.stackedPricingCtas %} w-full whitespace-nowrap{% endif %}">{{ site.phone.display }}</a>
                 </div>
             </div>
-            <div class="bg-ivanhoe-slate p-7 text-skin-bone md:p-10 lg:p-12">
-                <p class="text-sm font-bold uppercase tracking-[0.18em] text-electric-peach">Included in the visit</p>
+            <div class="bg-inverse p-7 text-inverse-ink md:p-10 lg:p-12">
+                <p class="text-sm font-bold uppercase tracking-[0.18em] text-accent">Included in the visit</p>
                 <ul class="mt-7 space-y-5">
                     {% for inclusion in landing.inclusions %}
                     <li class="flex gap-3">
-                        <svg class="mt-0.5 h-5 w-5 shrink-0 text-electric-peach" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                        <span class="leading-relaxed text-skin-bone/85"><strong class="text-skin-bone">{{ inclusion.title }}.</strong> {{ inclusion.description }}</span>
+                        <svg class="mt-0.5 h-5 w-5 shrink-0 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        <span class="leading-relaxed text-inverse-ink/85"><strong class="text-inverse-ink">{{ inclusion.title }}.</strong> {{ inclusion.description }}</span>
                     </li>
                     {% endfor %}
                 </ul>
@@ -202,20 +278,21 @@ layout: layouts/base.njk
         </div>
     </div>
 </section>
+{% endif %}
 
 <section id="faq" class="scroll-mt-20 py-16 md:py-24" aria-labelledby="faq-heading"{% if landing.interactive %} data-reveal{% endif %}>
     <div class="container mx-auto px-6">
         <div class="mx-auto max-w-3xl">
-            <p class="text-sm font-bold uppercase tracking-[0.18em] text-electric-peach-ink">Before you book</p>
-            <h2 id="faq-heading" class="mt-3 text-3xl font-extrabold tracking-tight md:text-4xl">Frequently asked, fully answered.</h2>
-            <div class="mt-10 divide-y divide-ivanhoe-slate/10 border-y border-ivanhoe-slate/10">
+            <p class="text-sm font-bold uppercase tracking-[0.18em] text-accent-ink">{{ landing.faqKicker or 'Before you book' }}</p>
+            <h2 id="faq-heading" class="mt-3 text-3xl font-extrabold tracking-tight md:text-4xl">{{ landing.faqHeading or 'Frequently asked, fully answered.' }}</h2>
+            <div class="mt-10 divide-y divide-ivanhoe-slate/10 border-y border-line">
                 {% for faq in landing.faqs %}
                 <details class="group py-2">
                     <summary class="flex min-h-14 cursor-pointer list-none items-center justify-between gap-6 py-4 text-lg font-bold">
                         <span>{{ faq.question }}</span>
-                        <span class="text-2xl font-light text-electric-peach-ink transition group-open:rotate-45" aria-hidden="true">+</span>
+                        <span class="text-2xl font-light text-accent-ink transition group-open:rotate-45" aria-hidden="true">+</span>
                     </summary>
-                    <p class="max-w-2xl pb-6 pr-12 leading-relaxed text-ivanhoe-slate/70">{{ faq.answer }}</p>
+                    <p class="max-w-2xl pb-6 pr-12 leading-relaxed text-ink/70">{{ faq.answer }}</p>
                 </details>
                 {% endfor %}
             </div>
@@ -223,18 +300,21 @@ layout: layouts/base.njk
     </div>
 </section>
 
-<aside class="bg-ivanhoe-slate px-6 py-12 text-center text-skin-bone" aria-label="Telephone enquiry">
-    <p class="text-sm font-bold uppercase tracking-[0.18em] text-electric-peach">Prefer to talk it through?</p>
-    <p class="mx-auto mt-3 max-w-2xl text-lg text-skin-bone/75">Call Naked Tech directly and explain what is happening. No hold music, no ticket number.</p>
-    <a href="{{ site.phone.href }}" aria-label="{{ landing.cta.phoneLabel }}" class="mt-6 inline-flex min-h-14 items-center justify-center rounded-full bg-electric-peach px-8 py-4 text-xl font-extrabold text-ivanhoe-slate transition hover:-translate-y-0.5 hover:bg-[#FF7A50]">{{ site.phone.display }}</a>
+{% if not isGuidedService %}
+<aside class="bg-inverse px-6 py-12 text-center text-inverse-ink" aria-label="Telephone enquiry">
+    <p class="text-sm font-bold uppercase tracking-[0.18em] text-accent">{{ landing.contactCallout.kicker or 'Prefer to talk it through?' }}</p>
+    <p class="mx-auto mt-3 max-w-2xl text-lg text-inverse-ink/75">{{ landing.contactCallout.message or 'Call Naked Tech directly and explain what is happening. No hold music, no ticket number.' }}</p>
+    <a href="{{ site.phone.href }}" aria-label="{{ landing.cta.phoneLabel }}" class="mt-6 inline-flex min-h-14 items-center justify-center rounded-full bg-accent px-8 py-4 text-xl font-extrabold text-ivanhoe-slate transition hover:-translate-y-0.5 hover:bg-[#FF7A50]">{{ site.phone.display }}</a>
 </aside>
+{% endif %}
 
 {{ contactForm({
     id: 'contact',
-    kicker: 'Prefer to write?',
+    kicker: landing.form.kicker or 'Prefer to write?',
     heading: landing.form.heading,
     introduction: landing.form.introduction,
     painPoint: landing.form.contextKey,
+    formSlug: landing.form.formSlug,
     iframeTitle: 'Contact Naked Tech about ' ~ landing.headline
 }) }}
 

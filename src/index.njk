@@ -1,72 +1,159 @@
 ---
 layout: layouts/base.njk
-title: We turn things on
-description: Ivanhoe and Eaglemont home technology support for Mesh Wi-Fi, smart security, home offices and everyday tech problems.
+title: Home Technology Help Ivanhoe & Eaglemont
+description: Straightforward in-home technology help for Ivanhoe and Eaglemont, including Wi-Fi, slow computers, printers, personal email, scam concerns and Windows setup.
 ---
 
-<!-- Hero Section -->
-<header class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
-    <div class="container mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
-        
-        <!-- Text Content -->
-        <div class="z-10 order-2 lg:order-1 text-center lg:text-left">
-            <h1 class="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight leading-tight mb-6">
-                We turn <br>
-                <span class="text-electric-peach-ink">things on.</span>
+<header class="relative overflow-hidden pb-16 pt-28 md:pb-20 md:pt-32 lg:pb-24 lg:pt-40">
+    <div class="container mx-auto grid items-center gap-12 px-6 lg:grid-cols-2 lg:gap-16">
+        <div class="z-10 order-2 text-center lg:order-1 lg:text-left">
+            <p class="mb-5 text-sm font-bold uppercase tracking-[0.18em] text-accent-ink">Home tech support · Ivanhoe &amp; Eaglemont</p>
+            <h1 class="text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl lg:text-7xl">
+                We turn <span class="text-accent-ink lg:block">things on.</span>
             </h1>
-            <p class="text-lg lg:text-xl text-ivanhoe-slate/80 mb-8 max-w-md mx-auto lg:mx-0 leading-relaxed">
-                Ivanhoe’s most attractive IT support. Full transparency. No hidden fees. Just pure performance.
+            <p class="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-ink/75 lg:mx-0 lg:text-xl">
+                Straightforward in-home help for weak Wi-Fi, slow computers, printer problems, personal email, scam concerns, new-computer moves and the everyday technology getting in your way.
             </p>
-            <div class="flex justify-center lg:justify-start">
-                <a href="/services/" class="inline-flex min-h-14 items-center justify-center rounded-full bg-ivanhoe-slate px-10 py-4 text-lg font-bold text-skin-bone shadow-xl transition-all hover:-translate-y-1 hover:bg-gray-800">
-                EXPLORE SERVICES</a>
+            <p class="mx-auto mt-4 max-w-xl font-semibold text-ink lg:mx-0">Clear scope. Fixed prices. No mysterious jargon.</p>
+            <div class="mt-8 flex flex-col justify-center gap-3 sm:flex-row lg:justify-start">
+                <a href="#find-help" class="inline-flex min-h-14 items-center justify-center rounded-full bg-inverse px-8 py-4 text-base font-bold text-inverse-ink shadow-xl transition hover:-translate-y-0.5 hover:bg-black">
+                    Find the right help
+                </a>
+                <a href="{{ site.phone.href }}" class="inline-flex min-h-14 items-center justify-center gap-2 rounded-full border-2 border-ivanhoe-slate px-8 py-4 text-base font-bold text-ink transition hover:bg-inverse hover:text-white" aria-label="Call Naked Tech on {{ site.phone.display }}">
+                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                    {{ site.phone.display }}
+                </a>
             </div>
         </div>
 
-        <!-- Image/Visual -->
-        <div class="order-1 lg:order-2 relative group">
-            <div class="absolute -inset-1 bg-electric-peach rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
+        <div class="group relative order-1 lg:order-2">
+            <div class="absolute -inset-1 rounded-3xl bg-accent opacity-20 blur transition duration-700 group-hover:opacity-35" aria-hidden="true"></div>
             <img
                 src="/img/nakedtech_hero_technician.webp"
-                alt="Naked Tech Technician in a sun-drenched living room"
+                alt="Naked Tech technician helping with a laptop in a bright home"
                 width="1408"
                 height="768"
-                class="relative rounded-2xl shadow-2xl object-cover h-64 w-full lg:h-[500px]"
+                class="relative h-64 w-full rounded-3xl object-cover shadow-2xl sm:h-80 lg:h-[500px]"
             >
         </div>
     </div>
 </header>
 
-<!-- The Hook Section -->
-<section class="py-24 bg-white/50">
-    <div class="container mx-auto px-6 max-w-3xl text-center">
-        <h2 class="text-3xl md:text-4xl font-bold mb-6">Size Matters.</h2>
-        <p class="text-xl text-ivanhoe-slate/80 leading-relaxed">
-            Tired of weak signals in the bedroom? Does your connection drop out when things are getting good? 
-            <span class="font-semibold text-ivanhoe-slate">Naked Tech</span> is here to satisfy your need for speed. 
-            We service Ivanhoe and Eaglemont.
-        </p>
+<section id="find-help" class="scroll-mt-20 bg-surface py-16 md:py-24" aria-labelledby="find-help-heading">
+    <div class="container mx-auto px-6">
+        <div class="mx-auto max-w-3xl text-center">
+            <p class="text-sm font-bold uppercase tracking-[0.18em] text-accent-ink">Start with the problem</p>
+            <h2 id="find-help-heading" class="mt-3 text-3xl font-extrabold tracking-tight md:text-5xl">What’s giving you grief?</h2>
+            <p class="mt-5 text-lg leading-relaxed text-ink/70">Choose the closest match. Each assessment has a clear purpose, published scope and practical next step.</p>
+        </div>
+
+        <div class="mx-auto mt-12 grid max-w-6xl gap-5 md:grid-cols-2 lg:grid-cols-6">
+            <a href="/services/wifi-dropouts-ivanhoe/" class="group flex h-full flex-col rounded-3xl border border-line bg-canvas p-7 shadow-sm transition hover:-translate-y-1 hover:border-accent/60 hover:shadow-xl lg:col-span-2">
+                <span class="flex h-12 w-12 items-center justify-center rounded-full bg-accent/20 text-accent-ink" aria-hidden="true">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"></path></svg>
+                </span>
+                <p class="mt-6 text-xs font-bold uppercase tracking-[0.16em] text-accent-ink">$190 fixed diagnosis</p>
+                <h3 class="mt-2 text-2xl font-bold">Wi-Fi keeps dropping</h3>
+                <p class="mt-3 flex-grow leading-relaxed text-ink/65">Separate NBN, router, placement, interference and coverage problems before buying more equipment.</p>
+                <span class="mt-6 inline-flex items-center font-bold text-ink group-hover:text-accent-ink">Diagnose the Wi-Fi <span class="ml-2" aria-hidden="true">→</span></span>
+            </a>
+
+            <a href="/services/slow-computer-help-ivanhoe/" class="group flex h-full flex-col rounded-3xl border border-line bg-canvas p-7 shadow-sm transition hover:-translate-y-1 hover:border-accent/60 hover:shadow-xl lg:col-span-2">
+                <span class="flex h-12 w-12 items-center justify-center rounded-full bg-accent/20 text-accent-ink" aria-hidden="true">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                </span>
+                <p class="mt-6 text-xs font-bold uppercase tracking-[0.16em] text-accent-ink">$190 fixed assessment</p>
+                <h3 class="mt-2 text-2xl font-bold">Computer running slowly</h3>
+                <p class="mt-3 flex-grow leading-relaxed text-ink/65">Understand what is slowing it down and whether the sensible answer is to fix, upgrade or replace it.</p>
+                <span class="mt-6 inline-flex items-center font-bold text-ink group-hover:text-accent-ink">Assess the computer <span class="ml-2" aria-hidden="true">→</span></span>
+            </a>
+
+            <a href="/services/scam-security-help-ivanhoe/" class="group flex h-full flex-col rounded-3xl border border-line bg-canvas p-7 shadow-sm transition hover:-translate-y-1 hover:border-accent/60 hover:shadow-xl lg:col-span-2">
+                <span class="flex h-12 w-12 items-center justify-center rounded-full bg-accent/20 text-accent-ink" aria-hidden="true">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2l7 4v5c0 5-3.5 9.5-7 11-3.5-1.5-7-6-7-11V6l7-4zm-3 10l2 2 4-4"></path></svg>
+                </span>
+                <p class="mt-6 text-xs font-bold uppercase tracking-[0.16em] text-accent-ink">$250 fixed assessment</p>
+                <h3 class="mt-2 text-2xl font-bold">Scam or account concern</h3>
+                <p class="mt-3 flex-grow leading-relaxed text-ink/65">Calmly review what happened, inspect the affected device and prioritise the next safe actions.</p>
+                <span class="mt-6 inline-flex items-center font-bold text-ink group-hover:text-accent-ink">Get scam &amp; security help <span class="ml-2" aria-hidden="true">→</span></span>
+            </a>
+
+            <a href="/services/new-computer-setup-data-transfer-ivanhoe/" class="group flex h-full flex-col rounded-3xl border border-line bg-canvas p-7 shadow-sm transition hover:-translate-y-1 hover:border-accent/60 hover:shadow-xl lg:col-span-2">
+                <span class="flex h-12 w-12 items-center justify-center rounded-full bg-accent/20 text-accent-ink" aria-hidden="true">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h10M7 7l3-3M7 7l3 3m7 7H7m10 0l-3-3m3 3l-3 3"></path></svg>
+                </span>
+                <p class="mt-6 text-xs font-bold uppercase tracking-[0.16em] text-accent-ink">$550 fixed · incl. GST</p>
+                <h3 class="mt-2 text-2xl font-bold">Setting up a new computer</h3>
+                <p class="mt-3 flex-grow leading-relaxed text-ink/65">Move up to 250 GB from one healthy Windows computer to one new Windows 11 computer, with setup, everyday apps and handover included.</p>
+                <span class="mt-6 inline-flex items-center font-bold text-ink group-hover:text-accent-ink">See the $550 Windows move <span class="ml-2" aria-hidden="true">→</span></span>
+            </a>
+
+            <a href="/services/printer-help-ivanhoe/" class="group flex h-full flex-col rounded-3xl border border-line bg-canvas p-7 shadow-sm transition hover:-translate-y-1 hover:border-accent/60 hover:shadow-xl lg:col-span-2">
+                <span class="flex h-12 w-12 items-center justify-center rounded-full bg-accent/20 text-accent-ink" aria-hidden="true">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 9V4h12v5M6 17H4a2 2 0 01-2-2v-4a2 2 0 012-2h16a2 2 0 012 2v4a2 2 0 01-2 2h-2m-12-3h12v6H6v-6zm12-2h.01"></path></svg>
+                </span>
+                <p class="mt-6 text-xs font-bold uppercase tracking-[0.16em] text-accent-ink">$190 fixed · incl. GST</p>
+                <h3 class="mt-2 text-2xl font-bold">Printer won’t print</h3>
+                <p class="mt-3 flex-grow leading-relaxed text-ink/65">Troubleshoot one existing printer with one primary computer or mobile device, then understand the practical next step.</p>
+                <span class="mt-6 inline-flex items-center font-bold text-ink group-hover:text-accent-ink">See the printer visit <span class="ml-2" aria-hidden="true">→</span></span>
+            </a>
+
+            <a href="/services/email-help-ivanhoe/" class="group flex h-full flex-col rounded-3xl border border-line bg-canvas p-7 shadow-sm transition hover:-translate-y-1 hover:border-accent/60 hover:shadow-xl lg:col-span-2">
+                <span class="flex h-12 w-12 items-center justify-center rounded-full bg-accent/20 text-accent-ink" aria-hidden="true">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8m-18 8V6a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path></svg>
+                </span>
+                <p class="mt-6 text-xs font-bold uppercase tracking-[0.16em] text-accent-ink">$190 fixed · incl. GST</p>
+                <h3 class="mt-2 text-2xl font-bold">Email stopped working</h3>
+                <p class="mt-3 flex-grow leading-relaxed text-ink/65">Troubleshoot one existing personal email account on one supported device without handing over control of your credentials.</p>
+                <span class="mt-6 inline-flex items-center font-bold text-ink group-hover:text-accent-ink">See the email visit <span class="ml-2" aria-hidden="true">→</span></span>
+            </a>
+
+            <a href="/services/" class="group rounded-3xl bg-inverse p-7 text-inverse-ink shadow-xl transition hover:-translate-y-1 hover:bg-black hover:shadow-2xl md:col-span-2 lg:col-span-6 lg:flex lg:items-center lg:gap-7">
+                <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-accent text-ivanhoe-slate" aria-hidden="true">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6l4 2m5-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </span>
+                <div class="mt-6 flex-grow lg:mt-0">
+                    <p class="text-xs font-bold uppercase tracking-[0.16em] text-accent">Not sure where to start?</p>
+                    <h3 class="mt-2 text-2xl font-bold">Something else</h3>
+                    <p class="mt-3 leading-relaxed text-inverse-ink/70">Smart-home equipment, home offices and other everyday technology problems are welcome too.</p>
+                </div>
+                <span class="mt-6 inline-flex shrink-0 items-center font-bold text-inverse-ink group-hover:text-accent lg:mt-0">See all services <span class="ml-2" aria-hidden="true">→</span></span>
+            </a>
+        </div>
+
+        <aside class="mx-auto mt-8 max-w-6xl rounded-2xl border border-accent/30 bg-accent/10 px-6 py-5 text-sm leading-relaxed text-ink/75 md:flex md:items-start md:gap-5" aria-label="Urgent scam guidance">
+            <p class="shrink-0 font-extrabold text-ink">Money may still be at risk?</p>
+            <p class="mt-1 md:mt-0">Contact your bank immediately using the official number from its website, app or card. Do not wait for a Naked Tech appointment.</p>
+        </aside>
     </div>
 </section>
 
-<!-- Service Grid -->
-<section class="py-24">
+<section class="py-16 md:py-24" aria-labelledby="projects-heading">
     <div class="container mx-auto px-6">
-        <div class="text-center mb-16">
-            <h2 class="text-3xl md:text-4xl font-bold">We handle your hardware with care.</h2>
+        <div class="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+            <div class="max-w-3xl">
+                <p class="text-sm font-bold uppercase tracking-[0.18em] text-accent-ink">Projects and everyday support</p>
+                <h2 id="projects-heading" class="mt-3 text-3xl font-extrabold tracking-tight md:text-5xl">Need a bigger setup?</h2>
+                <p class="mt-5 text-lg leading-relaxed text-ink/70">Explore complete home technology projects, or book practical help with the smaller things.</p>
+            </div>
+            <a href="/services/" class="inline-flex min-h-12 items-center font-bold text-ink hover:text-accent-ink hover:underline">Compare all services &amp; pricing <span class="ml-2" aria-hidden="true">→</span></a>
         </div>
 
-        <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+        <div class="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
             {% for service in services %}
-            <article class="flex h-full flex-col rounded-2xl border border-gray-100 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl md:p-8">
-                <div class="mb-6 flex h-12 w-12 items-center justify-center rounded-full bg-skin-bone text-electric-peach" aria-hidden="true">
+            <article class="flex h-full flex-col rounded-3xl border border-line bg-surface p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+                <div class="flex h-12 w-12 items-center justify-center rounded-full bg-canvas text-accent-ink" aria-hidden="true">
                     <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ service.iconPath }}"></path></svg>
                 </div>
-                <p class="text-xs font-bold uppercase tracking-widest text-electric-peach-ink">{{ service.category }}</p>
-                <h3 class="mt-2 text-xl font-bold">{{ service.name }}</h3>
-                <p class="mt-3 flex-grow leading-relaxed text-gray-600">{{ service.cardDescription }}</p>
-                <a href="/services/{{ service.slug }}/" class="mt-5 inline-flex min-h-11 items-center font-bold text-ivanhoe-slate hover:text-electric-peach hover:underline">
-                    See the full service <span class="ml-2" aria-hidden="true">→</span>
+                <p class="mt-6 text-xs font-bold uppercase tracking-[0.16em] text-accent-ink">{{ service.name }}</p>
+                <h3 class="mt-2 text-xl font-bold">{{ service.category }}</h3>
+                <p class="mt-3 flex-grow leading-relaxed text-ink/65">{{ service.cardDescription }}</p>
+                <div class="mt-6 border-t border-line pt-5">
+                    <p class="text-lg font-extrabold">{{ service.typicalInvestment }}</p>
+                    <p class="mt-1 text-xs text-ink/60">{{ service.priceLine }}</p>
+                </div>
+                <a href="/services/{{ service.slug }}/" class="mt-5 inline-flex min-h-11 items-center font-bold text-ink hover:text-accent-ink hover:underline">
+                    View this service <span class="ml-2" aria-hidden="true">→</span>
                 </a>
             </article>
             {% endfor %}
@@ -74,18 +161,70 @@ description: Ivanhoe and Eaglemont home technology support for Mesh Wi-Fi, smart
     </div>
 </section>
 
-<!-- The Promise -->
-<section class="py-24 bg-ivanhoe-slate text-skin-bone">
-    <div class="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
-        <div>
-            <h2 class="text-4xl lg:text-5xl font-bold mb-6">Total Transparency.</h2>
-            <div class="w-20 h-1 bg-electric-peach mb-6"></div>
+<section id="how-it-works" class="scroll-mt-20 bg-inverse py-16 text-inverse-ink md:py-24" aria-labelledby="how-it-works-heading">
+    <div class="container mx-auto px-6">
+        <div class="mx-auto max-w-3xl text-center">
+            <p class="text-sm font-bold uppercase tracking-[0.18em] text-accent">What happens next</p>
+            <h2 id="how-it-works-heading" class="mt-3 text-3xl font-extrabold tracking-tight md:text-5xl">Help without the runaround.</h2>
         </div>
+        <ol class="mx-auto mt-12 grid max-w-6xl gap-8 md:grid-cols-3">
+            <li class="border-t border-skin-bone/20 pt-6">
+                <span class="text-sm font-extrabold text-accent">01</span>
+                <h3 class="mt-3 text-2xl font-bold">Choose the closest problem</h3>
+                <p class="mt-3 leading-relaxed text-inverse-ink/70">Book the relevant assessment or tell us what is happening if you are not sure where it fits.</p>
+            </li>
+            <li class="border-t border-skin-bone/20 pt-6">
+                <span class="text-sm font-extrabold text-accent">02</span>
+                <h3 class="mt-3 text-2xl font-bold">Agree on the scope</h3>
+                <p class="mt-3 leading-relaxed text-inverse-ink/70">We confirm what the visit covers, the price and what may need a separate quote before work expands.</p>
+            </li>
+            <li class="border-t border-skin-bone/20 pt-6">
+                <span class="text-sm font-extrabold text-accent">03</span>
+                <h3 class="mt-3 text-2xl font-bold">Understand the next step</h3>
+                <p class="mt-3 leading-relaxed text-inverse-ink/70">You get plain-English guidance on what was done, what still matters and what is worth doing next.</p>
+            </li>
+        </ol>
+    </div>
+</section>
+
+<section class="bg-surface py-16 md:py-24" aria-labelledby="why-heading">
+    <div class="container mx-auto grid gap-12 px-6 lg:grid-cols-[0.7fr_1.3fr] lg:items-start">
         <div>
-            <p class="text-lg leading-relaxed opacity-90">
-                We believe in showing you everything. Our pricing is stripped down—what you see is what you pay. 
-                Our technicians are open, honest, and easy on the eyes.
-            </p>
+            <p class="text-sm font-bold uppercase tracking-[0.18em] text-accent-ink">Why Naked Tech</p>
+            <h2 id="why-heading" class="mt-3 text-3xl font-extrabold tracking-tight md:text-5xl">Straight answers. Local help.</h2>
+            <p class="mt-5 text-lg leading-relaxed text-ink/70">The personality is playful. The advice, scope and pricing are taken seriously.</p>
+        </div>
+        <div class="grid gap-5 sm:grid-cols-2">
+            <article class="rounded-2xl bg-canvas p-6">
+                <h3 class="text-xl font-bold">30+ years in technology and support</h3>
+                <p class="mt-3 leading-relaxed text-ink/65">Peter brings decades of experience to practical decisions about home technology.</p>
+            </article>
+            <article class="rounded-2xl bg-canvas p-6">
+                <h3 class="text-xl font-bold">Fixed prices and agreed quotes</h3>
+                <p class="mt-3 leading-relaxed text-ink/65">Published assessments are fixed-price, while larger projects are scoped before work begins.</p>
+            </article>
+            <article class="rounded-2xl bg-canvas p-6">
+                <h3 class="text-xl font-bold">Hardware sold at cost</h3>
+                <p class="mt-3 leading-relaxed text-ink/65">Where a project includes recommended equipment, the advice is not shaped by a hardware margin.</p>
+            </article>
+            <article class="rounded-2xl bg-canvas p-6">
+                <h3 class="text-xl font-bold">Ivanhoe &amp; Eaglemont</h3>
+                <p class="mt-3 leading-relaxed text-ink/65">A deliberately local in-home service area with local call-out included in published assessments.</p>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section class="bg-accent py-14 text-ivanhoe-slate md:py-20" aria-labelledby="home-cta-heading">
+    <div class="container mx-auto flex max-w-5xl flex-col gap-8 px-6 text-center md:flex-row md:items-center md:justify-between md:text-left">
+        <div>
+            <p class="text-sm font-bold uppercase tracking-[0.18em]">Ready when you are</p>
+            <h2 id="home-cta-heading" class="mt-3 text-3xl font-extrabold tracking-tight md:text-4xl">Let’s get you unstuck.</h2>
+            <p class="mt-3 text-ivanhoe-slate/75">Tell us what is happening—without the jargon.</p>
+        </div>
+        <div class="flex flex-col justify-center gap-3 sm:flex-row">
+            <a href="/contact/" class="inline-flex min-h-14 items-center justify-center rounded-full bg-inverse px-8 py-4 font-bold text-white transition hover:-translate-y-0.5 hover:bg-black">Book a visit</a>
+            <a href="{{ site.phone.href }}" class="inline-flex min-h-14 items-center justify-center whitespace-nowrap rounded-full border-2 border-ivanhoe-slate px-8 py-4 font-bold transition hover:bg-inverse hover:text-white">{{ site.phone.display }}</a>
         </div>
     </div>
 </section>

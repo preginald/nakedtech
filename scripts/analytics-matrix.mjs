@@ -4,7 +4,11 @@ import vm from 'node:vm'
 
 const siteRoot = new URL('../_site/', import.meta.url).pathname
 const formsOrigin = 'https://forms.digitalsanctum.com.au'
-const campaignQuery = 'utm_source=facebook&utm_medium=paid_social&utm_campaign=naked_tech_pain_points_01'
+const approvedCampaignAttribution = {
+  utm_source: 'facebook',
+  utm_medium: 'paid_social',
+  utm_campaign: 'naked_tech_pain_points_01'
+}
 const checks = []
 const rows = []
 
@@ -26,6 +30,42 @@ const routes = [
     route: '/services/scam-security-help-ivanhoe/',
     painPoint: 'scam_security',
     campaignContent: 'scam_security_v1'
+  },
+  {
+    label: 'New computer setup',
+    route: '/services/new-computer-setup-data-transfer-ivanhoe/',
+    painPoint: 'new_computer_setup',
+    campaignContent: 'new_computer_setup_audit_only',
+    attributedCase: 'synthetic attributed page view',
+    attribution: {
+      utm_source: 'site_audit',
+      utm_medium: 'test',
+      utm_campaign: 'non_live_validation'
+    }
+  },
+  {
+    label: 'Printer help',
+    route: '/services/printer-help-ivanhoe/',
+    painPoint: 'printer_help',
+    campaignContent: 'printer_help_audit_only',
+    attributedCase: 'synthetic attributed page view',
+    attribution: {
+      utm_source: 'site_audit',
+      utm_medium: 'test',
+      utm_campaign: 'non_live_validation'
+    }
+  },
+  {
+    label: 'Email help',
+    route: '/services/email-help-ivanhoe/',
+    painPoint: 'email_help',
+    campaignContent: 'email_help_audit_only',
+    attributedCase: 'synthetic attributed page view',
+    attribution: {
+      utm_source: 'site_audit',
+      utm_medium: 'test',
+      utm_campaign: 'non_live_validation'
+    }
   }
 ]
 
@@ -178,7 +218,14 @@ function runFormFlow(route, search) {
 }
 
 for (const route of routes) {
-  const paidSearch = `?${campaignQuery}&utm_content=${route.campaignContent}&utm_term=ignored&unknown=ignored`
+  const attribution = route.attribution || approvedCampaignAttribution
+  const attributedCase = route.attributedCase || 'paid page view'
+  const paidSearch = `?${new URLSearchParams({
+    ...attribution,
+    utm_content: route.campaignContent,
+    utm_term: 'ignored',
+    unknown: 'ignored'
+  })}`
   const paidContext = {
     pain_point: route.painPoint,
     page_path: route.route,
@@ -195,17 +242,17 @@ for (const route of routes) {
     'GA4',
     'view_service',
     paidContext,
-    `${route.label} paid page view`
+    `${route.label} ${attributedCase}`
   )
   const paidMetaContext = assertSingleEvent(
     paidView.fbqCalls,
     'Meta',
     'ViewContent',
     paidContext,
-    `${route.label} paid page view`
+    `${route.label} ${attributedCase}`
   )
   rows.push({
-    case: `${route.label} paid page view`,
+    case: `${route.label} ${attributedCase}`,
     ga4: `view_service ×1 ${JSON.stringify(paidGaContext)}`,
     meta: `ViewContent ×1 ${JSON.stringify(paidMetaContext)}`
   })
@@ -260,9 +307,7 @@ for (const route of routes) {
   const expectedFormContext = {
     pain_point: route.painPoint,
     page_path: route.route,
-    utm_source: 'facebook',
-    utm_medium: 'paid_social',
-    utm_campaign: 'naked_tech_pain_points_01',
+    ...attribution,
     utm_content: route.campaignContent
   }
   const observedFormContext = form.contextMessages[0]?.message?.context

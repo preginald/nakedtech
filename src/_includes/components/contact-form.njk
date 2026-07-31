@@ -4,23 +4,23 @@
 {% set formHeading = props.heading or 'Send us a message.' %}
 {% set formIntroduction = props.introduction or 'Tell us what is misbehaving and how you would like us to reach you. We will get back within one business day.' %}
 {% set iframeTitle = props.iframeTitle or 'Contact Naked Tech' %}
-<section id="{{ formId }}" class="bg-skin-bone min-h-screen py-16 md:py-24" data-contact-form-root data-pain-point="{{ props.painPoint or '' }}">
+{% set formSlug = props.formSlug or 'nakedtech-contact' %}
+<section id="{{ formId }}" class="bg-canvas min-h-screen py-16 md:py-24" data-contact-form-root data-pain-point="{{ props.painPoint or '' }}">
     <div class="container mx-auto px-6 max-w-3xl">
         <div class="text-center mb-12">
-            <p class="text-sm font-bold uppercase tracking-[0.2em] text-electric-peach-ink mb-3">{{ formKicker }}</p>
-            <h2 class="text-3xl md:text-4xl font-bold text-ivanhoe-slate">{{ formHeading }}</h2>
-            <p class="mt-4 text-ivanhoe-slate/70 max-w-xl mx-auto leading-relaxed">
+            <p class="text-sm font-bold uppercase tracking-[0.2em] text-accent-ink mb-3">{{ formKicker }}</p>
+            <h2 class="text-3xl md:text-4xl font-bold text-ink">{{ formHeading }}</h2>
+            <p class="mt-4 text-ink/70 max-w-xl mx-auto leading-relaxed">
                 {{ formIntroduction }}
             </p>
         </div>
 
-        <div class="w-full">
+        <div class="w-full overflow-hidden rounded-3xl border border-line bg-surface p-2 shadow-sm sm:p-4">
             <iframe
-                src="https://forms.digitalsanctum.com.au/f/nakedtech-contact"
+                src="https://forms.digitalsanctum.com.au/f/{{ formSlug }}"
                 width="100%"
                 height="900"
                 frameborder="0"
-                scrolling="no"
                 class="block w-full"
                 title="{{ iframeTitle }}"
                 loading="lazy"
@@ -28,7 +28,7 @@
             </iframe>
         </div>
 
-        <p class="text-center text-gray-500 text-xs mt-6">
+        <p class="text-center text-muted text-xs mt-6">
             Your details are handled by Digital Sanctum's secure forms platform and will never be shared or sold.
         </p>
     </div>

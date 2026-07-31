@@ -3,13 +3,68 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    color-scheme: light;
+    --nt-canvas: 247 244 239;
+    --nt-surface: 255 255 255;
+    --nt-surface-muted: 241 237 231;
+    --nt-ink: 45 48 53;
+    --nt-muted: 96 99 105;
+    --nt-line: 220 216 209;
+    --nt-inverse: 45 48 53;
+    --nt-inverse-ink: 247 244 239;
+    --nt-accent: 255 140 105;
+    --nt-accent-ink: 184 68 36;
+    --nt-urgent-surface: 255 241 235;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme]) {
+      color-scheme: dark;
+      --nt-canvas: 20 22 25;
+      --nt-surface: 31 34 38;
+      --nt-surface-muted: 38 41 45;
+      --nt-ink: 247 244 239;
+      --nt-muted: 190 186 180;
+      --nt-line: 67 70 75;
+      --nt-inverse: 10 11 13;
+      --nt-inverse-ink: 247 244 239;
+      --nt-accent: 255 140 105;
+      --nt-accent-ink: 255 166 139;
+      --nt-urgent-surface: 57 35 29;
+    }
+  }
+
+  :root[data-theme='light'] {
+    color-scheme: light;
+  }
+
+  :root[data-theme='dark'] {
+    color-scheme: dark;
+    --nt-canvas: 20 22 25;
+    --nt-surface: 31 34 38;
+    --nt-surface-muted: 38 41 45;
+    --nt-ink: 247 244 239;
+    --nt-muted: 190 186 180;
+    --nt-line: 67 70 75;
+    --nt-inverse: 10 11 13;
+    --nt-inverse-ink: 247 244 239;
+    --nt-accent: 255 140 105;
+    --nt-accent-ink: 255 166 139;
+    --nt-urgent-surface: 57 35 29;
+  }
+
+  html {
+    background-color: rgb(var(--nt-canvas));
+  }
+
   a,
   button,
   summary,
   input,
   textarea,
   select {
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-electric-peach-ink focus-visible:ring-offset-2;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-ink focus-visible:ring-offset-2 focus-visible:ring-offset-canvas;
   }
 }
 
