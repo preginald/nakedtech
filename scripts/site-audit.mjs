@@ -66,6 +66,7 @@ const expectedRoutes = [
   '/services/power-pose/',
   '/services/quickie/',
   '/services/slow-computer-help-ivanhoe/',
+  '/services/scam-security-help-ivanhoe/',
   '/booking/',
   '/contact/',
   '/brand/',
@@ -103,6 +104,26 @@ const landingPageAudits = [
   }
 ]
 
+landingPageAudits.push({
+  route: '/services/scam-security-help-ivanhoe/',
+  title: 'Scam &amp; Account Security Help Ivanhoe &amp; Eaglemont | Naked Tech',
+  description: 'Calm $250 onsite scam and account-security assessment for Ivanhoe and Eaglemont, covering devices, browsers, exposed accounts and practical next steps.',
+  canonical: 'https://nakedtech.au/services/scam-security-help-ivanhoe/',
+  ogImage: 'https://nakedtech.au/img/scam-security-help-og.webp',
+  primaryLabel: 'Book the $250 assessment',
+  primaryHref: '#contact',
+  robots: 'index, follow',
+  sitemap: 'present',
+  contentMarkers: [
+    '$250 fixed',
+    'up to 90 minutes onsite',
+    'Scamwatch',
+    'ReportCyber',
+    'does not recover or guarantee recovery',
+    'not a 24/7 emergency or incident-response service'
+  ]
+})
+
 const requiredLandingSectionIds = [
   'offer',
   'symptoms',
@@ -136,6 +157,9 @@ function auditLandingPageHtml(audit, html, metadataEntries, sitemapXml) {
 
   assert(html.includes(`href="${audit.primaryHref}"`), `${page}: primary CTA target rendered`)
   assert(html.includes(audit.primaryLabel), `${page}: primary CTA label rendered`)
+  for (const marker of audit.contentMarkers || []) {
+    assert(html.includes(marker), `${page}: approved commercial marker rendered (${marker})`)
+  }
   assert(/href=["']tel:\+\d{10,15}["']/i.test(html), `${page}: telephone link rendered`)
   assert(html.includes('<iframe'), `${page}: form iframe rendered`)
   assert(html.includes('data-contact-form-frame'), `${page}: shared form iframe marker rendered`)
@@ -387,6 +411,12 @@ const quickieHtml = readFileSync(routeToFile('/services/quickie/'), 'utf8')
 assert(
   quickieHtml.includes('href="/services/slow-computer-help-ivanhoe/"'),
   'quickie: dedicated slow-computer diagnosis link rendered'
+)
+
+const servicesHtml = readFileSync(routeToFile('/services/'), 'utf8')
+assert(
+  servicesHtml.includes('href="/services/scam-security-help-ivanhoe/"'),
+  'services: dedicated scam/security assessment link rendered'
 )
 
 for (const supersededRoute of ['/wifi-dropouts-ivanhoe/', '/slow-computer-help-ivanhoe/']) {

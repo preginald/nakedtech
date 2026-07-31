@@ -20,6 +20,12 @@ const routes = [
     route: '/services/slow-computer-help-ivanhoe/',
     painPoint: 'slow_computer',
     campaignContent: 'slow_computer_v1'
+  },
+  {
+    label: 'Scam security',
+    route: '/services/scam-security-help-ivanhoe/',
+    painPoint: 'scam_security',
+    campaignContent: 'scam_security_v1'
   }
 ]
 

@@ -315,7 +315,7 @@ The combined page is implemented at `/services/slow-computer-help-ivanhoe/` thro
 
 ### Page 3: Scam and computer-security help
 
-Suggested route: `/scam-virus-help-ivanhoe/`
+Approved route: `/services/scam-security-help-ivanhoe/`
 
 Core promise:
 
@@ -324,6 +324,16 @@ Core promise:
 - Device inspection and account-security support
 - Clear boundaries: no promise to recover stolen funds
 - Avoid fear-heavy copy and avoid implying knowledge of a viewer’s private condition
+
+#### Owner-approved offer and implementation record — 31 July 2026
+
+- `$250 fixed-price` Scam & Account Security Assessment, delivered onsite for up to 90 minutes with local call-out included in Ivanhoe or Eaglemont.
+- A short telephone suitability triage is available during business hours; remote-control support is excluded from the initial offer.
+- Included: incident and exposure review, agreed device/browser inspection, ordinary personal-account security assistance, safe straightforward actions within scope, official escalation guidance and a written priority plan.
+- Customers enter their own credentials and authentication codes. Naked Tech does not request banking PINs, card security codes, one-time codes or cryptocurrency seed phrases, and retains no credentials after the engagement.
+- Active financial exposure goes directly to the customer's bank using independently verified details; Scamwatch and ReportCyber guidance is provided where appropriate. The customer controls and submits official reports.
+- Explicit exclusions cover fund recovery, identity restoration, provider-controlled account recovery, forensic or law-enforcement work, legal/financial/insurance/credit advice, complete-clean guarantees and protection from future compromise.
+- The page is implemented locally using the shared landing-page template, with `scam_security` analytics/form context, a unique 1200×630 Open Graph image, sitemap registration, a services-page internal link and automated audit coverage. Its refined visual treatment and content are owner-approved for release.
 
 ### Later organic/search pages
 

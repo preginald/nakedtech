@@ -41,6 +41,8 @@ The canonical URL is derived from `permalink`. The public H1 is derived from `la
 | Field | Type | Presence | Contract |
 |---|---|---:|---|
 | `id` | snake-case string | **Required** | Stable pain identifier used by analytics and form context. Approved initial identifiers are `wifi_dropouts` and `slow_computer`; a later security page uses `scam_security`. |
+| `interactive` | boolean | Optional | Enables restrained shared-layout reveal and card-hover treatment. Omit unless the page has passed a visual review for this treatment. |
+| `stackedPricingCtas` | boolean | Optional | Stacks the pricing-panel enquiry and telephone actions at full width when their approved labels do not fit reliably side by side. |
 | `eyebrow` | string | **Required** | Short local-relevance line above the H1. Geography must match approved service scope. |
 | `headline` | string | **Required** | The page's only H1. State the exact customer pain and desired outcome in customer language. It must be unique across landing pages. |
 | `promise` | string | **Required** | One plain-English paragraph continuing the advertisement/search promise and explaining the diagnostic-first outcome. |
@@ -54,6 +56,8 @@ The canonical URL is derived from `permalink`. The public H1 is derived from `la
 | `faqs` | array of FAQ objects | **Required** | Between 3 and 6 problem-specific questions. |
 | `form` | object | **Required** | Shared form heading and stable pain context. |
 | `schema` | object | **Required** | Approved Service structured-data inputs. |
+| `urgentCallout` | object | Optional | Calm, factual urgent-action guidance with required `label` and `message` strings. Do not use for artificial urgency. |
+| `visual` | object | Optional | In-page visual break with required `image`, `width`, `height`, `alt`, `eyebrow`, `heading` and `description` values. |
 
 ### `landing.offer`
 
@@ -90,7 +94,7 @@ Count: **minimum 3, maximum 3**.
 | `summary` | string | **Required** | Plain-English explanation of the diagnostic approach and why it precedes a recommendation. |
 | `checks` | array of diagnosis-check objects | **Required** | One or more relevant checks. No P1-T1 maximum is imposed; include only checks the service genuinely performs. |
 
-Each `checks[]` object has required `title` and `description` strings. A check describes an assessment, not a guaranteed finding or result.
+Each `checks[]` object has required `title` and `description` strings. It may also include an optional icon key from the shared layout's approved set: `timeline`, `device`, `browser`, or `account`. A check describes an assessment, not a guaranteed finding or result.
 
 ### `landing.inclusions[]`
 

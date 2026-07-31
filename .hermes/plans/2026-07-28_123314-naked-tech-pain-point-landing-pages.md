@@ -628,6 +628,16 @@ Record spend, sample size, funnel ratios, lead quality and rationale.
 4. Laptop not starting / black-screen triage
 5. Physical screen/charging repair only after workshop-model approval
 
+## Scam/security implementation status — approved for release
+
+- Approved route: `/services/scam-security-help-ivanhoe/`; Ivanhoe and Eaglemont remain the complete service area.
+- Approved offer: `$250 fixed` for up to 90 minutes onsite, including local call-out; extended remediation and follow-up are separately scoped fixed-price projects.
+- Approved mode: onsite delivery plus short business-hours telephone suitability triage; no initial remote-control support and no 24/7 or same-day-response claim.
+- Approved scope: incident/exposure review, device and browser inspection, ordinary personal-account security assistance, safe actions within scope, bank/Scamwatch/ReportCyber guidance and a written priority plan.
+- Approved boundaries: customer-controlled credentials and reports; no fund recovery, identity restoration, provider-controlled account recovery, forensics, law-enforcement liaison, legal/financial/insurance/credit advice or complete/future-security guarantee.
+- Local implementation: thin page data, unique OG image, sitemap and services-page link, `scam_security` analytics/form context and automated audits complete; `npm test` passed 595 site checks and 21 analytics scenarios/93 assertions.
+- Release boundary: visual/content approval and explicit commit/push authorisation received on 31 July 2026. Phase 5's separate Meta launch gate is unchanged.
+
 ## Per-page repeatable checklist
 
 - [ ] Confirm operational scope and unit economics.
