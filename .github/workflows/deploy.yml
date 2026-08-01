@@ -33,16 +33,8 @@ jobs:
           # Build the site
           npm run build
 
-          # Permit the versioned document-root redirect rules and reload only
-          # after Apache accepts the updated configuration.
-          APACHE_CONF_NAME=nakedtech-au-directory
-          sudo a2enmod rewrite
-          sudo install -m 0644 \
-            deploy/apache/nakedtech-au-directory.conf \
-            "/etc/apache2/conf-available/${APACHE_CONF_NAME}.conf"
-          sudo a2enconf "${APACHE_CONF_NAME}"
-          if ! sudo apache2ctl configtest; then
-            sudo a2disconf "${APACHE_CONF_NAME}"
-            exit 1
-          fi
-          sudo systemctl reload apache2
+          # Print only the Naked Tech virtual-host context needed to keep its
+          # canonical-host configuration versioned on the next deployment.
+          sudo grep -R -n -B 4 -A 18 \
+            -E 'server_name[^;]*nakedtech\.au' \
+            /etc/nginx/sites-enabled /etc/nginx/conf.d || true
