@@ -624,9 +624,12 @@ Record spend, sample size, funnel ratios, lead quality and rationale.
 
 1. Scam and computer-security help
 2. New computer setup and data transfer
-3. Printer and email support
-4. Laptop not starting / black-screen triage
-5. Physical screen/charging repair only after workshop-model approval
+3. Printer help
+4. Email and account help
+5. New printer setup
+6. Password safety and control
+7. Laptop not starting / black-screen triage
+8. Physical screen/charging repair only after workshop-model approval
 
 ## Scam/security implementation status — approved for release
 
@@ -637,6 +640,49 @@ Record spend, sample size, funnel ratios, lead quality and rationale.
 - Approved boundaries: customer-controlled credentials and reports; no fund recovery, identity restoration, provider-controlled account recovery, forensics, law-enforcement liaison, legal/financial/insurance/credit advice or complete/future-security guarantee.
 - Local implementation: thin page data, unique OG image, sitemap and services-page link, `scam_security` analytics/form context and automated audits complete; `npm test` passed 595 site checks and 21 analytics scenarios/93 assertions.
 - Release boundary: visual/content approval and explicit commit/push authorisation received on 31 July 2026. Phase 5's separate Meta launch gate is unchanged.
+
+## New-computer implementation status — owner-approved locally
+
+- Route: `/services/new-computer-setup-data-transfer-ivanhoe/`; Ivanhoe and Eaglemont remain the complete service area.
+- Offer: `$550 fixed incl. GST` for one onsite Standard Windows Move of up to three hours, one user, one healthy old Windows computer, one new Windows 11 computer and up to 250 GB.
+- A current usable backup is mandatory. Peter completes the detailed suitability check with the client; the unlinked checklist is owner-operated rather than customer self-service.
+- The compact `guided-service` page uses phone-first contact, the shared `nakedtech-contact` form and explicit scope, safety and overrun boundaries.
+- Its unique 1200×630 service image is also rendered as a visible editorial break after the fit comparison.
+
+## Printer-help implementation status — owner-approved locally
+
+- Route: `/services/printer-help-ivanhoe/`; printer and email intent are now deliberately separate.
+- Offer: `$190 fixed incl. GST`, including local call-out and up to 60 minutes onsite for one existing household printer, one reported fault and one primary supported device.
+- Included work covers printer status, connection, queues/settings, compatible manufacturer software, safe user-level actions and verification of any completed fix. The fee covers troubleshooting rather than a guaranteed repair.
+- New-printer installation, extra devices, wider network faults, physical/electrical repair, parts and consumables, provider-controlled account recovery, subscriptions and provider outages are outside the fixed scope.
+- Enquiries receive a response within one business day; appointments are Monday–Friday, 9:00 am–5:00 pm, subject to availability. There is no remote-control, same-day, after-hours, weekend or emergency promise.
+- The compact page uses `printer_help`, the shared contact form, a unique 1200×630 image that also appears as a visible editorial break, sitemap and internal discovery links. Current local verification passes 1,597 site checks plus 42 analytics scenarios and 186 assertions; no deployment or form submission occurred.
+
+## Email-help implementation status — owner-approved locally
+
+- Route: `/services/email-help-ivanhoe/`; the offer is deliberately limited to personal email, while suspected compromise routes to the Scam & Account Security Assessment.
+- Offer: `$190 fixed incl. GST`, including local call-out and up to 60 minutes onsite for one reported sending, receiving, syncing or existing-account setup problem, one existing personal email account, one supported device and one supported mail app or current browser.
+- Delivery is onsite after a short business-hours suitability check. The client enters all passwords, recovery details and verification codes; Naked Tech does not record or retain those email credentials.
+- Password or provider-controlled recovery, lost verification methods, locked-account and identity disputes, additional accounts or devices, new-account creation, business or organisation-managed email, mail servers/DNS, provider outages and server-side or recipient-delivery decisions are excluded. Wider connectivity faults route to Wi-Fi help.
+- Mail profiles are not deleted or rebuilt when mail, contacts or calendars may exist only on the device unless synchronisation or a safe backup is confirmed. Permanently deleted-email restoration is excluded, and any deletion or storage purchase remains client-controlled.
+- The troubleshooting visit is not a guaranteed fix. Further work pauses for a separate fixed quote or referral; appointments are Monday–Friday, 9:00 am–5:00 pm subject to availability, with no remote-control, same-day, after-hours, weekend or emergency promise.
+- The compact page uses `email_help`, the shared contact form, a unique 1200×630 image that also appears as a visible editorial break, sitemap and homepage, services, navigation, footer and Quickie discovery links. Local verification passed 1,597 site checks plus 42 analytics scenarios and 186 assertions; no deployment, production form submission or live campaign occurred.
+
+## New-printer implementation status — released
+
+- Route: `/services/new-printer-setup-ivanhoe/`; the offer is separate from troubleshooting an existing printer.
+- Offer: `$250 fixed incl. GST`, including local call-out and up to 90 minutes onsite for one supported new household printer and one primary supported device.
+- Included work covers connection to the existing network, current manufacturer software, a test print or scan where supported and a short handover. Printer purchase, wider Wi-Fi remediation, extra devices, subscriptions, provider-controlled accounts, physical repair, parts and consumables are excluded or separately scoped.
+- The compact page uses `new_printer_setup`, the shared contact form, a visible 1200×630 image, sitemap and internal discovery links.
+
+## Password-safety implementation status — owner-approved for release
+
+- Route: `/services/password-manager-setup-ivanhoe/`; Ivanhoe and Eaglemont remain the complete service area.
+- Offer: `$390 fixed incl. GST`, including the phone suitability check, local call-out and up to two hours onsite for one person, one personal vault, one primary computer, one phone or tablet and one straightforward supported import.
+- The client creates and enters the master password, credentials, authentication codes and recovery material. Naked Tech does not record, photograph, copy, transmit, retain or take custody of them.
+- Active compromise routes to Scam & Account Security. Provider-controlled recovery, identity restoration, fund recovery, business vaults, additional people/devices and bespoke KeePass or file-sync arrangements are excluded or separately scoped.
+- The public guided-service page uses `password_safety_control` and the shared enquiry form. The separate production suitability form is operator-only, completed by Peter with the client, and has no public respondent route.
+- Local verification passes 1,974 site checks plus 56 analytics scenarios and 248 assertions; no public form submission or analytics-platform event was created.
 
 ## Per-page repeatable checklist
 

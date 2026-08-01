@@ -40,7 +40,8 @@ The canonical URL is derived from `permalink`. The public H1 is derived from `la
 
 | Field | Type | Presence | Contract |
 |---|---|---:|---|
-| `id` | snake-case string | **Required** | Stable pain identifier used by analytics and form context. Approved initial identifiers are `wifi_dropouts` and `slow_computer`; a later security page uses `scam_security`. |
+| `id` | snake-case string | **Required** | Stable service identifier used by analytics and form context. Approved identifiers are `wifi_dropouts`, `slow_computer`, `scam_security`, `new_computer_setup`, `printer_help`, `email_help`, `new_printer_setup` and `password_safety_control`. |
+| `variant` | string | Optional | Omit for the standard diagnostic page. The approved `guided-service` variant replaces symptoms and diagnosis with a fit comparison, makes telephone contact the first hero action, and omits duplicate proof and pricing sections. |
 | `interactive` | boolean | Optional | Enables restrained shared-layout reveal and card-hover treatment. Omit unless the page has passed a visual review for this treatment. |
 | `stackedPricingCtas` | boolean | Optional | Stacks the pricing-panel enquiry and telephone actions at full width when their approved labels do not fit reliably side by side. |
 | `eyebrow` | string | **Required** | Short local-relevance line above the H1. Geography must match approved service scope. |
@@ -48,16 +49,20 @@ The canonical URL is derived from `permalink`. The public H1 is derived from `la
 | `promise` | string | **Required** | One plain-English paragraph continuing the advertisement/search promise and explaining the diagnostic-first outcome. |
 | `offer` | object | **Required** | Approved entry offer and its explicit scope/exclusions. |
 | `cta` | object | **Required** | Primary on-page progression and immediate telephone option. |
-| `symptoms` | array of symptom objects | **Required** | Exactly 3 recognisable symptoms. |
-| `diagnosis` | object | **Required** | What is assessed and why diagnosis precedes a recommendation or hardware sale. |
+| `symptoms` | array of symptom objects | Conditional | Required for the standard variant; omit for `guided-service`. Exactly 3 recognisable symptoms. |
+| `diagnosis` | object | Conditional | Required for the standard variant; omit for `guided-service`. Describes what is assessed and why diagnosis precedes a recommendation or hardware sale. |
+| `fit` | object | Conditional | Required only for `guided-service`. Provides a heading, introduction, two visible labels and non-empty `standard` / `separate` string lists. |
 | `inclusions` | array of inclusion objects | **Required** | One or more approved deliverables. No hard maximum is imposed by P1-T1; keep the list concise. |
 | `process` | array of process-step objects | **Required** | Exactly 3 ordered steps. |
-| `proofPoints` | array of proof-point objects | **Required** | Exactly 3 truthful, source-backed trust points. |
+| `proofPoints` | array of proof-point objects | Conditional | Required for the standard variant; omit for `guided-service`. Exactly 3 truthful, source-backed trust points. |
 | `faqs` | array of FAQ objects | **Required** | Between 3 and 6 problem-specific questions. |
 | `form` | object | **Required** | Shared form heading and stable pain context. |
 | `schema` | object | **Required** | Approved Service structured-data inputs. |
+| `safetyNote` | object | Conditional | Required for an approved `guided-service` page, with `label`, `heading` and `message` strings. Keep it to one concise operational boundary. |
 | `urgentCallout` | object | Optional | Calm, factual urgent-action guidance with required `label` and `message` strings. Do not use for artificial urgency. |
-| `visual` | object | Optional | In-page visual break with required `image`, `width`, `height`, `alt`, `eyebrow`, `heading` and `description` values. |
+| `visual` | object | Optional | In-page visual break supported by both the standard and `guided-service` variants, with required `image`, `width`, `height`, `alt`, `eyebrow`, `heading` and `description` values. |
+| `inclusionsHeading`, `processHeading`, `faqKicker`, `faqHeading` | string | Optional | Page-specific headings for the shared sections. Omit to retain standard diagnostic-page copy. |
+| `contactCallout` | object | Optional | Standard-page telephone callout copy with `kicker` and `message`. It is not rendered by `guided-service`, whose telephone CTA is already first in the hero. |
 
 ### `landing.offer`
 
@@ -66,6 +71,7 @@ The canonical URL is derived from `permalink`. The public H1 is derived from `la
 | `label` | string | **Required** | Short label for the approved starting offer. Do not imply a fixed-price resolution when only a fixed-scope diagnosis is approved. |
 | `price` | string | **Required** | Owner-approved display text, including qualifiers such as `from` where applicable. Naked Tech prices projects rather than hours; if no project price is approved, page authoring is blocked and the author must not invent one. |
 | `note` | string | **Required** | Explicit scope and exclusions, including dependencies on third parties, hardware, follow-up work or geography where relevant. Silence is not an exclusion statement. |
+| `detailLabel` | string | Optional | Guided-service label for the offer-card link to `#fit`. Use problem-specific wording; the layout supplies a generic fallback. |
 
 ### `landing.cta`
 
@@ -74,6 +80,13 @@ The canonical URL is derived from `permalink`. The public H1 is derived from `la
 | `primaryLabel` | string | **Required** | Problem-specific action label that moves the visitor to the enquiry form. |
 | `primaryHref` | string | **Required** | Must equal `'#contact'` for the shared on-page form path. |
 | `phoneLabel` | string | **Required** | Problem-specific accessible label for the telephone CTA. The shared layout obtains the telephone number and `tel:` URL from site data; page files must not duplicate them. |
+| `phoneCtaLabel` | string | Conditional | Required for `guided-service`; visible wording for its phone-first hero action. |
+| `navigationLabel` | string | Optional | Replaces the global `Book a visit` label when the offer has a required pre-booking gate. It must describe the next action accurately. |
+| `navigationShortLabel` | string | Optional | Compact mobile equivalent of `navigationLabel`. Omit unless the full label is unsuitable at the smallest breakpoint. |
+
+### `landing.fit`
+
+The guided-service comparison requires `heading`, `introduction`, `standardLabel`, `separateLabel`, and non-empty `standard` and `separate` arrays of concise plain-text strings. It is guidance rather than self-assessment: page copy must make clear that Peter confirms suitability with the customer.
 
 ### `landing.symptoms[]`
 
@@ -145,9 +158,11 @@ Count: **minimum 3, maximum 6**.
 
 | Field | Type | Presence | Contract |
 |---|---|---:|---|
+| `kicker` | string | Optional | Short label above the shared form heading. |
 | `heading` | string | **Required** | Problem-specific heading shown immediately before the shared form. |
 | `introduction` | string | Optional | One concise sentence that helps the visitor describe the problem. Omit it when no additional context is needed. |
 | `contextKey` | snake-case string | **Required** | Must exactly equal `landing.id`. It is the only page-authored form pain identifier. Whether Sanctum Forms can persist it is investigated later; this contract does not claim that capability. |
+| `formSlug` | kebab-case string | Optional | Selects an approved form at the fixed `https://forms.digitalsanctum.com.au/f/` origin. Omit to use `nakedtech-contact`; never place an arbitrary URL here. |
 
 ### `landing.schema`
 
@@ -229,6 +244,7 @@ landing:
     heading: '<PROBLEM-SPECIFIC FORM HEADING>'
     # introduction: '<OPTIONAL SINGLE-SENTENCE PROMPT>'
     contextKey: <SAME VALUE AS landing.id>
+    # formSlug: <APPROVED-SANCTUM-FORMS-SLUG>
   schema:
     serviceType: '<APPROVED SERVICE TYPE>'
     areaServed:

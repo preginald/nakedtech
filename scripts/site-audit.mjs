@@ -72,6 +72,7 @@ const expectedRoutes = [
   '/services/printer-help-ivanhoe/',
   '/services/email-help-ivanhoe/',
   '/services/new-printer-setup-ivanhoe/',
+  '/services/password-manager-setup-ivanhoe/',
   '/booking/',
   '/contact/',
   '/brand/',
@@ -256,6 +257,36 @@ landingPageAudits.push({
     'no automatic hourly overrun',
     'Call Peter about your new printer',
     'Tell Peter about your new printer.'
+  ]
+})
+
+landingPageAudits.push({
+  route: '/services/password-manager-setup-ivanhoe/',
+  title: 'Password Manager Setup Ivanhoe &amp; Eaglemont | Naked Tech',
+  description: 'Fixed-price $390 incl. GST onsite password-manager setup in Ivanhoe and Eaglemont for one personal vault, two supported devices and a practical recovery plan.',
+  canonical: 'https://nakedtech.au/services/password-manager-setup-ivanhoe/',
+  ogImage: 'https://nakedtech.au/img/password-safety-control-og.webp',
+  painPoint: 'password_safety_control',
+  variant: 'guided-service',
+  visualImage: '/img/password-safety-control-og.webp',
+  visualHeading: 'Safer does not have to mean harder.',
+  primaryLabel: 'Send a quick enquiry',
+  primaryHref: '#contact',
+  detailLabel: 'See if the password visit fits',
+  robots: 'index, follow',
+  sitemap: 'present',
+  contentMarkers: [
+    '$390 fixed incl. GST',
+    'up to two hours onsite',
+    'one personal vault',
+    'one primary computer and one phone or tablet',
+    'one supported import',
+    'Your passwords stay yours.',
+    'does not record, photograph, copy, transmit or retain',
+    'provider-controlled account recovery',
+    'Scam &amp; Account-Security Assessment',
+    'Call about password setup',
+    'Tell us how you manage passwords now.'
   ]
 })
 
@@ -629,7 +660,7 @@ assert(Boolean(servicesMain), 'services: main content rendered')
 for (const sectionId of ['find-help', 'projects', 'pricing', 'how-it-works']) {
   assert(countOccurrences(servicesMain, `id="${sectionId}"`) === 1, `services: exactly one #${sectionId} section rendered`)
 }
-assert(countOccurrences(servicesMain, 'data-service-path') === 7, 'services: seven assessment and guided-service paths rendered')
+assert(countOccurrences(servicesMain, 'data-service-path') === 8, 'services: eight assessment and guided-service paths rendered')
 for (const route of [
   '/services/wifi-dropouts-ivanhoe/',
   '/services/slow-computer-help-ivanhoe/',

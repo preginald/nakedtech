@@ -297,9 +297,9 @@ Use one `/services/slow-computer-help-ivanhoe/` page with a substantive Windows 
 
 The combined page is implemented at `/services/slow-computer-help-ivanhoe/` through the unchanged shared sales-landing-page template.
 
-- Approved offer: `From $190` fixed-price diagnosis and decision project, with exact scope and price agreed before work starts.
-- Included: diagnosis, safe straightforward fixes within the agreed scope, Windows lifecycle assessment, and a plain-English repair/upgrade/replace recommendation.
-- Separate work: parts, account recovery, provider work, data transfer/new-computer setup and follow-up. The page explicitly states that not every fault can be completed in one visit.
+- Approved P5-T1 refinement: `$190 fixed-price` Slow Computer Performance Assessment, delivered onsite for `60–75 minutes` with local call-out included in Ivanhoe or Eaglemont.
+- Included: diagnosis, safe straightforward fixes within scope, Windows lifecycle assessment, and a concise written fix/upgrade/replace plan.
+- Separate work: parts, account recovery, provider work, data transfer/new-computer setup, workshop remediation and follow-up. The page explicitly states that not every fault can be completed in one visit.
 - The page covers slow startup, freezing, storage/update/background software, security indicators, device condition, Windows 11 compatibility and Windows 10 support options without implying malware or forced replacement.
 - The route is in the sitemap and automated landing-page audit, has an internal link from The Quickie, and uses a unique 1200×630 problem-specific Open Graph image.
 - Verification passed 530 automated checks across 17 generated pages plus build, desktop/tablet/mobile review at 360/390/768/1280, zero measured horizontal overflow, valid Service JSON-LD, and `slow_computer` page-view/telephone/form context.
@@ -335,10 +335,46 @@ Core promise:
 - Explicit exclusions cover fund recovery, identity restoration, provider-controlled account recovery, forensic or law-enforcement work, legal/financial/insurance/credit advice, complete-clean guarantees and protection from future compromise.
 - The page is implemented locally using the shared landing-page template, with `scam_security` analytics/form context, a unique 1200×630 Open Graph image, sitemap registration, a services-page internal link and automated audit coverage. Its refined visual treatment and content are owner-approved for release.
 
-### Later organic/search pages
+### New computer setup and data transfer — implemented locally
 
-- New computer setup and data transfer
-- Printer and email support
+- `/services/new-computer-setup-data-transfer-ivanhoe/` presents the owner-approved `$550 fixed incl. GST` Standard Windows Move through the compact guided-service variant.
+- The public path is phone-first with the shared contact form. Peter completes the detailed suitability check with the client; the unlinked checklist is not presented as customer self-service.
+- One healthy Windows source, one Windows 11 destination, one user, up to 250 GB, a current usable backup and one onsite appointment of up to three hours define the standard scope.
+- Its unique 1200×630 service image is also rendered as a visible editorial break after the fit comparison.
+
+### Printer help — implemented locally
+
+- Printer and email intent are separated. The printer route is `/services/printer-help-ivanhoe/`; personal email troubleshooting has its own route and scope below.
+- The approved Printer Troubleshooting Visit is `$190 fixed incl. GST`, including Ivanhoe or Eaglemont call-out and up to 60 minutes onsite for one existing household printer, one fault and one primary supported device.
+- The fixed fee covers troubleshooting and safe user-level actions, not a guaranteed repair. New-printer installation, physical repair, parts, consumables, wider network faults and provider-controlled outcomes are excluded or separately scoped.
+- The compact guided page uses `printer_help`, the shared contact form, a unique 1200×630 Open Graph image that also appears as a visible editorial break, and direct homepage, services, navigation, footer, Quickie and sitemap discovery.
+
+### New printer setup — implemented
+
+- `/services/new-printer-setup-ivanhoe/` presents the owner-approved New Printer Setup Visit at `$250 fixed incl. GST`, including Ivanhoe or Eaglemont call-out and up to 90 minutes onsite.
+- The standard scope covers one supported new household printer, one primary computer or mobile device, connection to the existing network, current manufacturer software, a test print or scan where supported, and a short handover.
+- Printer purchase, wider Wi-Fi remediation, additional devices, subscriptions, provider-controlled accounts, physical repair, parts and consumables are excluded or separately scoped.
+- The compact guided page uses `new_printer_setup`, the shared contact form, a visible 1200×630 service image, sitemap registration and sitewide discovery links.
+
+### Email help — implemented locally
+
+- `/services/email-help-ivanhoe/` presents the owner-approved Personal Email Troubleshooting Visit at `$190 fixed incl. GST`, including Ivanhoe or Eaglemont call-out and up to 60 minutes onsite.
+- The standard scope is one reported sending, receiving, syncing or existing-account setup problem involving one personal email account, one supported device and one supported app or current browser. The client's internet connection must otherwise work.
+- The client controls passwords, recovery details and verification codes. Provider-controlled recovery, suspected compromise, additional accounts or devices, new-account creation, business or managed email, server/DNS administration, provider outages, guaranteed deliverability and permanently deleted-email restoration are excluded or routed elsewhere.
+- Potential local-only mail, contact or calendar data is not put at risk by deleting or rebuilding a profile; that work pauses unless synchronisation or a safe backup is confirmed.
+- The compact page uses `email_help`, the shared contact form, a unique 1200×630 Open Graph image that also appears as a visible editorial break, and direct homepage, services, navigation, footer, Quickie and sitemap discovery. Local validation passed 1,597 site checks and 42 analytics scenarios/186 assertions; no production deployment, form submission or live campaign was created.
+
+### Password safety and control — approved for release
+
+- `/services/password-manager-setup-ivanhoe/` presents the owner-approved Password Safety & Control Visit at `$390 fixed incl. GST`, including the suitability call, Ivanhoe or Eaglemont call-out and up to two hours onsite.
+- The standard scope is one person, one personal vault, one primary computer, one phone or tablet, one browser integration, mobile autofill where supported, one straightforward supported import, guided practice and a written recovery handover.
+- The client creates and enters the master password, credentials, authentication codes and recovery material. Naked Tech does not record, photograph, copy, transmit, retain or take custody of them.
+- Active compromise routes to the Scam & Account-Security Assessment. Provider-controlled recovery, identity restoration, fund recovery, business vaults, extra people/devices and bespoke KeePass or file-synchronisation workflows are excluded or separately scoped.
+- Peter completes the production operator-only suitability assessment with the client; it has no public respondent route. The public page uses `password_safety_control`, the shared enquiry form, a visible 1200×630 service image, sitemap registration and services-page discovery.
+- Current local validation passes 1,974 site checks and 56 analytics scenarios/248 assertions without creating a form submission or analytics-platform event.
+
+### Remaining organic/search pages
+
 - Laptop will not start / black-screen triage
 - Screen, charging and physical repairs only if an operational workshop model is approved
 
@@ -363,7 +399,7 @@ Every problem-specific page should use a shared Nunjucks sales-landing-page temp
 
 Potential trust material includes:
 
-- Peter’s home-computer support experience since 2004, if presented with accurate continuity wording;
+- Peter’s personal 30+ years of technology and support experience, without implying that Naked Tech itself has operated for 30 years;
 - current Google reviews rather than unverified historical testimonials;
 - local identity and service boundary;
 - no hardware markup;

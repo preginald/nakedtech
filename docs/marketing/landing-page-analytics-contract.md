@@ -30,7 +30,12 @@ Use stable snake-case identifiers. Copy and route changes must not create new id
 
 - `wifi_dropouts`
 - `slow_computer`
-- `scam_security` (reserved for a later approved page)
+- `scam_security`
+- `new_computer_setup`
+- `printer_help`
+- `email_help`
+- `new_printer_setup`
+- `password_safety_control`
 
 The generic contact page has no pain-point identifier unless it receives verified context from a pain page. Do not label all generic enquiries as one of the identifiers above.
 
@@ -126,6 +131,10 @@ The executor runs the exact inline scripts from the generated landing pages and 
 - The P4-T1 context handshake proves what the parent sends; the separate P4-T2 evidence below establishes current provider receipt, storage and operator exposure.
 - P4-T3 platform evidence collected after deployment is recorded below.
 
+### Local contract extension — 1 August 2026
+
+The deterministic matrix now covers eight service contexts and passes 56 scenarios with 248 assertions. New Computer Setup, printer help, email help, new-printer setup and password safety/control use synthetic `site_audit / test / non_live_validation` attribution solely to exercise attributed code paths; this is not evidence of a live paid campaign, production analytics receipt or a form submission. The historical P4-T1 and P4-T3 evidence remains unchanged.
+
 ## P4-T2 Sanctum Forms provider capability verification
 
 **Provider source/deployment:** Sanctum Forms commit `5ca4b19` (`feat(forms): add secure iframe attribution protocol`)<br>
@@ -146,7 +155,8 @@ The executor runs the exact inline scripts from the generated landing pages and 
 ### P4-T2 decision
 
 - Do not add a visible or hidden/default `pain_point` field. The provider's official reserved context transport is the safer, already deployed capability.
-- Keep one shared `nakedtech-contact` form for both pain pages; do not clone schemas merely to distinguish acquisition context.
+- Keep one shared public `nakedtech-contact` form across the Wi-Fi, slow-computer, scam/security, New Computer Setup, printer-help and email-help pages. Page and service context distinguish enquiries without multiplying public forms.
+- The detailed `nakedtech-new-computer-move-suitability` form is an unlinked, owner-operated checklist that Peter completes with the customer during a guided conversation. Its hosted URL remains public rather than access-controlled, so it must never collect passwords, authentication codes, recovery keys, licence keys or sensitive documents.
 - Continue preserving all four approved UTMs in browser analytics independently of form persistence.
 - Send context exactly once after trusted `ready`; the provider's first-valid-context rule prevents later mutation.
 - No new production form was submitted during P4-T2. Existing retained records and read-only production inspection supplied the persistence evidence.

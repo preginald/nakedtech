@@ -78,6 +78,18 @@ const routes = [
       utm_medium: 'test',
       utm_campaign: 'non_live_validation'
     }
+  },
+  {
+    label: 'Password safety and control',
+    route: '/services/password-manager-setup-ivanhoe/',
+    painPoint: 'password_safety_control',
+    campaignContent: 'password_safety_control_audit_only',
+    attributedCase: 'synthetic attributed page view',
+    attribution: {
+      utm_source: 'site_audit',
+      utm_medium: 'test',
+      utm_campaign: 'non_live_validation'
+    }
   }
 ]
 
