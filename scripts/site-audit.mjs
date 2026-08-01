@@ -1,7 +1,12 @@
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { extname, join, relative } from 'node:path'
+import { execFileSync } from 'node:child_process'
+import { createRequire } from 'node:module'
 import vm from 'node:vm'
 import nunjucks from 'nunjucks'
+
+const require = createRequire(import.meta.url)
+const serviceCatalogue = require('../src/_data/serviceCatalogue.js')
 
 const root = new URL('../_site/', import.meta.url).pathname
 const includesRoot = new URL('../src/_includes/', import.meta.url).pathname
@@ -29,6 +34,15 @@ function assert(condition, message) {
 
 function countOccurrences(value, needle) {
   return value.split(needle).length - 1
+}
+
+function htmlText(value) {
+  return value
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;')
 }
 
 function inlineScript(html, marker) {
@@ -437,9 +451,13 @@ function auditLandingPageHtml(audit, html, metadataEntries, sitemapXml) {
 
 const robotsPath = join(root, 'robots.txt')
 const sitemapPath = join(root, 'sitemap.xml')
+const servicesJsonPath = join(root, 'services.json')
+const versionJsonPath = join(root, 'version.json')
 const nginxRedirectPath = new URL('../deploy/nginx/nakedtech-www-redirect.conf', import.meta.url).pathname
 assert(existsSync(robotsPath), 'robots.txt exists')
 assert(existsSync(sitemapPath), 'sitemap.xml exists')
+assert(existsSync(servicesJsonPath), 'public service catalogue exists at /services.json')
+assert(existsSync(versionJsonPath), 'public build identity exists at /version.json')
 assert(existsSync(nginxRedirectPath), 'Nginx canonical-host redirect configuration exists')
 if (existsSync(robotsPath)) {
   assert(readFileSync(robotsPath, 'utf8').includes('https://nakedtech.au/sitemap.xml'), 'robots.txt advertises sitemap')
@@ -491,6 +509,10 @@ for (const file of htmlFiles) {
 
     const h1Count = (html.match(/<h1\b/gi) || []).length
     assert(h1Count === 1, `${page}: exactly one h1`)
+    assert(
+      html.includes('<link rel="alternate" type="application/json" href="/services.json"'),
+      `${page}: advertises the public JSON service catalogue`
+    )
   }
 
   for (const match of html.matchAll(/<a\b[^>]*href=["']([^"']+)["'][^>]*>/gi)) {
@@ -538,6 +560,109 @@ const generatedMetadata = htmlFiles.map((file) => {
 
 const sitemapXml = existsSync(sitemapPath) ? readFileSync(sitemapPath, 'utf8') : ''
 
+if (existsSync(servicesJsonPath)) {
+  try {
+    const publicCatalogueSource = readFileSync(servicesJsonPath, 'utf8')
+    const publicCatalogue = JSON.parse(publicCatalogueSource)
+    const publicServices = publicCatalogue.services || []
+    const machineHubHtml = readFileSync(routeToFile('/services/'), 'utf8')
+    const machineIds = publicServices.map((service) => service.id)
+    const serviceKeys = publicServices.map((service) => service.serviceKey)
+    const canonicalUrls = publicServices.map((service) => service.canonicalUrl)
+
+    assert(publicCatalogue.schemaVersion === '1.0', 'service catalogue: schema version is 1.0')
+    assert(publicServices.length === 11, 'service catalogue: exactly 11 services are published')
+    assert(publicServices.every((service) => service.status === 'active'), 'service catalogue: every published service is active')
+    assert(new Set(machineIds).size === 11, 'service catalogue: machine IDs are unique')
+    assert(new Set(serviceKeys).size === 11, 'service catalogue: service keys are unique')
+    assert(new Set(canonicalUrls).size === 11, 'service catalogue: canonical URLs are unique')
+    assert(
+      machineIds.every((id) => /^au\.nakedtech\.service\.[a-z0-9_]+$/.test(id)),
+      'service catalogue: machine IDs use the permanent Naked Tech namespace'
+    )
+    assert(!publicCatalogueSource.toLowerCase().includes('bodyguard'), 'service catalogue: retired Bodyguard is absent')
+    assert(
+      JSON.stringify(publicCatalogue) === JSON.stringify(serviceCatalogue.public),
+      'service catalogue: generated JSON exactly matches the canonical source projection'
+    )
+    for (const marker of ['/home/', '_site/', 'node_modules/', '.git/', 'projectServices.json', 'serviceCatalogue.js']) {
+      assert(!publicCatalogueSource.includes(marker), `service catalogue: excludes internal marker ${marker}`)
+    }
+    assert(!Object.hasOwn(publicCatalogue.publisher || {}, 'operator'), 'service catalogue: excludes operator personal information')
+
+    for (const service of publicServices) {
+      const pathname = new URL(service.canonicalUrl).pathname
+      const serviceFile = routeToFile(pathname)
+      const serviceHtml = existsSync(serviceFile) ? readFileSync(serviceFile, 'utf8') : ''
+      const structuredService = jsonLdBlocks(serviceHtml)
+        .map((block) => JSON.parse(block))
+        .find((value) => value['@type'] === 'Service')
+
+      assert(existsSync(serviceFile), `service catalogue: canonical route exists (${pathname})`)
+      assert(countOccurrences(sitemapXml, service.canonicalUrl) === 1, `service catalogue: URL appears exactly once in sitemap (${service.serviceKey})`)
+      assert(machineHubHtml.includes(htmlText(service.name)), `service catalogue: hub card uses canonical name (${service.serviceKey})`)
+      assert(machineHubHtml.includes(htmlText(service.pricing.displayText)), `service catalogue: hub card uses canonical price (${service.serviceKey})`)
+      assert(serviceHtml.includes(htmlText(service.name)), `service catalogue: detail page uses canonical name (${service.serviceKey})`)
+      assert(serviceHtml.includes(htmlText(service.pricing.displayText)), `service catalogue: detail page uses canonical price (${service.serviceKey})`)
+      assert(structuredService?.['@id'] === `${service.canonicalUrl}#service`, `service schema: canonical page entity ID retained (${service.serviceKey})`)
+      assert(structuredService?.identifier === service.id, `service schema: stable machine identifier rendered (${service.serviceKey})`)
+      assert(structuredService?.name === service.name, `service schema: canonical name rendered (${service.serviceKey})`)
+      assert(structuredService?.serviceType === service.serviceType, `service schema: canonical service type rendered (${service.serviceKey})`)
+      assert(structuredService?.provider?.['@id'] === 'https://nakedtech.au/#business', `service schema: canonical business referenced (${service.serviceKey})`)
+      assert(structuredService?.offers?.priceCurrency === 'AUD', `service schema: AUD price currency rendered (${service.serviceKey})`)
+      assert(structuredService?.offers?.priceSpecification?.valueAddedTaxIncluded === true, `service schema: GST inclusion rendered (${service.serviceKey})`)
+      assert(
+        structuredService?.areaServed?.map((area) => `${area.address?.addressLocality}|${area.address?.addressRegion}|${area.address?.postalCode}|${area.address?.addressCountry}`).join(';') ===
+          'Ivanhoe|VIC|3079|AU;Eaglemont|VIC|3084|AU',
+        `service schema: structured service areas match the catalogue (${service.serviceKey})`
+      )
+      assert(service.deliveryMethod === 'in_home', `service catalogue: in-home delivery declared (${service.serviceKey})`)
+      assert(
+        service.booking?.mode === 'request' && service.booking?.humanConfirmationRequired === true && service.booking?.liveAvailability === false,
+        `service catalogue: non-autonomous booking contract declared (${service.serviceKey})`
+      )
+      assert(service.pricing?.currency === 'AUD' && service.pricing?.includesGst === true, `service catalogue: AUD GST pricing declared (${service.serviceKey})`)
+
+      if (service.pricing.model === 'fixed') {
+        assert(Number.isFinite(service.pricing.amount), `service catalogue: fixed price has numeric amount (${service.serviceKey})`)
+        assert(!Object.hasOwn(service.pricing, 'minimum') && !Object.hasOwn(service.pricing, 'maximum'), `service catalogue: fixed price omits range fields (${service.serviceKey})`)
+        assert(structuredService?.offers?.price === service.pricing.amount, `service schema: fixed Offer price matches (${service.serviceKey})`)
+        assert(structuredService?.offers?.priceSpecification?.price === service.pricing.amount, `service schema: fixed PriceSpecification matches (${service.serviceKey})`)
+      } else if (service.pricing.model === 'range') {
+        assert(Number.isFinite(service.pricing.minimum) && Number.isFinite(service.pricing.maximum), `service catalogue: range price has numeric bounds (${service.serviceKey})`)
+        assert(!Object.hasOwn(service.pricing, 'amount'), `service catalogue: range price omits fixed amount (${service.serviceKey})`)
+        assert(structuredService?.offers?.priceSpecification?.minPrice === service.pricing.minimum, `service schema: range minimum matches (${service.serviceKey})`)
+        assert(structuredService?.offers?.priceSpecification?.maxPrice === service.pricing.maximum, `service schema: range maximum matches (${service.serviceKey})`)
+      } else if (service.pricing.model === 'from') {
+        assert(Number.isFinite(service.pricing.minimum), `service catalogue: from price has numeric minimum (${service.serviceKey})`)
+        assert(!Object.hasOwn(service.pricing, 'amount') && !Object.hasOwn(service.pricing, 'maximum'), `service catalogue: from price omits fixed and maximum fields (${service.serviceKey})`)
+        assert(structuredService?.offers?.priceSpecification?.minPrice === service.pricing.minimum, `service schema: from minimum matches (${service.serviceKey})`)
+      } else {
+        failures.push(`service catalogue: supported pricing model used (${service.serviceKey})`)
+      }
+    }
+  } catch (error) {
+    failures.push(`service catalogue: generated /services.json parses and audits (${error.message})`)
+  }
+}
+
+if (existsSync(versionJsonPath)) {
+  try {
+    const version = JSON.parse(readFileSync(versionJsonPath, 'utf8'))
+    const expectedCommit = execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim()
+    const expectedTimestamp = execFileSync('git', ['show', '-s', '--format=%cI', 'HEAD'], { encoding: 'utf8' }).trim()
+    assert(
+      Object.keys(version).sort().join('|') === 'catalogueSchemaVersion|commit|commitTimestamp',
+      'build identity: contains only commit, timestamp and catalogue schema version'
+    )
+    assert(version.commit === expectedCommit && /^[0-9a-f]{40}$/.test(version.commit), 'build identity: full commit matches HEAD')
+    assert(version.commitTimestamp === expectedTimestamp, 'build identity: commit timestamp matches HEAD')
+    assert(version.catalogueSchemaVersion === serviceCatalogue.schemaVersion, 'build identity: catalogue schema version matches source')
+  } catch (error) {
+    failures.push(`build identity: generated /version.json parses and audits (${error.message})`)
+  }
+}
+
 for (const audit of landingPageAudits) {
   const file = routeToFile(audit.route)
   assert(existsSync(file), `landing page exists: ${audit.route}`)
@@ -568,7 +693,28 @@ const inMemoryLandingContext = {
   ogImageWidth: 800,
   ogImageHeight: 800,
   page: { url: inMemoryLandingAudit.route },
-  site: JSON.parse(readFileSync(new URL('../src/_data/site.json', import.meta.url), 'utf8')),
+  site: require('../src/_data/site.js'),
+  serviceCatalogue: {
+    byKey: {
+      template_fixture: {
+        id: 'au.nakedtech.service.template_fixture',
+        serviceKey: 'template_fixture',
+        name: 'Automated test offer',
+        serviceType: 'Synthetic landing-page template fixture',
+        canonicalUrl: 'https://nakedtech.au/__fixtures__/landing-page/',
+        pricing: {
+          model: 'fixed',
+          currency: 'AUD',
+          amount: 1,
+          includesGst: true,
+          displayText: 'Synthetic fixture only'
+        },
+        serviceAreas: [
+          { locality: 'Synthetic', region: 'VIC', postcode: '3000', country: 'AU' }
+        ]
+      }
+    }
+  },
   landing: {
     id: 'template_fixture',
     eyebrow: 'Synthetic landing-page fixture',
@@ -699,8 +845,8 @@ for (const slug of ['full-strip', 'power-pose', 'quickie']) {
 }
 assert(!servicesHtml.includes('href="/services/bodyguard/"'), 'retired Bodyguard offer is absent from services navigation and catalogue')
 assert(!servicesMain.includes('Smart home security'), 'services: unsupported smart-home security offer is not advertised')
-assert(servicesMain.includes('$550 fixed · incl. GST'), 'services: approved new-computer price summary rendered')
-for (const price of ['$190 fixed · incl. GST', '$250 fixed · incl. GST', '$550 fixed · incl. GST']) {
+assert(servicesMain.includes('$550 fixed incl. GST'), 'services: approved new-computer price summary rendered')
+for (const price of ['$190 fixed incl. GST', '$250 fixed incl. GST', '$550 fixed incl. GST']) {
   assert(servicesMain.includes(price), `services: GST-inclusive problem-service price rendered (${price})`)
 }
 for (const investment of ['$900–$1,800 incl. GST', '$350 incl. GST', 'From $190 incl. GST']) {
@@ -762,6 +908,10 @@ assert(documentTitle(websiteTermsHtml) === 'Website Terms of Use | Naked Tech', 
 assert(websiteTermsHtml.includes('ABN 57 221 340 918'), 'website terms: operator ABN rendered')
 assert(websiteTermsHtml.includes('href="/service-terms/"'), 'website terms: customer service terms linked')
 assert(websiteTermsHtml.includes('Nothing in these terms excludes, restricts or modifies'), 'website terms: ACL savings clause rendered')
+assert(websiteTermsHtml.includes('automated tools to retrieve our public service catalogue at a reasonable rate'), 'website terms: reasonable automated catalogue retrieval permitted')
+assert(websiteTermsHtml.includes('attribute Naked Tech and link to the relevant service page'), 'website terms: automated display attribution and linking required')
+assert(websiteTermsHtml.includes('binding quote, accepted booking or confirmed appointment'), 'website terms: catalogue is explicitly non-transactional')
+assert(websiteTermsHtml.includes('automated catalogue use expressly permitted in section 2'), 'website terms: intellectual-property clause preserves catalogue permission')
 assert(countOccurrences(sitemapXml, 'https://nakedtech.au/terms/') === 1, 'website terms: canonical route appears once in sitemap')
 
 const privacyHtml = readFileSync(routeToFile('/privacy/'), 'utf8')

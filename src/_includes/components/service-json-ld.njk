@@ -1,0 +1,52 @@
+{% macro jsonValue(value) -%}
+{{ value | dump | replace('<', '\\u003c') | replace('>', '\\u003e') | replace('&', '\\u0026') | safe }}
+{%- endmacro %}
+
+{% macro serviceJsonLd(service, site, description) %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "@id": {{ jsonValue(service.canonicalUrl ~ '#service') }},
+  "identifier": {{ jsonValue(service.id) }},
+  "name": {{ jsonValue(service.name) }},
+  "serviceType": {{ jsonValue(service.serviceType) }},
+  "description": {{ jsonValue(description) }},
+  "url": {{ jsonValue(service.canonicalUrl) }},
+  "provider": {
+    "@type": "LocalBusiness",
+    "@id": {{ jsonValue(site.url ~ '/#business') }},
+    "name": {{ jsonValue(site.name) }},
+    "url": {{ jsonValue(site.url ~ '/') }},
+    "telephone": {{ jsonValue(site.phone.schema) }}
+  },
+  "areaServed": [
+    {% for area in service.serviceAreas %}{
+      "@type": "Place",
+      "name": {{ jsonValue(area.locality ~ ' ' ~ area.region ~ ' ' ~ area.postcode) }},
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": {{ jsonValue(area.locality) }},
+        "addressRegion": {{ jsonValue(area.region) }},
+        "postalCode": {{ jsonValue(area.postcode) }},
+        "addressCountry": {{ jsonValue(area.country) }}
+      }
+    }{% if not loop.last %},{% endif %}{% endfor %}
+  ],
+  "offers": {
+    "@type": "Offer",
+    "url": {{ jsonValue(service.canonicalUrl) }},
+    "priceCurrency": {{ jsonValue(service.pricing.currency) }},
+    {% if service.pricing.model == 'fixed' %}"price": {{ service.pricing.amount }},{% endif %}
+    "priceSpecification": {
+      "@type": "PriceSpecification",
+      "priceCurrency": {{ jsonValue(service.pricing.currency) }},
+      "valueAddedTaxIncluded": {{ service.pricing.includesGst | dump }},
+      {% if service.pricing.model == 'fixed' %}"price": {{ service.pricing.amount }}{% elif service.pricing.model == 'range' %}"minPrice": {{ service.pricing.minimum }},
+      "maxPrice": {{ service.pricing.maximum }}{% else %}"minPrice": {{ service.pricing.minimum }}{% endif %}
+    },
+    "description": {{ jsonValue(service.pricing.displayText) }}
+  }
+}
+</script>
+{% endmacro %}

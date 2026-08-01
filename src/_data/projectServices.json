@@ -1,17 +1,11 @@
 [
   {
-    "slug": "full-strip",
-    "name": "The Full Strip",
-    "category": "Whole-home Mesh Wi-Fi",
+    "serviceKey": "full-strip",
     "seoTitle": "Mesh Wi-Fi Installation Ivanhoe",
     "seoDescription": "Whole-home Mesh Wi-Fi design, installation and setup for Ivanhoe and Eaglemont homes, with transparent pricing and hardware sold at cost.",
     "headline": "Wi-Fi that reaches the rooms where you actually use it.",
     "promise": "We diagnose the weak spots, design the right Mesh Wi-Fi layout, install the hardware and leave you with a network you understand.",
-    "cardDescription": "Diagnose weak spots and install enterprise-grade Mesh Wi-Fi for more reliable coverage throughout your home.",
-    "typicalInvestment": "$900–$1,800 incl. GST",
     "investmentNote": "Typical GST-inclusive total including hardware and installation. Final scope depends on your property and coverage needs.",
-    "priceLine": "Fixed project quote + hardware at cost",
-    "iconPath": "M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0",
     "problems": [
       {"title": "Rooms drop out", "body": "The connection is fine beside the router, then disappears where work, streaming or smart devices happen."},
       {"title": "Extenders disappoint", "body": "A patchwork of boosters creates extra network names, unreliable hand-offs and more things to reset."},
@@ -45,18 +39,12 @@
     "diagnosticLabel": "Start with the $190 Wi-Fi diagnosis"
   },
   {
-    "slug": "power-pose",
-    "name": "The Power Pose",
-    "category": "Home office setup",
+    "serviceKey": "power-pose",
     "seoTitle": "Home Office Technology Setup Ivanhoe",
     "seoDescription": "A cleaner, better-connected Ivanhoe and Eaglemont home office with monitor mounting, cable management and video-call lighting as a $350 fixed-price project including GST.",
     "headline": "A home office that looks composed and works that way too.",
     "promise": "We straighten the cables, position the screens and improve the video-call setup so your workspace supports the work instead of interrupting it.",
-    "cardDescription": "Turn a cluttered desk into a cleaner, better-connected workspace with cable management, monitor mounting and video-call lighting.",
-    "typicalInvestment": "$350 incl. GST",
     "investmentNote": "GST-inclusive fixed project price for the standard home-office reset. Any required hardware is additional and discussed with you.",
-    "priceLine": "Fixed project price",
-    "iconPath": "M13 10V3L4 14h7v7l9-11h-7z",
     "problems": [
       {"title": "The desk fights back", "body": "Cables snag, chargers migrate and every change turns into another improvised adapter."},
       {"title": "Calls look and sound rough", "body": "The screen, camera and light are in the wrong places, making every meeting harder than it needs to be."},
@@ -88,18 +76,12 @@
     "cta": "Book an office reset"
   },
   {
-    "slug": "quickie",
-    "name": "The Quickie",
-    "category": "Everyday tech support",
+    "serviceKey": "quickie",
     "seoTitle": "Home Tech Support Ivanhoe",
     "seoDescription": "Straightforward in-home help for one everyday technology problem in Ivanhoe and Eaglemont, with scope and a fixed price agreed before work starts.",
     "headline": "One annoying tech problem. One straightforward visit.",
     "promise": "Tell us about the one everyday technology problem getting in your way. We confirm whether this service fits or a dedicated assessment is the better starting point, then agree the scope and price before work begins.",
-    "cardDescription": "Get practical help with one everyday home-technology problem that does not fit a dedicated assessment or setup.",
-    "typicalInvestment": "From $190 incl. GST",
     "investmentNote": "The project scope and GST-inclusive fixed price are agreed before work starts. Parts or follow-up work are quoted separately if needed.",
-    "priceLine": "Fixed project price",
-    "iconPath": "M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065zM15 12a3 3 0 11-6 0 3 3 0 016 0z",
     "problems": [
       {"title": "One device stopped cooperating", "body": "A familiar home device or app has changed and one clearly described function no longer behaves as expected."},
       {"title": "A small setup needs sorting", "body": "You need help connecting or configuring one straightforward piece of everyday home technology."},

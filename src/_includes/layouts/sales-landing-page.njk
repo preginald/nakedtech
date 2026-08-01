@@ -3,6 +3,8 @@ layout: layouts/base.njk
 ---
 
 {% from "components/contact-form.njk" import contactForm %}
+{% from "components/service-json-ld.njk" import serviceJsonLd %}
+{% set catalogueService = serviceCatalogue.byKey[landing.id] %}
 
 {% macro jsonValue(value) -%}
 {{ value | dump | replace('<', '\\u003c') | replace('>', '\\u003e') | replace('&', '\\u0026') | safe }}
@@ -81,8 +83,8 @@ layout: layouts/base.njk
         </div>
 
         <aside class="rounded-3xl border border-white/15 bg-white/10 p-6 shadow-2xl backdrop-blur-sm md:p-8" aria-label="Starting offer">
-            <p class="text-sm font-bold uppercase tracking-[0.18em] text-inverse-ink/60">{{ landing.offer.label }}</p>
-            <p class="mt-3 text-4xl font-extrabold tracking-tight text-accent">{{ landing.offer.price }}</p>
+            <p class="text-sm font-bold uppercase tracking-[0.18em] text-inverse-ink/60">{{ catalogueService.name }}</p>
+            <p class="mt-3 text-4xl font-extrabold tracking-tight text-accent">{{ catalogueService.pricing.displayText }}</p>
             <p class="mt-5 border-t border-white/15 pt-5 text-sm leading-relaxed text-inverse-ink/75">{{ landing.offer.note }}</p>
             <a href="{{ offerDetailHref }}" class="mt-6 inline-flex min-h-11 items-center font-bold text-inverse-ink transition hover:text-accent hover:underline">
                 {{ offerDetailLabel }} <span class="ml-2" aria-hidden="true">↓</span>
@@ -256,8 +258,8 @@ layout: layouts/base.njk
     <div class="container mx-auto px-6">
         <div class="mx-auto grid max-w-6xl overflow-hidden rounded-3xl shadow-2xl lg:grid-cols-[0.9fr_1.1fr]">
             <div class="bg-accent p-7 text-ivanhoe-slate md:p-10 lg:p-12">
-                <p class="text-sm font-bold uppercase tracking-[0.18em]">{{ landing.offer.label }}</p>
-                <h2 id="pricing-heading" class="mt-3 text-3xl font-extrabold tracking-tight md:text-4xl">{{ landing.offer.price }}</h2>
+                <p class="text-sm font-bold uppercase tracking-[0.18em]">{{ catalogueService.name }}</p>
+                <h2 id="pricing-heading" class="mt-3 text-3xl font-extrabold tracking-tight md:text-4xl">{{ catalogueService.pricing.displayText }}</h2>
                 <p class="mt-6 leading-relaxed">{{ landing.offer.note }}</p>
                 <div class="mt-8{% if landing.stackedPricingCtas %} grid gap-3{% else %} flex flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row{% endif %}">
                     <a href="{{ landing.cta.primaryHref }}" class="inline-flex min-h-14 items-center justify-center rounded-full bg-inverse px-8 py-4 text-base font-bold text-white transition hover:-translate-y-0.5 hover:bg-black{% if landing.stackedPricingCtas %} w-full whitespace-nowrap{% endif %}">{{ landing.cta.primaryLabel }}</a>
@@ -339,30 +341,7 @@ layout: layouts/base.njk
 </script>
 {% endif %}
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Service",
-  "name": {{ jsonValue(landing.schema.serviceType) }},
-  "serviceType": {{ jsonValue(landing.schema.serviceType) }},
-  "description": {{ jsonValue(description) }},
-  "url": {{ jsonValue(site.url ~ page.url) }},
-  "provider": {
-    "@type": "LocalBusiness",
-    "@id": {{ jsonValue(site.url ~ '/#business') }},
-    "name": {{ jsonValue(site.name) }},
-    "url": {{ jsonValue(site.url ~ '/') }},
-    "telephone": {{ jsonValue(site.phone.schema) }}
-  },
-  "areaServed": [
-    {% for area in landing.schema.areaServed %}{{ jsonValue(area) }}{% if not loop.last %},{% endif %}{% endfor %}
-  ],
-  "offers": {
-    "@type": "Offer",
-    "description": {{ jsonValue(landing.offer.label ~ ': ' ~ landing.offer.price ~ '. ' ~ landing.offer.note) }}
-  }
-}
-</script>
+{{ serviceJsonLd(catalogueService, site, description) }}
 
 <script data-pain-page-view-tracking>
 (function() {

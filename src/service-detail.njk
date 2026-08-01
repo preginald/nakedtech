@@ -10,6 +10,8 @@ eleventyComputed:
   description: "{{ service.seoDescription }}"
 ---
 
+{% from "components/service-json-ld.njk" import serviceJsonLd %}
+
 <header class="relative overflow-hidden bg-inverse text-inverse-ink pt-28 pb-16 md:pt-36 md:pb-24">
     <div class="absolute inset-0 opacity-10" aria-hidden="true">
         <div class="absolute -right-24 -top-24 h-96 w-96 rounded-full border-[64px] border-accent"></div>
@@ -205,3 +207,5 @@ eleventyComputed:
         </div>
     </section>
 </div>
+
+{{ serviceJsonLd(service.catalogueService, site, description) }}
