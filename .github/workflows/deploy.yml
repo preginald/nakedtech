@@ -32,7 +32,17 @@ jobs:
           
           # Build the site
           npm run build
-          
-          # Optional: Restart Apache if you were doing heavy caching, 
-          # but usually not needed for static HTML updates.
-          # sudo systemctl reload apache2
+
+          # Permit the versioned document-root redirect rules and reload only
+          # after Apache accepts the updated configuration.
+          APACHE_CONF_NAME=nakedtech-au-directory
+          sudo a2enmod rewrite
+          sudo install -m 0644 \
+            deploy/apache/nakedtech-au-directory.conf \
+            "/etc/apache2/conf-available/${APACHE_CONF_NAME}.conf"
+          sudo a2enconf "${APACHE_CONF_NAME}"
+          if ! sudo apache2ctl configtest; then
+            sudo a2disconf "${APACHE_CONF_NAME}"
+            exit 1
+          fi
+          sudo systemctl reload apache2
