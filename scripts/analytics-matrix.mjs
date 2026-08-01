@@ -66,6 +66,18 @@ const routes = [
       utm_medium: 'test',
       utm_campaign: 'non_live_validation'
     }
+  },
+  {
+    label: 'New printer setup',
+    route: '/services/new-printer-setup-ivanhoe/',
+    painPoint: 'new_printer_setup',
+    campaignContent: 'new_printer_setup_audit_only',
+    attributedCase: 'synthetic attributed page view',
+    attribution: {
+      utm_source: 'site_audit',
+      utm_medium: 'test',
+      utm_campaign: 'non_live_validation'
+    }
   }
 ]
 

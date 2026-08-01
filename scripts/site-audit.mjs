@@ -71,6 +71,7 @@ const expectedRoutes = [
   '/services/new-computer-setup-data-transfer-ivanhoe/',
   '/services/printer-help-ivanhoe/',
   '/services/email-help-ivanhoe/',
+  '/services/new-printer-setup-ivanhoe/',
   '/booking/',
   '/contact/',
   '/brand/',
@@ -225,6 +226,36 @@ landingPageAudits.push({
     'no automatic hourly overrun',
     'Call Peter about your email',
     'Tell Peter what your email is doing.'
+  ]
+})
+
+landingPageAudits.push({
+  route: '/services/new-printer-setup-ivanhoe/',
+  title: 'New Printer Setup Ivanhoe &amp; Eaglemont | Naked Tech',
+  description: 'Fixed-price $250 incl. GST onsite setup for one new household printer and one primary supported device in Ivanhoe or Eaglemont.',
+  canonical: 'https://nakedtech.au/services/new-printer-setup-ivanhoe/',
+  ogImage: 'https://nakedtech.au/img/new-printer-setup-og.webp',
+  painPoint: 'new_printer_setup',
+  variant: 'guided-service',
+  visualImage: '/img/new-printer-setup-og.webp',
+  visualHeading: 'Ready for the way you actually print.',
+  primaryLabel: 'Send a quick enquiry',
+  primaryHref: '#contact',
+  detailLabel: 'See if the new-printer visit fits',
+  robots: 'index, follow',
+  sitemap: 'present',
+  contentMarkers: [
+    '$250 fixed incl. GST',
+    'up to 90 minutes onsite',
+    'one customer-supplied new household printer',
+    'one primary supported device',
+    'Unboxing and ordinary assembly',
+    'manufacturer account',
+    'does not record or retain',
+    'Monday to Friday',
+    'no automatic hourly overrun',
+    'Call Peter about your new printer',
+    'Tell Peter about your new printer.'
   ]
 })
 
@@ -598,14 +629,15 @@ assert(Boolean(servicesMain), 'services: main content rendered')
 for (const sectionId of ['find-help', 'projects', 'pricing', 'how-it-works']) {
   assert(countOccurrences(servicesMain, `id="${sectionId}"`) === 1, `services: exactly one #${sectionId} section rendered`)
 }
-assert(countOccurrences(servicesMain, 'data-service-path') === 6, 'services: six assessment and guided-service paths rendered')
+assert(countOccurrences(servicesMain, 'data-service-path') === 7, 'services: seven assessment and guided-service paths rendered')
 for (const route of [
   '/services/wifi-dropouts-ivanhoe/',
   '/services/slow-computer-help-ivanhoe/',
   '/services/scam-security-help-ivanhoe/',
   '/services/new-computer-setup-data-transfer-ivanhoe/',
   '/services/printer-help-ivanhoe/',
-  '/services/email-help-ivanhoe/'
+  '/services/email-help-ivanhoe/',
+  '/services/new-printer-setup-ivanhoe/'
 ]) {
   assert(servicesMain.includes(`href="${route}"`), `services: direct problem route rendered in main (${route})`)
 }
@@ -661,7 +693,8 @@ for (const route of [
   '/services/scam-security-help-ivanhoe/',
   '/services/new-computer-setup-data-transfer-ivanhoe/',
   '/services/printer-help-ivanhoe/',
-  '/services/email-help-ivanhoe/'
+  '/services/email-help-ivanhoe/',
+  '/services/new-printer-setup-ivanhoe/'
 ]) {
   assert(baseHtml.includes(`href="${route}"`), `homepage: direct problem route rendered (${route})`)
 }
@@ -676,6 +709,10 @@ assert(
 assert(
   countOccurrences(baseHtml, 'href="/services/email-help-ivanhoe/"') >= 4,
   'navigation and footer: email-help route is available on desktop, mobile and the homepage'
+)
+assert(
+  countOccurrences(baseHtml, 'href="/services/new-printer-setup-ivanhoe/"') >= 4,
+  'navigation and footer: new-printer route is available on desktop, mobile and the homepage'
 )
 assert(baseHtml.includes('HELP WITH'), 'navigation: desktop problem menu rendered')
 assert(baseHtml.includes('aria-label="Navigation menu"'), 'navigation: mobile menu control rendered')
