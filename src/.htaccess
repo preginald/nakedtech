@@ -1,0 +1,7 @@
+RewriteEngine On
+
+# Keep one public origin for visitors and search engines. Query strings are
+# preserved automatically, and REQUEST_URI retains the requested path.
+RewriteCond %{HTTPS} !=on [OR]
+RewriteCond %{HTTP_HOST} ^www\.nakedtech\.au$ [NC]
+RewriteRule ^ https://nakedtech.au%{REQUEST_URI} [R=301,L,NE]

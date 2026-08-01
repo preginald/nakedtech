@@ -349,9 +349,10 @@ layout: layouts/base.njk
   "url": {{ jsonValue(site.url ~ page.url) }},
   "provider": {
     "@type": "LocalBusiness",
+    "@id": {{ jsonValue(site.url ~ '/#business') }},
     "name": {{ jsonValue(site.name) }},
-    "url": {{ jsonValue(site.url) }},
-    "telephone": {{ jsonValue(site.phone.display) }}
+    "url": {{ jsonValue(site.url ~ '/') }},
+    "telephone": {{ jsonValue(site.phone.schema) }}
   },
   "areaServed": [
     {% for area in landing.schema.areaServed %}{{ jsonValue(area) }}{% if not loop.last %},{% endif %}{% endfor %}

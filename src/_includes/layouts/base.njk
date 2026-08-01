@@ -18,33 +18,139 @@
         else root.dataset.theme = choice;
     })();
     </script>
-    <!-- Meta Pixel Code -->
-    <script>
-    !function(f,b,e,v,n,t,s)
-    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}(window, document,'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '1010322558552545');
-    fbq('track', 'PageView');
-    </script>
-    <noscript><img height="1" width="1" style="display:none" alt=""
-    src="https://www.facebook.com/tr?id=1010322558552545&ev=PageView&noscript=1"
-    /></noscript>
-    <!-- End Meta Pixel Code -->
+    <script data-tracking-consent-bootstrap>
+    (function() {
+        var storageKey = 'nakedtech-tracking-consent-v1';
+        var consentVersion = 1;
+        var analyticsId = 'G-6RN5LVVSGL';
+        var advertisingId = '1010322558552545';
+        var pendingAnalytics = [];
+        var pendingAdvertising = [];
+        var analyticsLoaded = false;
+        var advertisingLoaded = false;
+        var hasChoice = false;
+        var preferences = {
+            version: consentVersion,
+            analytics: false,
+            advertising: false
+        };
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6RN5LVVSGL"></script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-6RN5LVVSGL');
+        window.gtag = function() {
+            pendingAnalytics.push(Array.prototype.slice.call(arguments));
+        };
+        window.fbq = function() {
+            pendingAdvertising.push(Array.prototype.slice.call(arguments));
+        };
+
+        function normalisePreferences(value) {
+            if (!value || value.version !== consentVersion) return null;
+            if (typeof value.analytics !== 'boolean' || typeof value.advertising !== 'boolean') return null;
+            return {
+                version: consentVersion,
+                analytics: value.analytics,
+                advertising: value.advertising
+            };
+        }
+
+        function insertProviderScript(source, provider) {
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = source;
+            script.dataset.trackingProvider = provider;
+            document.head.appendChild(script);
+        }
+
+        function loadAnalytics() {
+            if (analyticsLoaded) return;
+            analyticsLoaded = true;
+            var deferred = pendingAnalytics.slice();
+            pendingAnalytics.length = 0;
+            window.dataLayer = window.dataLayer || [];
+            window.gtag = function() {
+                window.dataLayer.push(arguments);
+            };
+            window.gtag('js', new Date());
+            window.gtag('config', analyticsId);
+            deferred.forEach(function(args) {
+                window.gtag.apply(null, args);
+            });
+            insertProviderScript(
+                'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(analyticsId),
+                'analytics'
+            );
+        }
+
+        function loadAdvertising() {
+            if (advertisingLoaded) return;
+            advertisingLoaded = true;
+            var deferred = pendingAdvertising.slice();
+            pendingAdvertising.length = 0;
+            var metaQueue = function() {
+                if (metaQueue.callMethod) metaQueue.callMethod.apply(metaQueue, arguments);
+                else metaQueue.queue.push(arguments);
+            };
+            window.fbq = metaQueue;
+            window._fbq = metaQueue;
+            metaQueue.push = metaQueue;
+            metaQueue.loaded = true;
+            metaQueue.version = '2.0';
+            metaQueue.queue = [];
+            window.fbq('init', advertisingId);
+            window.fbq('track', 'PageView');
+            deferred.forEach(function(args) {
+                window.fbq.apply(null, args);
+            });
+            insertProviderScript('https://connect.facebook.net/en_US/fbevents.js', 'advertising');
+        }
+
+        function applyPreferences(nextPreferences, persist) {
+            preferences = normalisePreferences(nextPreferences) || {
+                version: consentVersion,
+                analytics: false,
+                advertising: false
+            };
+            if (persist) {
+                hasChoice = true;
+                try {
+                    localStorage.setItem(storageKey, JSON.stringify(preferences));
+                } catch (error) {}
+            }
+            if (preferences.analytics) loadAnalytics();
+            if (preferences.advertising) loadAdvertising();
+        }
+
+        try {
+            var savedPreferences = normalisePreferences(JSON.parse(localStorage.getItem(storageKey)));
+            if (savedPreferences) {
+                hasChoice = true;
+                preferences = savedPreferences;
+            }
+        } catch (error) {}
+
+        window.nakedTechTracking = {
+            storageKey: storageKey,
+            version: consentVersion,
+            getPreferences: function() {
+                return {
+                    analytics: preferences.analytics,
+                    advertising: preferences.advertising
+                };
+            },
+            hasChoice: function() {
+                return hasChoice;
+            },
+            setPreferences: function(nextPreferences) {
+                applyPreferences({
+                    version: consentVersion,
+                    analytics: nextPreferences.analytics === true,
+                    advertising: nextPreferences.advertising === true
+                }, true);
+            }
+        };
+
+        if (hasChoice) applyPreferences(preferences, false);
+    })();
     </script>
-    <!-- End Google tag -->
 
     <meta name="facebook-domain-verification" content="e39577w58corh6d10dbpf0l5qwekoz" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -246,16 +352,19 @@
                         <li><a href="/contact/" class="inline-flex min-h-10 items-center transition hover:text-accent">Contact</a></li>
                         <li><a href="/toolkit/" class="inline-flex min-h-10 items-center transition hover:text-accent">The Toolkit</a></li>
                         <li><a href="/brand/" class="inline-flex min-h-10 items-center transition hover:text-accent">Brand identity</a></li>
-                        <li><a href="/join/" class="inline-flex min-h-10 items-center transition hover:text-accent">Join the team</a></li>
+                        <li><a href="/join/" class="inline-flex min-h-10 items-center transition hover:text-accent">Careers</a></li>
                         <li><a href="/privacy/" class="inline-flex min-h-10 items-center transition hover:text-accent">Privacy</a></li>
                         <li><a href="/legal/" class="inline-flex min-h-10 items-center transition hover:text-accent">House rules</a></li>
+                        <li><a href="/service-terms/" class="inline-flex min-h-10 items-center transition hover:text-accent">Service terms</a></li>
+                        <li><a href="/terms/" class="inline-flex min-h-10 items-center transition hover:text-accent">Website terms</a></li>
+                        <li><button type="button" class="inline-flex min-h-10 items-center text-left transition hover:text-accent" data-tracking-preferences-open>Tracking preferences</button></li>
                     </ul>
                 </nav>
             </div>
 
             <div class="mt-12 grid gap-6 border-t border-inverse-ink/15 pt-8 md:grid-cols-[1fr_auto] md:items-center">
                 <div class="space-y-2 text-xs leading-relaxed text-inverse-ink/55">
-                    <p>© 2026 Naked Tech. A trading name of <span class="font-bold text-inverse-ink">Digital Sanctum</span>.</p>
+                    <p>© 2026 Naked Tech. Operated by {{ site.operator.name }}, ABN {{ site.operator.abn }}, a sole trader also trading as <span class="font-bold text-inverse-ink">{{ site.operator.otherTradingName }}</span>.</p>
                     <a href="https://digitalsanctum.com.au" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-10 items-center font-semibold text-accent transition hover:text-inverse-ink hover:underline">Need business IT? Visit Digital Sanctum.</a>
                 </div>
                 <div>
@@ -270,6 +379,110 @@
             <p class="mt-8 text-sm font-semibold text-inverse-ink/60">Good-looking technology. Even better when it works.</p>
         </div>
     </footer>
+
+    <section class="fixed inset-x-4 bottom-4 z-[70] mx-auto max-w-3xl rounded-3xl border border-line bg-surface p-5 text-ink shadow-2xl sm:p-6" data-tracking-consent-banner aria-labelledby="tracking-consent-heading" hidden>
+        <h2 id="tracking-consent-heading" class="text-lg font-bold">Your tracking choices</h2>
+        <p class="mt-2 text-sm leading-relaxed text-muted">We use optional analytics to understand how the site is used and optional advertising tracking to measure campaigns. Neither loads unless you choose it. Read our <a href="/privacy/" class="font-bold text-accent-ink underline">privacy policy</a>.</p>
+        <div class="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <button type="button" class="min-h-11 rounded-full border-2 border-ink px-5 text-sm font-bold" data-tracking-reject>Reject optional</button>
+            <button type="button" class="min-h-11 rounded-full border-2 border-ink px-5 text-sm font-bold" data-tracking-choose>Choose preferences</button>
+            <button type="button" class="min-h-11 rounded-full bg-accent px-5 text-sm font-bold text-ivanhoe-slate" data-tracking-accept>Accept all</button>
+        </div>
+    </section>
+
+    <div class="fixed inset-0 z-[80] hidden items-center justify-center bg-ivanhoe-slate/70 p-4" data-tracking-preferences-dialog hidden>
+        <section class="max-h-[calc(100vh-2rem)] w-full max-w-xl overflow-y-auto rounded-3xl bg-surface p-6 text-ink shadow-2xl sm:p-8" role="dialog" aria-modal="true" aria-labelledby="tracking-preferences-heading">
+            <div class="flex items-start justify-between gap-4">
+                <div>
+                    <p class="text-xs font-bold uppercase tracking-[0.16em] text-accent-ink">Privacy controls</p>
+                    <h2 id="tracking-preferences-heading" class="mt-2 text-2xl font-bold" tabindex="-1">Tracking preferences</h2>
+                </div>
+                <button type="button" class="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-line text-xl" data-tracking-preferences-close aria-label="Close tracking preferences">×</button>
+            </div>
+            <p class="mt-4 text-sm leading-relaxed text-muted">Optional tracking is off unless you select it. If you turn off a category that is already active, this page will reload to apply your choice.</p>
+            <div class="mt-6 space-y-4">
+                <label class="flex cursor-pointer items-start gap-4 rounded-2xl border border-line p-4">
+                    <input type="checkbox" class="mt-1 h-5 w-5 accent-[#FF8C69]" data-tracking-analytics>
+                    <span><span class="block font-bold">Analytics</span><span class="mt-1 block text-sm leading-relaxed text-muted">Allow Google Analytics 4 to measure visits and site interactions.</span></span>
+                </label>
+                <label class="flex cursor-pointer items-start gap-4 rounded-2xl border border-line p-4">
+                    <input type="checkbox" class="mt-1 h-5 w-5 accent-[#FF8C69]" data-tracking-advertising>
+                    <span><span class="block font-bold">Advertising</span><span class="mt-1 block text-sm leading-relaxed text-muted">Allow Meta Pixel to measure advertising campaigns and site interactions.</span></span>
+                </label>
+            </div>
+            <div class="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+                <button type="button" class="min-h-11 rounded-full border-2 border-ink px-5 text-sm font-bold" data-tracking-preferences-cancel>Cancel</button>
+                <button type="button" class="min-h-11 rounded-full bg-accent px-5 text-sm font-bold text-ivanhoe-slate" data-tracking-preferences-save>Save choices</button>
+            </div>
+        </section>
+    </div>
+
+    <script data-tracking-consent-controls>
+    (function() {
+        var tracking = window.nakedTechTracking;
+        if (!tracking) return;
+        var banner = document.querySelector('[data-tracking-consent-banner]');
+        var dialog = document.querySelector('[data-tracking-preferences-dialog]');
+        var heading = document.querySelector('#tracking-preferences-heading');
+        var analytics = document.querySelector('[data-tracking-analytics]');
+        var advertising = document.querySelector('[data-tracking-advertising]');
+        var previousFocus = null;
+
+        function savePreferences(nextPreferences) {
+            var current = tracking.getPreferences();
+            var categoryWasWithdrawn = (current.analytics && !nextPreferences.analytics)
+                || (current.advertising && !nextPreferences.advertising);
+            tracking.setPreferences(nextPreferences);
+            banner.hidden = true;
+            dialog.hidden = true;
+            if (categoryWasWithdrawn) window.location.reload();
+        }
+
+        function openPreferences() {
+            var current = tracking.getPreferences();
+            previousFocus = document.activeElement;
+            analytics.checked = current.analytics;
+            advertising.checked = current.advertising;
+            dialog.hidden = false;
+            dialog.classList.remove('hidden');
+            dialog.classList.add('flex');
+            window.requestAnimationFrame(function() {
+                heading.focus();
+            });
+        }
+
+        function closePreferences() {
+            dialog.hidden = true;
+            dialog.classList.remove('flex');
+            dialog.classList.add('hidden');
+            if (previousFocus && typeof previousFocus.focus === 'function') previousFocus.focus();
+        }
+
+        document.querySelectorAll('[data-tracking-preferences-open]').forEach(function(button) {
+            button.addEventListener('click', openPreferences);
+        });
+        document.querySelector('[data-tracking-choose]').addEventListener('click', openPreferences);
+        document.querySelector('[data-tracking-reject]').addEventListener('click', function() {
+            savePreferences({ analytics: false, advertising: false });
+        });
+        document.querySelector('[data-tracking-accept]').addEventListener('click', function() {
+            savePreferences({ analytics: true, advertising: true });
+        });
+        document.querySelector('[data-tracking-preferences-save]').addEventListener('click', function() {
+            savePreferences({
+                analytics: analytics.checked,
+                advertising: advertising.checked
+            });
+        });
+        document.querySelector('[data-tracking-preferences-close]').addEventListener('click', closePreferences);
+        document.querySelector('[data-tracking-preferences-cancel]').addEventListener('click', closePreferences);
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape' && !dialog.hidden) closePreferences();
+        });
+
+        banner.hidden = tracking.hasChoice();
+    })();
+    </script>
 
     <script data-theme-controls>
     (function() {

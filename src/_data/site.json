@@ -1,8 +1,33 @@
 {
   "name": "Naked Tech",
   "url": "https://nakedtech.au",
+  "logo": {
+    "path": "/img/nakedtech-mark.png",
+    "width": 800,
+    "height": 800
+  },
   "phone": {
     "display": "03 7068 5422",
-    "href": "tel:+61370685422"
+    "href": "tel:+61370685422",
+    "schema": "+61 3 7068 5422"
+  },
+  "operator": {
+    "name": "Peter Reginald",
+    "abn": "57 221 340 918",
+    "otherTradingName": "Digital Sanctum"
+  },
+  "location": {
+    "locality": "Ivanhoe",
+    "region": "VIC",
+    "postalCode": "3079",
+    "country": "AU"
+  },
+  "serviceAreas": [
+    "Ivanhoe VIC 3079",
+    "Eaglemont VIC 3084"
+  ],
+  "hours": {
+    "opens": "09:00",
+    "closes": "17:00"
   }
 }

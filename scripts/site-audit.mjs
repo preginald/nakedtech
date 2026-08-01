@@ -79,6 +79,8 @@ const expectedRoutes = [
   '/toolkit/',
   '/join/',
   '/legal/',
+  '/service-terms/',
+  '/terms/',
   '/privacy/',
   '/thank-you/'
 ]
@@ -386,6 +388,10 @@ function auditLandingPageHtml(audit, html, metadataEntries, sitemapXml) {
   assert(/href=["']tel:\+\d{10,15}["']/i.test(html), `${page}: telephone link rendered`)
   assert(html.includes('<iframe'), `${page}: form iframe rendered`)
   assert((html.match(/<iframe\b[^>]*\bdata-contact-form-frame\b/gi) || []).length === 1, `${page}: exactly one shared form iframe rendered`)
+  assert(countOccurrences(html, 'data-contact-collection-notice') === 1, `${page}: exactly one point-of-collection notice rendered`)
+  assert(html.indexOf('data-contact-collection-notice') < html.indexOf('data-contact-form-frame'), `${page}: collection notice appears before form fields`)
+  assert(html.includes('href="/privacy/"'), `${page}: collection notice links the Privacy Policy`)
+  assert(!html.includes('will never be shared or sold'), `${page}: inaccurate absolute data-sharing promise is absent`)
   assert(countOccurrences(html, 'data-contact-form-tracking') === 1, `${page}: exactly one shared form integration script rendered`)
   const formSlug = audit.formSlug || 'nakedtech-contact'
   assert(html.includes(`https://forms.digitalsanctum.com.au/f/${formSlug}`), `${page}: approved Forms endpoint rendered`)
@@ -418,6 +424,7 @@ function auditLandingPageHtml(audit, html, metadataEntries, sitemapXml) {
     try {
       const value = JSON.parse(block)
       assert(value['@type'] === 'Service', `${page}: JSON-LD block ${index + 1} describes a Service`)
+      assert(value.provider?.['@id'] === 'https://nakedtech.au/#business', `${page}: Service provider references the canonical business entity`)
     } catch (error) {
       failures.push(`${page}: JSON-LD block ${index + 1} parses as JSON (${error.message})`)
     }
@@ -430,10 +437,23 @@ function auditLandingPageHtml(audit, html, metadataEntries, sitemapXml) {
 
 const robotsPath = join(root, 'robots.txt')
 const sitemapPath = join(root, 'sitemap.xml')
+const apacheRedirectPath = join(root, '.htaccess')
 assert(existsSync(robotsPath), 'robots.txt exists')
 assert(existsSync(sitemapPath), 'sitemap.xml exists')
+assert(existsSync(apacheRedirectPath), 'Apache canonical-host redirect configuration exists')
 if (existsSync(robotsPath)) {
   assert(readFileSync(robotsPath, 'utf8').includes('https://nakedtech.au/sitemap.xml'), 'robots.txt advertises sitemap')
+}
+if (existsSync(apacheRedirectPath)) {
+  const apacheRedirect = readFileSync(apacheRedirectPath, 'utf8')
+  assert(apacheRedirect.includes('RewriteEngine On'), 'Apache canonical-host redirect enables mod_rewrite')
+  assert(apacheRedirect.includes('RewriteCond %{HTTPS} !=on [OR]'), 'Apache canonical-host redirect covers plain HTTP')
+  assert(apacheRedirect.includes('RewriteCond %{HTTP_HOST} ^www\\.nakedtech\\.au$ [NC]'), 'Apache canonical-host redirect covers the www host')
+  assert(
+    apacheRedirect.includes('RewriteRule ^ https://nakedtech.au%{REQUEST_URI} [R=301,L,NE]'),
+    'Apache canonical-host redirect permanently preserves path and query on the apex HTTPS origin'
+  )
+  assert(!apacheRedirect.includes('https://www.nakedtech.au'), 'Apache canonical-host redirect cannot target the duplicate www origin')
 }
 
 for (const route of expectedRoutes) {
@@ -529,7 +549,7 @@ const inMemoryLandingAudit = {
   title: 'Landing Template Fixture | Naked Tech',
   description: 'Synthetic noindex copy used only to verify the reusable Naked Tech landing-page template contract.',
   canonical: 'https://nakedtech.au/__fixtures__/landing-page/',
-  ogImage: 'https://nakedtech.au/img/toolkit-flatlay.webp',
+  ogImage: 'https://nakedtech.au/img/nakedtech-mark.png',
   painPoint: 'template_fixture',
   primaryLabel: 'Open the synthetic enquiry form',
   primaryHref: '#contact',
@@ -543,9 +563,9 @@ const inMemoryLandingContext = {
   title: 'Landing Template Fixture',
   description: inMemoryLandingAudit.description,
   robots: inMemoryLandingAudit.robots,
-  ogImage: '/img/toolkit-flatlay.webp',
-  ogImageWidth: 1408,
-  ogImageHeight: 768,
+  ogImage: '/img/nakedtech-mark.png',
+  ogImageWidth: 800,
+  ogImageHeight: 800,
   page: { url: inMemoryLandingAudit.route },
   site: JSON.parse(readFileSync(new URL('../src/_data/site.json', import.meta.url), 'utf8')),
   landing: {
@@ -708,12 +728,265 @@ assert(retiredBodyguardHtml.includes('content="0;url=/services/"'), 'retired Bod
 assert(retiredBodyguardHtml.includes('This service is no longer offered.'), 'retired Bodyguard route explains the service withdrawal')
 assert(!sitemapXml.includes('https://nakedtech.au/services/bodyguard/'), 'retired Bodyguard route is absent from the sitemap')
 
+const joinHtml = readFileSync(routeToFile('/join/'), 'utf8')
+assert(metaContent(joinHtml, 'robots') === 'noindex, follow', 'careers: inactive vacancy page is excluded from search indexing')
+assert(joinHtml.includes('We’re not currently hiring.'), 'careers: inactive hiring status is explicit')
+assert(joinHtml.includes('not accepting applications or expressions of interest'), 'careers: application collection is explicitly closed')
+assert(!joinHtml.includes('<form'), 'careers: inactive vacancy page does not collect applications')
+assert(!joinHtml.includes('/api/send'), 'careers: inactive vacancy page has no submission endpoint')
+assert(!joinHtml.includes('JobPosting'), 'careers: inactive vacancy page has no job structured data')
+for (const disallowedRecruitmentMarker of ['Deadlift', 'fitted tee', 'physical fitness', 'Instagram URL']) {
+  assert(!joinHtml.includes(disallowedRecruitmentMarker), `careers: removed recruitment marker (${disallowedRecruitmentMarker})`)
+}
+assert(!sitemapXml.includes('https://nakedtech.au/join/'), 'careers: noindex page is absent from the sitemap')
+
+const houseRulesHtml = readFileSync(routeToFile('/legal/'), 'utf8')
+assert(houseRulesHtml.includes('Respect and safety'), 'house rules: technician safety rule rendered')
+assert(houseRulesHtml.includes('href="/service-terms/#cancellations"'), 'house rules: cancellation summary links to governing terms')
+assert(houseRulesHtml.includes('href="/service-terms/"'), 'house rules: full service terms are linked')
+assert(!houseRulesHtml.includes('Full fees will still apply'), 'house rules: blanket full-fee term is absent')
+assert(!houseRulesHtml.includes('not liable for data loss'), 'house rules: blanket data-loss exclusion is absent')
+
+const serviceTermsHtml = readFileSync(routeToFile('/service-terms/'), 'utf8')
+assert(documentTitle(serviceTermsHtml) === 'Customer Service Terms | Naked Tech', 'service terms: descriptive title rendered')
+assert(serviceTermsHtml.includes('id="cancellations"'), 'service terms: stable cancellation anchor rendered')
+assert(serviceTermsHtml.includes('may charge up to $90'), 'service terms: qualified late-cancellation amount rendered')
+assert(serviceTermsHtml.includes('will not exceed the reasonable loss and costs'), 'service terms: cancellation charge is tied to reasonable loss')
+assert(serviceTermsHtml.includes('guarantees that cannot be excluded under the Australian Consumer Law'), 'service terms: mandatory consumer-guarantee principle rendered')
+assert(serviceTermsHtml.includes('Nothing in these terms excludes, restricts or modifies'), 'service terms: ACL savings clause rendered')
+assert(countOccurrences(sitemapXml, 'https://nakedtech.au/service-terms/') === 1, 'service terms: canonical route appears once in sitemap')
+
+const websiteTermsHtml = readFileSync(routeToFile('/terms/'), 'utf8')
+assert(documentTitle(websiteTermsHtml) === 'Website Terms of Use | Naked Tech', 'website terms: descriptive title rendered')
+assert(websiteTermsHtml.includes('ABN 57 221 340 918'), 'website terms: operator ABN rendered')
+assert(websiteTermsHtml.includes('href="/service-terms/"'), 'website terms: customer service terms linked')
+assert(websiteTermsHtml.includes('Nothing in these terms excludes, restricts or modifies'), 'website terms: ACL savings clause rendered')
+assert(countOccurrences(sitemapXml, 'https://nakedtech.au/terms/') === 1, 'website terms: canonical route appears once in sitemap')
+
+const privacyHtml = readFileSync(routeToFile('/privacy/'), 'utf8')
+assert(documentTitle(privacyHtml) === 'Privacy Policy | Naked Tech', 'privacy: descriptive title rendered')
+assert(metaContent(privacyHtml, 'description')?.includes('contact forms, service records, analytics and advertising choices'), 'privacy: metadata reflects current information handling')
+assert(privacyHtml.includes('Effective 1 August 2026'), 'privacy: effective date rendered')
+assert(privacyHtml.includes('Peter Reginald, ABN 57 221 340 918'), 'privacy: responsible operator and ABN rendered')
+assert(privacyHtml.includes('forms.digitalsanctum.com.au'), 'privacy: embedded form provider disclosed')
+assert(privacyHtml.includes('saves an unfinished draft in local storage'), 'privacy: contact-form draft storage disclosed')
+assert(privacyHtml.includes('utm_source'), 'privacy: form campaign context disclosed')
+assert(privacyHtml.includes('Google Analytics 4'), 'privacy: analytics provider disclosed')
+assert(privacyHtml.includes('Meta Pixel'), 'privacy: advertising provider disclosed')
+assert(privacyHtml.includes('neither checkbox is preselected'), 'privacy: optional tracking default described')
+assert(privacyHtml.includes('data-tracking-preferences-open'), 'privacy: direct tracking-preferences control rendered')
+assert(privacyHtml.includes('United States and other countries'), 'privacy: known overseas provider processing disclosed')
+assert(privacyHtml.includes('Access, correction and deletion requests'), 'privacy: individual request process rendered')
+assert(privacyHtml.includes('aim to provide a substantive response within 30 days'), 'privacy: complaint response process rendered')
+assert(privacyHtml.includes('https://www.oaic.gov.au/privacy/privacy-complaints'), 'privacy: OAIC complaint route linked with qualified applicability')
+assert(privacyHtml.includes('privacy@nakedtech.au'), 'privacy: privacy contact address rendered')
+assert(!privacyHtml.includes('processed securely by Stripe'), 'privacy: unsupported Stripe processing claim is absent')
+
+const toolkitHtml = readFileSync(routeToFile('/toolkit/'), 'utf8')
+assert(documentTitle(toolkitHtml) === 'Technology Toolkit &amp; Selection Guide | Naked Tech', 'toolkit: descriptive title rendered')
+assert(
+  metaContent(toolkitHtml, 'description') === 'How Naked Tech selects supported home Wi-Fi, password, computer, printer and privacy tools for Ivanhoe and Eaglemont customers.',
+  'toolkit: local and service-specific description rendered'
+)
+assert(metaContent(toolkitHtml, 'og:image') === 'https://nakedtech.au/img/toolkit-flatlay.webp', 'toolkit: relevant Open Graph image rendered')
+assert(toolkitHtml.includes('Tools chosen for the job.'), 'toolkit: assessment-first heading rendered')
+for (const principle of ['Fit', 'Support', 'Control', 'Whole cost']) {
+  assert(toolkitHtml.includes(`>${principle}</h3>`), `toolkit: selection principle rendered (${principle})`)
+}
+for (const route of [
+  '/services/wifi-dropouts-ivanhoe/',
+  '/services/password-manager-setup-ivanhoe/',
+  '/services/new-computer-setup-data-transfer-ivanhoe/',
+  '/services/new-printer-setup-ivanhoe/',
+  '/services/scam-security-help-ivanhoe/',
+  '/services/',
+  '/contact/'
+]) {
+  assert(toolkitHtml.includes(`href="${route}"`), `toolkit: relevant internal route linked (${route})`)
+}
+assert(toolkitHtml.includes('Hardware supplied by Naked Tech is shown separately at cost'), 'toolkit: hardware and service pricing are separated')
+assert(toolkitHtml.includes('no affiliate links or paid product placements'), 'toolkit: current commercial relationship disclosure rendered')
+assert(toolkitHtml.includes('https://www.cyber.gov.au/learn-basics/explore-basics/small-business'), 'toolkit: authoritative Australian cyber guidance linked')
+for (const removedClaim of [
+  'We show you <span class="text-accent">ours.</span>',
+  'world’s best engineering',
+  'world\'s best engineering',
+  'world&#39;s best engineering',
+  'banish dead zones',
+  'total control',
+  'military-grade encryption',
+  'Stop big tech from reading your mail',
+  'Custom Builds',
+  'We use them because they are the best',
+  'Ubiquiti UniFi',
+  '1Password',
+  'Proton Suite'
+]) {
+  assert(!toolkitHtml.includes(removedClaim), `toolkit: unsupported or stale claim is absent (${removedClaim})`)
+}
+
+for (const htmlFile of htmlFiles) {
+  const html = readFileSync(htmlFile, 'utf8')
+  assert(html.includes('href="/legal/"'), `${relative(root, htmlFile)}: global footer links House Rules`)
+  assert(html.includes('href="/service-terms/"'), `${relative(root, htmlFile)}: global footer links service terms`)
+  assert(html.includes('href="/terms/"'), `${relative(root, htmlFile)}: global footer links website terms`)
+}
+
 for (const supersededRoute of ['/wifi-dropouts-ivanhoe/', '/slow-computer-help-ivanhoe/', '/printer-help-ivanhoe/', '/email-help-ivanhoe/']) {
   assert(!existsSync(routeToFile(supersededRoute)), `${supersededRoute}: superseded root route is absent`)
 }
 
 const baseHtml = readFileSync(join(root, 'index.html'), 'utf8')
+const homepageStructuredData = jsonLdBlocks(baseHtml)
+assert(homepageStructuredData.length === 1, 'homepage: exactly one JSON-LD entity graph rendered')
+if (homepageStructuredData.length === 1) {
+  try {
+    const homepageGraph = JSON.parse(homepageStructuredData[0])
+    const graphNodes = homepageGraph['@graph'] || []
+    const websiteNode = graphNodes.find((node) => node['@type'] === 'WebSite')
+    const businessNode = graphNodes.find((node) => node['@type'] === 'LocalBusiness')
+
+    assert(homepageGraph['@context'] === 'https://schema.org', 'homepage schema: Schema.org context rendered')
+    assert(graphNodes.length === 2, 'homepage schema: graph contains only the website and business entities')
+    assert(websiteNode?.['@id'] === 'https://nakedtech.au/#website', 'homepage schema: stable website entity identifier rendered')
+    assert(websiteNode?.url === 'https://nakedtech.au/', 'homepage schema: website URL matches the canonical homepage')
+    assert(websiteNode?.name === 'Naked Tech', 'homepage schema: preferred site name is Naked Tech')
+    assert(websiteNode?.alternateName?.at(-1) === 'nakedtech.au', 'homepage schema: canonical domain is the site-name fallback')
+    assert(websiteNode?.publisher?.['@id'] === 'https://nakedtech.au/#business', 'homepage schema: website publisher references the business entity')
+    assert(businessNode?.['@id'] === 'https://nakedtech.au/#business', 'homepage schema: stable business entity identifier rendered')
+    assert(businessNode?.name === 'Naked Tech', 'homepage schema: business name matches the visible brand')
+    assert(businessNode?.legalName === 'Peter Reginald', 'homepage schema: verified operator name rendered')
+    assert(businessNode?.taxID === '57 221 340 918', 'homepage schema: verified ABN rendered')
+    assert(businessNode?.telephone === '+61 3 7068 5422', 'homepage schema: international business telephone rendered')
+    assert(businessNode?.logo?.contentUrl === 'https://nakedtech.au/img/nakedtech-mark.png', 'homepage schema: crawlable square logo rendered')
+    assert(businessNode?.logo?.width === 800 && businessNode?.logo?.height === 800, 'homepage schema: logo dimensions rendered')
+    assert(businessNode?.address?.addressLocality === 'Ivanhoe', 'homepage schema: verified business locality rendered')
+    assert(businessNode?.address?.postalCode === '3079', 'homepage schema: verified business postcode rendered')
+    assert(
+      businessNode?.areaServed?.map((area) => area.name).join('|') === 'Ivanhoe VIC 3079|Eaglemont VIC 3084',
+      'homepage schema: verified service areas rendered'
+    )
+    assert(!businessNode?.sameAs, 'homepage schema: no unverified profile URLs are claimed')
+    assert(!businessNode?.aggregateRating && !businessNode?.review, 'homepage schema: no unsupported ratings or reviews are claimed')
+  } catch (error) {
+    failures.push(`homepage schema: JSON-LD parses as JSON (${error.message})`)
+  }
+}
+assert(baseHtml.includes('Naked Tech is operated by Peter Reginald, ABN 57 221 340 918'), 'homepage: business operator and ABN are visible')
+assert(baseHtml.includes('a sole trader based in Ivanhoe and also trading as Digital Sanctum'), 'homepage: business location and trading-name relationship are visible')
+assert(baseHtml.includes('In-home appointments are available in Ivanhoe and Eaglemont from Monday to Friday, 9am–5pm.'), 'homepage: service area and hours support the structured data')
 assert(baseHtml.includes('03 7068 5422'), 'phone number present in header/nav')
+
+const trackingConsentScript = inlineScript(baseHtml, 'data-tracking-consent-bootstrap')
+assert(Boolean(trackingConsentScript), 'base layout renders the tracking-consent bootstrap')
+assert((baseHtml.match(/<section\b[^>]*data-tracking-consent-banner/gi) || []).length === 1, 'base layout renders one tracking-choice banner')
+assert((baseHtml.match(/<div\b[^>]*data-tracking-preferences-dialog/gi) || []).length === 1, 'base layout renders one tracking-preferences dialog')
+assert(/<div\b[^>]*class=["'][^"']*\bhidden\b[^"']*["'][^>]*data-tracking-preferences-dialog[^>]*\bhidden\b/i.test(baseHtml), 'tracking-preferences dialog has CSS and HTML initial-hidden safeguards')
+assert(countOccurrences(baseHtml, 'data-tracking-consent-controls') === 1, 'base layout renders one tracking-preferences controller')
+assert((baseHtml.match(/<input\b[^>]*data-tracking-analytics/gi) || []).length === 1, 'tracking preferences provide a separate analytics choice')
+assert((baseHtml.match(/<input\b[^>]*data-tracking-advertising/gi) || []).length === 1, 'tracking preferences provide a separate advertising choice')
+assert(!/<script\b[^>]*\bsrc=["']https:\/\/www\.googletagmanager\.com\/gtag\/js/i.test(baseHtml), 'GA4 has no eager external script element')
+assert(!/<script\b[^>]*\bsrc=["']https:\/\/connect\.facebook\.net\/en_US\/fbevents\.js/i.test(baseHtml), 'Meta Pixel has no eager external script element')
+assert(!baseHtml.includes('https://www.facebook.com/tr?'), 'Meta noscript tracking request is absent')
+assert(!/<input\b[^>]*data-tracking-(?:analytics|advertising)[^>]*\bchecked\b/i.test(baseHtml), 'optional tracking choices are not preselected')
+
+for (const htmlFile of htmlFiles) {
+  const html = readFileSync(htmlFile, 'utf8')
+  const footerHtml = html.match(/<footer\b[\s\S]*?<\/footer>/i)?.[0] || ''
+  assert((footerHtml.match(/<button\b[^>]*data-tracking-preferences-open/gi) || []).length === 1, `${relative(root, htmlFile)}: footer exposes tracking preferences once`)
+  assert(!/<script\b[^>]*\bsrc=["']https:\/\/(?:www\.googletagmanager\.com\/gtag\/js|connect\.facebook\.net\/en_US\/fbevents\.js)/i.test(html), `${relative(root, htmlFile)}: optional tracking providers are not eagerly loaded`)
+  assert(!html.includes('https://www.facebook.com/tr?'), `${relative(root, htmlFile)}: no consent-bypassing Meta image request`)
+}
+
+function runTrackingConsentBootstrap(savedPreference) {
+  const insertedScripts = []
+  const storedValues = new Map()
+  if (savedPreference !== undefined) {
+    storedValues.set('nakedtech-tracking-consent-v1', savedPreference)
+  }
+  const documentObject = {
+    createElement(tagName) {
+      return { tagName, dataset: {} }
+    },
+    head: {
+      appendChild(element) {
+        insertedScripts.push(element)
+      }
+    }
+  }
+  const localStorageObject = {
+    getItem(key) {
+      return storedValues.has(key) ? storedValues.get(key) : null
+    },
+    setItem(key, value) {
+      storedValues.set(key, value)
+    }
+  }
+  const windowObject = {}
+  vm.runInNewContext(trackingConsentScript, {
+    window: windowObject,
+    document: documentObject,
+    localStorage: localStorageObject,
+    encodeURIComponent
+  })
+  return { windowObject, insertedScripts, storedValues }
+}
+
+if (trackingConsentScript) {
+  const firstVisit = runTrackingConsentBootstrap()
+  assert(firstVisit.insertedScripts.length === 0, 'first visit makes no optional tracking-script request')
+  assert(firstVisit.windowObject.nakedTechTracking.hasChoice() === false, 'first visit has no implied tracking choice')
+  assert(
+    JSON.stringify(firstVisit.windowObject.nakedTechTracking.getPreferences()) === JSON.stringify({ analytics: false, advertising: false }),
+    'first visit defaults both optional categories to off'
+  )
+  firstVisit.windowObject.gtag('event', 'before_consent')
+  firstVisit.windowObject.fbq('track', 'BeforeConsent')
+  firstVisit.windowObject.nakedTechTracking.setPreferences({ analytics: true, advertising: false })
+  assert(firstVisit.insertedScripts.length === 1, 'analytics-only consent inserts one provider script')
+  assert(firstVisit.insertedScripts[0]?.dataset?.trackingProvider === 'analytics', 'analytics-only consent loads only GA4')
+  assert(firstVisit.insertedScripts[0]?.src === 'https://www.googletagmanager.com/gtag/js?id=G-6RN5LVVSGL', 'analytics-only consent loads the approved GA4 property')
+  assert(
+    firstVisit.windowObject.dataLayer.some((entry) => entry[0] === 'event' && entry[1] === 'before_consent'),
+    'analytics event queued before consent is replayed only after analytics opt-in'
+  )
+  assert(
+    JSON.parse(firstVisit.storedValues.get('nakedtech-tracking-consent-v1')).advertising === false,
+    'analytics-only choice persists advertising as off'
+  )
+
+  const advertisingOnly = runTrackingConsentBootstrap()
+  advertisingOnly.windowObject.fbq('trackCustom', 'DeferredAdvertisingEvent')
+  advertisingOnly.windowObject.nakedTechTracking.setPreferences({ analytics: false, advertising: true })
+  assert(advertisingOnly.insertedScripts.length === 1, 'advertising-only consent inserts one provider script')
+  assert(advertisingOnly.insertedScripts[0]?.dataset?.trackingProvider === 'advertising', 'advertising-only consent loads only Meta Pixel')
+  assert(advertisingOnly.insertedScripts[0]?.src === 'https://connect.facebook.net/en_US/fbevents.js', 'advertising-only consent loads the approved Meta provider')
+  assert(
+    advertisingOnly.windowObject.fbq.queue.some((entry) => entry[0] === 'trackCustom' && entry[1] === 'DeferredAdvertisingEvent'),
+    'advertising event queued before consent is replayed only after advertising opt-in'
+  )
+
+  const rejected = runTrackingConsentBootstrap()
+  rejected.windowObject.nakedTechTracking.setPreferences({ analytics: false, advertising: false })
+  assert(rejected.insertedScripts.length === 0, 'rejecting optional tracking loads no provider scripts')
+  assert(rejected.windowObject.nakedTechTracking.hasChoice() === true, 'rejection is stored as an explicit choice')
+
+  const savedAnalytics = runTrackingConsentBootstrap(JSON.stringify({
+    version: 1,
+    analytics: true,
+    advertising: false
+  }))
+  assert(savedAnalytics.insertedScripts.length === 1, 'saved analytics consent is restored on the next page')
+  assert(savedAnalytics.insertedScripts[0]?.dataset?.trackingProvider === 'analytics', 'saved analytics consent does not enable advertising')
+
+  const outdatedChoice = runTrackingConsentBootstrap(JSON.stringify({
+    version: 0,
+    analytics: true,
+    advertising: true
+  }))
+  assert(outdatedChoice.insertedScripts.length === 0, 'outdated consent record does not load providers')
+  assert(outdatedChoice.windowObject.nakedTechTracking.hasChoice() === false, 'outdated consent record prompts for a fresh choice')
+}
 assert(/href="tel:\+\d{10,15}"/.test(baseHtml), 'phone number is tel: link')
 assert(baseHtml.includes('id="find-help"'), 'homepage: problem-first help chooser rendered')
 assert(baseHtml.includes('id="how-it-works"'), 'homepage: how-it-works section rendered')
@@ -853,6 +1126,14 @@ if (existsSync(contactComponentPath)) {
   assert(componentHtml.includes(formProps.introduction), 'contact-form fixture renders its page-provided introduction')
   assert(componentHtml.includes(`data-pain-point="${formProps.painPoint}"`), 'contact-form fixture renders its pain-point context')
   assert(componentHtml.includes('https://forms.digitalsanctum.com.au/f/nakedtech-contact'), 'contact-form fixture preserves the default Sanctum Forms endpoint')
+  assert(countOccurrences(componentHtml, 'data-contact-collection-notice') === 1, 'contact-form fixture renders one point-of-collection notice')
+  assert(componentHtml.indexOf('data-contact-collection-notice') < componentHtml.indexOf('data-contact-form-frame'), 'contact-form fixture renders notice before form fields')
+  assert(componentHtml.includes('Fields marked with an asterisk are required'), 'contact-form fixture explains required and optional fields')
+  assert(componentHtml.includes('unfinished answers are saved in this browser’s local storage'), 'contact-form fixture discloses local draft storage')
+  assert(componentHtml.includes('approved campaign parameters may be attached'), 'contact-form fixture discloses page and campaign context')
+  assert(componentHtml.includes('An enquiry is not a marketing signup.'), 'contact-form fixture sets the direct-marketing boundary')
+  assert(componentHtml.includes('href="/privacy/"'), 'contact-form fixture links the full Privacy Policy')
+  assert(!componentHtml.includes('will never be shared or sold'), 'contact-form fixture omits the inaccurate absolute sharing promise')
   assert(dedicatedComponentHtml.includes(`https://forms.digitalsanctum.com.au/f/${dedicatedFormSlug}`), 'contact-form fixture renders an approved dedicated Forms slug at the fixed origin')
   assert(!dedicatedComponentHtml.includes('scrolling="no"'), 'contact-form fixture preserves a browser scrolling fallback when resize messaging is unavailable')
   assert(landingFixtureHtml.includes(`data-pain-point="${formProps.painPoint}"`), 'in-memory landing fixture exposes its pain-point context')
@@ -1005,6 +1286,10 @@ if (existsSync(contactComponentPath)) {
 
 const contactHtml = readFileSync(routeToFile('/contact/'), 'utf8')
 assert(countOccurrences(contactHtml, 'data-contact-form-root') === 1, '/contact/: shared contact-form component renders once')
+assert(countOccurrences(contactHtml, 'data-contact-collection-notice') === 1, '/contact/: point-of-collection notice renders once')
+assert(contactHtml.indexOf('data-contact-collection-notice') < contactHtml.indexOf('data-contact-form-frame'), '/contact/: collection notice appears before form fields')
+assert(contactHtml.includes('href="/privacy/"'), '/contact/: collection notice links the Privacy Policy')
+assert(!contactHtml.includes('will never be shared or sold'), '/contact/: inaccurate absolute data-sharing promise is absent')
 assert(countOccurrences(contactHtml, 'data-contact-form-tracking') === 1, '/contact/: shared form integration script renders once')
 assert(countOccurrences(contactHtml, "addEventListener('message'") === 1, '/contact/: exactly one form message listener remains')
 assert(countOccurrences(contactHtml, 'data-phone-click-tracking') === 1, '/contact/: sitewide phone tracking handler renders once')

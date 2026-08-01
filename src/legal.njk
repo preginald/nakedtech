@@ -1,67 +1,58 @@
 ---
 layout: layouts/base.njk
 title: House Rules
+description: The practical safety, respect, access and data-handling rules that apply when Naked Tech visits your home.
 ---
 
-<!-- Hero Section (Dark Mode) -->
-<header class="bg-inverse text-inverse-ink pt-32 pb-20">
-    <div class="container mx-auto px-6 text-center max-w-4xl">
-        <h1 class="text-5xl md:text-6xl font-extrabold mb-6">
-            House Rules.
-        </h1>
-        <p class="text-xl opacity-90">
-            Boring but necessary. Read this so we remain friends.
+<header class="bg-inverse pb-16 pt-32 text-inverse-ink md:pb-20 md:pt-40">
+    <div class="container mx-auto max-w-4xl px-6 text-center">
+        <p class="mb-4 text-sm font-bold uppercase tracking-[0.2em] text-accent">In-home visits</p>
+        <h1 class="text-4xl font-extrabold tracking-tight md:text-6xl">House Rules.</h1>
+        <p class="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-inverse-ink/75 md:text-xl">
+            A short guide to keeping every visit safe, respectful and straightforward.
         </p>
     </div>
 </header>
 
-<!-- Content Section -->
-<div class="bg-canvas min-h-screen py-24">
-    <div class="container mx-auto px-6 max-w-2xl space-y-16">
-
-        <!-- 1. Zero Tolerance (Highlighted) -->
-        <section class="bg-surface p-8 rounded-xl shadow-sm border-l-4 border-accent">
-            <h2 class="text-2xl font-bold text-ink mb-4 flex items-center">
-                <svg class="w-6 h-6 mr-3 text-accent-ink" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-                1. Professionalism & Respect
-            </h2>
-            <p class="text-lg text-muted leading-relaxed">
-                <strong>The "Look but Don't Touch" Policy:</strong> Our technicians are professionals. While they are selected for their presentation and fitness, they are here to fix your Wi-Fi, not to fulfill fantasies. 
-            </p>
-            <p class="text-lg text-muted leading-relaxed mt-4">
-                Naked Tech maintains a <strong class="text-red-600">Zero Tolerance Policy</strong> regarding harassment. Any inappropriate touching, suggestive comments, or advances toward our staff will result in immediate termination of service and blacklisting from our network. Full fees will still apply.
+<div class="bg-canvas py-16 md:py-24">
+    <div class="container mx-auto max-w-3xl space-y-8 px-6">
+        <section class="rounded-3xl border border-accent/35 bg-accent/10 p-8 md:p-10" aria-labelledby="respect-heading">
+            <h2 id="respect-heading" class="text-2xl font-bold text-ink">Respect and safety</h2>
+            <p class="mt-4 text-lg leading-relaxed text-ink/75">
+                Naked Tech technicians are professionals and must be treated respectfully. Harassment, threats, inappropriate touching, discriminatory conduct or an unsafe environment may cause a visit to stop immediately. The technician may leave when they reasonably believe it is unsafe to continue.
             </p>
         </section>
 
-        <!-- 2. Privacy -->
-        <section>
-            <h2 class="text-2xl font-bold text-ink mb-4">
-                2. Your Data
-            </h2>
-            <p class="text-lg text-ink/80 leading-relaxed">
-                <strong>The "Nothing to Hide" Promise:</strong> We are 'Naked' with our pricing, not your data. You enter passwords, authentication codes and recovery details yourself. We do not record, photograph, copy, transmit or retain them, and we do not snoop through your folders. If agreed work requires access to sensitive files, we explain why and ask you to remain present. Total transparency works both ways.
+        <section class="rounded-3xl border border-line bg-surface p-8 md:p-10" aria-labelledby="access-heading">
+            <h2 id="access-heading" class="text-2xl font-bold text-ink">Safe access</h2>
+            <p class="mt-4 text-lg leading-relaxed text-ink/75">
+                Please provide safe access to the agreed devices, equipment and work area, keep pets or other hazards clear where reasonably needed, and make sure an adult authorised to approve the work is present.
             </p>
         </section>
 
-        <!-- 3. Cancellations -->
-        <section>
-            <h2 class="text-2xl font-bold text-ink mb-4">
-                3. Cancellations
-            </h2>
-            <p class="text-lg text-ink/80 leading-relaxed">
-                Because we do not charge a Call-Out Fee for Ivanhoe or Eaglemont, our time is our inventory. Cancellations made less than 4 hours before a booking will incur a <strong>$90 cancellation fee</strong>. We respect your time; please respect ours.
+        <section class="rounded-3xl border border-line bg-surface p-8 md:p-10" aria-labelledby="data-heading">
+            <h2 id="data-heading" class="text-2xl font-bold text-ink">Your data and credentials</h2>
+            <p class="mt-4 text-lg leading-relaxed text-ink/75">
+                You enter passwords, authentication codes and recovery details yourself. Naked Tech does not record, photograph, copy, transmit or retain them. If agreed work requires access to personal files, we explain why and ask you to remain present. Please maintain a current backup before work begins wherever practicable.
             </p>
         </section>
 
-        <!-- 4. Liability -->
-        <section>
-            <h2 class="text-2xl font-bold text-ink mb-4">
-                4. The Fine Print
-            </h2>
-            <p class="text-lg text-ink/80 leading-relaxed">
-                We are good, but we aren't magicians. If your hardware is physically failing (e.g., a dead hard drive), we cannot guarantee data recovery. We strongly recommend backing up your data before we arrive. Naked Tech is not liable for data loss during standard repair procedures.
+        <section class="rounded-3xl border border-line bg-surface p-8 md:p-10" aria-labelledby="bookings-heading">
+            <h2 id="bookings-heading" class="text-2xl font-bold text-ink">Bookings and cancellations</h2>
+            <p class="mt-4 text-lg leading-relaxed text-ink/75">
+                Please give as much notice as possible if plans change. The cancellation rules, charges and exceptions are set out in the <a href="/service-terms/#cancellations" class="font-bold text-accent-ink underline hover:text-ink">Customer Service Terms</a>.
             </p>
         </section>
 
+        <aside class="rounded-3xl bg-inverse p-8 text-inverse-ink md:p-10" aria-labelledby="full-terms-heading">
+            <h2 id="full-terms-heading" class="text-2xl font-bold">The full terms still apply.</h2>
+            <p class="mt-4 leading-relaxed text-inverse-ink/75">
+                These House Rules are a practical summary. They do not replace the Customer Service Terms or your rights under the Australian Consumer Law.
+            </p>
+            <div class="mt-7 flex flex-col gap-3 sm:flex-row">
+                <a href="/service-terms/" class="inline-flex min-h-12 items-center justify-center rounded-full bg-accent px-6 py-3 font-bold text-ivanhoe-slate transition hover:bg-[#FF7A50]">Read the service terms</a>
+                <a href="/privacy/" class="inline-flex min-h-12 items-center justify-center rounded-full border border-inverse-ink/30 px-6 py-3 font-bold transition hover:border-accent hover:text-accent">Read the privacy policy</a>
+            </div>
+        </aside>
     </div>
 </div>
