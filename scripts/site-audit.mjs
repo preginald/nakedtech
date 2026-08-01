@@ -437,23 +437,24 @@ function auditLandingPageHtml(audit, html, metadataEntries, sitemapXml) {
 
 const robotsPath = join(root, 'robots.txt')
 const sitemapPath = join(root, 'sitemap.xml')
-const apacheRedirectPath = join(root, '.htaccess')
+const nginxRedirectPath = new URL('../deploy/nginx/nakedtech-www-redirect.conf', import.meta.url).pathname
 assert(existsSync(robotsPath), 'robots.txt exists')
 assert(existsSync(sitemapPath), 'sitemap.xml exists')
-assert(existsSync(apacheRedirectPath), 'Apache canonical-host redirect configuration exists')
+assert(existsSync(nginxRedirectPath), 'Nginx canonical-host redirect configuration exists')
 if (existsSync(robotsPath)) {
   assert(readFileSync(robotsPath, 'utf8').includes('https://nakedtech.au/sitemap.xml'), 'robots.txt advertises sitemap')
 }
-if (existsSync(apacheRedirectPath)) {
-  const apacheRedirect = readFileSync(apacheRedirectPath, 'utf8')
-  assert(apacheRedirect.includes('RewriteEngine On'), 'Apache canonical-host redirect enables mod_rewrite')
-  assert(apacheRedirect.includes('RewriteCond %{HTTPS} !=on [OR]'), 'Apache canonical-host redirect covers plain HTTP')
-  assert(apacheRedirect.includes('RewriteCond %{HTTP_HOST} ^www\\.nakedtech\\.au$ [NC]'), 'Apache canonical-host redirect covers the www host')
+if (existsSync(nginxRedirectPath)) {
+  const nginxRedirect = readFileSync(nginxRedirectPath, 'utf8')
+  assert(countOccurrences(nginxRedirect, 'server_name www.nakedtech.au;') === 2, 'Nginx canonical-host redirect covers HTTP and HTTPS www requests')
+  assert(nginxRedirect.includes('listen 80;'), 'Nginx canonical-host redirect listens for plain HTTP')
+  assert(nginxRedirect.includes('listen 443 ssl;'), 'Nginx canonical-host redirect listens for HTTPS')
   assert(
-    apacheRedirect.includes('RewriteRule ^ https://nakedtech.au%{REQUEST_URI} [R=301,L,NE]'),
-    'Apache canonical-host redirect permanently preserves path and query on the apex HTTPS origin'
+    countOccurrences(nginxRedirect, 'return 301 https://nakedtech.au$request_uri;') === 2,
+    'Nginx canonical-host redirect permanently preserves path and query on the apex HTTPS origin'
   )
-  assert(!apacheRedirect.includes('https://www.nakedtech.au'), 'Apache canonical-host redirect cannot target the duplicate www origin')
+  assert(nginxRedirect.includes('/etc/letsencrypt/live/nakedtech.au/fullchain.pem'), 'Nginx HTTPS redirect uses the active Naked Tech certificate')
+  assert(!nginxRedirect.includes('https://www.nakedtech.au'), 'Nginx canonical-host redirect cannot target the duplicate www origin')
 }
 
 for (const route of expectedRoutes) {

@@ -33,8 +33,40 @@ jobs:
           # Build the site
           npm run build
 
-          # Print only the Naked Tech virtual-host context needed to keep its
-          # canonical-host configuration versioned on the next deployment.
-          sudo grep -R -n -B 4 -A 18 \
-            -E 'server_name[^;]*nakedtech\.au' \
-            /etc/nginx/sites-enabled /etc/nginx/conf.d || true
+          # Keep the apex host as the only content-serving origin. Preserve the
+          # current site file so a failed validation or reload can be rolled back.
+          NGINX_SITE_PATH=$(readlink -f /etc/nginx/sites-enabled/nakedtech.au.conf)
+          case "${NGINX_SITE_PATH}" in
+            /etc/nginx/*) ;;
+            *) echo "Unexpected Nginx site path: ${NGINX_SITE_PATH}"; exit 1 ;;
+          esac
+          NGINX_SITE_BACKUP=$(mktemp)
+          sudo cp "${NGINX_SITE_PATH}" "${NGINX_SITE_BACKUP}"
+
+          sudo sed -i \
+            's/server_name nakedtech.au www.nakedtech.au;/server_name nakedtech.au;/g' \
+            "${NGINX_SITE_PATH}"
+          sudo install -m 0644 \
+            deploy/nginx/nakedtech-www-redirect.conf \
+            /etc/nginx/sites-available/nakedtech-www-redirect.conf
+          sudo ln -sfn \
+            /etc/nginx/sites-available/nakedtech-www-redirect.conf \
+            /etc/nginx/sites-enabled/nakedtech-www-redirect.conf
+
+          if ! sudo nginx -t; then
+            sudo cp "${NGINX_SITE_BACKUP}" "${NGINX_SITE_PATH}"
+            sudo rm -f /etc/nginx/sites-enabled/nakedtech-www-redirect.conf
+            sudo rm -f /etc/nginx/sites-available/nakedtech-www-redirect.conf
+            rm -f "${NGINX_SITE_BACKUP}"
+            exit 1
+          fi
+          if ! sudo systemctl reload nginx; then
+            sudo cp "${NGINX_SITE_BACKUP}" "${NGINX_SITE_PATH}"
+            sudo rm -f /etc/nginx/sites-enabled/nakedtech-www-redirect.conf
+            sudo rm -f /etc/nginx/sites-available/nakedtech-www-redirect.conf
+            sudo nginx -t
+            sudo systemctl reload nginx
+            rm -f "${NGINX_SITE_BACKUP}"
+            exit 1
+          fi
+          rm -f "${NGINX_SITE_BACKUP}"
