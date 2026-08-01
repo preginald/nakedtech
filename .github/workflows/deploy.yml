@@ -27,11 +27,11 @@ jobs:
           # Pull the latest code
           git pull origin main
           
-          # Install dependencies (in case you added new plugins)
-          npm install
+          # Install exactly the dependency versions committed in package-lock.json
+          npm ci
           
-          # Build the site
-          npm run build
+          # Build and validate the generated site before reloading Nginx
+          npm test
 
           # Keep the apex host as the only content-serving origin. Preserve the
           # current site file so a failed validation or reload can be rolled back.
