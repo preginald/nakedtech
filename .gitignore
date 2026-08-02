@@ -2,3 +2,19 @@ node_modules
 _site
 .DS_Store
 .env
+**/__pycache__/
+*.py[cod]
+
+# Raw Ads Manager captures contain account UI and profile identifiers. Retain
+# them in the private evidence archive; commit only the public-safe manifest.
+docs/marketing/evidence/meta-test-01/**/*.png
+
+# Rejected/superseded creative binaries are covered by the provenance record
+# and private archive. Public Git retains only selected reproduction sources
+# and the eight approved placement exports.
+docs/marketing/assets/meta-test-01/meta-test-01-slow-computer-v1-*.webp
+docs/marketing/assets/meta-test-01/meta-test-01-slow-computer-v2-*.webp
+docs/marketing/assets/meta-test-01/sources/slow-computer-source.png
+docs/marketing/assets/meta-test-01/sources/slow-computer-hand-correction-candidate.png
+docs/marketing/assets/meta-test-01/sources/slow-computer-source-v2-hand-corrected.png
+docs/marketing/assets/meta-test-01/superseded/

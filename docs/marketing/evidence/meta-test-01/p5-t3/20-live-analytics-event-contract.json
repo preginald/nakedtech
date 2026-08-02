@@ -1,0 +1,186 @@
+[
+  {
+    "url": "https://nakedtech.au/services/slow-computer-help-ivanhoe/?utm_source=facebook&utm_medium=paid_social&utm_campaign=naked_tech_pain_points_01&utm_content=slow_computer_v1",
+    "h1": "Computer painfully slow? Find out whether to fix, upgrade or replace.",
+    "painPoint": "slow_computer",
+    "iframeSrc": "https://forms.digitalsanctum.com.au/f/nakedtech-contact",
+    "fbqCalls": [
+      [
+        "init",
+        "1010322558552545"
+      ],
+      [
+        "track",
+        "PageView"
+      ],
+      [
+        "track",
+        "ViewContent",
+        {
+          "pain_point": "slow_computer",
+          "page_path": "/services/slow-computer-help-ivanhoe/",
+          "campaign_content": "slow_computer_v1"
+        }
+      ],
+      [
+        "track",
+        "Contact",
+        {
+          "page_path": "/services/slow-computer-help-ivanhoe/",
+          "pain_point": "slow_computer"
+        }
+      ],
+      [
+        "track",
+        "Lead",
+        {
+          "page_path": "/services/slow-computer-help-ivanhoe/",
+          "pain_point": "slow_computer"
+        }
+      ]
+    ],
+    "dataLayerCalls": [
+      [
+        "js",
+        {}
+      ],
+      [
+        "config",
+        "G-6RN5LVVSGL"
+      ],
+      [
+        "event",
+        "view_service",
+        {
+          "pain_point": "slow_computer",
+          "page_path": "/services/slow-computer-help-ivanhoe/",
+          "campaign_content": "slow_computer_v1"
+        }
+      ],
+      {
+        "event": "gtm.dom",
+        "gtm.uniqueEventId": 14
+      },
+      {
+        "event": "gtm.load",
+        "gtm.uniqueEventId": 15
+      },
+      [
+        "event",
+        "phone_click",
+        {
+          "page_path": "/services/slow-computer-help-ivanhoe/",
+          "pain_point": "slow_computer"
+        }
+      ],
+      [
+        "event",
+        "form_start",
+        {
+          "page_path": "/services/slow-computer-help-ivanhoe/",
+          "pain_point": "slow_computer"
+        }
+      ],
+      [
+        "event",
+        "generate_lead",
+        {
+          "page_path": "/services/slow-computer-help-ivanhoe/",
+          "pain_point": "slow_computer"
+        }
+      ]
+    ]
+  },
+  {
+    "url": "https://nakedtech.au/services/wifi-dropouts-ivanhoe/?utm_source=facebook&utm_medium=paid_social&utm_campaign=naked_tech_pain_points_01&utm_content=wifi_dropouts_v1",
+    "h1": "Wi-Fi keeps dropping out? Find the cause before buying more hardware.",
+    "painPoint": "wifi_dropouts",
+    "iframeSrc": "https://forms.digitalsanctum.com.au/f/nakedtech-contact",
+    "fbqCalls": [
+      [
+        "init",
+        "1010322558552545"
+      ],
+      [
+        "track",
+        "PageView"
+      ],
+      [
+        "track",
+        "ViewContent",
+        {
+          "pain_point": "wifi_dropouts",
+          "page_path": "/services/wifi-dropouts-ivanhoe/",
+          "campaign_content": "wifi_dropouts_v1"
+        }
+      ],
+      [
+        "track",
+        "Contact",
+        {
+          "page_path": "/services/wifi-dropouts-ivanhoe/",
+          "pain_point": "wifi_dropouts"
+        }
+      ],
+      [
+        "track",
+        "Lead",
+        {
+          "page_path": "/services/wifi-dropouts-ivanhoe/",
+          "pain_point": "wifi_dropouts"
+        }
+      ]
+    ],
+    "dataLayerCalls": [
+      [
+        "js",
+        {}
+      ],
+      [
+        "config",
+        "G-6RN5LVVSGL"
+      ],
+      [
+        "event",
+        "view_service",
+        {
+          "pain_point": "wifi_dropouts",
+          "page_path": "/services/wifi-dropouts-ivanhoe/",
+          "campaign_content": "wifi_dropouts_v1"
+        }
+      ],
+      {
+        "event": "gtm.dom",
+        "gtm.uniqueEventId": 14
+      },
+      {
+        "event": "gtm.load",
+        "gtm.uniqueEventId": 15
+      },
+      [
+        "event",
+        "phone_click",
+        {
+          "page_path": "/services/wifi-dropouts-ivanhoe/",
+          "pain_point": "wifi_dropouts"
+        }
+      ],
+      [
+        "event",
+        "form_start",
+        {
+          "page_path": "/services/wifi-dropouts-ivanhoe/",
+          "pain_point": "wifi_dropouts"
+        }
+      ],
+      [
+        "event",
+        "generate_lead",
+        {
+          "page_path": "/services/wifi-dropouts-ivanhoe/",
+          "pain_point": "wifi_dropouts"
+        }
+      ]
+    ]
+  }
+]
