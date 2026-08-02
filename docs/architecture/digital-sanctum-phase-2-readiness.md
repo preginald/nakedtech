@@ -13,11 +13,11 @@ Phase 1's public catalogue can remain live. It does not create bookings or accep
 
 Do not implement or enable the Phase 3 action API yet. The present platform successfully receives Naked Tech enquiries and sends owner notifications, but it is not ready to become a shared action plane for approved agents.
 
-The 2 August remediation closed the original Forms audience/role vulnerability, caller-selected PAT tenant vulnerability, unbound Forms-to-Notify key, missing Notify dashboard role check, client-side OAuth refresh-token exposure, PostgreSQL backup/restore blocker, and indefinite live retention in Forms and Notify. Forms/Notify retention migrations, dry-run commands, legal-hold exclusions and bounded timers are deployed; reviewed production dry-runs and a staged execution passed, and both daily timers are enabled. The remaining blockers are:
+The 2 August remediation closed the original Forms audience/role vulnerability, caller-selected PAT tenant vulnerability, unbound Forms-to-Notify key, missing Notify dashboard role check, client-side OAuth refresh-token exposure, PostgreSQL backup/restore blocker, indefinite live retention in Forms and Notify, and application logging of recipient/provider-error PII. Forms/Notify retention migrations, dry-run commands, legal-hold exclusions and bounded timers are deployed; reviewed production dry-runs and a staged execution passed, both daily timers are enabled, and both applications now emit bounded notification diagnostics without recipient addresses or provider response bodies. The remaining blockers are:
 
 1. The retention schedule still requires qualified legal approval, provider/mailbox deletion procedures and an end-to-end data-subject workflow.
 2. Forms and Notify run as the same human operating-system account on a host shared with many applications.
-3. Notify still duplicates full customer payloads, and PII-safe logging/provider-retention controls are incomplete.
+3. Notify still duplicates full customer payloads during its active retention period; provider/mailbox lifecycle controls, the provider register and time-bounded host-log retention remain incomplete.
 4. No dedicated Naked Tech Google Calendar, Calendar API credential, free/busy integration, or calendar-specific monitoring was found.
 5. `api.digitalsanctum.com.au` is not provisioned. `nakedtech.au/api` is already proxied to an unrelated Next.js application and must not be reused.
 
@@ -30,13 +30,13 @@ The existing human form can continue while these controls are remediated. The cu
 | Component | Audited source | Deployed commit | State during audit |
 |---|---|---:|---|
 | Naked Tech | `/home/preginald/Dev/nakedtech` | `eb6d721d85a51d109b6bccc9ea12c4149477b61d` | Phase 1 and this readiness assessment deployed; unrelated local marketing work preserved |
-| Sanctum Forms | `/home/preginald/Dev/sanctum-forms` | `1787be6242d583f5b6940604619cdc2d0f2efc85` | Auth and retention remediation deployed; CI and production service healthy |
-| Sanctum Notify | `/home/preginald/Dev/sanctum-notify` | `6fcca5e832b59a099f1f8e479485db46eba978b1` | Scoped-auth, deterministic CI and retention remediation deployed; production service healthy; unrelated local untracked files not touched |
+| Sanctum Forms | `/home/preginald/Dev/sanctum-forms` | `4fe8977d1b44db8651f51d1a5b33d46b01a4394a` | Auth, retention and PII-safe notification logging remediation deployed; CI and production service healthy |
+| Sanctum Notify | `/home/preginald/Dev/sanctum-notify` | `f7afc3f58d6e01986eefaa6ea492bc327edfcb7b` | Scoped-auth, deterministic CI, retention and PII-safe diagnostic remediation deployed; production service healthy; unrelated local untracked files not touched |
 | Sanctum Monitor | `/home/preginald/Dev/sanctum-monitor` | `3aa8b10c09a66093f50f4879f5dd739b1c6e5ed0` | Backup/restore units, runbook, corrected service checks and backup-freshness agent checks deployed; unrelated untracked files not touched |
 | Sanctum Core | `/home/preginald/Dev/DigitalSanctum` | inspected read-only | Existing unrelated branch/worktree changes not touched |
 | Current `/api` target | `/opt/chore-quest` on production | not part of this assessment | Next.js process on port 3000; unrelated to Naked Tech actions |
 
-The original assessment was read-only. The separately approved 2 August remediation changed Forms and Notify authentication, migrated the production Forms-to-Notify credential, revoked the legacy unbound key, repaired Notify CI, established PostgreSQL recoverability, and deployed production retention controls. It did not add an action API, Calendar access, customer fields, booking behaviour or payment capability. Follow-up aggregate database queries and retention evidence deliberately excluded message bodies, contact details, credentials and other personal information.
+The original assessment was read-only. The separately approved 2 August remediation changed Forms and Notify authentication, migrated the production Forms-to-Notify credential, revoked the legacy unbound key, repaired Notify CI, established PostgreSQL recoverability, deployed production retention controls, and removed recipient/provider-error PII from notification diagnostics. It did not add an action API, Calendar access, customer fields, booking behaviour or payment capability. Follow-up aggregate database queries and retention evidence deliberately excluded message bodies, contact details, credentials and other personal information.
 
 ### Live edge and host observations
 
@@ -75,7 +75,7 @@ The page currently returns both `Content-Security-Policy: frame-ancestors *` and
 - The Forms credential now maps to active key `sanctum-forms-v2`, bound to the Digital Sanctum/Naked Tech account with only `notify:create`. The legacy unbound `sanctum-forms` key is inactive.
 - The unscoped notification pool held 197 records: 147 sent and 50 dead-letter, dated from 29 March to 29 July 2026.
 - That historical aggregate includes multiple Forms users. It remains unsegregated and cannot be attributed to Naked Tech by tenant without examining personal payloads, which this audit did not do. New Forms notifications are tenant-bound.
-- Deployed Notify still persists recipient, reply-to, complete template data, delivery state, errors and provider identifiers without record expiry. The verified local change adds two-stage scrub/delete enforcement but is not yet deployed or enabled.
+- Deployed Notify persists recipient, reply-to and complete template data while delivery is active, then the production retention timer scrubs personal content 30 days after terminal status and deletes terminal delivery rows after 90 days. This bounded lifecycle is deployed, but the full Forms payload remains duplicated in Notify during the active retention period.
 
 ## Current and proposed data flow
 
@@ -184,7 +184,7 @@ The proposed operations can be proportionate if the action API becomes the minim
 | OPS-01 | Resolved | Encrypted off-host logical backups, documented RPO/RTO, freshness monitoring and an isolated nine-database restore test are active and evidenced. | Retain daily backups, weekly automated restore checks, alerts and quarterly operator-reviewed drills. |
 | OPS-02 | High | Forms and Notify share a human OS user on a multi-application host. | Dedicated non-login users, least filesystem permissions, separate env ownership, systemd hardening and database roles. |
 | OPS-03 | High | Generic monitoring runs, but Forms/Notify-specific external availability, queue age, dead-letter, retention-job and backup alerts were not evidenced. | Add actionable SLO/security/backup alerts and an owned on-call path. |
-| LOG-01 | High | Notify provider modules log recipient email on successful sends; Forms logs recipient values on some failures. | Remove/redact email and message content; use opaque notification/request IDs; define log retention. |
+| LOG-01 | Partial | Production Forms and Notify now use opaque IDs and bounded error categories without logging recipient addresses, provider response bodies or exception text. Regression tests and post-merge deployments passed. Host journald remains size-bounded but has no explicit time-based retention limit. | Define and verify time-bounded operational-log retention, then retain the PII-safe logging regression tests. |
 | ABUSE-01 | High | Public and operator rate limits are in-memory. Forms trusts the first `X-Forwarded-For` value; Notify limits by the interpreted client host; neither is suitable for multi-worker or platform credentials. | Edge-enforced quotas plus a shared limiter, trusted-proxy normalisation, per-client/per-operation limits and abuse tests. |
 | ABUSE-02 | High | Forms webhooks allow arbitrary HTTP(S) targets and shared secrets, with no destination allowlist or private-network denial. | Do not expose webhook configuration to action clients. Add DNS/IP egress controls and signed, replay-resistant envelopes before future use. |
 | FILE-01 | Medium | Forms uploads rely on declared MIME/extension and local disk, without malware scanning, encryption/lifecycle evidence or content inspection. | Keep files prohibited in Naked Tech actions. If later required, build quarantined object storage and malware scanning separately. |
@@ -251,6 +251,8 @@ Every scheduled deletion must emit a count-only audit event. Quarterly samples s
 - The first scheduled Forms run fired at 03:29:18 AEST and completed successfully with zero eligible records. The first scheduled Notify run fired at 03:45:48 AEST and completed successfully, scrubbing 100 content records and deleting 100 terminal records with zero legal-hold skips. Both systemd services exited with status 0, both applications remained healthy, and neither application logged a warning after the runs.
 - A follow-up dry-run at 11:18 AEST reported zero Forms candidates, 325 Notify content scrubs and 452 Notify deletions. The small change beyond the expected batch subtraction reflects records that crossed their 30- or 90-day cutoff between checks. The next timer activations were scheduled automatically for the following day.
 - The pre-existing Alembic index drift is resolved. Forms now models its existing partial/operational indexes and migration `0023` recreates the missing status index on `(instance_id, status)`; Notify models the existing suppression email index name. Forms `0023` passed upgrade/downgrade/upgrade, and both repositories report `No new upgrade operations detected` from `alembic check`.
+- Forms commit `4fe8977d1b44db8651f51d1a5b33d46b01a4394a` removes recipient values and exception text from notification failure logs while retaining opaque form/submission IDs, template and bounded exception class. Its full CI passed 459 backend tests and the frontend build; deployment and the public production health check passed.
+- Notify commit `f7afc3f58d6e01986eefaa6ea492bc327edfcb7b` removes recipient values, provider response bodies and transport exception text from provider, dispatcher and suppression logs, and bounds durable failure metadata. Its full CI passed 297 tests with three expected dashboard skips; authoritative commit verification, deployment and the public production health check passed.
 
 ## Backup, restore and continuity requirements
 
@@ -417,7 +419,7 @@ Phase 3 design/implementation may begin only when evidence exists for every bloc
 | Monitoring/incident | Named owners/alternates, alerts, offline runbook and tabletop exercise | Blocked |
 | API namespace | DNS, TLS and dedicated `api.digitalsanctum.com.au/nakedtech/v1` routing | Blocked |
 | Calendar | Dedicated calendar, least-privilege credential, free/busy privacy and outage tests | Blocked |
-| Notify minimisation | Tenant-scoped key; no full payload retention; log PII removed; provider register approved | Partial: tenant-scoped key complete; payload retention, log PII and provider register remain blocked |
+| Notify minimisation | Tenant-scoped key; no full payload retention; log PII removed; provider register approved | Partial: tenant-scoped key and PII-safe application logging are complete; payload duplication and the provider register remain blocked |
 | Human fallback | Existing form and direct contact tested during API/Calendar outage | Ready today; retest after migration |
 
 ## Gate 4 recommendation
