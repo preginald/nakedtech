@@ -34,8 +34,8 @@ original privacy boundary:
 
 - typed search text stays in the browser and is passed only to the local
   Pagefind runtime or local bounded-intent classifier;
-- unsupported and not-yet-published topics use a reviewed allowlist rather than
-  arbitrary analytics labels;
+- unsupported, referral and published-service topics use a reviewed allowlist
+  rather than arbitrary analytics labels;
 - only an intent category, result state, search entry point, current pathname
   and optional referral/service-interest type may be reported;
 - events fire only when Analytics is already enabled and are not queued for
@@ -46,9 +46,10 @@ original privacy boundary:
 The reviewed initial categories are data recovery, backup setup, hardware
 repair, phone/tablet setup, provider-controlled account recovery, myGov or
 online-banking help, security cameras, and virus/malware help. Backup setup,
-phone/tablet migration and virus/malware remediation are owner-confirmed future
-Naked Tech landing-page work; their exact offers remain subject to separate
-commercial approval.
+phone/tablet migration and virus/malware remediation were promoted to
+`published_service` destinations on 2 August 2026 after their fixed offers and
+routes were approved. The other five categories retain their referral or
+official-channel guidance.
 
 The homepage entry is a progressively enhanced modal launcher styled as a
 search field. Activating it by pointer or keyboard opens the same search dialog
@@ -187,9 +188,11 @@ entry, browser behaviour or assistive technology.
 - Do not send raw search terms to Naked Tech, analytics providers or another
   search service. Visitors may type personal information, account concerns or
   details of a scam into the search box.
-- Analytics may record only the bounded `site_search_unmet_demand` and
-  `site_search_interest` events approved above, and only after the existing
-  analytics-consent mechanism reports an active Analytics opt-in.
+- Analytics may record only the bounded `site_search_unmet_demand`,
+  `site_search_interest` and `site_search_service_select` events approved
+  above, and only after the existing analytics-consent mechanism reports an
+  active Analytics opt-in. Published-service selection may include only its
+  allowlisted intent/service key and internal destination path.
 - Do not attach the raw query to the event.
 - Do not interpolate user input directly into `innerHTML`.
 - Prefer DOM APIs and `textContent` for user-controlled values. Any Pagefind
@@ -251,8 +254,8 @@ This work does not include:
 
 - No query text leaves the browser.
 - No search analytics event fires before analytics consent.
-- `site_search_unmet_demand` and `site_search_interest` contain no raw query or
-  customer-entered content.
+- `site_search_unmet_demand`, `site_search_interest` and
+  `site_search_service_select` contain no raw query or customer-entered content.
 - Existing landing-page, form and consent analytics contracts remain unchanged.
 
 ### Manual verification

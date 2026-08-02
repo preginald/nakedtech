@@ -7,6 +7,7 @@ module.exports = services
     path: service.path,
     navTitle: service.presentation.navTitle,
     navDescription: service.presentation.navDescription,
+    navGroup: service.presentation.navGroup,
     label: service.name,
     title: service.presentation.title,
     description: service.description,

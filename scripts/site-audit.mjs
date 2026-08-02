@@ -93,10 +93,13 @@ const expectedRoutes = [
   '/services/wifi-dropouts-ivanhoe/',
   '/services/slow-computer-help-ivanhoe/',
   '/services/scam-security-help-ivanhoe/',
+  '/services/virus-malware-help-ivanhoe/',
   '/services/new-computer-setup-data-transfer-ivanhoe/',
   '/services/printer-help-ivanhoe/',
   '/services/email-help-ivanhoe/',
   '/services/new-printer-setup-ivanhoe/',
+  '/services/backup-setup-ivanhoe/',
+  '/services/phone-tablet-setup-migration-ivanhoe/',
   '/services/password-manager-setup-ivanhoe/',
   '/booking/',
   '/contact/',
@@ -218,7 +221,7 @@ landingPageAudits.push({
     'one existing household printer',
     'one primary device',
     'not a guaranteed repair',
-    'new-printer setup',
+    'Unpacking and installing a new printer',
     'provider-controlled account recovery',
     'Monday to Friday',
     'no automatic hourly overrun',
@@ -275,7 +278,7 @@ landingPageAudits.push({
   contentMarkers: [
     '$250 fixed incl. GST',
     'up to 90 minutes onsite',
-    'one customer-supplied new household printer',
+    'One customer-supplied new household printer',
     'one primary supported device',
     'Unboxing and ordinary assembly',
     'manufacturer account',
@@ -307,13 +310,91 @@ landingPageAudits.push({
     'up to two hours onsite',
     'one personal vault',
     'one primary computer and one phone or tablet',
-    'one supported import',
+    'One supported import',
     'Your passwords stay yours.',
     'does not record, photograph, copy, transmit or retain',
     'provider-controlled account recovery',
     'Scam &amp; Account-Security Assessment',
     'Call about password setup',
     'Tell us how you manage passwords now.'
+  ]
+})
+
+landingPageAudits.push({
+  route: '/services/virus-malware-help-ivanhoe/',
+  title: 'Virus &amp; Malware Removal Help Ivanhoe &amp; Eaglemont | Naked Tech',
+  description: 'Fixed-price $250 incl. GST onsite virus and malware diagnosis and safe removal for one Windows or Mac computer in Ivanhoe and Eaglemont, with written next steps.',
+  canonical: 'https://nakedtech.au/services/virus-malware-help-ivanhoe/',
+  ogImage: 'https://nakedtech.au/img/virus-malware-help-og.webp',
+  painPoint: 'virus_malware',
+  visualImage: '/img/virus-malware-help-og.webp',
+  visualHeading: 'Check what is actually happening.',
+  primaryLabel: 'Book the $250 malware visit',
+  primaryHref: '#contact',
+  robots: 'index, follow',
+  sitemap: 'present',
+  contentMarkers: [
+    '$250 fixed incl. GST',
+    'up to 90 minutes onsite',
+    'one working, bootable personal Windows or Mac computer',
+    'Safe removal and browser cleanup',
+    'No tool or short visit can guarantee that a device is completely clean',
+    'ransomware decryption',
+    'provider-controlled account recovery',
+    'does not record, photograph, copy, transmit or retain'
+  ]
+})
+
+landingPageAudits.push({
+  route: '/services/backup-setup-ivanhoe/',
+  title: 'Computer Backup Setup Ivanhoe &amp; Eaglemont | Naked Tech',
+  description: 'Fixed-price $250 incl. GST onsite backup setup in Ivanhoe and Eaglemont for one Windows or Mac computer and one supported local or cloud destination.',
+  canonical: 'https://nakedtech.au/services/backup-setup-ivanhoe/',
+  ogImage: 'https://nakedtech.au/img/backup-setup-og.webp',
+  painPoint: 'backup_setup',
+  variant: 'guided-service',
+  visualImage: '/img/backup-setup-og.webp',
+  visualHeading: 'A backup is useful only when you can check it.',
+  primaryLabel: 'Send a quick enquiry',
+  primaryHref: '#contact',
+  detailLabel: 'See if the backup visit fits',
+  robots: 'index, follow',
+  sitemap: 'present',
+  contentMarkers: [
+    '$250 fixed incl. GST',
+    'up to 90 minutes onsite',
+    'One working personal Windows or Mac computer',
+    'One supported local external drive or one personal cloud destination',
+    'Small backup and sample restore',
+    'Backup setup is not data recovery.',
+    'does not recover deleted files or failed drives',
+    'Call Peter about your backup'
+  ]
+})
+
+landingPageAudits.push({
+  route: '/services/phone-tablet-setup-migration-ivanhoe/',
+  title: 'Phone &amp; Tablet Setup and Migration Ivanhoe &amp; Eaglemont | Naked Tech',
+  description: 'Fixed-price $390 incl. GST onsite phone and tablet setup or same-ecosystem migration in Ivanhoe and Eaglemont for one person and two supported devices.',
+  canonical: 'https://nakedtech.au/services/phone-tablet-setup-migration-ivanhoe/',
+  ogImage: 'https://nakedtech.au/img/phone-tablet-setup-migration-og.webp',
+  painPoint: 'mobile_setup',
+  variant: 'guided-service',
+  visualImage: '/img/phone-tablet-setup-migration-og.webp',
+  visualHeading: 'Your accounts and unlock codes stay in your hands.',
+  primaryLabel: 'Send a quick enquiry',
+  primaryHref: '#contact',
+  detailLabel: 'See if the phone or tablet visit fits',
+  robots: 'index, follow',
+  sitemap: 'present',
+  contentMarkers: [
+    '$390 fixed incl. GST',
+    'up to two hours onsite',
+    'one working and unlocked source device',
+    'Apple-to-Apple or Android-to-Android',
+    'myGov or online-banking setup',
+    'does not erase, reset, trade in or dispose of the source',
+    'Call Peter about your device move'
   ]
 })
 
@@ -363,6 +444,13 @@ function auditLandingPageHtml(audit, html, metadataEntries, sitemapXml) {
 
   const isGuidedService = audit.variant === 'guided-service'
   const requiredSectionIds = isGuidedService ? guidedLandingSectionIds : standardLandingSectionIds
+  const offerSection = html.match(/<header\b[^>]*id=["']offer["'][\s\S]*?<\/header>/i)?.[0] || ''
+  const startingOffer = offerSection.match(/<aside\b[^>]*aria-label=["']Starting offer["'][\s\S]*?<\/aside>/i)?.[0] || ''
+  const catalogueDescription = serviceCatalogue.byKey[audit.painPoint]?.description
+  assert(countOccurrences(startingOffer, 'data-starting-offer-summary') === 1, `${page}: hero offer card renders one concise summary`)
+  if (catalogueDescription) {
+    assert(startingOffer.includes(catalogueDescription), `${page}: hero offer card uses the concise catalogue description`)
+  }
   for (const sectionId of requiredSectionIds) {
     assert(countOccurrences(html, `id="${sectionId}"`) === 1, `${page}: exactly one #${sectionId} section rendered`)
   }
@@ -371,7 +459,6 @@ function auditLandingPageHtml(audit, html, metadataEntries, sitemapXml) {
       assert(countOccurrences(html, `id="${sectionId}"`) === 0, `${page}: compact guided service omits #${sectionId}`)
     }
 
-    const offerSection = html.match(/<header\b[^>]*id=["']offer["'][\s\S]*?<\/header>/i)?.[0] || ''
     const phonePrimary = offerSection.match(/<a\b[^>]*data-hero-phone-primary[^>]*>/i)?.[0] || ''
     const formSecondary = offerSection.match(/<a\b[^>]*data-hero-form-secondary[^>]*>/i)?.[0] || ''
     assert(countOccurrences(offerSection, 'data-hero-phone-primary') === 1, `${page}: hero renders one phone-first action`)
@@ -379,6 +466,7 @@ function auditLandingPageHtml(audit, html, metadataEntries, sitemapXml) {
     assert(offerSection.indexOf('data-hero-phone-primary') < offerSection.indexOf('data-hero-form-secondary'), `${page}: phone action precedes enquiry action in DOM order`)
     assert(/href=["']tel:\+\d{10,15}["']/i.test(phonePrimary), `${page}: primary hero action is a telephone link`)
     assert(/href=["']#contact["']/i.test(formSecondary), `${page}: secondary hero action targets the shared enquiry form`)
+    assert(phonePrimary.includes('whitespace-nowrap') && formSecondary.includes('whitespace-nowrap'), `${page}: guided hero actions cannot wrap their labels`)
     assert(offerSection.includes('href="#fit"'), `${page}: offer card links to the fit comparison`)
     if (audit.detailLabel) {
       assert(offerSection.includes(audit.detailLabel), `${page}: guided offer card uses its problem-specific fit label`)
@@ -393,6 +481,17 @@ function auditLandingPageHtml(audit, html, metadataEntries, sitemapXml) {
     assert((goodFit.match(/<li\b/gi) || []).length > 0, `${page}: standard-scope fit list is non-empty`)
     assert((separateFit.match(/<li\b/gi) || []).length > 0, `${page}: separate-scope fit list is non-empty`)
     assert(!html.includes('aria-label="Telephone enquiry"'), `${page}: guided page omits the repeated lower telephone callout`)
+  } else {
+    const formPrimary = offerSection.match(/<a\b[^>]*data-hero-form-primary[^>]*>/i)?.[0] || ''
+    const phoneSecondary = offerSection.match(/<a\b[^>]*data-hero-phone-secondary[^>]*>/i)?.[0] || ''
+    assert(formPrimary.includes('whitespace-nowrap') && phoneSecondary.includes('whitespace-nowrap'), `${page}: standard hero actions cannot wrap their labels`)
+
+    const pricingSection = html.match(/<section\b[^>]*id=["']pricing["'][\s\S]*?<\/section>/i)?.[0] || ''
+    const pricingPrimary = pricingSection.match(/<a\b[^>]*data-pricing-primary[^>]*>/i)?.[0] || ''
+    const pricingPhone = pricingSection.match(/<a\b[^>]*data-pricing-phone[^>]*>/i)?.[0] || ''
+    assert(countOccurrences(pricingSection, 'data-pricing-actions') === 1, `${page}: pricing actions use one shared stacked group`)
+    assert(pricingPrimary.includes('w-full') && pricingPrimary.includes('whitespace-nowrap'), `${page}: pricing enquiry action is full-width and cannot wrap`)
+    assert(pricingPhone.includes('w-full') && pricingPhone.includes('whitespace-nowrap'), `${page}: pricing telephone action is full-width and cannot wrap`)
   }
 
   const faqSection = html.match(/<section\b[^>]*id=["']faq["'][\s\S]*?<\/section>/i)?.[0] || ''
@@ -414,6 +513,7 @@ function auditLandingPageHtml(audit, html, metadataEntries, sitemapXml) {
   assert(html.includes('<iframe'), `${page}: form iframe rendered`)
   assert((html.match(/<iframe\b[^>]*\bdata-contact-form-frame\b/gi) || []).length === 1, `${page}: exactly one shared form iframe rendered`)
   assert(countOccurrences(html, 'data-contact-collection-notice') === 1, `${page}: exactly one point-of-collection notice rendered`)
+  assert(/<details\b(?![^>]*\bopen\b)[^>]*data-contact-collection-notice/i.test(html), `${page}: detailed collection notice is collapsed by default`)
   assert(html.indexOf('data-contact-collection-notice') < html.indexOf('data-contact-form-frame'), `${page}: collection notice appears before form fields`)
   assert(html.includes('href="/privacy/"'), `${page}: collection notice links the Privacy Policy`)
   assert(!html.includes('will never be shared or sold'), `${page}: inaccurate absolute data-sharing promise is absent`)
@@ -538,12 +638,16 @@ for (const entry of searchContent.entries) {
   if (entry.price) {
     assert(pagefindMetaContent(html, 'price') === htmlText(entry.price), `search: route sources pricing from the canonical catalogue (${entry.path})`)
   }
+  if (entry.serviceKey) {
+    assert(pagefindMetaContent(html, 'service_key') === htmlText(entry.serviceKey), `search: route exposes only its canonical service key for bounded selection analytics (${entry.path})`)
+  }
 }
 
 for (const service of serviceCatalogue.services) {
   const entry = searchContent.byPath[service.path]
   assert(Boolean(entry), `search: active service is registered (${service.name})`)
   assert(entry?.serviceName === service.name, `search: canonical service name is discoverable (${service.name})`)
+  assert(entry?.serviceKey === service.serviceKey, `search: canonical service key is discoverable (${service.name})`)
   assert(entry?.price === service.pricing.displayText, `search: service price is not duplicated (${service.name})`)
 }
 
@@ -642,11 +746,11 @@ if (existsSync(servicesJsonPath)) {
     const canonicalUrls = publicServices.map((service) => service.canonicalUrl)
 
     assert(publicCatalogue.schemaVersion === '1.0', 'service catalogue: schema version is 1.0')
-    assert(publicServices.length === 11, 'service catalogue: exactly 11 services are published')
+    assert(publicServices.length === 14, 'service catalogue: exactly 14 services are published')
     assert(publicServices.every((service) => service.status === 'active'), 'service catalogue: every published service is active')
-    assert(new Set(machineIds).size === 11, 'service catalogue: machine IDs are unique')
-    assert(new Set(serviceKeys).size === 11, 'service catalogue: service keys are unique')
-    assert(new Set(canonicalUrls).size === 11, 'service catalogue: canonical URLs are unique')
+    assert(new Set(machineIds).size === 14, 'service catalogue: machine IDs are unique')
+    assert(new Set(serviceKeys).size === 14, 'service catalogue: service keys are unique')
+    assert(new Set(canonicalUrls).size === 14, 'service catalogue: canonical URLs are unique')
     assert(
       machineIds.every((id) => /^au\.nakedtech\.service\.[a-z0-9_]+$/.test(id)),
       'service catalogue: machine IDs use the permanent Naked Tech namespace'
@@ -898,15 +1002,22 @@ assert(Boolean(servicesMain), 'services: main content rendered')
 for (const sectionId of ['find-help', 'projects', 'pricing', 'how-it-works']) {
   assert(countOccurrences(servicesMain, `id="${sectionId}"`) === 1, `services: exactly one #${sectionId} section rendered`)
 }
-assert(countOccurrences(servicesMain, 'data-service-path') === 8, 'services: eight assessment and guided-service paths rendered')
+assert(countOccurrences(servicesMain, 'data-service-path') === 11, 'services: eleven assessment and guided-service paths rendered')
+const catalogueProblemServices = serviceCatalogue.services.filter((service) => service.presentation.group === 'problem')
+assert(catalogueProblemServices.filter((service) => service.presentation.navGroup === 'fix').length === 6, 'navigation: six problem-solving services use the fix group')
+assert(catalogueProblemServices.filter((service) => service.presentation.navGroup === 'setup').length === 5, 'navigation: five setup services use the setup group')
 for (const route of [
   '/services/wifi-dropouts-ivanhoe/',
   '/services/slow-computer-help-ivanhoe/',
   '/services/scam-security-help-ivanhoe/',
+  '/services/virus-malware-help-ivanhoe/',
   '/services/new-computer-setup-data-transfer-ivanhoe/',
   '/services/printer-help-ivanhoe/',
   '/services/email-help-ivanhoe/',
-  '/services/new-printer-setup-ivanhoe/'
+  '/services/new-printer-setup-ivanhoe/',
+  '/services/backup-setup-ivanhoe/',
+  '/services/phone-tablet-setup-migration-ivanhoe/',
+  '/services/password-manager-setup-ivanhoe/'
 ]) {
   assert(servicesMain.includes(`href="${route}"`), `services: direct problem route rendered in main (${route})`)
 }
@@ -917,7 +1028,7 @@ for (const slug of ['full-strip', 'power-pose', 'quickie']) {
 assert(!servicesHtml.includes('href="/services/bodyguard/"'), 'retired Bodyguard offer is absent from services navigation and catalogue')
 assert(!servicesMain.includes('Smart home security'), 'services: unsupported smart-home security offer is not advertised')
 assert(servicesMain.includes('$550 fixed incl. GST'), 'services: approved new-computer price summary rendered')
-for (const price of ['$190 fixed incl. GST', '$250 fixed incl. GST', '$550 fixed incl. GST']) {
+for (const price of ['$190 fixed incl. GST', '$250 fixed incl. GST', '$390 fixed incl. GST', '$550 fixed incl. GST']) {
   assert(servicesMain.includes(price), `services: GST-inclusive problem-service price rendered (${price})`)
 }
 for (const investment of ['$900–$1,800 incl. GST', '$350 incl. GST', 'From $190 incl. GST']) {
@@ -1104,6 +1215,8 @@ if (existsSync(siteSearchSourcePath) && existsSync(siteSearchBuiltPath) && exist
   assert(siteSearchSource.includes("tracking.getPreferences().analytics === true"), 'search: bounded analytics require an explicit current analytics opt-in')
   assert(siteSearchSource.includes("recordBoundedEvent('site_search_unmet_demand', intent, null, context.source)"), 'search: unmet demand uses one bounded category event with the correct entry point')
   assert(siteSearchSource.includes("recordBoundedEvent('site_search_interest', intent, intent.actionType, context.source)"), 'search: explicit service or referral interest uses one bounded event with the correct entry point')
+  assert(siteSearchSource.includes("window.gtag('event', 'site_search_service_select'"), 'search: published-service selection uses one GA4-only bounded event')
+  assert(siteSearchSource.includes("intent.resultState !== 'published_service'"), 'search: published service matches are not counted as unmet demand')
   assert(siteSearchSource.includes('pagefind.search(query)'), 'search: query is passed only to the local Pagefind runtime')
   assert(siteSearchSource.includes("origin.dataset.siteSearchSource === 'homepage'"), 'search: homepage modal use retains bounded source attribution')
   assert(!siteSearchSource.includes('data-site-search-launch-output'), 'search: controller has no competing homepage results layer')
@@ -1122,6 +1235,44 @@ if (existsSync(siteSearchSourcePath) && existsSync(siteSearchBuiltPath) && exist
   assert(siteSearchSource.includes("event.key !== 'Tab'"), 'search: dialog handles forward and reverse keyboard focus wrapping')
   assert(siteSearchSource.includes('previousFocus.focus()'), 'search: closing restores focus to the opening trigger')
   assert(!/\b(?:gtag|fbq|sendBeacon|fetch)\b/.test(siteSearchIntentsSource), 'search: intent classifier is a local pure-data utility with no transport')
+
+  const searchAnalyticsFunctions = siteSearchSource.match(/  function analyticsAllowed\(\)[\s\S]*?(?=\n  function loadPagefind\(\))/)?.[0] || ''
+  assert(Boolean(searchAnalyticsFunctions), 'search: consent-gated analytics functions remain executable as one reviewed unit')
+  if (searchAnalyticsFunctions) {
+    function executeServiceSelection(analyticsConsent, attempts = 1) {
+      const events = []
+      const publishedIntent = searchIntents.classify('my computer shows a ransomware warning')
+      const context = {
+        intentApi: searchIntents,
+        reportedEvents: {},
+        window: {
+          location: { pathname: '/' },
+          nakedTechTracking: {
+            getPreferences: () => ({ analytics: analyticsConsent }),
+          },
+          gtag: (...event) => events.push(event),
+        },
+      }
+      vm.runInNewContext(`${searchAnalyticsFunctions}\nfor (var attempt = 0; attempt < ${attempts}; attempt += 1) { recordServiceSelection(publishedIntent, 'homepage') }`, {
+        ...context,
+        publishedIntent,
+      })
+      return events
+    }
+
+    const rejectedSelectionEvents = executeServiceSelection(false)
+    assert(rejectedSelectionEvents.length === 0, 'search: published-service selection emits no analytics event without consent')
+
+    const acceptedSelectionEvents = executeServiceSelection(true, 2)
+    assert(acceptedSelectionEvents.length === 1, 'search: repeated published-service selection emits one consented event per destination')
+    const acceptedSelection = acceptedSelectionEvents[0] || []
+    assert(acceptedSelection[0] === 'event' && acceptedSelection[1] === 'site_search_service_select', 'search: consented published-service selection emits the approved GA4 event')
+    assert(
+      Object.keys(acceptedSelection[2] || {}).sort().join('|') === 'destination_path|intent_category|page_path|result_state|search_source',
+      'search: executed service-selection event contains only five reviewed bounded fields'
+    )
+    assert(!JSON.stringify(acceptedSelection).includes('my computer shows a ransomware warning'), 'search: executed service-selection event excludes the typed query')
+  }
 }
 const builtStyles = readFileSync(join(root, 'css', 'styles.css'), 'utf8')
 assert(builtStyles.includes('site-search-backdrop-in'), 'search: built styles include the opening backdrop transition')
@@ -1160,6 +1311,16 @@ for (const [query, expectedCategory] of [
 ]) {
   assert(searchIntents.classify(query)?.category === expectedCategory, `search: “${query}” maps locally to ${expectedCategory}`)
 }
+for (const [query, expectedPath] of [
+  ['virus', '/services/virus-malware-help-ivanhoe/'],
+  ['set up my backup', '/services/backup-setup-ivanhoe/'],
+  ['new iPhone setup', '/services/phone-tablet-setup-migration-ivanhoe/'],
+  ['Android to iPhone', '/services/phone-tablet-setup-migration-ivanhoe/'],
+]) {
+  const intent = searchIntents.classify(query)
+  assert(intent?.resultState === 'published_service', `search: “${query}” is a published service rather than unmet demand`)
+  assert(intent?.actionHref === expectedPath, `search: “${query}” routes directly to ${expectedPath}`)
+}
 for (const supportedQuery of [
   'internet keeps dropping',
   'printer setup on my phone',
@@ -1169,9 +1330,11 @@ for (const supportedQuery of [
 ]) {
   assert(searchIntents.classify(supportedQuery) === null, `search: supported query remains available to Pagefind (${supportedQuery})`)
 }
-const sampleIntent = searchIntents.classify('virus')
-const searchOutcomePayload = searchIntents.analyticsPayload(sampleIntent, 'homepage', null, '/')
-const searchInterestPayload = searchIntents.analyticsPayload(sampleIntent, 'navigation', 'service_enquiry', '/services/')
+const sampleUnmetIntent = searchIntents.classify('recover my deleted photos')
+const samplePublishedIntent = searchIntents.classify('virus')
+const searchOutcomePayload = searchIntents.analyticsPayload(sampleUnmetIntent, 'homepage', null, '/')
+const searchInterestPayload = searchIntents.analyticsPayload(sampleUnmetIntent, 'navigation', 'referral_request', '/services/')
+const serviceSelectionPayload = searchIntents.serviceSelectionPayload(samplePublishedIntent, 'homepage', '/')
 assert(
   Object.keys(searchOutcomePayload).sort().join('|') === 'intent_category|page_path|result_state|search_source',
   'search: outcome analytics payload contains only four reviewed bounded fields'
@@ -1181,7 +1344,12 @@ assert(
   'search: interest analytics payload adds only the reviewed bounded interest type'
 )
 assert(
-  !Object.keys({ ...searchOutcomePayload, ...searchInterestPayload }).some((key) => /query|term|text|excerpt/i.test(key)),
+  Object.keys(serviceSelectionPayload).sort().join('|') === 'destination_path|intent_category|page_path|result_state|search_source',
+  'search: service-selection analytics payload contains only five reviewed bounded fields'
+)
+assert(serviceSelectionPayload.destination_path === '/services/virus-malware-help-ivanhoe/', 'search: service-selection analytics uses the allowlisted destination path')
+assert(
+  !Object.keys({ ...searchOutcomePayload, ...searchInterestPayload, ...serviceSelectionPayload }).some((key) => /query|term|text|excerpt/i.test(key)),
   'search: analytics payload has no field capable of carrying typed query content'
 )
 const homepageStructuredData = jsonLdBlocks(baseHtml)
@@ -1367,6 +1535,9 @@ assert(
 )
 assert(baseHtml.includes('HELP WITH'), 'navigation: desktop problem menu rendered')
 assert(baseHtml.includes('aria-label="Navigation menu"'), 'navigation: mobile menu control rendered')
+for (const groupedNavId of ['desktop-nav-fix-heading', 'desktop-nav-setup-heading', 'mobile-nav-fix-heading', 'mobile-nav-setup-heading']) {
+  assert(countOccurrences(baseHtml, `id="${groupedNavId}"`) === 1, `navigation: grouped menu heading ${groupedNavId} rendered once`)
+}
 assert(baseHtml.includes('data-navigation-disclosures'), 'navigation: disclosure behaviour rendered')
 assert(baseHtml.includes('SERVICES &amp; PRICING'), 'navigation: services and pricing link rendered')
 assert(baseHtml.includes('href="#how-it-works"'), 'homepage navigation: how-it-works link targets local overview')
@@ -1376,9 +1547,11 @@ assert(baseHtml.includes('data-theme-controls'), 'theme: persistent controls ren
 for (const choice of ['system', 'light', 'dark']) {
   assert(baseHtml.includes(`data-theme-choice="${choice}"`), `theme: ${choice} choice rendered`)
 }
-assert(baseHtml.includes('aria-label="Problem help"'), 'footer: problem-help navigation rendered')
-assert(baseHtml.includes('aria-label="Services and projects"'), 'footer: services navigation rendered')
-assert(baseHtml.includes('aria-label="Company information"'), 'footer: company navigation rendered')
+assert(baseHtml.includes('aria-label="Find technology help"'), 'footer: grouped help navigation rendered')
+assert(baseHtml.includes('aria-label="Explore Naked Tech"'), 'footer: concise Explore navigation rendered')
+assert(baseHtml.includes('aria-label="Legal and site information"'), 'footer: legal and utility navigation rendered')
+assert(countOccurrences(baseHtml, 'id="footer-fix-heading"') === 1, 'footer: problem-solving links have one group heading')
+assert(countOccurrences(baseHtml, 'id="footer-setup-heading"') === 1, 'footer: setup links have one group heading')
 assert(baseHtml.includes('Good-looking technology. Even better when it works.'), 'footer: approved closing line rendered')
 
 const metadataEnvironment = nunjucks.configure(includesRoot, { autoescape: true })
@@ -1474,6 +1647,7 @@ if (existsSync(contactComponentPath)) {
   assert(componentHtml.includes(`data-pain-point="${formProps.painPoint}"`), 'contact-form fixture renders its pain-point context')
   assert(componentHtml.includes('https://forms.digitalsanctum.com.au/f/nakedtech-contact'), 'contact-form fixture preserves the default Sanctum Forms endpoint')
   assert(countOccurrences(componentHtml, 'data-contact-collection-notice') === 1, 'contact-form fixture renders one point-of-collection notice')
+  assert(/<details\b(?![^>]*\bopen\b)[^>]*data-contact-collection-notice/i.test(componentHtml), 'contact-form fixture keeps detailed collection information collapsed by default')
   assert(countOccurrences(componentHtml, 'data-pagefind-ignore') === 1, 'contact-form fixture excludes repeated enquiry boilerplate from site-search excerpts')
   assert(componentHtml.indexOf('data-contact-collection-notice') < componentHtml.indexOf('data-contact-form-frame'), 'contact-form fixture renders notice before form fields')
   assert(componentHtml.includes('Fields marked with an asterisk are required'), 'contact-form fixture explains required and optional fields')
@@ -1636,6 +1810,7 @@ const contactHtml = readFileSync(routeToFile('/contact/'), 'utf8')
 assert(countOccurrences(contactHtml, 'data-contact-form-root') === 1, '/contact/: shared contact-form component renders once')
 assert(/<section\b[^>]*data-contact-form-root[^>]*data-pagefind-ignore/i.test(contactHtml), '/contact/: repeated enquiry section is excluded from site-search excerpts')
 assert(countOccurrences(contactHtml, 'data-contact-collection-notice') === 1, '/contact/: point-of-collection notice renders once')
+assert(/<details\b(?![^>]*\bopen\b)[^>]*data-contact-collection-notice/i.test(contactHtml), '/contact/: detailed collection information is collapsed by default')
 assert(contactHtml.indexOf('data-contact-collection-notice') < contactHtml.indexOf('data-contact-form-frame'), '/contact/: collection notice appears before form fields')
 assert(contactHtml.includes('href="/privacy/"'), '/contact/: collection notice links the Privacy Policy')
 assert(!contactHtml.includes('will never be shared or sold'), '/contact/: inaccurate absolute data-sharing promise is absent')

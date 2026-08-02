@@ -187,6 +187,18 @@
     ))
   }
 
+  function recordServiceSelection(intent, source) {
+    if (!analyticsAllowed() || !intentApi || typeof intentApi.serviceSelectionPayload !== 'function') return
+    var key = ['site_search_service_select', intent.category, intent.actionHref].join(':')
+    if (reportedEvents[key]) return
+    reportedEvents[key] = true
+    window.gtag('event', 'site_search_service_select', intentApi.serviceSelectionPayload(
+      intent,
+      source,
+      window.location.pathname
+    ))
+  }
+
   function loadPagefind() {
     if (!pagefindPromise) {
       pagefindPromise = import('/pagefind/pagefind.js').then(function(pagefind) {
@@ -220,7 +232,7 @@
     }
   }
 
-  function resultItem(data) {
+  function resultItem(data, context) {
     var href = safeResultUrl(data.url)
     if (!href) return null
 
@@ -231,6 +243,7 @@
     var details = document.createElement('span')
     var kind = data.meta && data.meta.kind
     var price = data.meta && data.meta.price
+    var serviceKey = data.meta && data.meta.service_key
 
     item.className = 'rounded-2xl border border-line bg-canvas transition-colors hover:border-accent'
     link.className = 'block rounded-2xl p-4 sm:p-5'
@@ -245,6 +258,14 @@
     link.appendChild(heading)
     link.appendChild(excerpt)
     if (details.textContent) link.appendChild(details)
+    if (serviceKey) {
+      link.addEventListener('click', function() {
+        recordServiceSelection({
+          category: serviceKey,
+          actionHref: href,
+        }, context.source)
+      })
+    }
     item.appendChild(link)
     return item
   }
@@ -278,11 +299,15 @@
     if (intent.actionType && intent.actionLabel) {
       var action = document.createElement('a')
       action.className = 'mt-4 inline-flex min-h-11 items-center justify-center rounded-full bg-inverse px-5 py-2 text-sm font-bold text-inverse-ink transition hover:bg-black'
-      action.href = '/contact/'
+      action.href = intent.actionHref || '/contact/'
       action.textContent = intent.actionLabel
       action.dataset.siteSearchInterest = intent.actionType
       action.addEventListener('click', function() {
-        recordBoundedEvent('site_search_interest', intent, intent.actionType, context.source)
+        if (intent.resultState === 'published_service') {
+          recordServiceSelection(intent, context.source)
+        } else {
+          recordBoundedEvent('site_search_interest', intent, intent.actionType, context.source)
+        }
       })
       article.appendChild(action)
     }
@@ -298,7 +323,9 @@
     context.results.hidden = false
     setResultsBusy(context, false)
     setStatus(context, 'Showing guidance for ' + intent.label + '.')
-    recordBoundedEvent('site_search_unmet_demand', intent, null, context.source)
+    if (intent.resultState !== 'published_service') {
+      recordBoundedEvent('site_search_unmet_demand', intent, null, context.source)
+    }
   }
 
   function intentChoiceItem(context, sequence) {
@@ -361,7 +388,7 @@
       clearResults(context)
       items.forEach(function(data) {
         if (!data) return
-        var item = resultItem(data)
+        var item = resultItem(data, context)
         if (item) context.results.appendChild(item)
       })
 

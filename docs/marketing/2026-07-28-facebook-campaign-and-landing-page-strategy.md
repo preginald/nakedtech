@@ -373,19 +373,17 @@ Core promise:
 - Peter completes the production operator-only suitability assessment with the client; it has no public respondent route. The public page uses `password_safety_control`, the shared enquiry form, a visible 1200×630 service image, sitemap registration and services-page discovery.
 - Current local validation passes 1,974 site checks and 56 analytics scenarios/248 assertions without creating a form submission or analytics-platform event.
 
-### Remaining organic/search pages
+### Backup, phone/tablet and malware pages — implemented locally
 
-- Backup setup and recovery readiness as a standalone service
-- Phone and tablet setup or migration
-- Virus and malware diagnosis and remediation, separate from scam/account
-  recovery
+- `/services/backup-setup-ivanhoe/` presents the owner-approved `$250 fixed incl. GST` Computer Backup Setup Visit for up to 90 minutes onsite, one working Windows or Mac computer, one user and one supported local or personal cloud destination. It configures one automatic path, validates a small controlled backup and sample restore, and separates setup from deleted-file or failed-drive recovery.
+- `/services/phone-tablet-setup-migration-ivanhoe/` presents the owner-approved `$390 fixed incl. GST` Phone & Tablet Setup and Migration Visit for up to two hours onsite, one person, one working unlocked source and one compatible customer-supplied destination. The standard fixed scope is Apple-to-Apple or Android-to-Android; cross-platform moves are separately quoted, and carrier, locked-account, myGov, banking, physical-repair and data-recovery outcomes remain outside scope.
+- `/services/virus-malware-help-ivanhoe/` presents the owner-approved `$250 fixed incl. GST` Virus & Malware Diagnosis and Removal Visit for up to 90 minutes onsite and one working Windows or Mac computer. The evidence-led scope includes safe user-level remediation where practical and written residual risks, without a complete-clean guarantee or overlap with scam/account recovery, ransomware decryption, forensics, data recovery or hardware repair.
+- All three use the shared sales layout, catalogue-backed Service JSON-LD, stable analytics/form contexts, privacy-safe published-service search routing, unique 1200×630 visible editorial images, catalogue/navigation/sitemap discovery and automated audit coverage. No paid campaign, production form submission or deployment was created.
+
+### Remaining organic/search opportunities
+
 - Laptop will not start / black-screen triage
 - Screen, charging and physical repairs only if an operational workshop model is approved
-
-Peter confirmed on 2 August 2026 that Naked Tech can deliver the first three
-services above. Their landing pages are approved as work items; pricing, exact
-scope, exclusions, route names and acquisition priority remain separate
-commercial and content decisions before implementation.
 
 ---
 

@@ -20,6 +20,7 @@ A page that has the right field shape is not automatically publishable. Commerci
 5. Quote YAML values that contain `#`, `:`, currency symbols or other syntax-sensitive punctuation.
 6. Keep all problem claims specific to the page's `landing.id`. Do not broaden a pain-specific page into a catalogue of unrelated services.
 7. Array order is display order. The shared layout derives process step numbers from array order.
+8. Register the matching service in `src/_data/serviceCatalogue.js` before authoring the page. The catalogue is the canonical source for public name, service type, price, service areas, booking mode and Service JSON-LD.
 
 ## Top-level contract
 
@@ -40,10 +41,9 @@ The canonical URL is derived from `permalink`. The public H1 is derived from `la
 
 | Field | Type | Presence | Contract |
 |---|---|---:|---|
-| `id` | snake-case string | **Required** | Stable service identifier used by analytics and form context. Approved identifiers are `wifi_dropouts`, `slow_computer`, `scam_security`, `new_computer_setup`, `printer_help`, `email_help`, `new_printer_setup` and `password_safety_control`. |
+| `id` | snake-case string | **Required** | Stable service identifier used by analytics and form context. Approved identifiers are `wifi_dropouts`, `slow_computer`, `scam_security`, `virus_malware`, `new_computer_setup`, `printer_help`, `email_help`, `new_printer_setup`, `backup_setup`, `mobile_setup` and `password_safety_control`. |
 | `variant` | string | Optional | Omit for the standard diagnostic page. The approved `guided-service` variant replaces symptoms and diagnosis with a fit comparison, makes telephone contact the first hero action, and omits duplicate proof and pricing sections. |
 | `interactive` | boolean | Optional | Enables restrained shared-layout reveal and card-hover treatment. Omit unless the page has passed a visual review for this treatment. |
-| `stackedPricingCtas` | boolean | Optional | Stacks the pricing-panel enquiry and telephone actions at full width when their approved labels do not fit reliably side by side. |
 | `eyebrow` | string | **Required** | Short local-relevance line above the H1. Geography must match approved service scope. |
 | `headline` | string | **Required** | The page's only H1. State the exact customer pain and desired outcome in customer language. It must be unique across landing pages. |
 | `promise` | string | **Required** | One plain-English paragraph continuing the advertisement/search promise and explaining the diagnostic-first outcome. |
@@ -57,7 +57,6 @@ The canonical URL is derived from `permalink`. The public H1 is derived from `la
 | `proofPoints` | array of proof-point objects | Conditional | Required for the standard variant; omit for `guided-service`. Exactly 3 truthful, source-backed trust points. |
 | `faqs` | array of FAQ objects | **Required** | Between 3 and 6 problem-specific questions. |
 | `form` | object | **Required** | Shared form heading and stable pain context. |
-| `schema` | object | **Required** | Approved Service structured-data inputs. |
 | `safetyNote` | object | Conditional | Required for an approved `guided-service` page, with `label`, `heading` and `message` strings. Keep it to one concise operational boundary. |
 | `urgentCallout` | object | Optional | Calm, factual urgent-action guidance with required `label` and `message` strings. Do not use for artificial urgency. |
 | `visual` | object | Optional | In-page visual break supported by both the standard and `guided-service` variants, with required `image`, `width`, `height`, `alt`, `eyebrow`, `heading` and `description` values. |
@@ -68,10 +67,10 @@ The canonical URL is derived from `permalink`. The public H1 is derived from `la
 
 | Field | Type | Presence | Contract |
 |---|---|---:|---|
-| `label` | string | **Required** | Short label for the approved starting offer. Do not imply a fixed-price resolution when only a fixed-scope diagnosis is approved. |
-| `price` | string | **Required** | Owner-approved display text, including qualifiers such as `from` where applicable. Naked Tech prices projects rather than hours; if no project price is approved, page authoring is blocked and the author must not invent one. |
 | `note` | string | **Required** | Explicit scope and exclusions, including dependencies on third parties, hardware, follow-up work or geography where relevant. Silence is not an exclusion statement. |
 | `detailLabel` | string | Optional | Guided-service label for the offer-card link to `#fit`. Use problem-specific wording; the layout supplies a generic fallback. |
+
+The shared layout obtains the offer label and price from the matching catalogue entry. If no catalogue entry with an owner-approved commercial offer exists, page authoring is blocked; do not duplicate or invent those values in page front matter.
 
 ### `landing.cta`
 
@@ -164,14 +163,9 @@ Count: **minimum 3, maximum 6**.
 | `contextKey` | snake-case string | **Required** | Must exactly equal `landing.id`. It is the only page-authored form pain identifier. Whether Sanctum Forms can persist it is investigated later; this contract does not claim that capability. |
 | `formSlug` | kebab-case string | Optional | Selects an approved form at the fixed `https://forms.digitalsanctum.com.au/f/` origin. Omit to use `nakedtech-contact`; never place an arbitrary URL here. |
 
-### `landing.schema`
+### Service structured data
 
-| Field | Type | Presence | Contract |
-|---|---|---:|---|
-| `serviceType` | string | **Required** | Accurate, approved service name for Service JSON-LD. It must describe the offered service without adding claims. |
-| `areaServed` | array of strings | **Required** | One or more owner-approved service areas. Do not infer areas from nearby suburbs, advertising reach or another page. |
-
-The shared layout is responsible for escaping these values into valid JSON-LD. Page data must remain plain text.
+The shared layout renders Service JSON-LD from the catalogue entry selected by `landing.id`. Page front matter must not repeat service type, price, provider or service-area values. The catalogue and generated `/services.json` remain the machine-readable source of truth.
 
 ## Shape-only YAML example
 
@@ -193,8 +187,6 @@ landing:
   headline: '<EXACT CUSTOMER PAIN AND DESIRED OUTCOME>'
   promise: '<ONE PLAIN-ENGLISH DIAGNOSTIC-FIRST PARAGRAPH>'
   offer:
-    label: '<APPROVED OFFER LABEL>'
-    price: '<OWNER-APPROVED PRICE TEXT>'
     note: '<EXPLICIT APPROVED SCOPE AND EXCLUSIONS>'
   cta:
     primaryLabel: '<PROBLEM-SPECIFIC ENQUIRY ACTION>'
@@ -245,10 +237,6 @@ landing:
     # introduction: '<OPTIONAL SINGLE-SENTENCE PROMPT>'
     contextKey: <SAME VALUE AS landing.id>
     # formSlug: <APPROVED-SANCTUM-FORMS-SLUG>
-  schema:
-    serviceType: '<APPROVED SERVICE TYPE>'
-    areaServed:
-      - '<APPROVED SERVICE AREA>'
 ---
 ```
 

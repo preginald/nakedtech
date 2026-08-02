@@ -32,6 +32,18 @@ const routes = [
     campaignContent: 'scam_security_v1'
   },
   {
+    label: 'Virus and malware',
+    route: '/services/virus-malware-help-ivanhoe/',
+    painPoint: 'virus_malware',
+    campaignContent: 'virus_malware_audit_only',
+    attributedCase: 'synthetic attributed page view',
+    attribution: {
+      utm_source: 'site_audit',
+      utm_medium: 'test',
+      utm_campaign: 'non_live_validation'
+    }
+  },
+  {
     label: 'New computer setup',
     route: '/services/new-computer-setup-data-transfer-ivanhoe/',
     painPoint: 'new_computer_setup',
@@ -84,6 +96,30 @@ const routes = [
     route: '/services/password-manager-setup-ivanhoe/',
     painPoint: 'password_safety_control',
     campaignContent: 'password_safety_control_audit_only',
+    attributedCase: 'synthetic attributed page view',
+    attribution: {
+      utm_source: 'site_audit',
+      utm_medium: 'test',
+      utm_campaign: 'non_live_validation'
+    }
+  },
+  {
+    label: 'Backup setup',
+    route: '/services/backup-setup-ivanhoe/',
+    painPoint: 'backup_setup',
+    campaignContent: 'backup_setup_audit_only',
+    attributedCase: 'synthetic attributed page view',
+    attribution: {
+      utm_source: 'site_audit',
+      utm_medium: 'test',
+      utm_campaign: 'non_live_validation'
+    }
+  },
+  {
+    label: 'Phone and tablet setup',
+    route: '/services/phone-tablet-setup-migration-ivanhoe/',
+    painPoint: 'mobile_setup',
+    campaignContent: 'mobile_setup_audit_only',
     attributedCase: 'synthetic attributed page view',
     attribution: {
       utm_source: 'site_audit',
