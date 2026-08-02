@@ -11,9 +11,9 @@
 **Canonical strategy:** `docs/marketing/2026-07-28-facebook-campaign-and-landing-page-strategy.md`<br>
 **Obsidian copy:** `Sanctum Digital/Projects/Naked Tech/Naked Tech - Facebook Campaign and Landing Page Strategy - 2026-07-28.md`<br>
 **Created:** 28 July 2026 12:33 AEST<br>
-**Status:** Phase 4 complete; P4-T3 passed
-**Current phase:** Phase 5 not started
-**Next task:** P5-T1 — build matching creative briefs only after a new-session scope check
+**Status:** Phase 5 launched; sequential delivery and measurement in progress
+**Current phase:** Phase 5 controlled delivery
+**Next task:** Preserve the approved controls, perform read-only health checks, and begin Phase 6 only after both arms and the attribution-settling window finish
 
 ---
 
@@ -44,7 +44,7 @@ This section is the continuity mechanism. Follow it instead of importing the ful
 | 2. Wi-Fi pilot landing page | Complete | User approved the responsive pilot, offer hierarchy and visual treatment; 477 audit checks passed | Phase 3 |
 | 3. Slow computer / Windows landing page | Complete | Page verified using unchanged template contract | Phase 4 |
 | 4. Funnel attribution and form context | Complete | P4-T1 matrix, P4-T2/P4-T2a persistence and delivery, and P4-T3 live GA4/Meta evidence passed | Phase 5 |
-| 5. Meta two-concept experiment | Not started | Both ads approved, tracking verified, campaign live | Start only after Phases 2–4 |
+| 5. Meta two-concept experiment | In progress | Separate owner launch approval followed the P5-T3 pass; one campaign, two ad sets and two ads were published on 30 July, with Slow Computer active and Wi-Fi scheduled at the retained zero-spend readback | Preserve controls through both delivery windows; do not optimise from early results |
 | 6. Measurement and decision | Not started | Ad-level funnel report and explicit decision | Begin after spend/sample gate |
 | 7. Organic/search expansion | Not started | Prioritised pages shipped from measured demand | Begin after Phase 6 |
 
@@ -81,7 +81,7 @@ This section is the continuity mechanism. Follow it instead of importing the ful
 - The Wi-Fi diagnostic is an approved `$190 fixed-price project`, not an hourly engagement.
 - Naked Tech's approved business-wide pricing policy is per project rather than hourly; legacy hourly, minimum-charge and time-block wording on the existing service pages must be normalised to fixed-scope project language.
 - A short suitability call may be free; the skilled onsite diagnosis is not free and is not automatically credited to later work.
-- “Peter has supported home computer users since 2004” is approved.
+- “Peter personally has more than 30 years of technology and support experience” is approved; do not imply that Naked Tech itself has operated for 30 years.
 - Ivanhoe and Eaglemont both share the no-call-out policy.
 - Whether scam/security assistance includes remote support, in-home support, or both.
 - Whether new pages should cover service areas beyond Ivanhoe and Eaglemont.
@@ -528,46 +528,51 @@ For each, record expected GA4 and Meta events and parameters.
 
 **Create:** `docs/marketing/meta-test-01-creative-brief.md`
 
+**Status:** `Complete` — both concepts, the new problem-specific imagery direction, Concept B's fixed-price onsite model/copy and all eight current placement exports are owner-approved. P5-T2 remained a separate campaign-settings and budget gate.
+
 ### Concept A — Wi-Fi dropouts
 
-- [ ] One pain only: unreliable Wi-Fi in rooms where people actually use it.
-- [ ] Promise diagnosis before hardware.
-- [ ] Destination `/services/wifi-dropouts-ivanhoe/` with unique UTMs.
-- [ ] CTA defaults to `Learn More`; telephone remains available on page.
+- [x] One pain only: unreliable Wi-Fi in rooms where people actually use it.
+- [x] Promise diagnosis before hardware.
+- [x] Destination `/services/wifi-dropouts-ivanhoe/` with unique UTMs.
+- [x] CTA defaults to `Learn More`; telephone remains available on page.
 
 ### Concept B — Slow computer / Windows
 
-- [ ] One pain only: chronically slow Windows computer and uncertainty about repair versus replacement.
-- [ ] Destination `/services/slow-computer-help-ivanhoe/` with unique UTMs.
-- [ ] CTA defaults to `Learn More`.
+- [x] One pain only: chronically slow Windows computer and uncertainty about repair versus replacement.
+- [x] Destination `/services/slow-computer-help-ivanhoe/` with unique UTMs.
+- [x] CTA defaults to `Learn More`.
 
 **Guardrails:**
 
-- [ ] Do not list unrelated services in either primary text.
-- [ ] Do not imply private knowledge about the viewer.
-- [ ] Do not use fear-heavy security claims.
-- [ ] Use problem imagery rather than a generic catalogue image where practical.
+- [x] Do not list unrelated services in either primary text.
+- [x] Do not imply private knowledge about the viewer.
+- [x] Do not use fear-heavy security claims.
+- [x] Use problem imagery rather than a generic catalogue image where practical.
 
 ## P5-T2 — Campaign structure and budget
 
-- [ ] Keep one local Leads campaign and one Ivanhoe/Eaglemont ad set unless Ads Manager constraints require a controlled experiment container.
-- [ ] Run only the two approved concepts.
-- [ ] Use an A/B test with equal budget or sequential fixed-spend windows; do not allow an opaque early delivery bias to consume nearly all spend on one concept.
-- [ ] Initial allocation: approximately $40 per concept, subject to user approval.
-- [ ] Keep the old generic ad inactive.
-- [ ] Save screenshots/export of final settings before publishing.
+**Status:** `Complete` — owner approved the revised sequential pilot at `docs/marketing/meta-test-01-campaign-structure-and-budget-proposal.md`. The unpublished/off construction checkpoint passed before a separate launch approval authorised publication on 30 July 2026.
+
+- [x] Use one local Leads campaign with two separate Ivanhoe/Eaglemont ad-set lifetime-budget containers, as required to hold each sequential arm to its own binding budget.
+- [x] Run only the two approved concepts.
+- [x] Use sequential fixed-spend windows with `$45` lifetime budget per arm, Meta's live minimum; ad-set budget sharing remains Off and total authorised spend remains capped at `$90`.
+- [x] Keep the old generic campaign and its existing ad set/ad inactive.
+- [x] Save final campaign, ad-set, ad, creative-control and placement-warning evidence before any publication.
+
+**P5-T3 resolution:** The owner approved the draft-only parity correction. Live readback showed Arm B's Threads value was `Use Facebook Page`; Arm A was set to the same value. Both ads now have the same sole unavailable placement, `Audience Network rewarded videos`, because the approved media is static. Both ad-set grids were also corrected from selected cells `9..17` (`09:00–18:00`) to `9..16` (`[09:00,17:00)`) Monday–Friday, with weekends empty. All edits saved as drafts; nothing was published or activated.
 
 ## P5-T3 — Pre-launch checks
 
-- [ ] Both destination URLs return 200 and render correctly on mobile.
-- [ ] UTMs remain after navigation.
-- [ ] Pixel and GA4 events fire once.
-- [ ] Form submits and phone links work.
-- [ ] Ad preview text and landing H1 visibly match.
-- [ ] Budget, geography, objective and schedule are recorded.
-- [ ] User explicitly approves launch.
+- [x] Both destination URLs return successfully and render correctly on a true `390 × 844` mobile viewport.
+- [x] UTMs remain after navigation.
+- [x] Meta Pixel and GA4 contractual events fire once under duplicate-message and wrong-origin negative controls.
+- [x] Contact-form message handling and phone-link behavior pass the deterministic live-page contract test; no external fake lead was submitted.
+- [x] Ad preview text/media and landing-page H1 visibly match.
+- [x] Budget, geography, objective, conversion event and exact hourly schedule grids are recorded.
+- [x] User explicitly approves launch in a separate decision after the technical audit.
 
-**Exit criterion:** Both concepts are live only after message match and event flow are verified.
+**Technical and launch exit criterion:** Complete. The full audit and subsequent launch addendum are recorded at `docs/marketing/meta-test-01-p5-t3-pre-launch-audit.md`. The review contained one campaign, two ad sets and two ads with no reported errors; publication completed and the retained post-publish readback showed Slow Computer active, Wi-Fi scheduled and `$0.00` spent at that checkpoint.
 
 ---
 
@@ -938,4 +943,72 @@ YYYY-MM-DD — Phase/task:
 - Forms: one retained row `9cde7885-97ed-4fed-bba0-185e7261a209` stored Wi-Fi pain/path and all four approved UTMs
 - Notify: row `ec7dfd6e-42ba-45bd-87c2-e054b20884ad` used `form-submission`, retained identical context and reached final `sent` with no error
 - Decision: Phase 4 complete; Phase 5 remains not started pending a new-session scope check
+```
+
+```text
+2026-07-29 — P5-T1 approved; final image set generated and verified
+- Approval: both concepts, revised Concept B commercial copy, new imagery and matched `4:5`/`1:1` system approved
+- Files: creative brief/strategy/page/audit plus four WebP exports, two retained sources, provenance record and deterministic composition script
+- Creative QA: an independent audit rejected the first Wi-Fi badge/distress treatment; the no-person replacement and `$190 FIXED DIAGNOSIS` revision then passed full-size and feed-size review
+- Technical QA: `1080 × 1350`/`1080 × 1080`, `540 px` feed previews, source/output SHA-256 records and FLUX v2.1 output-use basis passed
+- Verification: 535 site checks/17 pages, 14 analytics scenarios/62 assertions, production build and fan-out checks passed
+- Mutation boundary: no upload, campaign/ad edit, budget change, publication or spend
+- Next task: obtain owner visual approval of all four exports before P5-T2
+```
+
+```text
+2026-07-29 — Revised Wi-Fi exports visually approved
+- Source: owner-generated and edited ChatGPT background with embedded C2PA retained in the PNG source
+- Creative: inverse logo mark, stronger two-line supporting copy and `$190 FIXED DIAGNOSIS` badge approved in both `4:5` and `1:1`
+- Mutation boundary: no Meta upload or campaign/ad change
+- Next task: obtain explicit visual approval of the unchanged verified slow-computer pair before P5-T2
+```
+
+```text
+2026-07-29 — Four-image creative asset gate complete
+- Approval: the unchanged slow-computer `4:5` and `1:1` exports are owner-approved; all four final assets are now approved
+- Verification: independent audit, full-size review, `540 px` feed review, dedicated-crop checks and deterministic checksum verification passed
+- Mutation boundary: no Meta upload, campaign/ad edit, budget change, publication or spend
+- Next task: prepare the P5-T2 campaign-structure and budget proposal for explicit owner approval
+```
+
+```text
+2026-07-29 — P5-T2 campaign structure and budget proposal prepared
+- Approval: owner approved the revised sequential pilot; publication, activation and spend remain separately gated
+- Recommendation: one new Leads campaign with two identical sequential ad-set budget containers; one approved concept per arm
+- Budget/schedule: up to `$40` per arm; equal seven-day windows, 72-hour washout, frequency-`4.0` stop and matched lower spend
+- Audience/placement: Ivanhoe + Eaglemont, 35–65+, broad within geography, Facebook Feed only, approved `4:5` assets
+- Evidence: current Meta A/B, budget and Feed guidance; preserved campaign CSV; live destination/UTM checks; same-day read-only Meta state
+- Mutation boundary: current authenticated Meta state could not be re-read; no draft, upload, setting, publication or spend change occurred
+- Next task: authenticated state recheck and unpublished/off draft construction; P5-T3 and launch approval remain separate
+```
+
+```text
+2026-07-30 — P5-T2 unpublished/off draft assembly complete
+- Live state: new campaign, both `$45` lifetime ad sets and both ads are Off/In draft with blank delivery, results and spend; old generic campaign remains Off
+- Creative: exact approved copy/CTA, four native ratios, zero AI media, text optimisation Disabled, six standard enhancements Off and three Essential enhancements Off
+- Safety: five draft objects remain unpublished; no activation, delivery submission or spend authorisation occurred
+- Private raw evidence: `docs/marketing/evidence/meta-test-01/p5-t2/78-*.png` through `83-*.png` plus the retained earlier Arm B evidence; excluded from public Git, with the evidence policy documented in the public manifest
+- Blocker: Arm A excludes rewarded video + Threads; Arm B excludes rewarded video only; Instagram Feed error cleared
+- Next task: P5-T3 placement-parity decision and full pre-launch checks; explicit launch approval remains mandatory
+```
+
+```text
+2026-07-30 — P5-T3 technical pre-launch audit complete
+- Corrections: Arm A Threads set to the same `Use Facebook Page` value as Arm B; both weekday grids corrected from `09:00–18:00` to `[09:00,17:00)`
+- Placement parity: both ads now have only Audience Network rewarded videos unavailable because the approved media is static
+- Technical checks: exact destinations/UTMs, true-mobile rendering, visible Meta previews, conversion controls, analytics/form-message behavior, `$45` lifetime budgets, Ivanhoe/Eaglemont geography and persisted schedule grids passed
+- Safety: campaign, both ad sets and both ads remain Off/In draft with blank delivery/results/spend; `Review and publish (5)` remains untouched
+- Evidence: public audit at `docs/marketing/meta-test-01-p5-t3-pre-launch-audit.md`; private raw captures under `docs/marketing/evidence/meta-test-01/p5-t3/`, excluded from public Git and represented by hashes in the public manifest
+- Next task: obtain a fresh explicit launch decision; do not treat the correction approval as publication or spend authorisation
+```
+
+```text
+2026-07-30 — Separate launch approval and publication complete
+- Schedule: Arm A extended to Thursday 6 August 2026 at 17:00 AEST; Arm B retained 10–14 August, weekdays `[09:00,17:00)`
+- Review: five objects — one campaign, two ad sets and two ads — presented with no reported errors
+- Publication: all five objects published; the campaign and both ads were switched on
+- Readback: Slow Computer active, Wi-Fi scheduled, both lifetime budgets `$45`, and `$0.00` spent at the retained checkpoint
+- Evidence policy: raw Ads Manager screenshots remain private because they expose account UI/profile identifiers; public Git retains descriptions and SHA-256 hashes
+- Next task: preserve controls, check technical health only, and wait for both arms plus the attribution-settling window before Phase 6
 ```

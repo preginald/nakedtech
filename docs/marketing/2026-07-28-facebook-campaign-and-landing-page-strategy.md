@@ -414,12 +414,18 @@ The Naked Tech tone can remain distinctive, but severe scam and security scenari
 
 Do not split the remaining budget across many ad sets.
 
-Use one local ad set and two concepts:
+Use one local campaign with two sequential ad sets:
 
-- **Concept A:** Wi-Fi dropouts → Wi-Fi diagnostic landing page
-- **Concept B:** Slow PC / Windows 10 → slow-computer landing page
+- **Arm A:** Slow PC / Windows 10 → slow-computer landing page
+- **Arm B:** Wi-Fi dropouts → Wi-Fi diagnostic landing page
 
-Allocate approximately $40 to each concept through a controlled A/B test or sequential fixed-spend tests.
+Allocate the Meta-enforced minimum AUD `$45` lifetime budget to each concept through sequential fixed-spend tests, for a maximum AUD `$90` pilot. Deliver both arms Monday–Friday, `09:00–17:00` Australia/Melbourne time; exclude weekends because Naked Tech does not operate then. Interpret the result as directional weekday evidence, not a statistically conclusive or weekend-generalizable comparison.
+
+### Delivery record — 30 July 2026
+
+After the P5-T3 technical audit passed, a separate owner decision authorised launch. Ads Manager reviewed five objects—one campaign, two ad sets and two ads—with no reported errors, then accepted publication. The retained immediate readback showed the Slow Computer arm active, the Wi-Fi arm scheduled, both lifetime budgets at AUD `$45`, and `$0.00` spent at that checkpoint. Arm A's end was extended to Thursday 6 August 2026 at `17:00` AEST; Arm B retained 10–14 August and the approved weekday hours.
+
+This records launch, not a performance conclusion. Do not change copy, creative, audience, placement, budget or schedule from early results. Complete Phase 6 only after both arms finish and the attribution-settling period passes.
 
 ### CTA choice
 
