@@ -43,9 +43,9 @@
     else context.results.removeAttribute('aria-busy')
   }
 
-  function syncHomepageQuery() {
+  function syncLauncherQueries() {
     var query = modalContext.input.value.trim()
-    document.querySelectorAll('[data-site-search-home-value]').forEach(function(value) {
+    document.querySelectorAll('[data-site-search-launcher-value]').forEach(function(value) {
       var placeholder = value.dataset.placeholder || 'Search Naked Tech'
       var trigger = value.closest('[data-site-search-trigger]')
       value.textContent = query || placeholder
@@ -455,7 +455,8 @@
   function showSearch(origin) {
     if (dialog.open || isClosing) return
     previousFocus = origin
-    modalContext.source = origin.dataset.siteSearchSource === 'homepage' ? 'homepage' : 'navigation'
+    var source = origin.dataset.siteSearchSource
+    modalContext.source = source === 'homepage' || source === 'services' ? source : 'navigation'
     document.querySelectorAll('[data-nav-disclosure][open]').forEach(function(disclosure) {
       disclosure.removeAttribute('open')
     })
@@ -485,7 +486,7 @@
     window.clearTimeout(modalContext.timer)
     modalContext.sequence += 1
     setResultsBusy(modalContext, false)
-    syncHomepageQuery()
+    syncLauncherQueries()
     if (typeof dialog.close === 'function' && dialog.open) {
       isClosing = true
       animateDialogClose()
@@ -499,7 +500,7 @@
     isClosing = false
     dialog.classList.remove('site-search-closing')
     document.body.classList.remove('site-search-open')
-    syncHomepageQuery()
+    syncLauncherQueries()
     if (previousFocus && typeof previousFocus.focus === 'function') previousFocus.focus()
     previousFocus = null
   }
@@ -516,7 +517,7 @@
     scheduleSearch(modalContext, true)
   })
   modalContext.input.addEventListener('input', function() {
-    syncHomepageQuery()
+    syncLauncherQueries()
     scheduleSearch(modalContext, false)
   })
   dialog.addEventListener('close', restorePage)

@@ -191,11 +191,16 @@
     return definitions.map(publicIntent)
   }
 
+  function normaliseSource(source) {
+    if (source === 'homepage' || source === 'services') return source
+    return 'navigation'
+  }
+
   function analyticsPayload(intent, source, interestType, pagePath) {
     var payload = {
       intent_category: intent.category,
       result_state: intent.resultState,
-      search_source: source === 'homepage' ? 'homepage' : 'navigation',
+      search_source: normaliseSource(source),
       page_path: pagePath || '/',
     }
     if (interestType === 'referral_request' || interestType === 'service_enquiry') {
@@ -208,7 +213,7 @@
     return {
       intent_category: intent.category,
       result_state: 'published_service',
-      search_source: source === 'homepage' ? 'homepage' : 'navigation',
+      search_source: normaliseSource(source),
       page_path: pagePath || '/',
       destination_path: intent.actionHref,
     }
