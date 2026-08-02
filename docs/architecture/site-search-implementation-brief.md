@@ -62,9 +62,15 @@ back toward its launcher unless reduced motion is requested. Modal query text
 is mirrored through `textContent` into the homepage launcher so closing and
 reopening always presents consistent local state.
 
+The services-and-pricing page uses the same shared launcher above its service
+cards. Its no-JavaScript fallback moves directly to those cards, and its
+privacy-safe analytics source is the bounded value `services`. The only other
+permitted source values remain `homepage` and `navigation`; typed search text
+is never included.
+
 ## Why it is worthwhile
 
-Naked Tech publishes 11 active service offers plus service guidance, toolkit
+Naked Tech publishes 13 active service offers plus service guidance, toolkit
 content and legal information. Visitors will not always know the service names.
 They may search using problem language such as:
 

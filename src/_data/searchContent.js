@@ -14,7 +14,6 @@ const serviceSearchTerms = {
   password_safety_control: 'forgotten passwords reused passwords written down password manager safer login recovery plan',
   'full-strip': 'mesh wifi whole home wireless coverage weak signal dead zones internet rooms network installation',
   'power-pose': 'home office setup monitor mounting cables dock webcam camera lighting video calls workspace',
-  quickie: 'everyday technology help device app setup troubleshooting something else home tech support',
 }
 
 const generalEntries = [

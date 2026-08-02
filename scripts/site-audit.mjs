@@ -651,7 +651,7 @@ for (const service of serviceCatalogue.services) {
   assert(entry?.price === service.pricing.displayText, `search: service price is not duplicated (${service.name})`)
 }
 
-for (const route of ['/services/bodyguard/', '/booking/', '/thank-you/', '/invoice-template/', '/join/']) {
+for (const route of ['/services/bodyguard/', '/services/quickie/', '/booking/', '/thank-you/', '/invoice-template/', '/join/']) {
   const html = readFileSync(routeToFile(route), 'utf8')
   assert(!/<main\b[^>]*\bdata-pagefind-body\b/i.test(html), `search: excluded route does not opt into indexing (${route})`)
   assert(!pagefindMetaContent(html, 'search_terms'), `search: excluded route has no search metadata (${route})`)
@@ -746,16 +746,17 @@ if (existsSync(servicesJsonPath)) {
     const canonicalUrls = publicServices.map((service) => service.canonicalUrl)
 
     assert(publicCatalogue.schemaVersion === '1.0', 'service catalogue: schema version is 1.0')
-    assert(publicServices.length === 14, 'service catalogue: exactly 14 services are published')
+    assert(publicServices.length === 13, 'service catalogue: exactly 13 services are published')
     assert(publicServices.every((service) => service.status === 'active'), 'service catalogue: every published service is active')
-    assert(new Set(machineIds).size === 14, 'service catalogue: machine IDs are unique')
-    assert(new Set(serviceKeys).size === 14, 'service catalogue: service keys are unique')
-    assert(new Set(canonicalUrls).size === 14, 'service catalogue: canonical URLs are unique')
+    assert(new Set(machineIds).size === 13, 'service catalogue: machine IDs are unique')
+    assert(new Set(serviceKeys).size === 13, 'service catalogue: service keys are unique')
+    assert(new Set(canonicalUrls).size === 13, 'service catalogue: canonical URLs are unique')
     assert(
       machineIds.every((id) => /^au\.nakedtech\.service\.[a-z0-9_]+$/.test(id)),
       'service catalogue: machine IDs use the permanent Naked Tech namespace'
     )
     assert(!publicCatalogueSource.toLowerCase().includes('bodyguard'), 'service catalogue: retired Bodyguard is absent')
+    assert(!publicCatalogueSource.toLowerCase().includes('quickie'), 'service catalogue: retired Quickie is absent')
     assert(
       JSON.stringify(publicCatalogue) === JSON.stringify(serviceCatalogue.public),
       'service catalogue: generated JSON exactly matches the canonical source projection'
@@ -970,7 +971,7 @@ auditLandingPageHtml(
   sitemapXml
 )
 
-for (const slug of ['full-strip', 'power-pose', 'quickie']) {
+for (const slug of ['full-strip', 'power-pose']) {
   const file = routeToFile(`/services/${slug}/`)
   if (!existsSync(file)) continue
   const html = readFileSync(file, 'utf8')
@@ -982,20 +983,6 @@ for (const slug of ['full-strip', 'power-pose', 'quickie']) {
   assert(html.includes('href="/contact/"'), `${slug}: contact CTA rendered`)
 }
 
-const quickieHtml = readFileSync(routeToFile('/services/quickie/'), 'utf8')
-assert(
-  quickieHtml.includes('href="/services/slow-computer-help-ivanhoe/"'),
-  'quickie: dedicated slow-computer diagnosis link rendered'
-)
-assert(
-  quickieHtml.includes('href="/services/printer-help-ivanhoe/"'),
-  'quickie: dedicated printer-help link rendered'
-)
-assert(
-  quickieHtml.includes('href="/services/email-help-ivanhoe/"'),
-  'quickie: dedicated email-help link rendered'
-)
-
 const servicesHtml = readFileSync(routeToFile('/services/'), 'utf8')
 const servicesMain = servicesHtml.match(/<main\b[^>]*>([\s\S]*?)<\/main>/i)?.[1] || ''
 assert(Boolean(servicesMain), 'services: main content rendered')
@@ -1003,6 +990,8 @@ for (const sectionId of ['find-help', 'projects', 'pricing', 'how-it-works']) {
   assert(countOccurrences(servicesMain, `id="${sectionId}"`) === 1, `services: exactly one #${sectionId} section rendered`)
 }
 assert(countOccurrences(servicesMain, 'data-service-path') === 11, 'services: eleven assessment and guided-service paths rendered')
+assert(servicesMain.includes('id="service-cards"'), 'services: problem card grid has a stable local target')
+assert(servicesMain.includes('lg:grid-cols-3'), 'services: problem cards use three desktop columns')
 const catalogueProblemServices = serviceCatalogue.services.filter((service) => service.presentation.group === 'problem')
 assert(catalogueProblemServices.filter((service) => service.presentation.navGroup === 'fix').length === 6, 'navigation: six problem-solving services use the fix group')
 assert(catalogueProblemServices.filter((service) => service.presentation.navGroup === 'setup').length === 5, 'navigation: five setup services use the setup group')
@@ -1021,17 +1010,18 @@ for (const route of [
 ]) {
   assert(servicesMain.includes(`href="${route}"`), `services: direct problem route rendered in main (${route})`)
 }
-assert(countOccurrences(servicesMain, 'data-project-service') === 3, 'services: three supported broader project routes rendered')
-for (const slug of ['full-strip', 'power-pose', 'quickie']) {
+assert(countOccurrences(servicesMain, 'data-project-service') === 2, 'services: two supported broader project routes rendered')
+for (const slug of ['full-strip', 'power-pose']) {
   assert(servicesMain.includes(`href="/services/${slug}/"`), `services: broader project route rendered in main (${slug})`)
 }
 assert(!servicesHtml.includes('href="/services/bodyguard/"'), 'retired Bodyguard offer is absent from services navigation and catalogue')
+assert(!servicesHtml.includes('href="/services/quickie/"'), 'retired Quickie offer is absent from services navigation and catalogue')
 assert(!servicesMain.includes('Smart home security'), 'services: unsupported smart-home security offer is not advertised')
 assert(servicesMain.includes('$550 fixed incl. GST'), 'services: approved new-computer price summary rendered')
 for (const price of ['$190 fixed incl. GST', '$250 fixed incl. GST', '$390 fixed incl. GST', '$550 fixed incl. GST']) {
   assert(servicesMain.includes(price), `services: GST-inclusive problem-service price rendered (${price})`)
 }
-for (const investment of ['$900–$1,800 incl. GST', '$350 incl. GST', 'From $190 incl. GST']) {
+for (const investment of ['$900–$1,800 incl. GST', '$350 incl. GST']) {
   assert(servicesMain.includes(investment), `services: GST-inclusive project investment rendered (${investment})`)
 }
 assert(servicesMain.includes('All published prices include GST.'), 'services: GST inclusion is stated beside pricing explanation')
@@ -1056,6 +1046,12 @@ assert(metaContent(retiredBodyguardHtml, 'robots') === 'noindex, follow', 'retir
 assert(retiredBodyguardHtml.includes('content="0;url=/services/"'), 'retired Bodyguard route redirects visitors to current services')
 assert(retiredBodyguardHtml.includes('This service is no longer offered.'), 'retired Bodyguard route explains the service withdrawal')
 assert(!sitemapXml.includes('https://nakedtech.au/services/bodyguard/'), 'retired Bodyguard route is absent from the sitemap')
+
+const retiredQuickieHtml = readFileSync(routeToFile('/services/quickie/'), 'utf8')
+assert(metaContent(retiredQuickieHtml, 'robots') === 'noindex, follow', 'retired Quickie route is excluded from search indexing')
+assert(retiredQuickieHtml.includes('content="0;url=/services/"'), 'retired Quickie route redirects visitors to current services')
+assert(retiredQuickieHtml.includes('This service is no longer offered.'), 'retired Quickie route explains the service withdrawal')
+assert(!sitemapXml.includes('https://nakedtech.au/services/quickie/'), 'retired Quickie route is absent from the sitemap')
 
 const joinHtml = readFileSync(routeToFile('/join/'), 'utf8')
 assert(metaContent(joinHtml, 'robots') === 'noindex, follow', 'careers: inactive vacancy page is excluded from search indexing')
@@ -1174,6 +1170,11 @@ for (const supersededRoute of ['/wifi-dropouts-ivanhoe/', '/slow-computer-help-i
 }
 
 const baseHtml = readFileSync(join(root, 'index.html'), 'utf8')
+const baseFooter = baseHtml.match(/<footer\b[\s\S]*?<\/footer>/i)?.[0] || ''
+const footerProjects = baseFooter.match(/<section\b[^>]*aria-labelledby=["']footer-projects-heading["'][^>]*>[\s\S]*?<\/section>/i)?.[0] || ''
+const footerExplore = baseFooter.match(/<nav\b[^>]*aria-label=["']Explore Naked Tech["'][^>]*>[\s\S]*?<\/nav>/i)?.[0] || ''
+assert(footerProjects.includes('href="/services/full-strip/"') && footerProjects.includes('href="/services/power-pose/"'), 'footer: broader service links are grouped under Projects')
+assert(!footerExplore.includes('/services/full-strip/') && !footerExplore.includes('/services/power-pose/'), 'footer: Explore contains no broader service links')
 const siteSearchSourcePath = new URL('../src/assets/js/site-search.js', import.meta.url).pathname
 const siteSearchBuiltPath = join(root, 'assets', 'js', 'site-search.js')
 const siteSearchIntentsSourcePath = new URL('../src/assets/js/site-search-intents.js', import.meta.url).pathname
@@ -1194,10 +1195,18 @@ const homepageSearchTrigger = baseHtml.match(/<button\b[^>]*data-site-search-tri
 assert(Boolean(homepageSearchTrigger), 'search: homepage renders one prominent modal launcher')
 assert(/\baria-label=["']Search Naked Tech from the homepage["']/i.test(homepageSearchTrigger), 'search: homepage launcher has an explicit accessible action name')
 assert(/\bhidden\b/i.test(homepageSearchTrigger), 'search: homepage launcher fails safely when JavaScript is unavailable')
-assert(/data-site-search-home-value[^>]*data-placeholder=/i.test(homepageSearchTrigger), 'search: homepage launcher exposes a safe text-only query mirror')
+assert(/data-site-search-launcher-value[^>]*data-placeholder=/i.test(homepageSearchTrigger), 'search: homepage launcher exposes a safe text-only query mirror')
 assert(baseHtml.includes('<noscript><a href="/services/"'), 'search: homepage provides a no-JavaScript services fallback')
 assert(!baseHtml.includes('data-site-search-launch-output'), 'search: homepage does not render a second inline results layer')
 assert(/data-pagefind-ignore[^>]*>[\s\S]*?data-site-search-source=["']homepage["']/i.test(baseHtml), 'search: homepage launcher does not pollute Pagefind excerpts')
+assert(countOccurrences(servicesHtml, 'data-site-search-trigger') === 3, 'search: services page, desktop navigation and mobile navigation each render one trigger')
+assert(countOccurrences(servicesHtml, 'data-site-search-source="services"') === 1, 'search: services page renders one prominent modal launcher')
+const servicesSearchTrigger = servicesHtml.match(/<button\b[^>]*data-site-search-trigger[^>]*data-site-search-source=["']services["'][^>]*>[\s\S]*?<\/button>/i)?.[0] || ''
+assert(/\baria-label=["']Search Naked Tech from services and pricing["']/i.test(servicesSearchTrigger), 'search: services launcher has an explicit accessible action name')
+assert(/\bhidden\b/i.test(servicesSearchTrigger), 'search: services launcher fails safely when JavaScript is unavailable')
+assert(/data-site-search-launcher-value[^>]*data-placeholder=/i.test(servicesSearchTrigger), 'search: services launcher exposes a safe text-only query mirror')
+assert(servicesHtml.includes('<noscript><a href="#service-cards"'), 'search: services page provides a no-JavaScript card-grid fallback')
+assert(/data-pagefind-ignore[^>]*>[\s\S]*?data-site-search-source=["']services["']/i.test(servicesHtml), 'search: services launcher does not pollute Pagefind excerpts')
 assert(siteSearchDialogTag.includes('h-[calc(100vh-2rem)]') && siteSearchDialogTag.includes('sm:h-[42rem]'), 'search: dialog uses a stable responsive height')
 
 if (existsSync(siteSearchSourcePath) && existsSync(siteSearchBuiltPath) && existsSync(siteSearchIntentsSourcePath) && existsSync(siteSearchIntentsBuiltPath)) {
@@ -1218,15 +1227,15 @@ if (existsSync(siteSearchSourcePath) && existsSync(siteSearchBuiltPath) && exist
   assert(siteSearchSource.includes("window.gtag('event', 'site_search_service_select'"), 'search: published-service selection uses one GA4-only bounded event')
   assert(siteSearchSource.includes("intent.resultState !== 'published_service'"), 'search: published service matches are not counted as unmet demand')
   assert(siteSearchSource.includes('pagefind.search(query)'), 'search: query is passed only to the local Pagefind runtime')
-  assert(siteSearchSource.includes("origin.dataset.siteSearchSource === 'homepage'"), 'search: homepage modal use retains bounded source attribution')
+  assert(siteSearchSource.includes("source === 'homepage' || source === 'services'"), 'search: prominent page launchers retain bounded source attribution')
   assert(!siteSearchSource.includes('data-site-search-launch-output'), 'search: controller has no competing homepage results layer')
   assert(siteSearchSource.includes('renderResults(context, search, sequence)'), 'search: all search entry points use one result renderer')
   assert(siteSearchSource.includes("window.matchMedia('(prefers-reduced-motion: reduce)').matches"), 'search: dialog morph respects reduced-motion preferences')
   assert(siteSearchSource.includes('clipPath: launcherClip(origin)'), 'search: dialog progressively morphs from its opening trigger')
   assert(siteSearchSource.includes('clipPath: launcherClip(previousFocus)'), 'search: dialog progressively returns toward its opening trigger')
   assert(siteSearchSource.includes("dialog.classList.add('site-search-closing')"), 'search: dialog backdrop receives a coordinated closing state')
-  assert(siteSearchSource.includes('value.textContent = query || placeholder'), 'search: modal query mirrors to the homepage through textContent only')
-  assert(siteSearchSource.includes("trigger.classList.toggle('text-ink', Boolean(query))"), 'search: mirrored homepage query receives an active visual state')
+  assert(siteSearchSource.includes('value.textContent = query || placeholder'), 'search: modal query mirrors to page launchers through textContent only')
+  assert(siteSearchSource.includes("trigger.classList.toggle('text-ink', Boolean(query))"), 'search: mirrored launcher query receives an active visual state')
   assert(siteSearchSource.includes('setResultsBusy(context, true)'), 'search: result updates expose a busy state without clearing visible cards')
   assert(siteSearchSource.includes('if (!hasVisibleResults) setStatus(context, \'Searching…\')'), 'search: repeated typing does not flash the searching status over existing cards')
   const scheduleSearchSource = siteSearchSource.match(/function scheduleSearch\([\s\S]*?\n  function showSearch/)?.[0] || ''
@@ -1334,6 +1343,7 @@ const sampleUnmetIntent = searchIntents.classify('recover my deleted photos')
 const samplePublishedIntent = searchIntents.classify('virus')
 const searchOutcomePayload = searchIntents.analyticsPayload(sampleUnmetIntent, 'homepage', null, '/')
 const searchInterestPayload = searchIntents.analyticsPayload(sampleUnmetIntent, 'navigation', 'referral_request', '/services/')
+const servicesSearchPayload = searchIntents.analyticsPayload(sampleUnmetIntent, 'services', null, '/services/')
 const serviceSelectionPayload = searchIntents.serviceSelectionPayload(samplePublishedIntent, 'homepage', '/')
 assert(
   Object.keys(searchOutcomePayload).sort().join('|') === 'intent_category|page_path|result_state|search_source',
@@ -1348,6 +1358,7 @@ assert(
   'search: service-selection analytics payload contains only five reviewed bounded fields'
 )
 assert(serviceSelectionPayload.destination_path === '/services/virus-malware-help-ivanhoe/', 'search: service-selection analytics uses the allowlisted destination path')
+assert(servicesSearchPayload.search_source === 'services', 'search: services-page demand retains its bounded entry-point value')
 assert(
   !Object.keys({ ...searchOutcomePayload, ...searchInterestPayload, ...serviceSelectionPayload }).some((key) => /query|term|text|excerpt/i.test(key)),
   'search: analytics payload has no field capable of carrying typed query content'

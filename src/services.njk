@@ -5,6 +5,8 @@ description: Compare fixed-price home technology assessments, setup services and
 localHowItWorksHref: "#how-it-works"
 ---
 
+{% from "components/site-search-launcher.njk" import siteSearchLauncher %}
+
 <script>document.documentElement.classList.add('landing-reveal-ready')</script>
 
 <header class="relative overflow-hidden bg-inverse pb-16 pt-28 text-inverse-ink md:pb-24 md:pt-36">
@@ -64,7 +66,9 @@ localHowItWorksHref: "#how-it-works"
             <p class="mt-5 text-lg leading-relaxed text-ink/70">These are the clearest starting points when you need a diagnosis, a safety assessment or a defined setup.</p>
         </div>
 
-        <div class="mx-auto mt-12 grid max-w-6xl gap-5 md:grid-cols-2 xl:grid-cols-4">
+        {{ siteSearchLauncher('services', 'Search Naked Tech from services and pricing', 'Try “my computer might have a virus”', '#service-cards', 'Browse service cards') }}
+
+        <div id="service-cards" class="mx-auto mt-12 grid max-w-6xl scroll-mt-24 gap-5 md:grid-cols-2 lg:grid-cols-3">
             {% for problemService in problemServices %}
             <a href="{{ problemService.path }}" class="group flex h-full flex-col rounded-3xl border border-line bg-canvas p-7 shadow-sm transition hover:-translate-y-1 hover:border-accent/60 hover:shadow-xl md:p-8" data-service-path>
                 <div class="flex items-start justify-between gap-5">
@@ -91,12 +95,12 @@ localHowItWorksHref: "#how-it-works"
 <section id="projects" class="scroll-mt-20 bg-inverse py-16 text-inverse-ink md:py-24" aria-labelledby="projects-heading" data-reveal>
     <div class="container mx-auto px-6">
         <div class="max-w-3xl">
-            <p class="text-sm font-bold uppercase tracking-[0.18em] text-accent">Projects &amp; everyday support</p>
+            <p class="text-sm font-bold uppercase tracking-[0.18em] text-accent">Projects</p>
             <h2 id="projects-heading" class="mt-3 text-3xl font-extrabold tracking-tight md:text-5xl">Know what you want set up?</h2>
-            <p class="mt-5 text-lg leading-relaxed text-inverse-ink/70">Choose a complete home-technology project or bring us the everyday annoyance. If the cause is unclear, start with one of the assessments above.</p>
+            <p class="mt-5 text-lg leading-relaxed text-inverse-ink/70">Choose a complete home-technology project. If the cause is unclear, start with one of the assessments above.</p>
         </div>
 
-        <div class="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <div class="mx-auto mt-12 grid max-w-4xl gap-5 md:grid-cols-2">
             {% for service in services %}
             <a href="/services/{{ service.slug }}/" class="group flex h-full flex-col rounded-3xl border border-inverse-ink/15 bg-white/5 p-7 transition hover:-translate-y-1 hover:border-accent/60 hover:bg-white/10 hover:shadow-2xl" data-project-service>
                 <span class="flex h-12 w-12 items-center justify-center rounded-full bg-accent text-ivanhoe-slate" aria-hidden="true">
