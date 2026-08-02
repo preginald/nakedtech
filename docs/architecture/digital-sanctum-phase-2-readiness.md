@@ -13,11 +13,11 @@ Phase 1's public catalogue can remain live. It does not create bookings or accep
 
 Do not implement or enable the Phase 3 action API yet. The present platform successfully receives Naked Tech enquiries and sends owner notifications, but it is not ready to become a shared action plane for approved agents.
 
-The 2 August remediation closed the original Forms audience/role vulnerability, caller-selected PAT tenant vulnerability, unbound Forms-to-Notify key, missing Notify dashboard role check, client-side OAuth refresh-token exposure, PostgreSQL backup/restore blocker, indefinite live retention in Forms and Notify, application logging of recipient/provider-error PII, and unbounded operational-log age. Forms/Notify retention migrations, dry-run commands, legal-hold exclusions and bounded timers are deployed; reviewed production dry-runs and a staged execution passed, both daily timers are enabled, both applications now emit bounded notification diagnostics without recipient addresses or provider response bodies, and journald retains no more than 30 days or 500 MB. The remaining blockers are:
+The 2 August remediation closed the original Forms audience/role vulnerability, caller-selected PAT tenant vulnerability, unbound Forms-to-Notify key, missing Notify dashboard role check, client-side OAuth refresh-token exposure, PostgreSQL backup/restore blocker, indefinite live retention in Forms and Notify, unnecessary Notify payload retention after rendering or successful delivery, application logging of recipient/provider-error PII, and unbounded operational-log age. Forms/Notify retention migrations, dry-run commands, legal-hold exclusions and bounded timers are deployed; reviewed production dry-runs and a staged execution passed, both daily timers are enabled, Notify now clears structured source data after rendering and clears delivery content immediately after success or suppression, both applications emit bounded notification diagnostics without recipient addresses or provider response bodies, and journald retains no more than 30 days or 500 MB. The remaining blockers are:
 
 1. The retention schedule still requires qualified legal approval, provider/mailbox deletion procedures and an end-to-end data-subject workflow.
 2. Forms and Notify run as the same human operating-system account on a host shared with many applications.
-3. Notify still duplicates full customer payloads during its active retention period; provider/mailbox lifecycle controls and the provider register remain incomplete.
+3. Mail-provider and business-mailbox lifecycle controls, verified deletion procedures and the provider register remain incomplete.
 4. No dedicated Naked Tech Google Calendar, Calendar API credential, free/busy integration, or calendar-specific monitoring was found.
 5. `api.digitalsanctum.com.au` is not provisioned. `nakedtech.au/api` is already proxied to an unrelated Next.js application and must not be reused.
 
@@ -29,14 +29,14 @@ The existing human form can continue while these controls are remediated. The cu
 
 | Component | Audited source | Deployed commit | State during audit |
 |---|---|---:|---|
-| Naked Tech | `/home/preginald/Dev/nakedtech` | `eb6d721d85a51d109b6bccc9ea12c4149477b61d` | Phase 1 and this readiness assessment deployed; unrelated local marketing work preserved |
+| Naked Tech | `/home/preginald/Dev/nakedtech` | `e1698eb51b82d9a287306a10445e0c609c3978a9` | Phase 1 and the LOG-01 readiness evidence deployed; unrelated local marketing work preserved |
 | Sanctum Forms | `/home/preginald/Dev/sanctum-forms` | `4fe8977d1b44db8651f51d1a5b33d46b01a4394a` | Auth, retention and PII-safe notification logging remediation deployed; CI and production service healthy |
-| Sanctum Notify | `/home/preginald/Dev/sanctum-notify` | `f7afc3f58d6e01986eefaa6ea492bc327edfcb7b` | Scoped-auth, deterministic CI, retention and PII-safe diagnostic remediation deployed; production service healthy; unrelated local untracked files not touched |
+| Sanctum Notify | `/home/preginald/Dev/sanctum-notify` | `5d6d2d6304394f3dccb549a63938ade02927c4f1` | Scoped-auth, deterministic CI, retention, PII-safe diagnostics and payload-minimisation remediation deployed; production service healthy; unrelated local untracked files not touched |
 | Sanctum Monitor | `/home/preginald/Dev/sanctum-monitor` | `6cd11730b962f69faabe16d60c803f2b97a8f0f8` | Backup/restore controls and bounded journald policy deployed; Monitor and public service health checks passed; unrelated untracked files not touched |
 | Sanctum Core | `/home/preginald/Dev/DigitalSanctum` | inspected read-only | Existing unrelated branch/worktree changes not touched |
 | Current `/api` target | `/opt/chore-quest` on production | not part of this assessment | Next.js process on port 3000; unrelated to Naked Tech actions |
 
-The original assessment was read-only. The separately approved 2 August remediation changed Forms and Notify authentication, migrated the production Forms-to-Notify credential, revoked the legacy unbound key, repaired Notify CI, established PostgreSQL recoverability, deployed production retention controls, and removed recipient/provider-error PII from notification diagnostics. It did not add an action API, Calendar access, customer fields, booking behaviour or payment capability. Follow-up aggregate database queries and retention evidence deliberately excluded message bodies, contact details, credentials and other personal information.
+The original assessment was read-only. The separately approved 2 August remediation changed Forms and Notify authentication, migrated the production Forms-to-Notify credential, revoked the legacy unbound key, repaired Notify CI, established PostgreSQL recoverability, deployed production retention controls, removed recipient/provider-error PII from notification diagnostics, and bounded Notify source/rendered content to the delivery lifecycle. It did not add an action API, Calendar access, customer fields, booking behaviour or payment capability. Follow-up aggregate database queries and retention evidence deliberately excluded message bodies, contact details, credentials and other personal information.
 
 ### Live edge and host observations
 
@@ -73,9 +73,9 @@ The page currently returns both `Content-Security-Policy: frame-ancestors *` and
 
 - Resend, Brevo, Mailjet, and SMTP are configured in production. The application tries them in that order, so data may be disclosed to fallback providers after delivery failure.
 - The Forms credential now maps to active key `sanctum-forms-v2`, bound to the Digital Sanctum/Naked Tech account with only `notify:create`. The legacy unbound `sanctum-forms` key is inactive.
-- The unscoped notification pool held 197 records: 147 sent and 50 dead-letter, dated from 29 March to 29 July 2026.
-- That historical aggregate includes multiple Forms users. It remains unsegregated and cannot be attributed to Naked Tech by tenant without examining personal payloads, which this audit did not do. New Forms notifications are tenant-bound.
-- Deployed Notify persists recipient, reply-to and complete template data while delivery is active, then the production retention timer scrubs personal content 30 days after terminal status and deletes terminal delivery rows after 90 days. This bounded lifecycle is deployed, but the full Forms payload remains duplicated in Notify during the active retention period.
+- The original unscoped pool included multiple Forms users and cannot be attributed to Naked Tech by tenant without examining personal payloads, which this audit did not do. New Forms notifications are tenant-bound.
+- Deployed Notify retains structured source data only until the first successful render, then atomically replaces it with retry-ready rendered output. Successful and suppressed delivery clears source and rendered content immediately. Active queued/failed/sending content has a 24-hour ceiling; provider-failure and template-render dead letters retain only the content required for an approved retry until the existing terminal-content policy removes it. Legal holds remain excluded.
+- The post-deployment aggregate check found 929 notification records: source data was purged from all 914 sent/suppressed records, 15 dead-letter records remained under the approved retry/retention lifecycle, no terminal source or rendered payload remained, no dispatch deadline was missing, no active record was past its deadline, and no legal hold existed. No customer value was queried.
 
 ## Current and proposed data flow
 
@@ -85,8 +85,8 @@ flowchart LR
     W -->|trusted iframe + bounded campaign context| F[Sanctum Forms]
     U -->|name, email, optional phone, message| F
     F -->|submission + HMAC IP hash + source URL| FP[(Forms PostgreSQL)]
-    F -->|full template payload + recipient| N[Sanctum Notify]
-    N -->|recipient + rendered message| NP[(Notify PostgreSQL)]
+    F -->|required template fields + recipient| N[Sanctum Notify]
+    N -->|source until render; bounded retry content + metadata| NP[(Notify PostgreSQL)]
     N -->|primary, then fallback on failure| E[External email providers]
     E --> M[Business mailbox]
     O[Authenticated operator] -->|dashboard/API| F
@@ -141,7 +141,7 @@ Reasonable expectations are:
 | Risk | Inherent risk | Required treatment | Residual target |
 |---|---:|---|---:|
 | Agent submits unrelated conversation or sensitive credentials | High | Strict schemas and lengths; prohibited-data detector; customer-facing review screen; reject password/code/financial-secret patterns; no arbitrary attachments | Low–medium |
-| Full form payload duplicated in Forms, Notify, provider and mailbox indefinitely | High | Minimise Notify template data, content expiry, mailbox retention process, provider contracts/settings, verified deletion | Medium |
+| Enquiry content copied across Forms, active Notify delivery, provider and mailbox | High | Notify render-time minimisation and active expiry; mailbox retention process; provider contracts/settings; verified deletion | Medium |
 | Cross-tenant or wrong-audience operator access | Critical | Audience enforcement, scoped OAuth/API credentials, role checks, tenant-isolation tests and security-event alerts | Low |
 | Calendar reveals private event data | High | Dedicated calendar; `calendar.events.freebusy` or another least-privilege free/busy scope; transform to windows in memory; never return calendar keys or event metadata | Low |
 | Booking request is mistaken for confirmation or acceptance | High | `pending_review` only; consequence classification; exact confirmation summary; human confirmation; plain-language status and expiry | Low |
@@ -179,7 +179,7 @@ The proposed operations can be proportionate if the action API becomes the minim
 | AUTH-04 | Resolved | Notify requires `notify:admin` at OIDC callback and on every dashboard session check. Missing roles are denied and session state is cleared. | Add central access/security-event auditing and alerts before Phase 3. |
 | AUTH-05 | Resolved | Notify no longer stores access or refresh tokens in the signed cookie. It stores identity/roles with an eight-hour local expiry and requires fresh OIDC login after expiry. | Retain bounded-session, role-denial and expiry tests; define emergency session invalidation procedure. |
 | DATA-01 | Partial | Production Forms/Notify migrations and bounded enforcement jobs hard-delete expired records, scrub Notify content first, exclude legal holds and default to dry-run. Reviewed dry-runs, staged execution and timer enablement are complete; provider/mailbox/data-subject workflows remain absent. | Obtain legal approval and implement provider/mailbox traversal and end-to-end deletion tests. |
-| DATA-02 | High | Notify persists the complete form payload after rendering, duplicating customer messages until the proposed 30-day scrub. | Pass only template-required values, deploy rapid content expiry, and retain delivery metadata separately. |
+| DATA-02 | Resolved | Notify clears structured source data after first render, reuses bounded rendered content for retries, clears source/rendered content immediately after success or suppression, and expires active delivery content after 24 hours. Legal holds and render-failure retries remain explicit exceptions. Migration `a1c7e9f2b4d6`, 306 tests, CI/deployment and aggregate production checks passed. | Retain lifecycle tests and alerts; review the 24-hour delivery ceiling alongside the approved retention schedule. Provider/mailbox copies remain under DATA-01 rather than Notify application storage. |
 | DATA-03 | Partial | Production retention enforcement expires anonymous server drafts after seven days, but draft routes still do not repeat form status/origin checks and accept unbounded, unvalidated JSON payloads. | Add status/origin/auth checks, schema/size limits and rate limits, or disable server drafts for Naked Tech. |
 | OPS-01 | Resolved | Encrypted off-host logical backups, documented RPO/RTO, freshness monitoring and an isolated nine-database restore test are active and evidenced. | Retain daily backups, weekly automated restore checks, alerts and quarterly operator-reviewed drills. |
 | OPS-02 | High | Forms and Notify share a human OS user on a multi-application host. | Dedicated non-login users, least filesystem permissions, separate env ownership, systemd hardening and database roles. |
@@ -227,7 +227,7 @@ The periods below are engineering defaults for approval, not conclusions about l
 | Booking request not accepted | 12 months after final response | Hard delete/de-identify | Confirmation evidence follows the request |
 | Confirmed service notes | 24 months after completion by default | Delete/de-identify | Extend only for warranty, dispute, safety or legal basis |
 | Invoice/tax/transaction record | At least the legally required period, currently described publicly as 5 years | Secure deletion after legal hold expires | Keep payment credentials out of the action API |
-| Notify rendered content/template data | 30 days after terminal status | Hard delete content | Delivery metadata may remain separately |
+| Notify source/rendered dispatch content | Source until first successful render; rendered content until delivery; 24-hour active ceiling; unresolved dead-letter content up to 30 days | Clear immediately after success/suppression; hard delete at active or terminal deadline | Delivery metadata may remain separately; render failures retain source only for an approved retry; legal holds are explicit exceptions |
 | Notify delivery metadata | 90 days | Hard delete/de-identify | Opaque IDs, provider, timestamps and status; no recipient/message/error PII |
 | Dead letters | 30 days after resolution, maximum 90 days total | Hard delete content and metadata per policy | Alert immediately; do not use as permanent archive |
 | Transactional suppression | While needed to honour the request | Delete when no longer required | Separate from marketing suppression and minimise stored address where feasible |
@@ -253,6 +253,8 @@ Every scheduled deletion must emit a count-only audit event. Quarterly samples s
 - The pre-existing Alembic index drift is resolved. Forms now models its existing partial/operational indexes and migration `0023` recreates the missing status index on `(instance_id, status)`; Notify models the existing suppression email index name. Forms `0023` passed upgrade/downgrade/upgrade, and both repositories report `No new upgrade operations detected` from `alembic check`.
 - Forms commit `4fe8977d1b44db8651f51d1a5b33d46b01a4394a` removes recipient values and exception text from notification failure logs while retaining opaque form/submission IDs, template and bounded exception class. Its full CI passed 459 backend tests and the frontend build; deployment and the public production health check passed.
 - Notify commit `f7afc3f58d6e01986eefaa6ea492bc327edfcb7b` removes recipient values, provider response bodies and transport exception text from provider, dispatcher and suppression logs, and bounds durable failure metadata. Its full CI passed 297 tests with three expected dashboard skips; authoritative commit verification, deployment and the public production health check passed.
+- Notify migration `a1c7e9f2b4d6` and deployed commit `5d6d2d6304394f3dccb549a63938ade02927c4f1` add separate source/rendered lifecycle fields and a non-null 24-hour dispatch deadline. The dispatcher persists rendered output before provider access, clears the structured source, reuses rendered output for retry, and removes delivery content immediately on success or suppression. The retention job also dead-letters and purges stuck active content at the deadline; manual retry starts a fresh bounded window only when content remains. Legal holds preserve content.
+- DATA-02 validation passed Ruff, Alembic upgrade/downgrade/upgrade and `alembic check`, 306 tests with three existing skips, pull-request CI, post-merge CI and authoritative deployment verification. Production reached Alembic head `a1c7e9f2b4d6`; `/version` and `/health` matched the deployed commit and reported a healthy database and dispatcher. Aggregate-only verification confirmed all 914 eligible sent/suppressed source payloads purged, 15 dead letters retained, zero terminal source/rendered payloads, zero missing deadlines, zero active records past deadline and zero legal holds.
 - Monitor commit `6cd11730b962f69faabe16d60c803f2b97a8f0f8` versions the host journald policy, installer, verifier and tests. Production activation installed the exact root-owned drop-in, restarted journald without an explicit vacuum, verified the effective 30-day/500 MB limits, recorded a non-personal post-restart probe, and left Monitor, Forms, Notify and Naked Tech health checks green. The preflight found only the current boot from 1 August, so activation did not target journal records older than 30 days.
 
 ## Backup, restore and continuity requirements
@@ -420,7 +422,7 @@ Phase 3 design/implementation may begin only when evidence exists for every bloc
 | Monitoring/incident | Named owners/alternates, alerts, offline runbook and tabletop exercise | Blocked |
 | API namespace | DNS, TLS and dedicated `api.digitalsanctum.com.au/nakedtech/v1` routing | Blocked |
 | Calendar | Dedicated calendar, least-privilege credential, free/busy privacy and outage tests | Blocked |
-| Notify minimisation | Tenant-scoped key; no full payload retention; log PII removed; provider register approved | Partial: tenant-scoped key and PII-safe application logging are complete; payload duplication and the provider register remain blocked |
+| Notify minimisation | Tenant-scoped key; no full payload retention; log PII removed; provider register approved | Partial: tenant scoping, PII-safe logging and application-storage minimisation are ready; provider register and provider/mailbox lifecycle evidence remain open under DATA-01 |
 | Human fallback | Existing form and direct contact tested during API/Calendar outage | Ready today; retest after migration |
 
 ## Gate 4 recommendation
