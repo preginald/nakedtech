@@ -633,8 +633,29 @@ Record spend, sample size, funnel ratios, lead quality and rationale.
 4. Email and account help
 5. New printer setup
 6. Password safety and control
-7. Laptop not starting / black-screen triage
-8. Physical screen/charging repair only after workshop-model approval
+7. Backup setup and recovery readiness
+8. Phone and tablet setup or migration
+9. Virus and malware diagnosis and remediation
+10. Laptop not starting / black-screen triage
+11. Physical screen/charging repair only after workshop-model approval
+
+## Owner-confirmed service-page work items — 2 August 2026
+
+Peter confirmed that Naked Tech can deliver the following services. They are
+approved for service-definition and landing-page work, but their fixed-price
+offers, exact inclusions, exclusions, route names and acquisition priorities
+must still pass the per-page gates below before authoring or publication.
+
+- [ ] Define and build a standalone backup setup and recovery-readiness landing
+  page. Distinguish backup configuration and restore testing from deleted-file
+  or failed-drive data recovery.
+- [ ] Define and build a phone/tablet setup or migration landing page. Specify
+  supported device transitions, data prerequisites, account boundaries and
+  customer-controlled credentials.
+- [ ] Define and build a virus/malware diagnosis and remediation landing page.
+  Keep the offer evidence-led, separate it from scam/account recovery, and do
+  not promise that every device can be cleaned or that future infection can be
+  prevented.
 
 ## Scam/security implementation status — approved for release
 

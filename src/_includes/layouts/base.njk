@@ -160,8 +160,20 @@
     {% set pageOgImage = ogImage or "/img/nakedtech_hero_technician.webp" %}
     {% set pageOgImageWidth = ogImageWidth or 1408 %}
     {% set pageOgImageHeight = ogImageHeight or 768 %}
+    {% set searchEntry = null %}
+    {% if searchContent and searchContent.byPath %}
+        {% set searchEntry = searchContent.byPath[page.url] %}
+    {% endif %}
     <meta name="description" content="{{ pageDescription }}">
     <meta name="robots" content="{{ robots or 'index, follow' }}">
+    {% if searchEntry %}
+    <meta data-pagefind-meta="title[content]" content="{{ searchEntry.title }}">
+    <meta data-pagefind-meta="description[content]" content="{{ searchEntry.description }}">
+    <meta data-pagefind-meta="kind[content]" content="{{ searchEntry.kind }}">
+    <meta data-pagefind-meta="search_terms[content]" content="{{ searchEntry.searchTerms }}">
+    {% if searchEntry.price %}<meta data-pagefind-meta="price[content]" content="{{ searchEntry.price }}">{% endif %}
+    {% if searchEntry.serviceName %}<meta data-pagefind-meta="service_name[content]" content="{{ searchEntry.serviceName }}">{% endif %}
+    {% endif %}
     <meta name="theme-color" content="#F7F4EF" data-theme-color>
     <link rel="canonical" href="https://nakedtech.au{{ page.url }}">
     <meta property="og:type" content="website">
@@ -246,6 +258,9 @@
                     <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
                     <span>{{ site.phone.display }}</span>
                 </a>
+                <button type="button" class="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full text-ink transition-colors hover:bg-surface hover:text-accent" data-site-search-trigger data-site-search-source="navigation" aria-label="Search Naked Tech" title="Search Naked Tech" hidden>
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21 21-4.35-4.35m1.35-5.65a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"></path></svg>
+                </button>
                 <details class="group relative" data-nav-disclosure>
                     <summary class="inline-flex min-h-11 min-w-11 cursor-pointer list-none items-center justify-center rounded-full text-ink transition-colors hover:bg-surface hover:text-accent [&::-webkit-details-marker]:hidden" aria-label="Choose colour theme">
                         <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
@@ -262,6 +277,9 @@
             </div>
 
             <div class="flex items-center gap-1 xl:hidden">
+                <button type="button" class="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full text-ink transition-colors hover:bg-surface hover:text-accent" data-site-search-trigger data-site-search-source="navigation" aria-label="Search Naked Tech" title="Search Naked Tech" hidden>
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21 21-4.35-4.35m1.35-5.65a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"></path></svg>
+                </button>
                 <a href="{% if landing and landing.id %}#contact{% else %}/contact/{% endif %}" class="inline-flex min-h-11 items-center whitespace-nowrap rounded-full bg-accent px-3 text-xs font-bold text-ivanhoe-slate shadow-lg shadow-electric-peach/30 transition-transform hover:scale-105 hover:bg-[#FF7A50] sm:px-5">
                     <span class="sm:hidden">{{ visitCtaShortLabel | upper }}</span>
                     <span class="hidden sm:inline">{{ visitCtaLabel | upper }}</span>
@@ -301,7 +319,7 @@
     </nav>
 
     <!-- Main Content Injection -->
-    <main id="main-content" class="flex-grow">
+    <main id="main-content" class="flex-grow"{% if searchEntry %} data-pagefind-body{% endif %}>
         {{ content | safe }}
     </main>
 
@@ -381,6 +399,10 @@
         </div>
     </footer>
 
+    {% include "components/site-search.njk" %}
+    <script src="/assets/js/site-search-intents.js" defer data-site-search-intents-script></script>
+    <script src="/assets/js/site-search.js" defer data-site-search-script></script>
+
     <section class="fixed inset-x-4 bottom-4 z-[70] mx-auto max-w-3xl rounded-3xl border border-line bg-surface p-5 text-ink shadow-2xl sm:p-6" data-tracking-consent-banner aria-labelledby="tracking-consent-heading" hidden>
         <h2 id="tracking-consent-heading" class="text-lg font-bold">Your tracking choices</h2>
         <p class="mt-2 text-sm leading-relaxed text-muted">We use optional analytics to understand how the site is used and optional advertising tracking to measure campaigns. Neither loads unless you choose it. Read our <a href="/privacy/" class="font-bold text-accent-ink underline">privacy policy</a>.</p>
@@ -404,7 +426,7 @@
             <div class="mt-6 space-y-4">
                 <label class="flex cursor-pointer items-start gap-4 rounded-2xl border border-line p-4">
                     <input type="checkbox" class="mt-1 h-5 w-5 accent-[#FF8C69]" data-tracking-analytics>
-                    <span><span class="block font-bold">Analytics</span><span class="mt-1 block text-sm leading-relaxed text-muted">Allow Google Analytics 4 to measure visits and site interactions.</span></span>
+                    <span><span class="block font-bold">Analytics</span><span class="mt-1 block text-sm leading-relaxed text-muted">Allow Google Analytics 4 to measure visits, site interactions and bounded search-demand categories.</span></span>
                 </label>
                 <label class="flex cursor-pointer items-start gap-4 rounded-2xl border border-line p-4">
                     <input type="checkbox" class="mt-1 h-5 w-5 accent-[#FF8C69]" data-tracking-advertising>

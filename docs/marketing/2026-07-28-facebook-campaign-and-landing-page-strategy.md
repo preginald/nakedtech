@@ -375,8 +375,17 @@ Core promise:
 
 ### Remaining organic/search pages
 
+- Backup setup and recovery readiness as a standalone service
+- Phone and tablet setup or migration
+- Virus and malware diagnosis and remediation, separate from scam/account
+  recovery
 - Laptop will not start / black-screen triage
 - Screen, charging and physical repairs only if an operational workshop model is approved
+
+Peter confirmed on 2 August 2026 that Naked Tech can deliver the first three
+services above. Their landing pages are approved as work items; pricing, exact
+scope, exclusions, route names and acquisition priority remain separate
+commercial and content decisions before implementation.
 
 ---
 
