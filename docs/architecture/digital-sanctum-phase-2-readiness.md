@@ -3,7 +3,7 @@
 **Assessment date:** 1 August 2026
 **Remediation verification:** 2 August 2026
 **Decision:** **No-go for Phase 3 implementation until the blocking controls in this report are complete**
-**Scope:** Read-only assessment plus separately approved remediation verification for the Naked Tech website, Sanctum Forms, Sanctum Notify, the shared production host, public DNS/TLS, notification delivery, storage, monitoring, retention and proposed Google Calendar use.
+**Scope:** Read-only assessment plus separately approved remediation verification for the Naked Tech website, Sanctum Forms, Sanctum Notify, their Auth/Core/Chat/MCP credential consumers, the shared production host, public DNS/TLS, notification delivery, storage, monitoring, retention and proposed Google Calendar use.
 
 This is an engineering and privacy-readiness assessment, not legal advice. The Privacy Act, Notifiable Data Breaches scheme, Spam Act, Australian Consumer Law, record-keeping requirements, and all proposed customer-facing wording require review by qualified Australian advisers before external transactional access is enabled.
 
@@ -16,7 +16,7 @@ Do not implement or enable the Phase 3 action API yet. The present platform succ
 The 2 August remediation closed the original Forms audience/role vulnerability, caller-selected PAT tenant vulnerability, unbound Forms-to-Notify key, missing Notify dashboard role check, client-side OAuth refresh-token exposure, PostgreSQL backup/restore blocker, indefinite live retention in Forms and Notify, unnecessary Notify payload retention after rendering or successful delivery, unguarded/unbounded Forms draft persistence, application logging of recipient/provider-error PII, unbounded operational-log age, shared PostgreSQL administration credential, and Forms/Notify process and secret isolation gaps. Forms/Notify retention migrations, dry-run commands, legal-hold exclusions and bounded timers are deployed; reviewed production dry-runs and a staged execution passed, both daily timers are enabled, Notify now clears structured source data after rendering and clears delivery content immediately after success or suppression, Forms drafts now enforce the form state/origin/auth boundary plus size/schema/rate limits, both applications emit bounded notification diagnostics without recipient addresses or provider response bodies, journald retains no more than 30 days or 500 MB, and Forms/Notify run as dedicated non-login users with hardened units and root-managed runtime secrets. The remaining blockers are:
 
 1. The retention schedule still requires qualified legal approval, provider/mailbox deletion procedures and an end-to-end data-subject workflow.
-2. Coordinated rotation of remaining client-facing Forms credentials, Notify OIDC/provider credentials and Forms' workspace-token hashing key is incomplete.
+2. Forms' active workspace-token hashing key cannot be rotated until the current collaborative workspace is closed or deliberately invalidated; provider-console rotation and ownership procedures are also incomplete.
 3. A broader host audit found permissive environment-file modes in unrelated applications; each requires an owner-aware deployment and rotation plan before access is tightened.
 4. Mail-provider and business-mailbox lifecycle controls, verified deletion procedures and the provider register remain incomplete.
 5. No dedicated Naked Tech Google Calendar, Calendar API credential, free/busy integration, or calendar-specific monitoring was found.
@@ -30,7 +30,7 @@ The existing human form can continue while these controls are remediated. The cu
 
 | Component | Audited source | Deployed commit | State during audit |
 |---|---|---:|---|
-| Naked Tech | `/home/preginald/Dev/nakedtech` | `b5fa61d5cbed67e4c9782809dc7b61c9ec799c9e` | Phase 1 and OPS-02 database-isolation evidence deployed; unrelated local marketing work preserved |
+| Naked Tech | `/home/preginald/Dev/nakedtech` | `504b15f51e8796b97079085425ecb9ea396afcaa` | Phase 1 and OPS-02 database-isolation evidence deployed; unrelated local marketing work preserved |
 | Sanctum Forms | `/home/preginald/Dev/sanctum-forms` | `9173d8161292519165e1a64d70401b1c34411b7e` | Auth, retention, data minimisation and dedicated runtime-identity remediation deployed; API/MCP healthy |
 | Sanctum Notify | `/home/preginald/Dev/sanctum-notify` | `a9609926c11b4a2169f6b00d1677f469abc02000` | Scoped auth, retention, minimisation and dedicated runtime-identity remediation deployed; production healthy; unrelated local untracked files not touched |
 | Sanctum Monitor | `/home/preginald/Dev/sanctum-monitor` | `6cd11730b962f69faabe16d60c803f2b97a8f0f8` | Backup/restore controls and bounded journald policy deployed; Monitor and public service health checks passed; unrelated untracked files not touched |
@@ -74,7 +74,7 @@ The page currently returns both `Content-Security-Policy: frame-ancestors *` and
 
 ### Current Notify facts
 
-- Resend, Brevo, Mailjet, and SMTP are configured in production. The application tries them in that order, so data may be disclosed to fallback providers after delivery failure.
+- The verified production delivery chain is Resend, Mailjet, then SMTP. Resend delivered the only notification in the retained post-remediation provider log; its credential is denied key-management access, consistent with a constrained sending credential. Mailjet account authentication and SMTP authentication passed non-sending probes. Brevo returned `401` to its account probe and was removed from the active chain rather than retained as a known-failing fallback. Provider-console rotation and deletion controls remain open.
 - The Forms credential now maps to active key `sanctum-forms-v2`, bound to the Digital Sanctum/Naked Tech account with only `notify:create`. The legacy unbound `sanctum-forms` key is inactive.
 - The original unscoped pool included multiple Forms users and cannot be attributed to Naked Tech by tenant without examining personal payloads, which this audit did not do. New Forms notifications are tenant-bound.
 - Deployed Notify retains structured source data only until the first successful render, then atomically replaces it with retry-ready rendered output. Successful and suppressed delivery clears source and rendered content immediately. Active queued/failed/sending content has a 24-hour ceiling; provider-failure and template-render dead letters retain only the content required for an approved retry until the existing terminal-content policy removes it. Legal holds remain excluded.
@@ -181,14 +181,15 @@ The proposed operations can be proportionate if the action API becomes the minim
 | AUTH-03 | Resolved | Forms uses a tenant-bound Notify key with only `notify:create`; the old unbound key is revoked. Live probes proved create-only access, read denial and unbound denial without persisting a notification. | Decide whether historical unscoped records can lawfully be segregated, de-identified or deleted. |
 | AUTH-04 | Resolved | Notify requires `notify:admin` at OIDC callback and on every dashboard session check. Missing roles are denied and session state is cleared. | Add central access/security-event auditing and alerts before Phase 3. |
 | AUTH-05 | Resolved | Notify no longer stores access or refresh tokens in the signed cookie. It stores identity/roles with an eight-hour local expiry and requires fresh OIDC login after expiry. | Retain bounded-session, role-denial and expiry tests; define emergency session invalidation procedure. |
+| AUTH-06 | High | Sanctum Core records PAT scopes but its PAT principal resolution currently returns the owning user without enforcing those scopes at route level. A nominally narrow PAT therefore inherits that user's route permissions. | Do not use Core PAT scope metadata as a Phase 3 authorisation control. Enforce scopes centrally with route-level negative tests, or keep the action API on a separate service/principal model that has independently enforced scopes. |
 | DATA-01 | Partial | Production Forms/Notify migrations and bounded enforcement jobs hard-delete expired records, scrub Notify content first, exclude legal holds and default to dry-run. Reviewed dry-runs, staged execution and timer enablement are complete; provider/mailbox/data-subject workflows remain absent. | Obtain legal approval and implement provider/mailbox traversal and end-to-end deletion tests. |
 | DATA-02 | Resolved | Notify clears structured source data after first render, reuses bounded rendered content for retries, clears source/rendered content immediately after success or suppression, and expires active delivery content after 24 hours. Legal holds and render-failure retries remain explicit exceptions. Migration `a1c7e9f2b4d6`, 306 tests, CI/deployment and aggregate production checks passed. | Retain lifecycle tests and alerts; review the 24-hour delivery ceiling alongside the approved retention schedule. Provider/mailbox copies remain under DATA-01 rather than Notify application storage. |
 | DATA-03 | Resolved | Every public draft read/write/delete now enforces the form's paused/archived state, allowed origin, respondent auth mode and tenant/client scope. Writes accept only a bounded JSON object of schema-declared editable fields; password, file, hidden, read-only, unknown and invalidly typed values are rejected. All draft actions share a bounded per-client/per-form rate limit, and seven-day anonymous-draft expiry remains active. | Retain the access/payload/rate regression matrix. Replace the in-memory limiter and first-value `X-Forwarded-For` interpretation under ABUSE-01 before Phase 3. |
 | OPS-01 | Resolved | Encrypted off-host logical backups, documented RPO/RTO, freshness monitoring and an isolated nine-database restore test are active and evidenced. | Retain daily backups, weekly automated restore checks, alerts and quarterly operator-reviewed drills. |
 | OPS-02 | Resolved for scoped services | Forms and Notify use separate least-privilege runtime database roles, migration owners, non-login OS users, root-managed runtime environments, external mutable-state paths and hardened systemd units. Runtime restarts with deploy-tree secrets absent, retention dry-runs and public health checks passed. | Retain unit contract tests and verify identity, secret modes, health and sandbox scores after deployment changes. Track remaining client/provider rotations under CRED-01 and broader host files under OPS-04. |
 | OPS-03 | High | Generic monitoring runs, but Forms/Notify-specific external availability, queue age, dead-letter, retention-job and backup alerts were not evidenced. | Add actionable SLO/security/backup alerts and an owned on-call path. |
-| OPS-04 | High | A host-wide mode inventory found environment files for unrelated applications readable beyond their intended runtime owner. They were not changed because their deployment and ownership dependencies were outside this remediation scope. | Perform a service-by-service secret inventory, dependency-aware relocation to root-managed paths, rotation and restart verification; do not apply a blind host-wide permission rewrite. |
-| CRED-01 | High | Database runtime/owner credentials, Forms MCP signing and Notify session keys were rotated, and the shared `sanctum_admin` role was retired. Forms PAT/MCP client credentials, Forms' active workspace-token hashing key, and Notify OIDC/provider credentials still require consumer-coordinated rotation. | Inventory every consumer, define overlap/revocation windows and validation probes, then rotate without invalidating the active collaborative Forms workspace or silently breaking provider delivery. |
+| OPS-04 | High | A host-wide mode inventory found environment files for unrelated applications readable beyond their intended runtime owner. MCP role files and the discovered Chat backend environment were tightened to `0640`, with exposed MCP PATs rotated; other applications were not changed because their deployment and ownership dependencies remain outside this remediation scope. | Continue a service-by-service secret inventory, dependency-aware relocation to root-managed paths, rotation and restart verification; do not apply a blind host-wide permission rewrite. |
+| CRED-01 | Partial | Forms PAT/MCP credentials, Forms-to-Core and Chat-to-Forms identities, Notify OIDC/session credentials, exposed MCP role PATs and the cross-service Chat/Sentinel Core identity were rotated or split with old-credential rejection evidence. Forms' MCP API-key bypass is disabled, obsolete plaintext backups were deleted, and Brevo was removed after a failed validity probe. The active collaborative Forms workspace still prevents rotation of the workspace-token hashing key; Turnstile, Mailjet, SMTP and any future Brevo replacement require owner-controlled provider procedures. | Close or deliberately invalidate the collaborative workspace before rotating the Forms hashing key. Record provider owners, create/revoke/overlap steps, emergency contacts and deletion verification; use Cloudflare's overlap rotation for Turnstile and coordinate Mailjet's immediately effective reset. |
 | LOG-01 | Resolved | Production Forms and Notify use opaque IDs and bounded error categories without logging recipient addresses, provider response bodies or exception text. Host journald enforces 30 days or 500 MB, whichever comes first, with daily rotation and compression. Regression tests, deployment verification and a post-restart journal-write probe passed. | Retain the logging tests and review the 30-day period when legal, incident-response or threat-model requirements change. |
 | ABUSE-01 | High | Public and operator rate limits are in-memory. Forms trusts the first `X-Forwarded-For` value; Notify limits by the interpreted client host; neither is suitable for multi-worker or platform credentials. | Edge-enforced quotas plus a shared limiter, trusted-proxy normalisation, per-client/per-operation limits and abuse tests. |
 | ABUSE-02 | High | Forms webhooks allow arbitrary HTTP(S) targets and shared secrets, with no destination allowlist or private-network denial. | Do not expose webhook configuration to action clients. Add DNS/IP egress controls and signed, replay-resistant envelopes before future use. |
@@ -257,6 +258,55 @@ those unrelated services need individual dependency-aware remediation rather
 than a blind permission change.
 
 The Australian Signals Directorate recommends authenticating and authorising clients that call internet-accessible APIs for non-public data and centrally logging API use for detection and investigations. See the [ASD Guidelines for software development](https://www.cyber.gov.au/business-government/asds-cyber-security-frameworks/ism/cyber-security-guidelines/guidelines-for-software-development).
+
+### CRED-01 remediation evidence
+
+The consumer inventory and locally controllable rotations were completed in
+production on 2026-08-02. Credential values were generated and compared only
+in memory and were not printed or added to this repository:
+
+- The Notify confidential OIDC client secret was replaced in Auth and Notify
+  as one cutover. A token-endpoint probe accepted the replacement client,
+  rejected the prior secret with `invalid_client`, and Notify remained healthy.
+  Notify's session-cookie signing secret was subsequently rotated; existing
+  dashboard sessions must reauthenticate.
+- One bearer had been reused for Chat to Forms, Forms to Core, the Surgeon MCP
+  role and the Forms MCP API-key path. It was split into distinct consumer
+  credentials, the Forms MCP API-key bypass was emptied, and the static MCP
+  client secret and password were replaced. New Forms/Core/MCP probes passed;
+  the former bearer and MCP client secret were rejected.
+- A follow-up active-environment scan found Chat using the Sentinel MCP Core
+  identity and found seven MCP role credentials in group-readable historical
+  files. Chat received a dedicated Core identity, the seven MCP role PATs were
+  rotated, and the old PATs were revoked only after all replacement PATs and
+  Chat/MCP health passed. The MCP default token remains an intentional alias of
+  its Operator role token inside the same service.
+- Ten standalone MCP role files received distinct replacement PATs and mode
+  `0640`. Nine corresponding live PATs were revoked and the Code role's already
+  invalid PAT was replaced. The separate Chat backend environment was also
+  tightened to `0640`; its Watchdog and Mock keys belong to the broader OPS-04
+  service-owner inventory.
+- Four Forms and three MCP environment backups were permanently deleted after
+  the affected credentials had been revoked and current consumers verified.
+  Active runtime files remain mode `0600` or `0640`. The final equality scan
+  found only the intended Chat-to-Forms binding and MCP default-to-Operator
+  alias; Forms, Forms MCP, Notify, Chat and MCP health checks all returned 200.
+- A non-sending provider check authenticated Mailjet and SMTP, recognized the
+  Turnstile secret while rejecting a dummy response, and confirmed that the
+  Resend credential cannot access key administration. Brevo account
+  authentication returned `401`; its key was cleared and Notify restarted with
+  the verified Resend, Mailjet and SMTP chain.
+
+CRED-01 remains partial for two deliberate coordination boundaries. One
+collaborative Forms workspace and one operator-only workspace are in progress;
+the main Forms secret hashes workspace access tokens, so rotating it now would
+silently invalidate the collaborative workspace. Rotate it after the
+collaborative work is closed or after an explicit invalidation decision.
+Provider secrets are not stored in this repository and cannot rotate
+themselves: Turnstile supports a two-hour previous-secret overlap through the
+Cloudflare dashboard/API, while Mailjet's dashboard reset takes effect
+immediately. Record owners and emergency revocation steps before performing
+those provider-side changes. See [Cloudflare Turnstile key rotation](https://developers.cloudflare.com/turnstile/troubleshooting/rotate-secret-key/), [Resend API key controls](https://resend.com/docs/api-reference/api-keys/create-api-key), [Brevo API key setup](https://developers.brevo.com/docs/quickstart), and [Mailjet secret reset](https://documentation.mailjet.com/hc/en-us/articles/360043227053-How-to-reset-my-Secret-Key).
 
 ## Calendar readiness design
 
@@ -483,7 +533,7 @@ Phase 3 design/implementation may begin only when evidence exists for every bloc
 | Retention/deletion | Approved schedule; hard-delete/de-identification jobs; full data-subject workflow tests | Partial: jobs/migrations, production dry-run review, staged execution and active timers are complete; legal approval, provider/mailbox workflow and full data-subject tests remain open |
 | Backups | Encrypted off-host backup, alert, documented RPO/RTO and successful isolated restore | Ready: encrypted Sydney repository, independent KeePassXC recovery custody, active daily/weekly schedules, green freshness alerts and successful nine-database off-host restore |
 | Service isolation | Dedicated users, DB roles, secret ownership and hardened systemd units | Ready for Forms/Notify: dedicated identities and state paths, least-privilege runtime DB roles, root-managed environments, hardened units, no-fallback restarts and 3.2 exposure scores verified |
-| Credential lifecycle | Coordinated consumer/provider rotation, revocation evidence and emergency procedure | Blocked: database, MCP-signing and session keys rotated; Forms client/workspace credentials and Notify OIDC/provider credentials remain under CRED-01 |
+| Credential lifecycle | Coordinated consumer/provider rotation, revocation evidence and emergency procedure | Partial: local consumer inventory, Forms/MCP/Core PAT splits, Notify OIDC/session rotation, exposed MCP PAT revocation, backup deletion and health/rejection probes are complete. Forms workspace-key rotation and owner-controlled provider rotation/revocation procedures remain open under CRED-01 |
 | Shared-host secret hygiene | Per-service inventory, owner-aware protected paths, rotation and restart proof | Blocked under OPS-04 for unrelated host applications; Forms/Notify are remediated |
 | Monitoring/incident | Named owners/alternates, alerts, offline runbook and tabletop exercise | Blocked |
 | API namespace | DNS, TLS and dedicated `api.digitalsanctum.com.au/nakedtech/v1` routing | Blocked |
