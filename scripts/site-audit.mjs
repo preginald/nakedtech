@@ -7,6 +7,8 @@ import nunjucks from 'nunjucks'
 
 const require = createRequire(import.meta.url)
 const serviceCatalogue = require('../src/_data/serviceCatalogue.js')
+const searchContent = require('../src/_data/searchContent.js')
+const searchIntents = require('../src/assets/js/site-search-intents.js')
 
 const root = new URL('../_site/', import.meta.url).pathname
 const includesRoot = new URL('../src/_includes/', import.meta.url).pathname
@@ -57,6 +59,15 @@ function metaContent(html, key) {
   for (const tag of html.match(/<meta\b[^>]*>/gi) || []) {
     const name = tag.match(/\b(?:name|property)=(["'])(.*?)\1/i)?.[2]
     if (name !== key) continue
+    return tag.match(/\bcontent=(["'])(.*?)\1/i)?.[2]?.trim()
+  }
+  return undefined
+}
+
+function pagefindMetaContent(html, key) {
+  for (const tag of html.match(/<meta\b[^>]*>/gi) || []) {
+    const metadataKey = tag.match(/\bdata-pagefind-meta=(["'])(.*?)\1/i)?.[2]
+    if (metadataKey !== `${key}[content]`) continue
     return tag.match(/\bcontent=(["'])(.*?)\1/i)?.[2]?.trim()
   }
   return undefined
@@ -482,6 +493,66 @@ for (const route of expectedRoutes) {
 const htmlFiles = walk(root).filter((file) => file.endsWith('.html'))
 assert(htmlFiles.length >= expectedRoutes.length, `generated at least ${expectedRoutes.length} HTML pages`)
 
+const pagefindRoot = join(root, 'pagefind')
+const pagefindRuntimePath = join(pagefindRoot, 'pagefind.js')
+const pagefindEntryPath = join(pagefindRoot, 'pagefind-entry.json')
+assert(existsSync(pagefindRoot), 'search: generated Pagefind directory exists')
+assert(existsSync(pagefindRuntimePath), 'search: generated Pagefind browser runtime exists')
+assert(existsSync(pagefindEntryPath), 'search: generated Pagefind entry metadata exists')
+assert(!existsSync(join(pagefindRoot, 'playground')), 'search: Pagefind playground is not included in the public build')
+
+if (existsSync(pagefindEntryPath)) {
+  try {
+    const pagefindEntry = JSON.parse(readFileSync(pagefindEntryPath, 'utf8'))
+    const pageCount = Object.values(pagefindEntry.languages || {}).reduce((total, language) => total + (language.page_count || 0), 0)
+    assert(pagefindEntry.version === '1.5.2', 'search: generated runtime matches the pinned Pagefind version')
+    assert(pageCount === searchContent.entries.length, `search: Pagefind indexes exactly ${searchContent.entries.length} intended pages`)
+  } catch (error) {
+    failures.push(`search: generated Pagefind entry metadata parses (${error.message})`)
+  }
+}
+
+if (existsSync(pagefindRoot)) {
+  const pagefindFiles = walk(pagefindRoot)
+  assert(pagefindFiles.some((file) => /wasm\.[^.]+\.pagefind$/.test(file)), 'search: generated Pagefind WebAssembly runtime exists')
+  assert(pagefindFiles.some((file) => file.endsWith('.pf_meta')), 'search: generated Pagefind language metadata exists')
+  for (const file of pagefindFiles) {
+    const contents = readFileSync(file)
+    assert(!contents.includes(Buffer.from('/home/preginald/Dev/nakedtech')), `search: ${relative(root, file)} contains no internal project path`)
+    assert(!contents.includes(Buffer.from('BEGIN PRIVATE KEY')), `search: ${relative(root, file)} contains no private-key material`)
+  }
+}
+
+const indexedHtmlFiles = htmlFiles.filter((file) => /<main\b[^>]*\bdata-pagefind-body\b/i.test(readFileSync(file, 'utf8')))
+assert(indexedHtmlFiles.length === searchContent.entries.length, `search: exactly ${searchContent.entries.length} generated pages opt into indexing`)
+
+for (const entry of searchContent.entries) {
+  const file = routeToFile(entry.path)
+  const html = existsSync(file) ? readFileSync(file, 'utf8') : ''
+  assert(Boolean(html), `search: indexed route exists (${entry.path})`)
+  assert(/<main\b[^>]*\bdata-pagefind-body\b/i.test(html), `search: route explicitly opts into indexing (${entry.path})`)
+  assert(pagefindMetaContent(html, 'title') === htmlText(entry.title), `search: route exposes its canonical result title (${entry.path})`)
+  assert(pagefindMetaContent(html, 'description') === htmlText(entry.description), `search: route exposes its canonical result description (${entry.path})`)
+  assert(pagefindMetaContent(html, 'kind') === htmlText(entry.kind), `search: route exposes its result type (${entry.path})`)
+  assert(pagefindMetaContent(html, 'search_terms') === htmlText(entry.searchTerms), `search: route exposes reviewed visitor-language metadata (${entry.path})`)
+  if (entry.price) {
+    assert(pagefindMetaContent(html, 'price') === htmlText(entry.price), `search: route sources pricing from the canonical catalogue (${entry.path})`)
+  }
+}
+
+for (const service of serviceCatalogue.services) {
+  const entry = searchContent.byPath[service.path]
+  assert(Boolean(entry), `search: active service is registered (${service.name})`)
+  assert(entry?.serviceName === service.name, `search: canonical service name is discoverable (${service.name})`)
+  assert(entry?.price === service.pricing.displayText, `search: service price is not duplicated (${service.name})`)
+}
+
+for (const route of ['/services/bodyguard/', '/booking/', '/thank-you/', '/invoice-template/', '/join/']) {
+  const html = readFileSync(routeToFile(route), 'utf8')
+  assert(!/<main\b[^>]*\bdata-pagefind-body\b/i.test(html), `search: excluded route does not opt into indexing (${route})`)
+  assert(!pagefindMetaContent(html, 'search_terms'), `search: excluded route has no search metadata (${route})`)
+}
+
 for (const file of htmlFiles) {
   const bytes = readFileSync(file)
   const html = bytes.toString('utf8')
@@ -879,7 +950,8 @@ const joinHtml = readFileSync(routeToFile('/join/'), 'utf8')
 assert(metaContent(joinHtml, 'robots') === 'noindex, follow', 'careers: inactive vacancy page is excluded from search indexing')
 assert(joinHtml.includes('We’re not currently hiring.'), 'careers: inactive hiring status is explicit')
 assert(joinHtml.includes('not accepting applications or expressions of interest'), 'careers: application collection is explicitly closed')
-assert(!joinHtml.includes('<form'), 'careers: inactive vacancy page does not collect applications')
+const joinPageForms = joinHtml.match(/<form\b[^>]*>/gi) || []
+assert(joinPageForms.every((form) => /\brole=["']search["']/i.test(form) && /\bdata-site-search-form\b/i.test(form)), 'careers: inactive vacancy page does not collect applications')
 assert(!joinHtml.includes('/api/send'), 'careers: inactive vacancy page has no submission endpoint')
 assert(!joinHtml.includes('JobPosting'), 'careers: inactive vacancy page has no job structured data')
 for (const disallowedRecruitmentMarker of ['Deadlift', 'fitted tee', 'physical fitness', 'Instagram URL']) {
@@ -917,12 +989,15 @@ assert(countOccurrences(sitemapXml, 'https://nakedtech.au/terms/') === 1, 'websi
 const privacyHtml = readFileSync(routeToFile('/privacy/'), 'utf8')
 assert(documentTitle(privacyHtml) === 'Privacy Policy | Naked Tech', 'privacy: descriptive title rendered')
 assert(metaContent(privacyHtml, 'description')?.includes('contact forms, service records, analytics and advertising choices'), 'privacy: metadata reflects current information handling')
-assert(privacyHtml.includes('Effective 1 August 2026'), 'privacy: effective date rendered')
+assert(privacyHtml.includes('Effective 2 August 2026'), 'privacy: effective date rendered')
 assert(privacyHtml.includes('Peter Reginald, ABN 57 221 340 918'), 'privacy: responsible operator and ABN rendered')
 assert(privacyHtml.includes('forms.digitalsanctum.com.au'), 'privacy: embedded form provider disclosed')
 assert(privacyHtml.includes('saves an unfinished draft in local storage'), 'privacy: contact-form draft storage disclosed')
 assert(privacyHtml.includes('utm_source'), 'privacy: form campaign context disclosed')
 assert(privacyHtml.includes('Google Analytics 4'), 'privacy: analytics provider disclosed')
+assert(privacyHtml.includes('Site-search words stay in your browser'), 'privacy: raw site-search text remains local')
+assert(privacyHtml.includes('a search made before consent is not queued for later reporting'), 'privacy: search-demand events require prior analytics consent')
+assert(privacyHtml.includes('predefined search-demand categories'), 'privacy: bounded service-demand analytics are disclosed')
 assert(privacyHtml.includes('Meta Pixel'), 'privacy: advertising provider disclosed')
 assert(privacyHtml.includes('neither checkbox is preselected'), 'privacy: optional tracking default described')
 assert(privacyHtml.includes('data-tracking-preferences-open'), 'privacy: direct tracking-preferences control rendered')
@@ -988,6 +1063,127 @@ for (const supersededRoute of ['/wifi-dropouts-ivanhoe/', '/slow-computer-help-i
 }
 
 const baseHtml = readFileSync(join(root, 'index.html'), 'utf8')
+const siteSearchSourcePath = new URL('../src/assets/js/site-search.js', import.meta.url).pathname
+const siteSearchBuiltPath = join(root, 'assets', 'js', 'site-search.js')
+const siteSearchIntentsSourcePath = new URL('../src/assets/js/site-search-intents.js', import.meta.url).pathname
+const siteSearchIntentsBuiltPath = join(root, 'assets', 'js', 'site-search-intents.js')
+const siteSearchDialogTag = baseHtml.match(/<dialog\b[^>]*data-site-search-dialog[^>]*>/i)?.[0] || ''
+assert(existsSync(siteSearchBuiltPath), 'search: browser controller is copied into the public build')
+assert(existsSync(siteSearchIntentsBuiltPath), 'search: bounded intent classifier is copied into the public build')
+assert(countOccurrences(baseHtml, 'data-site-search-trigger') === 3, 'search: homepage, desktop navigation and mobile navigation each render one trigger')
+assert(countOccurrences(baseHtml, 'data-site-search-source="navigation"') === 2, 'search: base layout renders separate desktop and mobile navigation triggers')
+assert(countOccurrences(baseHtml, 'data-site-search-source="homepage"') === 1, 'search: homepage renders one modal launcher')
+assert((baseHtml.match(/<button\b[^>]*data-site-search-trigger[^>]*aria-label=["']Search Naked Tech["'][^>]*\bhidden\b/gi) || []).length === 2, 'search: triggers are accessible buttons and fail safely when JavaScript is unavailable')
+assert(/<dialog\b[^>]*data-site-search-dialog[^>]*aria-labelledby=["']site-search-heading["'][^>]*aria-describedby=["']site-search-description["']/i.test(baseHtml), 'search: labelled native dialog renders')
+assert(/data-site-search-status[^>]*>/.test(baseHtml) && baseHtml.includes('aria-live="polite"'), 'search: result status has a polite live region')
+assert(baseHtml.includes('src="/assets/js/site-search.js"') && baseHtml.includes(' data-site-search-script'), 'search: deferred browser controller is loaded')
+assert(baseHtml.includes('src="/assets/js/site-search-intents.js"') && baseHtml.includes(' data-site-search-intents-script'), 'search: bounded intent classifier is loaded')
+assert(baseHtml.indexOf('/assets/js/site-search-intents.js') < baseHtml.indexOf('/assets/js/site-search.js'), 'search: bounded classifier loads before the controller')
+const homepageSearchTrigger = baseHtml.match(/<button\b[^>]*data-site-search-trigger[^>]*data-site-search-source=["']homepage["'][^>]*>[\s\S]*?<\/button>/i)?.[0] || ''
+assert(Boolean(homepageSearchTrigger), 'search: homepage renders one prominent modal launcher')
+assert(/\baria-label=["']Search Naked Tech from the homepage["']/i.test(homepageSearchTrigger), 'search: homepage launcher has an explicit accessible action name')
+assert(/\bhidden\b/i.test(homepageSearchTrigger), 'search: homepage launcher fails safely when JavaScript is unavailable')
+assert(/data-site-search-home-value[^>]*data-placeholder=/i.test(homepageSearchTrigger), 'search: homepage launcher exposes a safe text-only query mirror')
+assert(baseHtml.includes('<noscript><a href="/services/"'), 'search: homepage provides a no-JavaScript services fallback')
+assert(!baseHtml.includes('data-site-search-launch-output'), 'search: homepage does not render a second inline results layer')
+assert(/data-pagefind-ignore[^>]*>[\s\S]*?data-site-search-source=["']homepage["']/i.test(baseHtml), 'search: homepage launcher does not pollute Pagefind excerpts')
+assert(siteSearchDialogTag.includes('h-[calc(100vh-2rem)]') && siteSearchDialogTag.includes('sm:h-[42rem]'), 'search: dialog uses a stable responsive height')
+
+if (existsSync(siteSearchSourcePath) && existsSync(siteSearchBuiltPath) && existsSync(siteSearchIntentsSourcePath) && existsSync(siteSearchIntentsBuiltPath)) {
+  const siteSearchSource = readFileSync(siteSearchSourcePath, 'utf8')
+  const siteSearchBuilt = readFileSync(siteSearchBuiltPath, 'utf8')
+  const siteSearchIntentsSource = readFileSync(siteSearchIntentsSourcePath, 'utf8')
+  const siteSearchIntentsBuilt = readFileSync(siteSearchIntentsBuiltPath, 'utf8')
+  assert(siteSearchBuilt === siteSearchSource, 'search: deployed browser controller matches its reviewed source')
+  assert(siteSearchIntentsBuilt === siteSearchIntentsSource, 'search: deployed intent classifier matches its reviewed source')
+  assert(siteSearchSource.includes("import('/pagefind/pagefind.js')"), 'search: Pagefind loads lazily from the local static index')
+  assert(siteSearchSource.includes('search.results.slice(0, 5)'), 'search: no more than five result records are loaded')
+  assert(siteSearchSource.includes('plain_excerpt'), 'search: result excerpts use Pagefind plain text')
+  assert(!siteSearchSource.includes('innerHTML'), 'search: browser controller never interpolates content through innerHTML')
+  assert(!/\b(?:fbq|sendBeacon|fetch)\b/.test(siteSearchSource), 'search: browser controller has no advertising or custom network transport')
+  assert(siteSearchSource.includes("tracking.getPreferences().analytics === true"), 'search: bounded analytics require an explicit current analytics opt-in')
+  assert(siteSearchSource.includes("recordBoundedEvent('site_search_unmet_demand', intent, null, context.source)"), 'search: unmet demand uses one bounded category event with the correct entry point')
+  assert(siteSearchSource.includes("recordBoundedEvent('site_search_interest', intent, intent.actionType, context.source)"), 'search: explicit service or referral interest uses one bounded event with the correct entry point')
+  assert(siteSearchSource.includes('pagefind.search(query)'), 'search: query is passed only to the local Pagefind runtime')
+  assert(siteSearchSource.includes("origin.dataset.siteSearchSource === 'homepage'"), 'search: homepage modal use retains bounded source attribution')
+  assert(!siteSearchSource.includes('data-site-search-launch-output'), 'search: controller has no competing homepage results layer')
+  assert(siteSearchSource.includes('renderResults(context, search, sequence)'), 'search: all search entry points use one result renderer')
+  assert(siteSearchSource.includes("window.matchMedia('(prefers-reduced-motion: reduce)').matches"), 'search: dialog morph respects reduced-motion preferences')
+  assert(siteSearchSource.includes('clipPath: launcherClip(origin)'), 'search: dialog progressively morphs from its opening trigger')
+  assert(siteSearchSource.includes('clipPath: launcherClip(previousFocus)'), 'search: dialog progressively returns toward its opening trigger')
+  assert(siteSearchSource.includes("dialog.classList.add('site-search-closing')"), 'search: dialog backdrop receives a coordinated closing state')
+  assert(siteSearchSource.includes('value.textContent = query || placeholder'), 'search: modal query mirrors to the homepage through textContent only')
+  assert(siteSearchSource.includes("trigger.classList.toggle('text-ink', Boolean(query))"), 'search: mirrored homepage query receives an active visual state')
+  assert(siteSearchSource.includes('setResultsBusy(context, true)'), 'search: result updates expose a busy state without clearing visible cards')
+  assert(siteSearchSource.includes('if (!hasVisibleResults) setStatus(context, \'Searching…\')'), 'search: repeated typing does not flash the searching status over existing cards')
+  const scheduleSearchSource = siteSearchSource.match(/function scheduleSearch\([\s\S]*?\n  function showSearch/)?.[0] || ''
+  assert(countOccurrences(scheduleSearchSource, 'clearResults(context)') === 1, 'search: active queries retain prior cards until replacement results are ready')
+  assert(siteSearchSource.includes("addEventListener('cancel'"), 'search: Escape closes through the native dialog cancel interaction')
+  assert(siteSearchSource.includes("event.key !== 'Tab'"), 'search: dialog handles forward and reverse keyboard focus wrapping')
+  assert(siteSearchSource.includes('previousFocus.focus()'), 'search: closing restores focus to the opening trigger')
+  assert(!/\b(?:gtag|fbq|sendBeacon|fetch)\b/.test(siteSearchIntentsSource), 'search: intent classifier is a local pure-data utility with no transport')
+}
+const builtStyles = readFileSync(join(root, 'css', 'styles.css'), 'utf8')
+assert(builtStyles.includes('site-search-backdrop-in'), 'search: built styles include the opening backdrop transition')
+assert(builtStyles.includes('site-search-backdrop-out'), 'search: built styles include the closing backdrop transition')
+
+const expectedSearchIntentCategories = [
+  'account_recovery',
+  'backup_setup',
+  'data_recovery',
+  'digital_services_help',
+  'hardware_repair',
+  'mobile_setup',
+  'security_camera',
+  'virus_malware',
+]
+assert(
+  searchIntents.list().map((intent) => intent.category).sort().join('|') === expectedSearchIntentCategories.join('|'),
+  'search: intent classifier exposes only the eight reviewed demand categories'
+)
+for (const [query, expectedCategory] of [
+  ['virus', 'virus_malware'],
+  ['ransomware warning', 'virus_malware'],
+  ['set up my backup', 'backup_setup'],
+  ['Time Machine backup help', 'backup_setup'],
+  ['new iPhone setup', 'mobile_setup'],
+  ['move my photos to a new phone', 'mobile_setup'],
+  ['recover my deleted photos', 'data_recovery'],
+  ["my laptop won't turn on", 'hardware_repair'],
+  ['laptop not turning on', 'hardware_repair'],
+  ['broken screen', 'hardware_repair'],
+  ['broken screens', 'hardware_repair'],
+  ['my Google account is locked', 'account_recovery'],
+  ['locked account recovery', 'account_recovery'],
+  ['help with myGov', 'digital_services_help'],
+  ['security camera installation', 'security_camera'],
+]) {
+  assert(searchIntents.classify(query)?.category === expectedCategory, `search: “${query}” maps locally to ${expectedCategory}`)
+}
+for (const supportedQuery of [
+  'internet keeps dropping',
+  'printer setup on my phone',
+  'new computer transfer',
+  'forgotten passwords',
+  'I think I have been scammed',
+]) {
+  assert(searchIntents.classify(supportedQuery) === null, `search: supported query remains available to Pagefind (${supportedQuery})`)
+}
+const sampleIntent = searchIntents.classify('virus')
+const searchOutcomePayload = searchIntents.analyticsPayload(sampleIntent, 'homepage', null, '/')
+const searchInterestPayload = searchIntents.analyticsPayload(sampleIntent, 'navigation', 'service_enquiry', '/services/')
+assert(
+  Object.keys(searchOutcomePayload).sort().join('|') === 'intent_category|page_path|result_state|search_source',
+  'search: outcome analytics payload contains only four reviewed bounded fields'
+)
+assert(
+  Object.keys(searchInterestPayload).sort().join('|') === 'intent_category|interest_type|page_path|result_state|search_source',
+  'search: interest analytics payload adds only the reviewed bounded interest type'
+)
+assert(
+  !Object.keys({ ...searchOutcomePayload, ...searchInterestPayload }).some((key) => /query|term|text|excerpt/i.test(key)),
+  'search: analytics payload has no field capable of carrying typed query content'
+)
 const homepageStructuredData = jsonLdBlocks(baseHtml)
 assert(homepageStructuredData.length === 1, 'homepage: exactly one JSON-LD entity graph rendered')
 if (homepageStructuredData.length === 1) {
@@ -1278,6 +1474,7 @@ if (existsSync(contactComponentPath)) {
   assert(componentHtml.includes(`data-pain-point="${formProps.painPoint}"`), 'contact-form fixture renders its pain-point context')
   assert(componentHtml.includes('https://forms.digitalsanctum.com.au/f/nakedtech-contact'), 'contact-form fixture preserves the default Sanctum Forms endpoint')
   assert(countOccurrences(componentHtml, 'data-contact-collection-notice') === 1, 'contact-form fixture renders one point-of-collection notice')
+  assert(countOccurrences(componentHtml, 'data-pagefind-ignore') === 1, 'contact-form fixture excludes repeated enquiry boilerplate from site-search excerpts')
   assert(componentHtml.indexOf('data-contact-collection-notice') < componentHtml.indexOf('data-contact-form-frame'), 'contact-form fixture renders notice before form fields')
   assert(componentHtml.includes('Fields marked with an asterisk are required'), 'contact-form fixture explains required and optional fields')
   assert(componentHtml.includes('unfinished answers are saved in this browser’s local storage'), 'contact-form fixture discloses local draft storage')
@@ -1437,6 +1634,7 @@ if (existsSync(contactComponentPath)) {
 
 const contactHtml = readFileSync(routeToFile('/contact/'), 'utf8')
 assert(countOccurrences(contactHtml, 'data-contact-form-root') === 1, '/contact/: shared contact-form component renders once')
+assert(/<section\b[^>]*data-contact-form-root[^>]*data-pagefind-ignore/i.test(contactHtml), '/contact/: repeated enquiry section is excluded from site-search excerpts')
 assert(countOccurrences(contactHtml, 'data-contact-collection-notice') === 1, '/contact/: point-of-collection notice renders once')
 assert(contactHtml.indexOf('data-contact-collection-notice') < contactHtml.indexOf('data-contact-form-frame'), '/contact/: collection notice appears before form fields')
 assert(contactHtml.includes('href="/privacy/"'), '/contact/: collection notice links the Privacy Policy')

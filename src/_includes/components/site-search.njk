@@ -1,0 +1,25 @@
+<dialog class="site-search-dialog fixed inset-0 m-auto h-[calc(100vh-2rem)] max-h-[calc(100vh-2rem)] w-[calc(100%-2rem)] max-w-3xl overflow-hidden rounded-3xl border border-line bg-surface p-0 text-ink shadow-2xl sm:h-[42rem]" data-site-search-dialog aria-labelledby="site-search-heading" aria-describedby="site-search-description">
+    <div class="flex h-full flex-col">
+        <div class="flex items-start justify-between gap-4 border-b border-line px-5 py-5 sm:px-7 sm:py-6">
+            <div>
+                <p class="text-xs font-bold uppercase tracking-[0.16em] text-accent-ink">Find the right help</p>
+                <h2 id="site-search-heading" class="mt-2 text-2xl font-extrabold sm:text-3xl">Search Naked Tech</h2>
+                <p id="site-search-description" class="mt-2 max-w-xl text-sm leading-relaxed text-muted">Describe the problem in your own words. Search stays in this browser.</p>
+            </div>
+            <button type="button" class="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-full border border-line text-2xl leading-none transition-colors hover:border-accent hover:text-accent-ink" data-site-search-close aria-label="Close search">×</button>
+        </div>
+
+        <form class="px-5 pt-5 sm:px-7 sm:pt-6" data-site-search-form role="search">
+            <label for="site-search-input" class="text-sm font-bold">What do you need help with?</label>
+            <div class="relative mt-2">
+                <svg class="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21 21-4.35-4.35m1.35-5.65a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"></path></svg>
+                <input id="site-search-input" type="search" class="min-h-14 w-full rounded-2xl border-2 border-line bg-canvas py-3 pl-12 pr-4 text-base text-ink placeholder:text-muted focus:border-accent" placeholder="Try ‘internet keeps dropping’" autocomplete="off" autocapitalize="sentences" spellcheck="true" enterkeyhint="search" data-site-search-input>
+            </div>
+        </form>
+
+        <div class="min-h-0 flex-1 overflow-y-auto px-5 pb-6 pt-4 sm:px-7 sm:pb-7">
+            <p class="rounded-2xl bg-surface-muted px-4 py-3 text-sm leading-relaxed text-muted" role="status" aria-live="polite" aria-atomic="true" data-site-search-status>Type at least two characters to search services and guides.</p>
+            <ol class="mt-4 space-y-3" data-site-search-results hidden></ol>
+        </div>
+    </div>
+</dialog>

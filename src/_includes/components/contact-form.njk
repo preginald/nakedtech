@@ -5,7 +5,7 @@
 {% set formIntroduction = props.introduction or 'Tell us what is misbehaving and how you would like us to reach you. We will get back within one business day.' %}
 {% set iframeTitle = props.iframeTitle or 'Contact Naked Tech' %}
 {% set formSlug = props.formSlug or 'nakedtech-contact' %}
-<section id="{{ formId }}" class="bg-canvas min-h-screen py-16 md:py-24" data-contact-form-root data-pain-point="{{ props.painPoint or '' }}">
+<section id="{{ formId }}" class="bg-canvas min-h-screen py-16 md:py-24" data-contact-form-root data-pagefind-ignore data-pain-point="{{ props.painPoint or '' }}">
     <div class="container mx-auto px-6 max-w-3xl">
         <div class="text-center mb-12">
             <p class="text-sm font-bold uppercase tracking-[0.2em] text-accent-ink mb-3">{{ formKicker }}</p>

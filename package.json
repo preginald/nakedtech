@@ -11,6 +11,7 @@
     "build:11ty": "eleventy",
     "build:css": "tailwindcss -i ./src/css/styles.css -o ./_site/css/styles.css --minify",
     "build:version": "node scripts/write-version.mjs",
+    "postbuild": "pagefind --site _site",
     "audit:analytics": "node scripts/analytics-matrix.mjs",
     "test": "npm run build && node scripts/site-audit.mjs && npm run audit:analytics"
   },
@@ -22,6 +23,7 @@
     "autoprefixer": "^10.4.22",
     "npm-run-all": "^4.1.5",
     "nunjucks": "^3.2.4",
+    "pagefind": "1.5.2",
     "postcss": "^8.5.6",
     "tailwindcss": "^3.4.18"
   },
