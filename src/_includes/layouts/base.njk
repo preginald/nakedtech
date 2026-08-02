@@ -173,6 +173,7 @@
     <meta data-pagefind-meta="search_terms[content]" content="{{ searchEntry.searchTerms }}">
     {% if searchEntry.price %}<meta data-pagefind-meta="price[content]" content="{{ searchEntry.price }}">{% endif %}
     {% if searchEntry.serviceName %}<meta data-pagefind-meta="service_name[content]" content="{{ searchEntry.serviceName }}">{% endif %}
+    {% if searchEntry.serviceKey %}<meta data-pagefind-meta="service_key[content]" content="{{ searchEntry.serviceKey }}">{% endif %}
     {% endif %}
     <meta name="theme-color" content="#F7F4EF" data-theme-color>
     <link rel="canonical" href="https://nakedtech.au{{ page.url }}">
@@ -238,13 +239,32 @@
                         HELP WITH
                         <svg class="h-3.5 w-3.5 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </summary>
-                    <div class="absolute right-0 top-full mt-2 max-h-[calc(100vh-6rem)] w-80 overflow-y-auto rounded-2xl border border-line bg-surface p-2 shadow-2xl">
-                        {% for problemService in problemServices %}
-                        <a href="{{ problemService.path }}" class="block rounded-xl px-4 py-3 transition-colors hover:bg-surface-muted"{% if page.url == problemService.path %} aria-current="page"{% endif %}>
-                            <span class="block font-bold">{{ problemService.navTitle }}</span>
-                            <span class="mt-1 block text-sm text-muted">{{ problemService.navDescription }}</span>
-                        </a>
-                        {% endfor %}
+                    <div class="absolute left-0 top-full mt-2 max-h-[calc(100vh-6rem)] w-[44rem] overflow-y-auto rounded-3xl border border-line bg-surface p-4 shadow-2xl">
+                        <div class="grid grid-cols-2 gap-4">
+                            <section aria-labelledby="desktop-nav-fix-heading">
+                                <p id="desktop-nav-fix-heading" class="px-3 pb-2 pt-1 text-xs font-bold uppercase tracking-[0.16em] text-accent-ink">Fix a problem</p>
+                                {% for problemService in problemServices %}
+                                {% if problemService.navGroup == 'fix' %}
+                                <a href="{{ problemService.path }}" class="block rounded-xl px-3 py-2.5 transition-colors hover:bg-surface-muted"{% if page.url == problemService.path %} aria-current="page"{% endif %}>
+                                    <span class="block font-bold">{{ problemService.navTitle }}</span>
+                                    <span class="mt-1 block text-xs leading-relaxed text-muted">{{ problemService.navDescription }}</span>
+                                </a>
+                                {% endif %}
+                                {% endfor %}
+                            </section>
+                            <section aria-labelledby="desktop-nav-setup-heading">
+                                <p id="desktop-nav-setup-heading" class="px-3 pb-2 pt-1 text-xs font-bold uppercase tracking-[0.16em] text-accent-ink">Set something up</p>
+                                {% for problemService in problemServices %}
+                                {% if problemService.navGroup == 'setup' %}
+                                <a href="{{ problemService.path }}" class="block rounded-xl px-3 py-2.5 transition-colors hover:bg-surface-muted"{% if page.url == problemService.path %} aria-current="page"{% endif %}>
+                                    <span class="block font-bold">{{ problemService.navTitle }}</span>
+                                    <span class="mt-1 block text-xs leading-relaxed text-muted">{{ problemService.navDescription }}</span>
+                                </a>
+                                {% endif %}
+                                {% endfor %}
+                            </section>
+                        </div>
+                        <a href="/services/" class="mt-3 flex min-h-11 items-center justify-center rounded-xl border border-line font-bold text-ink transition hover:border-accent hover:text-accent-ink">Browse all services &amp; pricing</a>
                     </div>
                 </details>
 
@@ -289,11 +309,25 @@
                         <svg class="h-6 w-6 group-open:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                         <svg class="hidden h-6 w-6 group-open:block" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                     </summary>
-                    <div class="fixed left-4 right-4 top-[4.5rem] max-h-[calc(100vh-5.5rem)] overflow-y-auto rounded-2xl border border-line bg-surface p-3 shadow-2xl sm:left-auto sm:w-96">
-                        <p class="px-4 pb-2 pt-3 text-xs font-bold uppercase tracking-[0.16em] text-accent-ink">What do you need help with?</p>
-                        {% for problemService in problemServices %}
-                        <a href="{{ problemService.path }}" class="block rounded-xl px-4 py-3 font-bold transition-colors hover:bg-surface-muted"{% if page.url == problemService.path %} aria-current="page"{% endif %}>{{ problemService.navTitle }}</a>
-                        {% endfor %}
+                    <div class="fixed left-4 right-4 top-[4.5rem] max-h-[calc(100vh-5.5rem)] overflow-y-auto rounded-2xl border border-line bg-surface p-3 shadow-2xl sm:left-auto sm:w-[38rem]">
+                        <div class="grid grid-cols-2 gap-2">
+                            <section aria-labelledby="mobile-nav-fix-heading">
+                                <p id="mobile-nav-fix-heading" class="px-2 pb-2 pt-2 text-xs font-bold uppercase tracking-[0.14em] text-accent-ink">Fix a problem</p>
+                                {% for problemService in problemServices %}
+                                {% if problemService.navGroup == 'fix' %}
+                                <a href="{{ problemService.path }}" class="flex min-h-10 items-center rounded-xl px-2 py-2 text-sm font-bold leading-tight transition-colors hover:bg-surface-muted"{% if page.url == problemService.path %} aria-current="page"{% endif %}>{{ problemService.navTitle }}</a>
+                                {% endif %}
+                                {% endfor %}
+                            </section>
+                            <section aria-labelledby="mobile-nav-setup-heading">
+                                <p id="mobile-nav-setup-heading" class="px-2 pb-2 pt-2 text-xs font-bold uppercase tracking-[0.14em] text-accent-ink">Set something up</p>
+                                {% for problemService in problemServices %}
+                                {% if problemService.navGroup == 'setup' %}
+                                <a href="{{ problemService.path }}" class="flex min-h-10 items-center rounded-xl px-2 py-2 text-sm font-bold leading-tight transition-colors hover:bg-surface-muted"{% if page.url == problemService.path %} aria-current="page"{% endif %}>{{ problemService.navTitle }}</a>
+                                {% endif %}
+                                {% endfor %}
+                            </section>
+                        </div>
                         <div class="my-2 border-t border-line"></div>
                         <a href="/services/" class="flex min-h-11 items-center rounded-xl px-4 font-bold transition-colors hover:bg-surface-muted"{% if page.url == '/services/' %} aria-current="page"{% endif %}>Services &amp; pricing</a>
                         <a href="{{ howItWorksHref }}" class="flex min-h-11 items-center rounded-xl px-4 font-bold transition-colors hover:bg-surface-muted">How it works</a>
@@ -324,9 +358,9 @@
     </main>
 
     <!-- Global Footer -->
-    <footer class="mt-auto border-t-4 border-accent bg-inverse text-sm text-inverse-ink">
+    <footer id="site-footer" class="mt-auto scroll-mt-20 border-t-4 border-accent bg-inverse text-sm text-inverse-ink">
         <div class="container mx-auto px-6 py-14 md:py-20">
-            <div class="grid gap-12 lg:grid-cols-[1.35fr_0.9fr_0.9fr_0.9fr]">
+            <div class="grid gap-12 lg:grid-cols-[1fr_1.35fr_0.8fr] lg:gap-16">
                 <div class="max-w-sm">
                     <a href="/" class="inline-flex min-h-11 items-center gap-3" aria-label="Naked Tech home">
                         <svg class="h-9 w-auto text-inverse-ink" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
@@ -343,55 +377,70 @@
                     </div>
                 </div>
 
-                <nav aria-label="Problem help">
-                    <h2 class="text-xs font-bold uppercase tracking-[0.18em] text-accent">Help with a problem</h2>
-                    <ul class="mt-5 space-y-1 text-inverse-ink/70">
-                        {% for problemService in problemServices %}
-                        <li><a href="{{ problemService.path }}" class="inline-flex min-h-10 items-center transition hover:text-accent">{{ problemService.navTitle }}</a></li>
-                        {% endfor %}
-                        <li><a href="/services/" class="inline-flex min-h-10 items-center font-bold text-inverse-ink transition hover:text-accent">Something else</a></li>
-                    </ul>
+                <nav aria-label="Find technology help">
+                    <h2 class="text-xs font-bold uppercase tracking-[0.18em] text-accent">Find the right help</h2>
+                    <div class="mt-5 grid grid-cols-2 gap-x-8 gap-y-6">
+                        <section aria-labelledby="footer-fix-heading">
+                            <h3 id="footer-fix-heading" class="font-bold text-inverse-ink">Fix a problem</h3>
+                            <ul class="mt-2 space-y-1 text-inverse-ink/70">
+                                {% for problemService in problemServices %}
+                                {% if problemService.navGroup == 'fix' %}
+                                <li><a href="{{ problemService.path }}" class="inline-flex min-h-9 items-center py-1 transition hover:text-accent">{{ problemService.navTitle }}</a></li>
+                                {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </section>
+                        <section aria-labelledby="footer-setup-heading">
+                            <h3 id="footer-setup-heading" class="font-bold text-inverse-ink">Set something up</h3>
+                            <ul class="mt-2 space-y-1 text-inverse-ink/70">
+                                {% for problemService in problemServices %}
+                                {% if problemService.navGroup == 'setup' %}
+                                <li><a href="{{ problemService.path }}" class="inline-flex min-h-9 items-center py-1 transition hover:text-accent">{{ problemService.navTitle }}</a></li>
+                                {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </section>
+                    </div>
+                    <a href="/services/" class="mt-5 inline-flex min-h-10 items-center font-bold text-accent transition hover:text-inverse-ink">Browse all services &amp; pricing →</a>
                 </nav>
 
-                <nav aria-label="Services and projects">
-                    <h2 class="text-xs font-bold uppercase tracking-[0.18em] text-accent">Services &amp; projects</h2>
-                    <ul class="mt-5 space-y-1 text-inverse-ink/70">
-                        <li><a href="/services/full-strip/" class="inline-flex min-h-10 items-center transition hover:text-accent">Mesh Wi-Fi</a></li>
-                        <li><a href="/services/power-pose/" class="inline-flex min-h-10 items-center transition hover:text-accent">Home-office setup</a></li>
-                        <li><a href="/services/new-computer-setup-data-transfer-ivanhoe/" class="inline-flex min-h-10 items-center transition hover:text-accent">New computer setup &amp; transfer</a></li>
-                        <li><a href="/services/quickie/" class="inline-flex min-h-10 items-center transition hover:text-accent">Everyday tech support</a></li>
-                        <li><a href="/services/" class="inline-flex min-h-10 items-center font-bold text-inverse-ink transition hover:text-accent">Services &amp; pricing</a></li>
-                    </ul>
-                </nav>
-
-                <nav aria-label="Company information">
-                    <h2 class="text-xs font-bold uppercase tracking-[0.18em] text-accent">Naked Tech</h2>
+                <nav aria-label="Explore Naked Tech">
+                    <h2 class="text-xs font-bold uppercase tracking-[0.18em] text-accent">Explore</h2>
                     <ul class="mt-5 space-y-1 text-inverse-ink/70">
                         <li><a href="{{ howItWorksHref }}" class="inline-flex min-h-10 items-center transition hover:text-accent">How it works</a></li>
                         <li><a href="/contact/" class="inline-flex min-h-10 items-center transition hover:text-accent">Contact</a></li>
                         <li><a href="/toolkit/" class="inline-flex min-h-10 items-center transition hover:text-accent">The Toolkit</a></li>
-                        <li><a href="/brand/" class="inline-flex min-h-10 items-center transition hover:text-accent">Brand identity</a></li>
-                        <li><a href="/join/" class="inline-flex min-h-10 items-center transition hover:text-accent">Careers</a></li>
-                        <li><a href="/privacy/" class="inline-flex min-h-10 items-center transition hover:text-accent">Privacy</a></li>
-                        <li><a href="/legal/" class="inline-flex min-h-10 items-center transition hover:text-accent">House rules</a></li>
-                        <li><a href="/service-terms/" class="inline-flex min-h-10 items-center transition hover:text-accent">Service terms</a></li>
-                        <li><a href="/terms/" class="inline-flex min-h-10 items-center transition hover:text-accent">Website terms</a></li>
-                        <li><button type="button" class="inline-flex min-h-10 items-center text-left transition hover:text-accent" data-tracking-preferences-open>Tracking preferences</button></li>
+                        <li><a href="/services/full-strip/" class="inline-flex min-h-10 items-center transition hover:text-accent">Mesh Wi-Fi</a></li>
+                        <li><a href="/services/power-pose/" class="inline-flex min-h-10 items-center transition hover:text-accent">Home-office setup</a></li>
+                        <li><a href="/services/quickie/" class="inline-flex min-h-10 items-center transition hover:text-accent">Everyday tech support</a></li>
                     </ul>
                 </nav>
             </div>
 
-            <div class="mt-12 grid gap-6 border-t border-inverse-ink/15 pt-8 md:grid-cols-[1fr_auto] md:items-center">
-                <div class="space-y-2 text-xs leading-relaxed text-inverse-ink/55">
+            <div class="mt-12 border-t border-inverse-ink/15 pt-8">
+                <nav aria-label="Legal and site information">
+                    <ul class="flex flex-wrap gap-x-5 gap-y-1 text-xs text-inverse-ink/60">
+                        <li><a href="/privacy/" class="inline-flex min-h-9 items-center transition hover:text-accent">Privacy</a></li>
+                        <li><a href="/legal/" class="inline-flex min-h-9 items-center transition hover:text-accent">House rules</a></li>
+                        <li><a href="/service-terms/" class="inline-flex min-h-9 items-center transition hover:text-accent">Service terms</a></li>
+                        <li><a href="/terms/" class="inline-flex min-h-9 items-center transition hover:text-accent">Website terms</a></li>
+                        <li><a href="/brand/" class="inline-flex min-h-9 items-center transition hover:text-accent">Brand identity</a></li>
+                        <li><a href="/join/" class="inline-flex min-h-9 items-center transition hover:text-accent">Careers</a></li>
+                        <li><button type="button" class="inline-flex min-h-9 items-center text-left transition hover:text-accent" data-tracking-preferences-open>Tracking preferences</button></li>
+                    </ul>
+                </nav>
+                <div class="mt-5 grid gap-6 md:grid-cols-[1fr_auto] md:items-end">
+                    <div class="space-y-2 text-xs leading-relaxed text-inverse-ink/55">
                     <p>© 2026 Naked Tech. Operated by {{ site.operator.name }}, ABN {{ site.operator.abn }}, a sole trader also trading as <span class="font-bold text-inverse-ink">{{ site.operator.otherTradingName }}</span>.</p>
                     <a href="https://digitalsanctum.com.au" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-10 items-center font-semibold text-accent transition hover:text-inverse-ink hover:underline">Need business IT? Visit Digital Sanctum.</a>
-                </div>
-                <div>
-                    <p class="text-xs font-bold uppercase tracking-[0.16em] text-inverse-ink/55">Colour theme</p>
-                    <div class="mt-3 grid grid-cols-3 rounded-full border border-inverse-ink/15 p-1" role="group" aria-label="Colour theme">
-                        <button type="button" class="min-h-10 rounded-full px-3 text-xs font-bold" data-theme-choice="system">System</button>
-                        <button type="button" class="min-h-10 rounded-full px-3 text-xs font-bold" data-theme-choice="light">Light</button>
-                        <button type="button" class="min-h-10 rounded-full px-3 text-xs font-bold" data-theme-choice="dark">Dark</button>
+                    </div>
+                    <div>
+                        <p class="text-xs font-bold uppercase tracking-[0.16em] text-inverse-ink/55">Colour theme</p>
+                        <div class="mt-3 grid grid-cols-3 rounded-full border border-inverse-ink/15 p-1" role="group" aria-label="Colour theme">
+                            <button type="button" class="min-h-10 rounded-full px-3 text-xs font-bold" data-theme-choice="system">System</button>
+                            <button type="button" class="min-h-10 rounded-full px-3 text-xs font-bold" data-theme-choice="light">Light</button>
+                            <button type="button" class="min-h-10 rounded-full px-3 text-xs font-bold" data-theme-choice="dark">Dark</button>
+                        </div>
                     </div>
                 </div>
             </div>

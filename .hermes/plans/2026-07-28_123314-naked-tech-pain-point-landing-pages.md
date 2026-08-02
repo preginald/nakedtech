@@ -641,21 +641,28 @@ Record spend, sample size, funnel ratios, lead quality and rationale.
 
 ## Owner-confirmed service-page work items — 2 August 2026
 
-Peter confirmed that Naked Tech can deliver the following services. They are
-approved for service-definition and landing-page work, but their fixed-price
-offers, exact inclusions, exclusions, route names and acquisition priorities
-must still pass the per-page gates below before authoring or publication.
+Peter confirmed that Naked Tech can deliver the following services. Their
+fixed-price offers, exact boundaries, routes and shared implementation were
+approved and completed locally on 2 August 2026 without deployment or paid
+campaign changes.
 
-- [ ] Define and build a standalone backup setup and recovery-readiness landing
+- [x] Define and build a standalone backup setup and recovery-readiness landing
   page. Distinguish backup configuration and restore testing from deleted-file
   or failed-drive data recovery.
-- [ ] Define and build a phone/tablet setup or migration landing page. Specify
+- [x] Define and build a phone/tablet setup or migration landing page. Specify
   supported device transitions, data prerequisites, account boundaries and
   customer-controlled credentials.
-- [ ] Define and build a virus/malware diagnosis and remediation landing page.
+- [x] Define and build a virus/malware diagnosis and remediation landing page.
   Keep the offer evidence-led, separate it from scam/account recovery, and do
   not promise that every device can be cleaned or that future infection can be
   prevented.
+
+Implementation record:
+
+- Backup: `/services/backup-setup-ivanhoe/`, `$250 fixed incl. GST`, up to 90 minutes, `backup_setup`.
+- Phone/tablet: `/services/phone-tablet-setup-migration-ivanhoe/`, `$390 fixed incl. GST`, up to two hours, `mobile_setup`.
+- Virus/malware: `/services/virus-malware-help-ivanhoe/`, `$250 fixed incl. GST`, up to 90 minutes, `virus_malware`.
+- All three use catalogue-backed Service JSON-LD, the unchanged shared landing/form architecture, direct published-service search routing and explicit referral/official-channel boundaries. No commit, push, deployment, production form submission or paid-campaign mutation is included in this local implementation.
 
 ## Scam/security implementation status — approved for release
 

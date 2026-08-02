@@ -15,15 +15,20 @@
             </p>
         </div>
 
-        <aside class="mb-6 rounded-2xl border border-line bg-surface-muted p-5 text-sm leading-relaxed text-muted" data-contact-collection-notice aria-labelledby="{{ formId }}-collection-notice-heading">
-            <h3 id="{{ formId }}-collection-notice-heading" class="font-bold text-ink">Before you send</h3>
-            <p class="mt-2">
-                Naked Tech (Peter Reginald, ABN 57 221 340 918) collects the information you enter to assess and respond to your enquiry and, if appropriate, arrange the requested service. Fields marked with an asterisk are required to submit the form; other fields are optional. If you do not provide the required information, we cannot receive or respond to the enquiry.
-            </p>
-            <p class="mt-2">
-                The form is delivered through Digital Sanctum’s Sanctum Forms system. As you type, unfinished answers are saved in this browser’s local storage until you submit the form or clear that site’s stored data. The page path, relevant service category and approved campaign parameters may be attached to your submission. An enquiry is not a marketing signup. See the <a href="/privacy/" class="font-bold text-accent-ink underline hover:text-ink">Privacy Policy</a> for retention, disclosures, overseas processing, access, correction and complaints.
-            </p>
-        </aside>
+        <details class="group mb-6 rounded-2xl border border-line bg-surface-muted text-sm text-muted" data-contact-collection-notice>
+            <summary class="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 rounded-2xl px-5 py-3 font-bold text-ink transition hover:bg-surface [&::-webkit-details-marker]:hidden">
+                <span>Before you send <span class="ml-1 font-normal text-muted">· Privacy and form details</span></span>
+                <svg class="h-5 w-5 shrink-0 text-accent-ink transition group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </summary>
+            <div class="border-t border-line px-5 pb-5 pt-4 leading-relaxed">
+                <p>
+                    Naked Tech (Peter Reginald, ABN 57 221 340 918) collects the information you enter to assess and respond to your enquiry and, if appropriate, arrange the requested service. Fields marked with an asterisk are required to submit the form; other fields are optional. If you do not provide the required information, we cannot receive or respond to the enquiry.
+                </p>
+                <p class="mt-3">
+                    The form is delivered through Digital Sanctum’s Sanctum Forms system. As you type, unfinished answers are saved in this browser’s local storage until you submit the form or clear that site’s stored data. The page path, relevant service category and approved campaign parameters may be attached to your submission. An enquiry is not a marketing signup. See the <a href="/privacy/" class="font-bold text-accent-ink underline hover:text-ink">Privacy Policy</a> for retention, disclosures, overseas processing, access, correction and complaints.
+                </p>
+            </div>
+        </details>
 
         <div class="w-full overflow-hidden rounded-3xl border border-line bg-surface p-2 shadow-sm sm:p-4">
             <iframe

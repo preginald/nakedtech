@@ -93,12 +93,13 @@
     {
       category: 'virus_malware',
       label: 'Virus or malware help',
-      resultState: 'planned_service',
-      footer: 'Dedicated service planned',
-      title: 'Virus and malware help',
-      description: 'Naked Tech is preparing a dedicated diagnosis and remediation service. The fixed scope is not published yet, but you can ask whether your situation may be suitable.',
-      actionType: 'service_enquiry',
-      actionLabel: 'Ask about virus or malware help',
+      resultState: 'published_service',
+      footer: '$250 fixed incl. GST',
+      title: 'Virus and malware diagnosis and removal',
+      description: 'One working Windows or Mac computer, up to 90 minutes onsite, safe user-level removal where practical and clear written next steps.',
+      actionType: 'service_page',
+      actionLabel: 'See the diagnosis visit',
+      actionHref: '/services/virus-malware-help-ivanhoe/',
       patterns: [
         /\bvirus(?:es)?\b/,
         /\bmalware\b/,
@@ -112,12 +113,13 @@
     {
       category: 'backup_setup',
       label: 'Backup setup',
-      resultState: 'planned_service',
-      footer: 'Dedicated service planned',
-      title: 'Backup setup and recovery readiness',
-      description: 'Naked Tech is preparing a dedicated backup setup service. The fixed scope is not published yet, but you can ask whether your situation may be suitable.',
-      actionType: 'service_enquiry',
-      actionLabel: 'Ask about backup setup',
+      resultState: 'published_service',
+      footer: '$250 fixed incl. GST',
+      title: 'Computer backup setup and restore readiness',
+      description: 'Configure one supported automatic local or cloud backup for one working Windows or Mac computer and test a sample restore.',
+      actionType: 'service_page',
+      actionLabel: 'See the backup visit',
+      actionHref: '/services/backup-setup-ivanhoe/',
       patterns: [
         /\bbackup setup\b/,
         /^backups?$/,
@@ -132,12 +134,13 @@
     {
       category: 'mobile_setup',
       label: 'Phone or tablet setup and migration',
-      resultState: 'planned_service',
-      footer: 'Dedicated service planned',
+      resultState: 'published_service',
+      footer: '$390 fixed incl. GST',
       title: 'Phone and tablet setup or migration',
-      description: 'Naked Tech is preparing a dedicated phone and tablet service. The fixed scope is not published yet, but you can ask whether your device move may be suitable.',
-      actionType: 'service_enquiry',
-      actionLabel: 'Ask about phone or tablet help',
+      description: 'Set up one customer-supplied new device and complete a supported same-ecosystem move from one working unlocked source.',
+      actionType: 'service_page',
+      actionLabel: 'See the setup visit',
+      actionHref: '/services/phone-tablet-setup-migration-ivanhoe/',
       patterns: [
         /\b(?:new )?(?:phone|tablet|iphone|ipad|android) setup\b/,
         /\bset up (?:my |a |new )?(?:phone|tablet|iphone|ipad|android)\b/,
@@ -169,6 +172,7 @@
       description: definition.description,
       actionType: definition.actionType || null,
       actionLabel: definition.actionLabel || null,
+      actionHref: definition.actionHref || null,
     }
   }
 
@@ -200,9 +204,20 @@
     return payload
   }
 
+  function serviceSelectionPayload(intent, source, pagePath) {
+    return {
+      intent_category: intent.category,
+      result_state: 'published_service',
+      search_source: source === 'homepage' ? 'homepage' : 'navigation',
+      page_path: pagePath || '/',
+      destination_path: intent.actionHref,
+    }
+  }
+
   return {
     classify: classify,
     list: list,
     analyticsPayload: analyticsPayload,
+    serviceSelectionPayload: serviceSelectionPayload,
   }
 })

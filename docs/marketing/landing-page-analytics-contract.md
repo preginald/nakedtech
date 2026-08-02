@@ -21,6 +21,7 @@
 | `tel:` link activated | Micro-conversion | `phone_click` | `Contact` | `pain_point`, `page_path` | Once per activation; not a completed-call event |
 | First meaningful form interaction | Micro-conversion | `form_start` | None initially | `pain_point`, `page_path` | Once per page load, on the first field interaction reported by the form integration |
 | Form successfully submitted | **Macro-conversion** | `generate_lead` | `Lead` | `pain_point`, `page_path` | Once after a trusted successful-submission message |
+| Published service selected from site search | Micro-conversion | `site_search_service_select` | None | reviewed intent/service category, `result_state`, `search_source`, `page_path`, internal `destination_path` | Once per service destination activation and only when Analytics is already enabled; never includes typed query text |
 
 `campaign_content` is the value of `utm_content` when present. For non-campaign visits it is omitted rather than populated with a guessed label.
 
@@ -31,10 +32,13 @@ Use stable snake-case identifiers. Copy and route changes must not create new id
 - `wifi_dropouts`
 - `slow_computer`
 - `scam_security`
+- `virus_malware`
 - `new_computer_setup`
 - `printer_help`
 - `email_help`
 - `new_printer_setup`
+- `backup_setup`
+- `mobile_setup`
 - `password_safety_control`
 
 The generic contact page has no pain-point identifier unless it receives verified context from a pain page. Do not label all generic enquiries as one of the identifiers above.
@@ -86,6 +90,7 @@ Only `sanctum-forms:submitted` from that trusted source may emit `generate_lead`
 - The form component allowlists only `utm_source`, `utm_medium`, `utm_campaign`, and `utm_content` when sending context to the Forms iframe. The target origin is exact; arbitrary query keys are excluded.
 - `src/contact.njk` imports the shared component and contains no page-local message, submission, or telephone handler.
 - Pain pages expose `landing.id` on the base-layout body; the shared form also accepts explicit `painPoint` context. The generic contact page intentionally sends only `page_path` unless supported campaign context is present.
+- The shared site-search controller emits GA4-only `site_search_service_select` for a published service. It requires an active Analytics opt-in, is not queued for later consent and sends only bounded identifiers and paths; the query remains in the browser.
 
 ## Sanctum Forms capability boundary
 
