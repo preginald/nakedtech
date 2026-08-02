@@ -216,10 +216,12 @@ evidence:
   and sequences to the runtime role without granting migration ownership.
 - The Forms MCP JWT-signing key and Notify dashboard session-signing key were
   rotated. Existing Notify dashboard sessions require fresh OIDC login.
-- Active Forms, Notify and migration environment files are mode `0600`.
-  Previously world-readable Forms backups, the previous Notify live
-  environment and a newly discovered Compose environment were contained
-  without changing ownership or restarting unrelated services.
+- Active Forms and Notify runtime environment files are mode `0600`.
+  Migration-only environments are mode `0640` under separate Forms and Notify
+  migrator groups so the deployment account can run Alembic without reading
+  runtime secrets. Previously world-readable Forms backups, the previous
+  Notify live environment and a newly discovered Compose environment were
+  contained without restarting unrelated services.
 - Alembic identity checks, the runtime privilege matrix, Forms and Notify
   retention dry-runs under systemd environment semantics, local/public health
   checks and post-restart journal review passed. Forms lint plus 487 tests and
