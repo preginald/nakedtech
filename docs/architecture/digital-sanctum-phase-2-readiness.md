@@ -182,7 +182,7 @@ The proposed operations can be proportionate if the action API becomes the minim
 | DATA-02 | Resolved | Notify clears structured source data after first render, reuses bounded rendered content for retries, clears source/rendered content immediately after success or suppression, and expires active delivery content after 24 hours. Legal holds and render-failure retries remain explicit exceptions. Migration `a1c7e9f2b4d6`, 306 tests, CI/deployment and aggregate production checks passed. | Retain lifecycle tests and alerts; review the 24-hour delivery ceiling alongside the approved retention schedule. Provider/mailbox copies remain under DATA-01 rather than Notify application storage. |
 | DATA-03 | Resolved | Every public draft read/write/delete now enforces the form's paused/archived state, allowed origin, respondent auth mode and tenant/client scope. Writes accept only a bounded JSON object of schema-declared editable fields; password, file, hidden, read-only, unknown and invalidly typed values are rejected. All draft actions share a bounded per-client/per-form rate limit, and seven-day anonymous-draft expiry remains active. | Retain the access/payload/rate regression matrix. Replace the in-memory limiter and first-value `X-Forwarded-For` interpretation under ABUSE-01 before Phase 3. |
 | OPS-01 | Resolved | Encrypted off-host logical backups, documented RPO/RTO, freshness monitoring and an isolated nine-database restore test are active and evidenced. | Retain daily backups, weekly automated restore checks, alerts and quarterly operator-reviewed drills. |
-| OPS-02 | High | Forms and Notify share a human OS user on a multi-application host. | Dedicated non-login users, least filesystem permissions, separate env ownership, systemd hardening and database roles. |
+| OPS-02 | Partial | Forms and Notify now use separate least-privilege runtime database roles and migration-only owners, but both processes still share a human OS user on a multi-application host. | Complete coordinated credential rotation, dedicated non-login users, least filesystem permissions, separate env ownership and systemd hardening. |
 | OPS-03 | High | Generic monitoring runs, but Forms/Notify-specific external availability, queue age, dead-letter, retention-job and backup alerts were not evidenced. | Add actionable SLO/security/backup alerts and an owned on-call path. |
 | LOG-01 | Resolved | Production Forms and Notify use opaque IDs and bounded error categories without logging recipient addresses, provider response bodies or exception text. Host journald enforces 30 days or 500 MB, whichever comes first, with daily rotation and compression. Regression tests, deployment verification and a post-restart journal-write probe passed. | Retain the logging tests and review the 30-day period when legal, incident-response or threat-model requirements change. |
 | ABUSE-01 | High | Public and operator rate limits are in-memory. Forms trusts the first `X-Forwarded-For` value; Notify limits by the interpreted client host; neither is suitable for multi-worker or platform credentials. | Edge-enforced quotas plus a shared limiter, trusted-proxy normalisation, per-client/per-operation limits and abuse tests. |
@@ -192,6 +192,63 @@ The proposed operations can be proportionate if the action API becomes the minim
 | EDGE-02 | Medium | Notify accepts any caller-provided `X-Request-ID` and echoes/logs it without a visible length/character bound. | Validate or replace external request IDs; issue a server ID and record a bounded upstream correlation ID separately. |
 | CAL-01 | Blocking | No Google Calendar integration or dedicated Naked Tech calendar credential exists. | Create a dedicated calendar and non-human credential; grant only free/busy visibility; test revocation, outage, DST and privacy-safe responses. |
 | NS-01 | Blocking | Intended API DNS is absent; Naked Tech `/api` is occupied by another application. | Provision `api.digitalsanctum.com.au`; reserve `/nakedtech/v1`; dedicated service, user, database role, certificate and Nginx vhost. |
+
+### OPS-02 staged remediation evidence
+
+The first database and secret-isolation stage was applied in production on
+2026-08-02. No credential values were written to logs or retained in the
+evidence:
+
+- Forms now connects at runtime as `sanctum_forms_app`; the existing
+  `sanctum_forms` owner is confined to a mode-`0600` migration environment.
+  The owner password and runtime password were both rotated.
+- Notify now connects at runtime as `sanctum_notify_app`; ownership of the
+  `sanctum_notify` schema, its five tables and its enum types moved from the
+  shared `sanctum_admin` role to `sanctum_notify_owner`. The old admin role has
+  no remaining schema usage or table-read privilege in `sanctum_notify`.
+- Runtime roles have database connect, schema usage and
+  `SELECT`/`INSERT`/`UPDATE`/`DELETE` on application tables. They cannot create
+  schema objects, truncate tables, use trigger/reference privileges or read
+  Alembic version tables. Migration owners are separate from the systemd
+  runtime environment.
+- Forms' public database connect and public-schema create defaults were
+  removed. Owner-scoped default privileges grant future application tables
+  and sequences to the runtime role without granting migration ownership.
+- The Forms MCP JWT-signing key and Notify dashboard session-signing key were
+  rotated. Existing Notify dashboard sessions require fresh OIDC login.
+- Active Forms and Notify runtime environment files are mode `0600`.
+  Migration-only environments are mode `0640` under separate Forms and Notify
+  migrator groups so the deployment account can run Alembic without reading
+  runtime secrets. Previously world-readable Forms backups, the previous
+  Notify live environment and a newly discovered Compose environment were
+  contained without restarting unrelated services.
+- Alembic identity checks, the runtime privilege matrix, Forms and Notify
+  retention dry-runs under systemd environment semantics, local/public health
+  checks and post-restart journal review passed. Forms lint plus 487 tests and
+  Notify lint plus 306 tests (3 skipped) also passed.
+
+There was one bounded migration event: after ownership moved, the still-running
+Notify dispatcher made three failed reads before the service restarted with its
+new runtime credential. It retries every ten seconds; production aggregates
+showed no queued or retrying notifications afterward, and no errors occurred
+after the completed restart.
+
+OPS-02 is not resolved yet. Required follow-up is:
+
+1. Deploy the version-controlled migration/runtime credential split so future
+   releases do not run Alembic with the runtime role.
+2. Rotate the exposed shared `sanctum_admin` credential across Compose, Router
+   and other core consumers as one coordinated change; remove its `CREATEDB`
+   privilege after ownership and migration dependencies are separated.
+3. Do not rotate Forms' main `SECRET_KEY` until the active collaborative
+   workspace is completed or safely reissued; the key hashes respondent access
+   tokens. Coordinate rotation of Forms PAT/MCP client credentials, Notify's
+   OIDC and external provider credentials with every consumer or provider.
+4. Remove obsolete environment backups after the remaining live credentials
+   they contain are rotated and rollback evidence is no longer required.
+5. Move Forms, Forms MCP and Notify to dedicated non-login OS users, relocate
+   writable state outside deployment trees, version the MCP unit and apply the
+   planned systemd sandboxing controls.
 
 The Australian Signals Directorate recommends authenticating and authorising clients that call internet-accessible APIs for non-public data and centrally logging API use for detection and investigations. See the [ASD Guidelines for software development](https://www.cyber.gov.au/business-government/asds-cyber-security-frameworks/ism/cyber-security-guidelines/guidelines-for-software-development).
 
