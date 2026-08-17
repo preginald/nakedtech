@@ -4,15 +4,16 @@ eleventyExcludeFromCollections: true
 ---
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-    {% set routes = ["/", "/services/", "/contact/", "/toolkit/", "/legal/", "/service-terms/", "/terms/", "/privacy/", "/brand/"] %}
-    {% for route in routes %}
+    {% for route in sitemap.routes %}
     <url>
-        <loc>https://nakedtech.au{{ route }}</loc>
+        <loc>https://nakedtech.au{{ route.path }}</loc>
+        <lastmod>{{ route.lastModified }}</lastmod>
     </url>
     {% endfor %}
-    {% for service in serviceCatalogue.services %}
+    {% for service in sitemap.services %}
     <url>
         <loc>{{ service.canonicalUrl }}</loc>
+        <lastmod>{{ service.lastModified }}</lastmod>
     </url>
     {% endfor %}
 </urlset>

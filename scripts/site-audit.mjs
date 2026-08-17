@@ -565,11 +565,13 @@ const sitemapPath = join(root, 'sitemap.xml')
 const servicesJsonPath = join(root, 'services.json')
 const versionJsonPath = join(root, 'version.json')
 const nginxRedirectPath = new URL('../deploy/nginx/nakedtech-www-redirect.conf', import.meta.url).pathname
+const nginxApexPath = new URL('../deploy/nginx/nakedtech.au.conf', import.meta.url).pathname
 assert(existsSync(robotsPath), 'robots.txt exists')
 assert(existsSync(sitemapPath), 'sitemap.xml exists')
 assert(existsSync(servicesJsonPath), 'public service catalogue exists at /services.json')
 assert(existsSync(versionJsonPath), 'public build identity exists at /version.json')
 assert(existsSync(nginxRedirectPath), 'Nginx canonical-host redirect configuration exists')
+assert(existsSync(nginxApexPath), 'Nginx apex-site configuration exists')
 if (existsSync(robotsPath)) {
   assert(readFileSync(robotsPath, 'utf8').includes('https://nakedtech.au/sitemap.xml'), 'robots.txt advertises sitemap')
 }
@@ -584,6 +586,19 @@ if (existsSync(nginxRedirectPath)) {
   )
   assert(nginxRedirect.includes('/etc/letsencrypt/live/nakedtech.au/fullchain.pem'), 'Nginx HTTPS redirect uses the active Naked Tech certificate')
   assert(!nginxRedirect.includes('https://www.nakedtech.au'), 'Nginx canonical-host redirect cannot target the duplicate www origin')
+}
+if (existsSync(nginxApexPath)) {
+  const nginxApex = readFileSync(nginxApexPath, 'utf8')
+  assert(countOccurrences(nginxApex, 'server_name nakedtech.au;') === 2, 'Nginx apex configuration covers HTTP and HTTPS')
+  assert(nginxApex.includes('root /var/www/nakedtech.au/_site;'), 'Nginx apex configuration serves the deployed static output')
+  assert(nginxApex.includes('location = /booking {'), 'Nginx apex configuration matches the legacy booking route without a slash')
+  assert(nginxApex.includes('location = /booking/ {'), 'Nginx apex configuration matches the legacy booking route with a slash')
+  assert(
+    countOccurrences(nginxApex, 'return 301 https://nakedtech.au/contact/$is_args$args;') === 2,
+    'Nginx permanently redirects both booking variants to contact while preserving query parameters'
+  )
+  assert(nginxApex.includes('location /api {'), 'Nginx apex configuration preserves the application API proxy')
+  assert(nginxApex.includes('try_files $uri $uri/ =404;'), 'Nginx apex configuration preserves strict static route handling')
 }
 
 for (const route of expectedRoutes) {
@@ -734,6 +749,15 @@ const generatedMetadata = htmlFiles.map((file) => {
 })
 
 const sitemapXml = existsSync(sitemapPath) ? readFileSync(sitemapPath, 'utf8') : ''
+
+const sitemapEntries = [...sitemapXml.matchAll(/<url>\s*<loc>([^<]+)<\/loc>\s*<lastmod>([^<]+)<\/lastmod>\s*<\/url>/g)]
+const sitemapLocations = sitemapEntries.map((entry) => entry[1])
+const sitemapDates = sitemapEntries.map((entry) => entry[2])
+assert(sitemapEntries.length === 22, 'sitemap: every canonical public URL has a last-modified date')
+assert(new Set(sitemapLocations).size === sitemapEntries.length, 'sitemap: canonical locations are unique')
+assert(sitemapDates.every((date) => /^\d{4}-\d{2}-\d{2}$/.test(date)), 'sitemap: last-modified dates use the W3C calendar-date format')
+assert(sitemapDates.every((date) => Date.parse(`${date}T00:00:00Z`) <= Date.now()), 'sitemap: last-modified dates are not in the future')
+assert(!sitemapLocations.includes('https://nakedtech.au/booking/'), 'sitemap: legacy booking redirect is excluded')
 
 if (existsSync(servicesJsonPath)) {
   try {
@@ -1052,6 +1076,11 @@ assert(metaContent(retiredQuickieHtml, 'robots') === 'noindex, follow', 'retired
 assert(retiredQuickieHtml.includes('content="0;url=/services/"'), 'retired Quickie route redirects visitors to current services')
 assert(retiredQuickieHtml.includes('This service is no longer offered.'), 'retired Quickie route explains the service withdrawal')
 assert(!sitemapXml.includes('https://nakedtech.au/services/quickie/'), 'retired Quickie route is absent from the sitemap')
+
+const bookingHtml = readFileSync(routeToFile('/booking/'), 'utf8')
+assert(metaContent(bookingHtml, 'robots') === 'noindex, follow', 'legacy booking fallback is excluded from search indexing')
+assert(bookingHtml.includes('content="0;url=/contact/"'), 'legacy booking fallback sends visitors to the current contact route')
+assert(!sitemapXml.includes('https://nakedtech.au/booking/'), 'legacy booking redirect is absent from the sitemap')
 
 const joinHtml = readFileSync(routeToFile('/join/'), 'utf8')
 assert(metaContent(joinHtml, 'robots') === 'noindex, follow', 'careers: inactive vacancy page is excluded from search indexing')

@@ -13,6 +13,7 @@
     "build:version": "node scripts/write-version.mjs",
     "postbuild": "pagefind --site _site",
     "audit:analytics": "node scripts/analytics-matrix.mjs",
+    "deploy:production": "./scripts/deploy-production.sh",
     "test": "npm run build && node scripts/site-audit.mjs && npm run audit:analytics"
   },
   "keywords": [],

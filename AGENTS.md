@@ -2,7 +2,7 @@
 
 ## Project Structure & Module Organization
 
-This repository builds the Naked Tech static website with Eleventy and Nunjucks. Page templates live in `src/*.njk`; campaign-specific pages are under `src/landing-pages/`. Reusable layouts and components belong in `src/_includes/`, while shared content is stored as JSON in `src/_data/`. Tailwind input is `src/css/styles.css`, and public images and static files live beneath `src/img/` and `src/assets/`.
+This repository builds the Naked Tech static website with Eleventy and Nunjucks. Page templates live in `src/*.njk`; campaign-specific pages are under `src/landing-pages/`. Reusable layouts and components belong in `src/_includes/`, while shared data is stored as JavaScript and JSON in `src/_data/`. Tailwind input is `src/css/styles.css`, and public images and static files live beneath `src/img/` and `src/assets/`.
 
 Eleventy writes the generated site to `_site/`; treat that directory as build output rather than source. Validation utilities are in `scripts/`. Marketing plans, creative assets, and campaign evidence are organized under `docs/marketing/`.
 
@@ -13,8 +13,9 @@ Eleventy writes the generated site to `_site/`; treat that directory as build ou
 - `npm run build` produces a clean, minified site in `_site/`.
 - `npm test` builds the site, runs structural and metadata checks, then validates analytics coverage.
 - `npm run audit:analytics` runs only the analytics matrix check.
+- `npm run deploy:production` connects to `sanctum-prod`, fast-forwards the production checkout from `origin/main`, validates an isolated build, transactionally installs the tracked Nginx configuration, and replaces the live `_site/` output.
 
-Run `npm test` before submitting changes that affect templates, routes, metadata, forms, or tracking.
+Run `npm test` before submitting changes to source templates, shared data, build configuration, audit scripts, routes, metadata, forms, or tracking.
 
 ## Coding Style & Naming Conventions
 
