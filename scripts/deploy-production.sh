@@ -121,8 +121,10 @@ git worktree add --detach "${build_checkout}" "${target_commit}"
 worktree_added=true
 
 cd "${build_checkout}"
-npm ci
-npm test
+# The remote Bash program is delivered over stdin. Keep child tooling from
+# consuming the unread deployment steps that follow these commands.
+npm ci </dev/null
+npm test </dev/null
 
 if [[ ! -d "${build_checkout}/_site" ]]; then
   printf 'Validated build did not produce _site; refusing to replace the live site.\n' >&2
