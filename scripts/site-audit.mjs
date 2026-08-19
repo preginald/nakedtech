@@ -599,6 +599,14 @@ if (existsSync(nginxApexPath)) {
   )
   assert(nginxApex.includes('location /api {'), 'Nginx apex configuration preserves the application API proxy')
   assert(nginxApex.includes('try_files $uri $uri/ =404;'), 'Nginx apex configuration preserves strict static route handling')
+  assert(nginxApex.includes('add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;'), 'Nginx apex configuration enforces HSTS')
+  assert(nginxApex.includes('add_header X-Frame-Options "SAMEORIGIN" always;'), 'Nginx apex configuration prevents cross-origin framing')
+  assert(nginxApex.includes('add_header X-Content-Type-Options "nosniff" always;'), 'Nginx apex configuration disables MIME sniffing')
+  assert(nginxApex.includes('add_header Content-Security-Policy'), 'Nginx apex configuration sends an enforced CSP')
+  assert(nginxApex.includes("frame-src https://forms.digitalsanctum.com.au"), 'Nginx CSP permits the hosted contact form')
+  assert(nginxApex.includes('https://www.googletagmanager.com'), 'Nginx CSP permits consent-gated Google analytics')
+  assert(nginxApex.includes('https://connect.facebook.net'), 'Nginx CSP permits consent-gated Meta analytics')
+  assert(!nginxApex.includes('include /etc/nginx/snippets/static-cache.conf;'), 'Nginx static assets cannot lose inherited security headers through the shared cache snippet')
 }
 
 for (const route of expectedRoutes) {
