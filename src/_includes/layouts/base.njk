@@ -30,10 +30,12 @@
         var analyticsLoaded = false;
         var advertisingLoaded = false;
         var hasChoice = false;
+        var preferenceListeners = [];
         var preferences = {
             version: consentVersion,
             analytics: false,
-            advertising: false
+            advertising: false,
+            recorded_at: null
         };
 
         window.gtag = function() {
@@ -49,8 +51,27 @@
             return {
                 version: consentVersion,
                 analytics: value.analytics,
-                advertising: value.advertising
+                advertising: value.advertising,
+                recorded_at: typeof value.recorded_at === 'string' && Number.isFinite(Date.parse(value.recorded_at))
+                    ? new Date(value.recorded_at).toISOString()
+                    : null
             };
+        }
+
+        function consentSnapshot() {
+            return {
+                analytics: hasChoice ? (preferences.analytics ? 'granted' : 'denied') : 'unavailable',
+                advertising: hasChoice ? (preferences.advertising ? 'granted' : 'denied') : 'unavailable',
+                recorded_at: hasChoice ? preferences.recorded_at : null,
+                source: hasChoice ? 'nakedtech_tracking_preferences_v1' : 'unavailable'
+            };
+        }
+
+        function notifyPreferenceListeners() {
+            var snapshot = consentSnapshot();
+            preferenceListeners.slice().forEach(function(listener) {
+                try { listener(snapshot); } catch (error) {}
+            });
         }
 
         function insertProviderScript(source, provider) {
@@ -108,7 +129,8 @@
             preferences = normalisePreferences(nextPreferences) || {
                 version: consentVersion,
                 analytics: false,
-                advertising: false
+                advertising: false,
+                recorded_at: null
             };
             if (persist) {
                 hasChoice = true;
@@ -118,6 +140,7 @@
             }
             if (preferences.analytics) loadAnalytics();
             if (preferences.advertising) loadAdvertising();
+            if (persist) notifyPreferenceListeners();
         }
 
         try {
@@ -140,16 +163,235 @@
             hasChoice: function() {
                 return hasChoice;
             },
+            getSnapshot: consentSnapshot,
+            subscribe: function(listener) {
+                if (typeof listener !== 'function') return function() {};
+                preferenceListeners.push(listener);
+                return function() {
+                    preferenceListeners = preferenceListeners.filter(function(candidate) {
+                        return candidate !== listener;
+                    });
+                };
+            },
             setPreferences: function(nextPreferences) {
                 applyPreferences({
                     version: consentVersion,
                     analytics: nextPreferences.analytics === true,
-                    advertising: nextPreferences.advertising === true
+                    advertising: nextPreferences.advertising === true,
+                    recorded_at: new Date().toISOString()
                 }, true);
             }
         };
 
         if (hasChoice) applyPreferences(preferences, false);
+    })();
+    </script>
+    <script data-lead-correlation-bootstrap>
+    (function() {
+        var storageKey = 'nakedtech-lead-journey-v1';
+        var utmKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'];
+        var clickIdKeys = ['gclid', 'gbraid', 'wbraid', 'fbclid'];
+        var params = new URLSearchParams(window.location.search || '');
+        var currentValues = {};
+        var currentPresence = {};
+        var storageAvailable = true;
+
+        function bounded(value, maximum) {
+            if (typeof value !== 'string') return null;
+            value = value.trim();
+            return value && value.length <= maximum && !/[\u0000-\u001f]/.test(value) ? value : null;
+        }
+
+        function safePath(value) {
+            value = bounded(value, 512);
+            if (!value || value.charAt(0) !== '/' || value.indexOf('?') !== -1 ||
+                value.indexOf('#') !== -1 || value.indexOf('://') !== -1) return null;
+            return value;
+        }
+
+        function safeUrl(value) {
+            value = bounded(value, 1024);
+            if (!value) return null;
+            try {
+                var parsed = new URL(value, window.location.origin);
+                if ((parsed.protocol !== 'http:' && parsed.protocol !== 'https:') || parsed.username || parsed.password) {
+                    return null;
+                }
+                if (parsed.origin !== window.location.origin) return parsed.origin;
+                return parsed.origin + (parsed.pathname || '/');
+            } catch (error) {
+                return null;
+            }
+        }
+
+        function secureUuid() {
+            if (!window.crypto) return null;
+            if (typeof window.crypto.randomUUID === 'function') return window.crypto.randomUUID();
+            if (typeof window.crypto.getRandomValues !== 'function') return null;
+            var bytes = new Uint8Array(16);
+            window.crypto.getRandomValues(bytes);
+            bytes[6] = (bytes[6] & 15) | 64;
+            bytes[8] = (bytes[8] & 63) | 128;
+            var hex = Array.prototype.map.call(bytes, function(byte) {
+                return byte.toString(16).padStart(2, '0');
+            }).join('');
+            return [hex.slice(0, 8), hex.slice(8, 12), hex.slice(12, 16), hex.slice(16, 20), hex.slice(20)].join('-');
+        }
+
+        utmKeys.concat(clickIdKeys).forEach(function(key) {
+            var value = bounded(params.get(key), 256);
+            currentPresence[key] = value !== null;
+            if (value !== null) currentValues[key] = value;
+        });
+
+        var currentPath = safePath(window.location.pathname) || '/';
+        var currentLandingUrl = safeUrl(window.location.href);
+        var currentReferrer = safeUrl(document.referrer);
+        var currentReferrerPresent = Boolean(document.referrer);
+
+        function validJourney(value) {
+            return value && value.version === 1 && typeof value.correlation_id === 'string' &&
+                typeof value.landing_observed_at === 'string' && safePath(value.landing_path) &&
+                safeUrl(value.landing_url);
+        }
+
+        var journey = null;
+        try {
+            var stored = JSON.parse(sessionStorage.getItem(storageKey));
+            if (validJourney(stored)) journey = stored;
+        } catch (error) {
+            storageAvailable = false;
+        }
+
+        if (!journey) {
+            journey = {
+                version: 1,
+                correlation_id: secureUuid(),
+                landing_observed_at: new Date().toISOString(),
+                landing_url: currentLandingUrl,
+                landing_path: currentPath,
+                referrer_present: currentReferrerPresent,
+                campaign_presence: {},
+                click_id_presence: {}
+            };
+            utmKeys.forEach(function(key) { journey.campaign_presence[key] = currentPresence[key]; });
+            clickIdKeys.forEach(function(key) { journey.click_id_presence[key] = currentPresence[key]; });
+        }
+
+        function consentSnapshot() {
+            if (window.nakedTechTracking && typeof window.nakedTechTracking.getSnapshot === 'function') {
+                return window.nakedTechTracking.getSnapshot();
+            }
+            return { analytics: 'unavailable', advertising: 'unavailable', recorded_at: null, source: 'unavailable' };
+        }
+
+        function sameLanding() {
+            return journey.landing_path === currentPath && journey.landing_url === currentLandingUrl;
+        }
+
+        function enrichConsentedValues(snapshot) {
+            if (snapshot.analytics === 'granted') {
+                if (sameLanding()) {
+                    if (journey.referrer_present && currentReferrer) journey.referrer = currentReferrer;
+                    journey.campaign_values = journey.campaign_values || {};
+                    utmKeys.forEach(function(key) {
+                        if (currentValues[key]) journey.campaign_values[key] = currentValues[key];
+                    });
+                }
+            } else {
+                delete journey.referrer;
+                delete journey.campaign_values;
+            }
+            if (snapshot.advertising === 'granted') {
+                if (sameLanding()) {
+                    journey.click_id_values = journey.click_id_values || {};
+                    clickIdKeys.forEach(function(key) {
+                        if (currentValues[key]) journey.click_id_values[key] = currentValues[key];
+                    });
+                }
+            } else {
+                delete journey.click_id_values;
+            }
+        }
+
+        function saveJourney() {
+            if (!storageAvailable) return;
+            try {
+                sessionStorage.setItem(storageKey, JSON.stringify(journey));
+            } catch (error) {
+                storageAvailable = false;
+            }
+        }
+
+        function addSignal(context, key, present, value, consent) {
+            if (!present) {
+                context[key + '_state'] = 'missing';
+            } else if (consent !== 'granted') {
+                context[key + '_state'] = 'withheld_no_consent';
+            } else if (value) {
+                context[key + '_state'] = 'present';
+                context[key] = value;
+            } else {
+                context[key + '_state'] = 'unavailable';
+            }
+        }
+
+        function buildContext(painPoint) {
+            var snapshot = consentSnapshot();
+            enrichConsentedValues(snapshot);
+            saveJourney();
+            var context = {
+                schema_version: 2,
+                landing_observed_at: journey.landing_observed_at,
+                landing_url: journey.landing_url,
+                landing_path: journey.landing_path,
+                page_path: currentPath,
+                analytics_consent: snapshot.analytics,
+                advertising_consent: snapshot.advertising,
+                consent_source: snapshot.source,
+                operational_basis: 'service_request',
+                marketing_basis: snapshot.analytics === 'granted' || snapshot.advertising === 'granted'
+                    ? 'consent' : 'not_collected',
+                client_clock: 'browser',
+                client_storage_state: storageAvailable ? 'available' : 'unavailable'
+            };
+            if (journey.correlation_id) context.correlation_id = journey.correlation_id;
+            if (painPoint) context.pain_point = painPoint;
+            if (snapshot.recorded_at) context.consent_recorded_at = snapshot.recorded_at;
+            addSignal(context, 'referrer', journey.referrer_present, journey.referrer, snapshot.analytics);
+            utmKeys.forEach(function(key) {
+                addSignal(
+                    context,
+                    key,
+                    Boolean(journey.campaign_presence && journey.campaign_presence[key]),
+                    journey.campaign_values && journey.campaign_values[key],
+                    snapshot.analytics
+                );
+            });
+            clickIdKeys.forEach(function(key) {
+                addSignal(
+                    context,
+                    key,
+                    Boolean(journey.click_id_presence && journey.click_id_presence[key]),
+                    journey.click_id_values && journey.click_id_values[key],
+                    snapshot.advertising
+                );
+            });
+            return context;
+        }
+
+        enrichConsentedValues(consentSnapshot());
+        saveJourney();
+        if (window.nakedTechTracking && typeof window.nakedTechTracking.subscribe === 'function') {
+            window.nakedTechTracking.subscribe(function(snapshot) {
+                enrichConsentedValues(snapshot);
+                saveJourney();
+            });
+        }
+        window.nakedTechLeadJourney = {
+            getContext: buildContext,
+            getCorrelationId: function() { return journey.correlation_id || null; }
+        };
     })();
     </script>
 

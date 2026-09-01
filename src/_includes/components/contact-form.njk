@@ -25,7 +25,7 @@
                     Naked Tech (Peter Reginald, ABN 57 221 340 918) collects the information you enter to assess and respond to your enquiry and, if appropriate, arrange the requested service. Fields marked with an asterisk are required to submit the form; other fields are optional. If you do not provide the required information, we cannot receive or respond to the enquiry.
                 </p>
                 <p class="mt-3">
-                    The form is delivered through Digital Sanctum’s Sanctum Forms system. As you type, unfinished answers are saved in this browser’s local storage until you submit the form or clear that site’s stored data. The page path, relevant service category and approved campaign parameters may be attached to your submission. An enquiry is not a marketing signup. See the <a href="/privacy/" class="font-bold text-accent-ink underline hover:text-ink">Privacy Policy</a> for retention, disclosures, overseas processing, access, correction and complaints.
+                    The form is delivered through Digital Sanctum’s Sanctum Forms system. As you type, unfinished answers are saved in this browser’s local storage until you submit the form or clear that site’s stored data. The page path, relevant service category and a random session correlation code are attached to operate and trace the enquiry; referrer and campaign parameters are attached only with Analytics enabled, and advertising click identifiers only with Advertising enabled. An enquiry is not a marketing signup. See the <a href="/privacy/" class="font-bold text-accent-ink underline hover:text-ink">Privacy Policy</a> for retention, disclosures, overseas processing, access, correction and complaints.
                 </p>
                 <p class="mt-3">
                     To prevent automated misuse, the form uses short-lived keyed security signals and may ask Cloudflare Turnstile to verify that the submission comes from a person. Turnstile does not receive the words or contact details you enter. This necessary security check is separate from optional Analytics and Advertising choices.
@@ -68,19 +68,80 @@
     }
 
     function formContext() {
-        var context = eventContext();
+        var painPoint = (root.dataset.painPoint || '').trim();
+        if (window.nakedTechLeadJourney && typeof window.nakedTechLeadJourney.getContext === 'function') {
+            return window.nakedTechLeadJourney.getContext(painPoint);
+        }
+        var consent = consentSnapshot();
+        var context = {
+            schema_version: 2,
+            page_path: window.location.pathname,
+            analytics_consent: consent.analytics,
+            advertising_consent: consent.advertising,
+            consent_source: consent.source || 'unavailable',
+            client_storage_state: 'unavailable',
+            referrer_state: document.referrer
+                ? (consent.analytics === 'granted' ? 'unavailable' : 'withheld_no_consent')
+                : 'missing'
+        };
+        if (painPoint) context.pain_point = painPoint;
+        if (consent.recorded_at) context.consent_recorded_at = consent.recorded_at;
         var params = new URLSearchParams(window.location.search);
         var utmKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'];
+        var clickIdKeys = ['gclid', 'gbraid', 'wbraid', 'fbclid'];
 
         utmKeys.forEach(function(key) {
             var value = params.get(key);
-            if (value) {
-                value = value.trim();
-                if (value) context[key] = value;
+            value = typeof value === 'string' ? value.trim() : '';
+            if (!value) context[key + '_state'] = 'missing';
+            else if (consent.analytics !== 'granted') context[key + '_state'] = 'withheld_no_consent';
+            else {
+                context[key + '_state'] = 'present';
+                context[key] = value;
+            }
+        });
+        clickIdKeys.forEach(function(key) {
+            var value = params.get(key);
+            value = typeof value === 'string' ? value.trim() : '';
+            if (!value) context[key + '_state'] = 'missing';
+            else if (consent.advertising !== 'granted') context[key + '_state'] = 'withheld_no_consent';
+            else {
+                context[key + '_state'] = 'present';
+                context[key] = value;
             }
         });
 
         return context;
+    }
+
+    function consentSnapshot() {
+        if (window.nakedTechTracking && typeof window.nakedTechTracking.getSnapshot === 'function') {
+            return window.nakedTechTracking.getSnapshot();
+        }
+        return { analytics: 'unavailable', advertising: 'unavailable' };
+    }
+
+    function sendContext(type) {
+        iframe.contentWindow.postMessage({
+            type: type,
+            version: 1,
+            context: formContext()
+        }, formsOrigin);
+    }
+
+    function validCompletion(message) {
+        var uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+        if (!uuidPattern.test(message.submission_id || '') || !uuidPattern.test(message.correlation_id || '')) {
+            return false;
+        }
+        if (message.lead_event_id !== 'sf-lead-' + message.submission_id.toLowerCase()) return false;
+        if (window.nakedTechLeadJourney && typeof window.nakedTechLeadJourney.getCorrelationId === 'function') {
+            var expectedCorrelation = window.nakedTechLeadJourney.getCorrelationId();
+            if (expectedCorrelation && expectedCorrelation.toLowerCase() !== message.correlation_id.toLowerCase()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     window.addEventListener('message', function(e) {
@@ -91,18 +152,14 @@
         if (e.data.type === 'sanctum-forms:ready' && e.data.version === 1) {
             if (contextSent) return;
             contextSent = true;
-            iframe.contentWindow.postMessage({
-                type: 'sanctum-forms:context',
-                version: 1,
-                context: formContext()
-            }, formsOrigin);
+            sendContext('sanctum-forms:context');
             return;
         }
 
         if (e.data.type === 'sanctum-forms:started' && e.data.version === 1) {
             if (startTracked) return;
             startTracked = true;
-            if (typeof gtag === 'function') {
+            if (consentSnapshot().analytics === 'granted' && typeof gtag === 'function') {
                 gtag('event', 'form_start', eventContext());
             }
             return;
@@ -115,16 +172,25 @@
         }
 
         if (e.data.type !== 'sanctum-forms:submitted' || submissionTracked) return;
+        if (!validCompletion(e.data)) return;
         submissionTracked = true;
 
         var context = eventContext();
-        if (typeof fbq === 'function') {
-            fbq('track', 'Lead', context);
+        context.lead_event_id = e.data.lead_event_id;
+        var consent = consentSnapshot();
+        if (e.data.advertising_consent === 'granted' && consent.advertising === 'granted' && typeof fbq === 'function') {
+            fbq('track', 'Lead', context, { eventID: e.data.lead_event_id });
         }
-        if (typeof gtag === 'function') {
+        if (e.data.analytics_consent === 'granted' && consent.analytics === 'granted' && typeof gtag === 'function') {
             gtag('event', 'generate_lead', context);
         }
     });
+
+    if (window.nakedTechTracking && typeof window.nakedTechTracking.subscribe === 'function') {
+        window.nakedTechTracking.subscribe(function() {
+            if (contextSent) sendContext('sanctum-forms:context-update');
+        });
+    }
 })();
 </script>
 {% endmacro %}

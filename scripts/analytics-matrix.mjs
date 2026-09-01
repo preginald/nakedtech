@@ -4,6 +4,9 @@ import vm from 'node:vm'
 
 const siteRoot = new URL('../_site/', import.meta.url).pathname
 const formsOrigin = 'https://forms.digitalsanctum.com.au'
+const correlationId = '123e4567-e89b-42d3-a456-426614174000'
+const submissionId = '323e4567-e89b-42d3-a456-426614174000'
+const leadEventId = `sf-lead-${submissionId}`
 const approvedCampaignAttribution = {
   utm_source: 'facebook',
   utm_medium: 'paid_social',
@@ -215,7 +218,7 @@ function runPhoneClick(route) {
   return { fbqCalls, gtagCalls }
 }
 
-function runFormFlow(route, search) {
+function runFormFlow(route, search, consent = { analytics: 'granted', advertising: 'granted' }) {
   const script = inlineScript(routeHtml(route.route), 'data-contact-form-tracking')
   assert(Boolean(script), `${route.label}: generated form tracking script exists`)
 
@@ -235,10 +238,70 @@ function runFormFlow(route, search) {
       return selector === '[data-contact-form-frame]' ? iframe : null
     }
   }
+  const consentListeners = []
+  const consentAvailable = consent.analytics !== 'unavailable' && consent.advertising !== 'unavailable'
+  let consentState = {
+    ...consent,
+    recorded_at: consentAvailable ? '2026-09-01T04:00:02.000Z' : null,
+    source: consentAvailable ? 'nakedtech_tracking_preferences_v1' : 'unavailable'
+  }
+  const params = new URLSearchParams(search)
+  const journey = {
+    getCorrelationId: () => correlationId,
+    getContext(painPoint) {
+      const context = {
+        schema_version: 2,
+        correlation_id: correlationId,
+        landing_observed_at: '2026-09-01T04:00:00.000Z',
+        landing_url: `https://nakedtech.au${route.route}`,
+        landing_path: route.route,
+        page_path: route.route,
+        pain_point: painPoint,
+        analytics_consent: consentState.analytics,
+        advertising_consent: consentState.advertising,
+        consent_recorded_at: consentState.recorded_at,
+        consent_source: consentState.source,
+        operational_basis: 'service_request',
+        marketing_basis: consentState.analytics === 'granted' || consentState.advertising === 'granted'
+          ? 'consent' : 'not_collected',
+        client_clock: 'browser',
+        client_storage_state: 'available',
+        referrer_state: 'missing'
+      }
+      for (const key of ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content']) {
+        const value = params.get(key)
+        if (!value) context[`${key}_state`] = 'missing'
+        else if (consentState.analytics !== 'granted') context[`${key}_state`] = 'withheld_no_consent'
+        else {
+          context[`${key}_state`] = 'present'
+          context[key] = value
+        }
+      }
+      for (const key of ['gclid', 'gbraid', 'wbraid', 'fbclid']) {
+        const value = params.get(key)
+        if (!value) context[`${key}_state`] = 'missing'
+        else if (consentState.advertising !== 'granted') context[`${key}_state`] = 'withheld_no_consent'
+        else {
+          context[`${key}_state`] = 'present'
+          context[key] = value
+        }
+      }
+      return context
+    }
+  }
+  const tracking = {
+    getSnapshot: () => ({ ...consentState }),
+    subscribe(listener) {
+      consentListeners.push(listener)
+      return () => {}
+    }
+  }
 
   vm.runInNewContext(script, {
     window: {
       location: { pathname: route.route, search },
+      nakedTechLeadJourney: journey,
+      nakedTechTracking: tracking,
       addEventListener(type, handler) {
         if (type === 'message') messageHandlers.push(handler)
       }
@@ -269,13 +332,133 @@ function runFormFlow(route, search) {
   dispatch({ type: 'sanctum-forms:resize', height: 900 }, formsOrigin, {})
   dispatch({ type: 'sanctum-forms:resize', height: '900' })
 
-  dispatch({ type: 'sanctum-forms:submitted', version: 1 }, 'https://attacker.example')
-  dispatch({ type: 'sanctum-forms:submitted', version: 1 }, formsOrigin, {})
-  dispatch({ type: 'sanctum-forms:submitted', version: 1 })
-  dispatch({ type: 'sanctum-forms:submitted', version: 1 })
+  const completion = {
+    type: 'sanctum-forms:submitted',
+    version: 1,
+    submission_id: submissionId,
+    correlation_id: correlationId,
+    lead_event_id: leadEventId,
+    occurred_at: '2026-09-01T04:01:00.000Z',
+    analytics_consent: consentState.analytics,
+    advertising_consent: consentState.advertising
+  }
+  dispatch(completion, 'https://attacker.example')
+  dispatch(completion, formsOrigin, {})
+  dispatch({ ...completion, lead_event_id: 'malformed' })
+  dispatch(completion)
+  dispatch(completion)
 
   return { contextMessages, fbqCalls, gtagCalls, iframe }
 }
+
+function runLeadJourneyBootstrap(
+  route,
+  search,
+  referrer = 'https://www.facebook.com/paid/campaign?private=drop',
+  retainedState = {}
+) {
+  const html = routeHtml(route.route)
+  const consentScript = inlineScript(html, 'data-tracking-consent-bootstrap')
+  const journeyScript = inlineScript(html, 'data-lead-correlation-bootstrap')
+  assert(Boolean(consentScript), `${route.label}: tracking-consent bootstrap exists`)
+  assert(Boolean(journeyScript), `${route.label}: lead-correlation bootstrap exists`)
+
+  const localValues = retainedState.localValues || new Map()
+  const sessionValues = retainedState.sessionValues || new Map()
+  const localStorage = {
+    getItem: key => localValues.get(key) ?? null,
+    setItem: (key, value) => localValues.set(key, value)
+  }
+  const sessionStorage = {
+    getItem: key => sessionValues.get(key) ?? null,
+    setItem: (key, value) => sessionValues.set(key, value)
+  }
+  const windowObject = {
+    location: {
+      origin: 'https://nakedtech.au',
+      href: `https://nakedtech.au${route.route}${search}`,
+      pathname: route.route,
+      search
+    },
+    crypto: { randomUUID: () => correlationId },
+    dataLayer: []
+  }
+  const documentObject = {
+    referrer,
+    head: { appendChild() {} },
+    createElement: () => ({ dataset: {} })
+  }
+  const runtime = {
+    window: windowObject,
+    document: documentObject,
+    localStorage,
+    sessionStorage,
+    URL,
+    URLSearchParams,
+    Uint8Array,
+    Date,
+    Number,
+    Array,
+    JSON,
+    encodeURIComponent
+  }
+  vm.runInNewContext(consentScript, runtime)
+  vm.runInNewContext(journeyScript, runtime)
+
+  const initial = windowObject.nakedTechLeadJourney.getContext(route.painPoint)
+  const initiallyStored = sessionValues.get('nakedtech-lead-journey-v1')
+  windowObject.nakedTechTracking.setPreferences({ analytics: true, advertising: false })
+  const analyticsGranted = windowObject.nakedTechLeadJourney.getContext(route.painPoint)
+  windowObject.nakedTechTracking.setPreferences({ analytics: true, advertising: true })
+  const allGranted = windowObject.nakedTechLeadJourney.getContext(route.painPoint)
+  return { initial, unavailable: initial, initiallyStored, analyticsGranted, allGranted, localValues, sessionValues }
+}
+
+const journeyProbe = runLeadJourneyBootstrap(
+  routes[0],
+  `?${new URLSearchParams({
+    ...approvedCampaignAttribution,
+    utm_content: routes[0].campaignContent,
+    fbclid: 'IwAR_test_click_id'
+  })}`
+)
+assert(journeyProbe.unavailable.correlation_id === correlationId, 'lead journey: secure correlation ID is stable')
+assert(journeyProbe.unavailable.analytics_consent === 'unavailable', 'lead journey: absent choice is explicit')
+assert(journeyProbe.unavailable.client_storage_state === 'available', 'lead journey: client storage availability is explicit')
+assert(journeyProbe.unavailable.utm_source_state === 'withheld_no_consent', 'lead journey: UTM is withheld before consent')
+assert(journeyProbe.unavailable.fbclid_state === 'withheld_no_consent', 'lead journey: click ID is withheld before consent')
+assert(!journeyProbe.initiallyStored.includes('facebook'), 'lead journey: raw UTM value is not stored before consent')
+assert(!journeyProbe.initiallyStored.includes('IwAR_test_click_id'), 'lead journey: raw click ID is not stored before consent')
+assert(journeyProbe.analyticsGranted.utm_source === 'facebook', 'lead journey: Analytics consent releases bounded UTM context')
+assert(journeyProbe.analyticsGranted.referrer === 'https://www.facebook.com', 'lead journey: external referrer is reduced to its origin')
+assert(!Object.prototype.hasOwnProperty.call(journeyProbe.analyticsGranted, 'fbclid'), 'lead journey: advertising ID remains withheld')
+assert(journeyProbe.allGranted.fbclid === 'IwAR_test_click_id', 'lead journey: Advertising consent releases bounded click ID')
+const hostilePrefixProbe = runLeadJourneyBootstrap(
+  routes[0],
+  '',
+  'https://nakedtech.au.attacker.example/private/path?secret=drop'
+)
+assert(
+  hostilePrefixProbe.analyticsGranted.referrer === 'https://nakedtech.au.attacker.example',
+  'lead journey: a hostname-prefix lookalike is external and reduced to its origin'
+)
+const continuedJourneyProbe = runLeadJourneyBootstrap(
+  routes[1],
+  '',
+  'https://nakedtech.au/services/wifi-dropouts-ivanhoe/',
+  { localValues: journeyProbe.localValues, sessionValues: journeyProbe.sessionValues }
+)
+assert(continuedJourneyProbe.initial.correlation_id === correlationId, 'lead journey: correlation survives same-tab navigation')
+assert(continuedJourneyProbe.initial.landing_path === routes[0].route, 'lead journey: original landing survives same-tab navigation')
+assert(continuedJourneyProbe.initial.page_path === routes[1].route, 'lead journey: current form page follows same-tab navigation')
+assert(continuedJourneyProbe.initial.utm_source === 'facebook', 'lead journey: consented landing attribution survives same-tab navigation')
+assert(continuedJourneyProbe.initial.fbclid === 'IwAR_test_click_id', 'lead journey: consented click ID survives same-tab navigation')
+rows.push({
+  case: 'Lead-journey consent transitions',
+  ga4: 'No analytics event expected',
+  meta: 'No analytics event expected',
+  protocol: 'unavailable → Analytics granted → Advertising granted; one stable correlation ID'
+})
 
 for (const route of routes) {
   const attribution = route.attribution || approvedCampaignAttribution
@@ -283,6 +466,7 @@ for (const route of routes) {
   const paidSearch = `?${new URLSearchParams({
     ...attribution,
     utm_content: route.campaignContent,
+    fbclid: 'IwAR_test_click_id',
     utm_term: 'ignored',
     unknown: 'ignored'
   })}`
@@ -365,10 +549,35 @@ for (const route of routes) {
   assert(form.contextMessages[0]?.message?.type === 'sanctum-forms:context', `${route.label}: form context uses the protocol v1 message type`)
   assert(form.contextMessages[0]?.message?.version === 1, `${route.label}: form context uses protocol version 1`)
   const expectedFormContext = {
-    pain_point: route.painPoint,
+    schema_version: 2,
+    correlation_id: correlationId,
+    landing_observed_at: '2026-09-01T04:00:00.000Z',
+    landing_url: `https://nakedtech.au${route.route}`,
+    landing_path: route.route,
     page_path: route.route,
-    ...attribution,
-    utm_content: route.campaignContent
+    pain_point: route.painPoint,
+    analytics_consent: 'granted',
+    advertising_consent: 'granted',
+    consent_recorded_at: '2026-09-01T04:00:02.000Z',
+    consent_source: 'nakedtech_tracking_preferences_v1',
+    operational_basis: 'service_request',
+    marketing_basis: 'consent',
+    client_clock: 'browser',
+    client_storage_state: 'available',
+    referrer_state: 'missing',
+    utm_source_state: 'present',
+    utm_source: attribution.utm_source,
+    utm_medium_state: 'present',
+    utm_medium: attribution.utm_medium,
+    utm_campaign_state: 'present',
+    utm_campaign: attribution.utm_campaign,
+    utm_content_state: 'present',
+    utm_content: route.campaignContent,
+    gclid_state: 'missing',
+    gbraid_state: 'missing',
+    wbraid_state: 'missing',
+    fbclid_state: 'present',
+    fbclid: 'IwAR_test_click_id'
   }
   const observedFormContext = form.contextMessages[0]?.message?.context
   assertExactContext(observedFormContext, expectedFormContext, `${route.label}: form context allowlists the complete campaign attribution`)
@@ -397,17 +606,19 @@ for (const route of routes) {
     form.gtagCalls,
     'GA4',
     'generate_lead',
-    actionContext,
+    { ...actionContext, lead_event_id: leadEventId },
     `${route.label} successful form submission`
   )
   const leadMetaContext = assertSingleEvent(
     form.fbqCalls,
     'Meta',
     'Lead',
-    actionContext,
+    { ...actionContext, lead_event_id: leadEventId },
     `${route.label} successful form submission`
   )
   assert(form.iframe.style.height === '720px', `${route.label}: invalid and untrusted resize probes do not replace the trusted height`)
+  const metaLeadCall = matchingCalls(form.fbqCalls, 'Meta', 'Lead')[0]
+  assert(metaLeadCall?.[3]?.eventID === leadEventId, `${route.label}: Meta Lead uses the stable server-issued deduplication ID`)
   rows.push({
     case: `${route.label} successful form submission`,
     ga4: `generate_lead ×1 ${JSON.stringify(leadGaContext)}`,
@@ -417,6 +628,33 @@ for (const route of routes) {
     case: `${route.label} replay/trust-boundary controls`,
     ga4: 'Valid repeated start/submission messages remain ×1; rejected messages add ×0',
     meta: 'Valid repeated submission remains ×1; rejected messages add ×0'
+  })
+}
+
+const consentRoute = routes[0]
+const consentSearch = `?${new URLSearchParams({
+  ...approvedCampaignAttribution,
+  utm_content: consentRoute.campaignContent,
+  fbclid: 'IwAR_test_click_id'
+})}`
+for (const consentCase of [
+  { label: 'denied consent', analytics: 'denied', advertising: 'denied', signalState: 'withheld_no_consent' },
+  { label: 'unavailable consent', analytics: 'unavailable', advertising: 'unavailable', signalState: 'withheld_no_consent' }
+]) {
+  const form = runFormFlow(consentRoute, consentSearch, consentCase)
+  assert(matchingCalls(form.gtagCalls, 'GA4', 'form_start').length === 0, `${consentCase.label}: GA4 form_start is not queued`)
+  assert(matchingCalls(form.gtagCalls, 'GA4', 'generate_lead').length === 0, `${consentCase.label}: GA4 lead is not emitted`)
+  assert(matchingCalls(form.fbqCalls, 'Meta', 'Lead').length === 0, `${consentCase.label}: Meta Lead is not emitted`)
+  const context = form.contextMessages[0]?.message?.context
+  assert(context?.utm_source_state === consentCase.signalState, `${consentCase.label}: UTM presence is explicit without its value`)
+  assert(context?.fbclid_state === consentCase.signalState, `${consentCase.label}: click-ID presence is explicit without its value`)
+  assert(!Object.prototype.hasOwnProperty.call(context || {}, 'utm_source'), `${consentCase.label}: UTM value is withheld`)
+  assert(!Object.prototype.hasOwnProperty.call(context || {}, 'fbclid'), `${consentCase.label}: click-ID value is withheld`)
+  rows.push({
+    case: `Wi-Fi ${consentCase.label}`,
+    ga4: 'form_start ×0; generate_lead ×0',
+    meta: 'Lead ×0',
+    protocol: `Forms operational context ×1; campaign values ${consentCase.signalState}`
   })
 }
 
