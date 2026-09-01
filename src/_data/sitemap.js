@@ -15,6 +15,10 @@ const routeDefinitions = [
     sources: ['src/services.njk', 'src/_data/problemServices.js', 'src/_data/services.js', 'src/_data/serviceCatalogue.js', 'src/_data/projectServices.json'],
   },
   { path: '/contact/', sources: ['src/contact.njk', 'src/_includes/components/contact-form.njk'] },
+  {
+    path: '/ivanhoe-primary-school-fundraiser/',
+    sources: ['src/landing-pages/ivanhoe-primary-school-fundraiser.njk', 'src/_data/searchContent.js'],
+  },
   { path: '/toolkit/', sources: ['src/toolkit.njk'] },
   { path: '/legal/', sources: ['src/legal.njk'] },
   { path: '/service-terms/', sources: ['src/service-terms.njk'] },

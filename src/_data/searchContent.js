@@ -39,6 +39,13 @@ const generalEntries = [
     searchTerms: 'phone number email enquiry book visit service area Ivanhoe Eaglemont opening hours',
   },
   {
+    path: '/ivanhoe-primary-school-fundraiser/',
+    title: 'Ivanhoe Primary School Fundraiser Prizes',
+    description: 'Two local in-home technology service prizes donated by Naked Tech, with a combined current advertised value of $440 incl. GST.',
+    kind: 'Community offer',
+    searchTerms: 'Ivanhoe Primary School fundraiser raffle prize voucher Naked Tech donation local technology help',
+  },
+  {
     path: '/toolkit/',
     title: 'Technology Toolkit & Selection Guide',
     description: 'How Naked Tech selects supported home Wi-Fi, password, computer, printer and privacy tools.',

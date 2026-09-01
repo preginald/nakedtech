@@ -103,6 +103,7 @@ const expectedRoutes = [
   '/services/password-manager-setup-ivanhoe/',
   '/booking/',
   '/contact/',
+  '/ivanhoe-primary-school-fundraiser/',
   '/brand/',
   '/toolkit/',
   '/join/',
@@ -761,7 +762,7 @@ const sitemapXml = existsSync(sitemapPath) ? readFileSync(sitemapPath, 'utf8') :
 const sitemapEntries = [...sitemapXml.matchAll(/<url>\s*<loc>([^<]+)<\/loc>\s*<lastmod>([^<]+)<\/lastmod>\s*<\/url>/g)]
 const sitemapLocations = sitemapEntries.map((entry) => entry[1])
 const sitemapDates = sitemapEntries.map((entry) => entry[2])
-assert(sitemapEntries.length === 22, 'sitemap: every canonical public URL has a last-modified date')
+assert(sitemapEntries.length === 23, 'sitemap: every canonical public URL has a last-modified date')
 assert(new Set(sitemapLocations).size === sitemapEntries.length, 'sitemap: canonical locations are unique')
 assert(sitemapDates.every((date) => /^\d{4}-\d{2}-\d{2}$/.test(date)), 'sitemap: last-modified dates use the W3C calendar-date format')
 assert(sitemapDates.every((date) => Date.parse(`${date}T00:00:00Z`) <= Date.now()), 'sitemap: last-modified dates are not in the future')
@@ -1013,6 +1014,30 @@ for (const slug of ['full-strip', 'power-pose']) {
   assert(html.includes('href="#process"'), `${slug}: contextual how-it-works nav targets local process`)
   assert(html.includes('Hardware sold at cost. No markups.'), `${slug}: transparent hardware policy rendered`)
   assert(html.includes('href="/contact/"'), `${slug}: contact CTA rendered`)
+}
+
+const fundraiserRoute = '/ivanhoe-primary-school-fundraiser/'
+const fundraiserHtml = readFileSync(routeToFile(fundraiserRoute), 'utf8')
+const fundraiserPdfPath = join(root, 'assets', 'ivanhoe-primary-school-fundraiser-prizes.pdf')
+assert(countOccurrences(fundraiserHtml, '<h1') === 1, 'fundraiser: exactly one h1 rendered')
+assert(fundraiserHtml.includes('Two local technology prizes'), 'fundraiser: approved prize headline rendered')
+assert(fundraiserHtml.includes('combined current advertised value of $440 incl. GST'), 'fundraiser: combined value is accurately qualified')
+assert(fundraiserHtml.includes('$190') && fundraiserHtml.includes('$250'), 'fundraiser: both prize tiers rendered')
+for (const service of serviceCatalogue.services.filter((service) => service.pricing.amount === 190 || service.pricing.amount === 250)) {
+  assert(fundraiserHtml.includes(htmlText(service.name)), `fundraiser: canonical service name rendered (${service.serviceKey})`)
+  assert(fundraiserHtml.includes(`href="${service.path}"`), `fundraiser: canonical service link rendered (${service.serviceKey})`)
+}
+assert(fundraiserHtml.includes('For one residential address in Ivanhoe or Eaglemont'), 'fundraiser: service area restriction is prominent')
+assert(fundraiserHtml.includes('Monday to Friday, 9am-5pm'), 'fundraiser: weekday availability is disclosed')
+assert(fundraiserHtml.includes('do not guarantee repair, recovery or complete resolution'), 'fundraiser: bounded outcome is disclosed')
+assert(fundraiserHtml.includes('href="/service-terms/"'), 'fundraiser: customer service terms are linked')
+assert(countOccurrences(fundraiserHtml, 'href="/assets/ivanhoe-primary-school-fundraiser-prizes.pdf"') === 2, 'fundraiser: PDF download is linked from hero and terms')
+assert(countOccurrences(sitemapXml, 'https://nakedtech.au/ivanhoe-primary-school-fundraiser/') === 1, 'fundraiser: canonical route appears once in sitemap')
+assert(existsSync(fundraiserPdfPath), 'fundraiser: branded PDF exists in the public build')
+if (existsSync(fundraiserPdfPath)) {
+  const fundraiserPdf = readFileSync(fundraiserPdfPath)
+  assert(fundraiserPdf.subarray(0, 5).toString() === '%PDF-', 'fundraiser: branded PDF has a valid PDF signature')
+  assert(fundraiserPdf.length > 10_000, 'fundraiser: branded PDF contains the designed page and QR asset')
 }
 
 const servicesHtml = readFileSync(routeToFile('/services/'), 'utf8')

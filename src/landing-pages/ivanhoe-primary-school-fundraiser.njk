@@ -1,0 +1,190 @@
+---
+layout: layouts/base.njk
+title: Ivanhoe Primary School Fundraiser Prizes
+description: Two Naked Tech local in-home technology service prizes for the Ivanhoe Primary School fundraiser, with a combined current advertised value of $440 incl. GST.
+permalink: /ivanhoe-primary-school-fundraiser/index.html
+ogImage: /img/nakedtech_hero_technician.webp
+ogImageWidth: 1408
+ogImageHeight: 768
+localHowItWorksHref: "#how-it-works"
+---
+
+<header class="relative overflow-hidden bg-inverse pt-28 pb-16 text-inverse-ink md:pt-36 md:pb-24">
+    <div class="absolute inset-0 opacity-10" aria-hidden="true">
+        <div class="absolute -right-24 -top-24 h-96 w-96 rounded-full border-[64px] border-accent"></div>
+        <div class="absolute -bottom-32 left-1/4 h-72 w-72 rounded-full border-[48px] border-white"></div>
+    </div>
+
+    <div class="container relative mx-auto grid items-center gap-10 px-6 lg:grid-cols-[1.08fr_0.92fr] lg:gap-14">
+        <div>
+            <p class="text-sm font-bold uppercase tracking-[0.18em] text-accent">Ivanhoe Primary School fundraiser</p>
+            <h1 class="mt-4 max-w-4xl text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl xl:text-6xl">Two local technology prizes. Eight practical ways to get unstuck.</h1>
+            <p class="mt-6 max-w-2xl text-lg leading-relaxed text-inverse-ink/80 md:text-xl">Naked Tech is donating two separate in-home service prizes for the school community, with a combined current advertised value of $440 incl. GST.</p>
+
+            <div class="mt-9 flex flex-col gap-4 sm:flex-row sm:flex-wrap">
+                <a href="#prizes" class="inline-flex min-h-14 items-center justify-center rounded-full bg-accent px-8 py-4 text-base font-bold text-ivanhoe-slate shadow-xl shadow-black/20 transition hover:-translate-y-0.5 hover:bg-[#FF7A50]">Compare the prize choices</a>
+                <a href="/assets/ivanhoe-primary-school-fundraiser-prizes.pdf" class="inline-flex min-h-14 items-center justify-center rounded-full border border-skin-bone/35 px-8 py-4 text-base font-bold text-inverse-ink transition hover:border-accent hover:text-accent">Download the prize PDF</a>
+            </div>
+        </div>
+
+        <aside class="rounded-3xl border border-white/15 bg-white/10 p-6 shadow-2xl backdrop-blur-sm md:p-8" aria-label="Donated prize summary">
+            <p class="text-sm font-bold uppercase tracking-[0.18em] text-inverse-ink/60">Donated by Naked Tech</p>
+            <div class="mt-6 grid grid-cols-2 gap-4">
+                <div class="rounded-2xl bg-white/10 p-5">
+                    <p class="text-sm font-bold text-inverse-ink/65">Prize one</p>
+                    <p class="mt-2 text-4xl font-extrabold tracking-tight text-accent">$190</p>
+                    <p class="mt-2 text-sm leading-relaxed text-inverse-ink/70">Choice of four standard services</p>
+                </div>
+                <div class="rounded-2xl bg-white/10 p-5">
+                    <p class="text-sm font-bold text-inverse-ink/65">Prize two</p>
+                    <p class="mt-2 text-4xl font-extrabold tracking-tight text-accent">$250</p>
+                    <p class="mt-2 text-sm leading-relaxed text-inverse-ink/70">Choice of four standard services</p>
+                </div>
+            </div>
+            <p class="mt-6 border-t border-white/15 pt-5 leading-relaxed text-inverse-ink/75">Two winners. Local call-out included for a residential address in Ivanhoe or Eaglemont.</p>
+        </aside>
+    </div>
+</header>
+
+<section id="prizes" class="scroll-mt-20 py-16 md:py-24" aria-labelledby="prizes-heading">
+    <div class="container mx-auto px-6">
+        <div class="mx-auto max-w-3xl text-center">
+            <p class="text-sm font-bold uppercase tracking-[0.18em] text-accent-ink">Choose the help that fits</p>
+            <h2 id="prizes-heading" class="mt-3 text-3xl font-extrabold tracking-tight md:text-4xl">One standard service from the winning tier.</h2>
+            <p class="mt-5 text-lg leading-relaxed text-ink/70">Each winner chooses from four published Naked Tech services. The service-choice call helps match the voucher to the most useful starting point.</p>
+        </div>
+
+        <div class="mx-auto mt-12 grid max-w-6xl gap-7 lg:grid-cols-2">
+            <article class="overflow-hidden rounded-3xl border border-line bg-surface shadow-sm">
+                <div class="bg-inverse p-7 text-inverse-ink md:p-9">
+                    <p class="text-sm font-bold uppercase tracking-[0.18em] text-accent">Prize one</p>
+                    <p class="mt-3 text-4xl font-extrabold tracking-tight">$190 <span class="text-base font-semibold text-inverse-ink/60">incl. GST</span></p>
+                    <p class="mt-3 text-inverse-ink/70">Current advertised value of one listed service.</p>
+                </div>
+                <ul class="divide-y divide-line">
+                    {% for service in serviceCatalogue.services %}
+                    {% if service.pricing.model == 'fixed' and service.pricing.amount == 190 %}
+                    <li>
+                        <a href="{{ service.path }}" class="group block p-6 transition hover:bg-surface-muted md:px-8">
+                            <span class="flex items-start justify-between gap-4">
+                                <span>
+                                    <span class="block text-lg font-extrabold group-hover:text-accent-ink">{{ service.name }}</span>
+                                    <span class="mt-2 block leading-relaxed text-ink/65">{{ service.description }}</span>
+                                </span>
+                                <span class="mt-1 text-xl font-bold text-accent-ink" aria-hidden="true">→</span>
+                            </span>
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </article>
+
+            <article class="overflow-hidden rounded-3xl border border-accent/35 bg-surface shadow-sm">
+                <div class="bg-accent p-7 text-ivanhoe-slate md:p-9">
+                    <p class="text-sm font-bold uppercase tracking-[0.18em]">Prize two</p>
+                    <p class="mt-3 text-4xl font-extrabold tracking-tight">$250 <span class="text-base font-semibold text-ivanhoe-slate/65">incl. GST</span></p>
+                    <p class="mt-3 text-ivanhoe-slate/75">Current advertised value of one listed service.</p>
+                </div>
+                <ul class="divide-y divide-line">
+                    {% for service in serviceCatalogue.services %}
+                    {% if service.pricing.model == 'fixed' and service.pricing.amount == 250 %}
+                    <li>
+                        <a href="{{ service.path }}" class="group block p-6 transition hover:bg-surface-muted md:px-8">
+                            <span class="flex items-start justify-between gap-4">
+                                <span>
+                                    <span class="block text-lg font-extrabold group-hover:text-accent-ink">{{ service.name }}</span>
+                                    <span class="mt-2 block leading-relaxed text-ink/65">{{ service.description }}</span>
+                                </span>
+                                <span class="mt-1 text-xl font-bold text-accent-ink" aria-hidden="true">→</span>
+                            </span>
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </article>
+        </div>
+    </div>
+</section>
+<section id="how-it-works" class="scroll-mt-20 bg-surface py-16 md:py-24" aria-labelledby="how-it-works-heading">
+    <div class="container mx-auto px-6">
+        <div class="mx-auto max-w-3xl text-center">
+            <p class="text-sm font-bold uppercase tracking-[0.18em] text-accent-ink">Simple to redeem</p>
+            <h2 id="how-it-works-heading" class="mt-3 text-3xl font-extrabold tracking-tight md:text-4xl">Win, choose and book.</h2>
+        </div>
+        <ol class="mx-auto mt-12 grid max-w-6xl gap-6 md:grid-cols-3">
+            <li class="rounded-3xl border border-line bg-canvas p-7 md:p-8">
+                <span class="flex h-10 w-10 items-center justify-center rounded-full bg-accent font-extrabold text-ivanhoe-slate">1</span>
+                <h3 class="mt-6 text-xl font-extrabold">Receive your voucher</h3>
+                <p class="mt-3 leading-relaxed text-ink/70">The winner receives a uniquely numbered voucher showing the prize tier, issue date, expiry date and booking details.</p>
+            </li>
+            <li class="rounded-3xl border border-line bg-canvas p-7 md:p-8">
+                <span class="flex h-10 w-10 items-center justify-center rounded-full bg-accent font-extrabold text-ivanhoe-slate">2</span>
+                <h3 class="mt-6 text-xl font-extrabold">Have a service-choice call</h3>
+                <p class="mt-3 leading-relaxed text-ink/70">Describe the problem in your own words. Naked Tech helps select the listed service most likely to be useful.</p>
+            </li>
+            <li class="rounded-3xl border border-line bg-canvas p-7 md:p-8">
+                <span class="flex h-10 w-10 items-center justify-center rounded-full bg-accent font-extrabold text-ivanhoe-slate">3</span>
+                <h3 class="mt-6 text-xl font-extrabold">Book the local visit</h3>
+                <p class="mt-3 leading-relaxed text-ink/70">Choose an available weekday appointment for one residential address in Ivanhoe or Eaglemont.</p>
+            </li>
+        </ol>
+    </div>
+</section>
+
+<section class="py-16 md:py-24" aria-labelledby="good-to-know-heading">
+    <div class="container mx-auto grid max-w-6xl gap-10 px-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
+        <div>
+            <p class="text-sm font-bold uppercase tracking-[0.18em] text-accent-ink">Clear scope, no surprises</p>
+            <h2 id="good-to-know-heading" class="mt-3 text-3xl font-extrabold tracking-tight md:text-4xl">Good to know before entering.</h2>
+            <p class="mt-5 leading-relaxed text-ink/70">The prizes provide a useful, bounded starting point. Assessment, diagnosis and troubleshooting do not guarantee repair, recovery or complete resolution.</p>
+        </div>
+        <ul class="grid gap-4 sm:grid-cols-2">
+            <li class="rounded-2xl border border-line bg-surface p-6">
+                <h3 class="font-extrabold">Local service area</h3>
+                <p class="mt-2 leading-relaxed text-ink/70">For one residential address in Ivanhoe or Eaglemont. Local call-out is included.</p>
+            </li>
+            <li class="rounded-2xl border border-line bg-surface p-6">
+                <h3 class="font-extrabold">Weekday appointments</h3>
+                <p class="mt-2 leading-relaxed text-ink/70">Appointments are normally Monday to Friday, 9am-5pm, subject to availability.</p>
+            </li>
+            <li class="rounded-2xl border border-line bg-surface p-6">
+                <h3 class="font-extrabold">Transferable before booking</h3>
+                <p class="mt-2 leading-relaxed text-ink/70">A winner may give the unused voucher to a friend or family member with an eligible address.</p>
+            </li>
+            <li class="rounded-2xl border border-line bg-surface p-6">
+                <h3 class="font-extrabold">Published scope applies</h3>
+                <p class="mt-2 leading-relaxed text-ink/70">Hardware, parts, subscriptions, provider charges and work outside the selected service are not included.</p>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<section class="bg-inverse py-16 text-inverse-ink md:py-20" aria-labelledby="winner-heading">
+    <div class="container mx-auto flex max-w-5xl flex-col gap-8 px-6 md:flex-row md:items-center md:justify-between">
+        <div>
+            <p class="text-sm font-bold uppercase tracking-[0.18em] text-accent">Already holding a winning voucher?</p>
+            <h2 id="winner-heading" class="mt-3 text-3xl font-extrabold tracking-tight md:text-4xl">Tell Peter what your technology is doing.</h2>
+            <p class="mt-4 max-w-2xl leading-relaxed text-inverse-ink/70">Have the voucher code ready. You do not need to diagnose the problem yourself, and you should never send passwords or authentication codes.</p>
+        </div>
+        <a href="{{ site.phone.href }}" class="inline-flex min-h-14 shrink-0 items-center justify-center rounded-full bg-accent px-8 py-4 text-base font-bold text-ivanhoe-slate transition hover:-translate-y-0.5 hover:bg-[#FF7A50]" aria-label="Call Naked Tech on {{ site.phone.display }}">{{ site.phone.display }}</a>
+    </div>
+</section>
+
+<section class="py-16 md:py-24" aria-labelledby="terms-heading">
+    <div class="container mx-auto max-w-5xl px-6">
+        <p class="text-sm font-bold uppercase tracking-[0.18em] text-accent-ink">Prize conditions</p>
+        <h2 id="terms-heading" class="mt-3 text-3xl font-extrabold tracking-tight md:text-4xl">The short version.</h2>
+        <div class="mt-8 rounded-3xl border border-line bg-surface p-7 leading-relaxed text-ink/75 md:p-10">
+            <p>Each prize is redeemable for one listed standard Naked Tech service in its stated tier, delivered at one residential address in Ivanhoe or Eaglemont. Booking is required and subject to reasonable availability and a brief service-choice check. Local call-out and the standard published scope recorded at issue are included.</p>
+            <p class="mt-4">The voucher is transferable before booking, is not redeemable for cash and cannot be combined with another voucher. There is no additional payment solely because the published price later increases and no residual credit if it decreases. Work outside the selected scope requires a separate optional quote. Each issued voucher will show its unique code, issue date, expiry date and full conditions. Consumer rights are not excluded.</p>
+            <p class="mt-4">Naked Tech may help the holder choose another listed service in the same tier if the first choice is unsuitable. If a listed service is discontinued, an agreed substantially equivalent service or another service in the same tier may be offered.</p>
+            <div class="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                <a href="/service-terms/" class="inline-flex min-h-11 items-center font-bold text-accent-ink underline decoration-2 underline-offset-4">Read the customer service terms</a>
+                <span class="hidden text-line sm:inline" aria-hidden="true">|</span>
+                <a href="/assets/ivanhoe-primary-school-fundraiser-prizes.pdf" class="inline-flex min-h-11 items-center font-bold text-accent-ink underline decoration-2 underline-offset-4">Download the fundraiser PDF</a>
+            </div>
+        </div>
+    </div>
+</section>
