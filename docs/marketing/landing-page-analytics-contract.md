@@ -1,6 +1,6 @@
 # Naked Tech Landing-Page Analytics Contract
 
-**Status:** Phase 4 complete; P4-T3 passed in GA4 DebugView, Meta Events Manager, Sanctum Forms and Sanctum Notify<br>
+**Status:** Phase 4 evidence retained; #4213 privacy-aware correlation extension implemented and awaiting controlled production proof<br>
 **Applies to:** pain-point landing pages, shared telephone tracking, and the shared Sanctum Forms integration<br>
 **Canonical plan:** `.hermes/plans/2026-07-28_123314-naked-tech-pain-point-landing-pages.md`
 
@@ -12,6 +12,8 @@
 - A telephone-link click does not prove that a call connected or became a qualified job.
 - Meta and GA4 must receive the same `pain_point` and page context for the same action where the platform supports those parameters.
 - Missing campaign parameters remain missing; tracking code must not invent attribution values.
+- Operational lead correlation remains first-party and is never sent to GA4 or Meta.
+- Campaign, referrer and advertising click values require the matching current consent category before they enter Forms context.
 
 ## Event vocabulary
 
@@ -87,7 +89,7 @@ Only `sanctum-forms:submitted` from that trusted source may emit `generate_lead`
 - `src/_includes/layouts/base.njk` emits the global Meta `PageView`, loads GA4, and owns the single delegated `tel:` handler for Meta `Contact` plus GA4 `phone_click`.
 - `src/_includes/layouts/sales-landing-page.njk` owns `ViewContent` and `view_service`, mapping a non-empty inbound `utm_content` to `campaign_content` and omitting the parameter when no value exists.
 - `src/_includes/components/contact-form.njk` owns the protocol-v1 ready/context handshake, trusted resize and start handling, and deduplicated Meta `Lead` plus GA4 `form_start` / `generate_lead` events.
-- The form component allowlists only `utm_source`, `utm_medium`, `utm_campaign`, and `utm_content` when sending context to the Forms iframe. The target origin is exact; arbitrary query keys are excluded.
+- The lead-journey bootstrap sends the privacy-aware schema described below. The target origin is exact; arbitrary query keys are excluded.
 - `src/contact.njk` imports the shared component and contains no page-local message, submission, or telephone handler.
 - Pain pages expose `landing.id` on the base-layout body; the shared form also accepts explicit `painPoint` context. The generic contact page intentionally sends only `page_path` unless supported campaign context is present.
 - The shared site-search controller emits GA4-only `site_search_service_select` for a published service. It requires an active Analytics opt-in, is not queued for later consent and sends only bounded identifiers and paths; the query remains in the browser.
@@ -97,6 +99,23 @@ Only `sanctum-forms:submitted` from that trusted source may emit `generate_lead`
 The public `nakedtech-contact` form output inspected during P1-T3 on 28 July 2026 exposed only resize and submitted messages, with no supported context-field mapping or trusted first-interaction message. That is a historical baseline, not proof of the current provider deployment.
 
 The website parent now implements protocol-v1 `ready`, `context`, and `started` handling. P4-T1 proved that parent-side behaviour using deterministic trusted-message probes. P4-T2 then verified that the production Forms provider is deployed at commit `5ca4b19`, renders the matching protocol-v1 child, and persists accepted context separately from answers under migration `0020`.
+
+## #4213 privacy-aware lead correlation extension
+
+Message protocol v1 remains unchanged, while the context carried inside it now declares `schema_version: 2`. The parent creates a cryptographically random tab-scoped `correlation_id` and retains only bounded operational landing context and signal presence before consent. It does not place raw referrer, UTM or click-ID values into the session record until the corresponding current choice permits them.
+
+| Evidence | Collection rule | Destination |
+| --- | --- | --- |
+| Correlation ID, query-free landing URL/path, form page, service category, timestamps and explicit signal states | Necessary to receive and trace the requested service enquiry | Forms, owner Notify path and the future Core lead contract; never GA4 or Meta |
+| External referrer plus four approved UTM values | Analytics currently granted | Forms context; ordinary consented website analytics retain their existing provider contract |
+| `gclid`, `gbraid`, `wbraid`, `fbclid` | Advertising currently granted | Forms context; never attached when Advertising is denied or unavailable |
+| Server-issued `lead_event_id` | Accepted Forms submission only | Meta `eventID` for deduplication; GA4 custom parameter for correlation only |
+
+The child accepts a consent update only for the same immutable journey. Forms canonicalises the browser declaration, strips URL query/fragment data, applies a 4 KiB durable bound, adds server-clock and completeness evidence, and returns completion IDs only for an accepted persisted submission. The parent rechecks current consent at event time: `form_start` and `generate_lead` require Analytics, and Meta `Lead` requires Advertising. It never sends answers, contact fields, raw network addresses or the first-party correlation ID to either analytics provider.
+
+The deterministic matrix covers granted, denied and unavailable consent, absence of campaign values, stable same-journey enrichment, hostname-prefix referrer defence, server completion IDs and trusted-message replay. The current local run passed 4,045 generated-site checks plus 80 analytics scenarios and 393 assertions. Synthetic local calls remain implementation evidence rather than proof of provider receipt. Production proof requires one separately approved, clearly labelled non-sensitive canary after Notify, Forms and Naked Tech are deployed in that order.
+
+Forensics must preserve source limits: GA4 does not expose raw visitor IP addresses or promise `generate_lead` deduplication from this custom parameter; Search Console is aggregated search-demand evidence; the browser context is declarative rather than proof of click authenticity. Tickets #4192, #4193, #4194 and #4215 own provider, edge, correlation-bundle and search-evidence adapters. Ticket #4214 owns creation and lifecycle of the Core lead from this stable contract.
 
 ## P4-T1 UTM and event verification matrix
 
@@ -163,7 +182,7 @@ The deterministic matrix now covers eight service contexts and passes 56 scenari
 - Keep one shared public `nakedtech-contact` form across the Wi-Fi, slow-computer, scam/security, New Computer Setup, printer-help and email-help pages. Page and service context distinguish enquiries without multiplying public forms.
 - The detailed `nakedtech-new-computer-move-suitability` form is an unlinked, owner-operated checklist that Peter completes with the customer during a guided conversation. Its hosted URL remains public rather than access-controlled, so it must never collect passwords, authentication codes, recovery keys, licence keys or sensitive documents.
 - Continue preserving all four approved UTMs in browser analytics independently of form persistence.
-- Send context exactly once after trusted `ready`; the provider's first-valid-context rule prevents later mutation.
+- Send initial context exactly once after trusted `ready`; #4213 supersedes the historical immutability rule only for a same-journey consent update.
 - No new production form was submitted during P4-T2. Existing retained records and read-only production inspection supplied the persistence evidence.
 
 ### Owner notification defect discovered during P4-T2

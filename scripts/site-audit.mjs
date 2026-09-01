@@ -1163,6 +1163,10 @@ assert(privacyHtml.includes('Peter Reginald, ABN 57 221 340 918'), 'privacy: res
 assert(privacyHtml.includes('forms.digitalsanctum.com.au'), 'privacy: embedded form provider disclosed')
 assert(privacyHtml.includes('saves an unfinished draft in local storage'), 'privacy: contact-form draft storage disclosed')
 assert(privacyHtml.includes('utm_source'), 'privacy: form campaign context disclosed')
+assert(privacyHtml.includes('random correlation code'), 'privacy: operational lead correlation disclosed')
+assert(privacyHtml.includes('Without the matching choice, the value is not attached'), 'privacy: attribution values are consent-gated')
+assert(privacyHtml.includes('does not include your raw network address'), 'privacy: correlation context excludes raw network address')
+assert(privacyHtml.includes('deleted after 90 days'), 'privacy: notification correlation retention disclosed')
 assert(privacyHtml.includes('keyed pseudonyms derived from selected identity fields and the request network address'), 'privacy: keyed abuse evidence disclosed')
 assert(privacyHtml.includes('scheduled for deletion after 30 days'), 'privacy: abuse-evidence retention disclosed')
 assert(privacyHtml.includes('held in quarantine and will not trigger an owner notification'), 'privacy: quarantine effects disclosed')
@@ -1731,7 +1735,11 @@ if (existsSync(contactComponentPath)) {
   assert(componentHtml.indexOf('data-contact-collection-notice') < componentHtml.indexOf('data-contact-form-frame'), 'contact-form fixture renders notice before form fields')
   assert(componentHtml.includes('Fields marked with an asterisk are required'), 'contact-form fixture explains required and optional fields')
   assert(componentHtml.includes('unfinished answers are saved in this browser’s local storage'), 'contact-form fixture discloses local draft storage')
-  assert(componentHtml.includes('approved campaign parameters may be attached'), 'contact-form fixture discloses page and campaign context')
+  assert(
+    componentHtml.includes('campaign parameters are attached only with Analytics enabled') &&
+      componentHtml.includes('advertising click identifiers only with Advertising enabled'),
+    'contact-form fixture discloses consent-gated campaign context'
+  )
   assert(componentHtml.includes('An enquiry is not a marketing signup.'), 'contact-form fixture sets the direct-marketing boundary')
   assert(componentHtml.includes('href="/privacy/"'), 'contact-form fixture links the full Privacy Policy')
   assert(!componentHtml.includes('will never be shared or sold'), 'contact-form fixture omits the inaccurate absolute sharing promise')
@@ -1764,6 +1772,14 @@ if (existsSync(contactComponentPath)) {
         pathname: '/__fixtures__/contact-form/',
         search: '?utm_source=facebook&utm_medium=paid_social&utm_campaign=naked_tech_pain_points_01&utm_content=wifi_dropouts_v1&utm_term=ignored&unknown=ignored'
       },
+      nakedTechTracking: {
+        getSnapshot() {
+          return { analytics: 'granted', advertising: 'granted' }
+        },
+        subscribe() {
+          return () => {}
+        }
+      },
       addEventListener(type, handler) {
         if (type === 'message') messageHandlers.push(handler)
       }
@@ -1793,6 +1809,9 @@ if (existsSync(contactComponentPath)) {
       assert(contextMessages[0]?.message?.type === 'sanctum-forms:context', 'ready handshake sends the versioned context message type')
       assert(contextMessages[0]?.message?.version === 1, 'ready handshake sends protocol version 1')
       const sentContext = contextMessages[0]?.message?.context || {}
+      assert(sentContext.schema_version === 2, 'fallback form context uses the privacy-aware schema')
+      assert(sentContext.analytics_consent === 'granted', 'fallback form context records current Analytics consent')
+      assert(sentContext.advertising_consent === 'granted', 'fallback form context records current Advertising consent')
       assert(sentContext.pain_point === formProps.painPoint, 'landing context includes page pain point')
       assert(sentContext.page_path === '/__fixtures__/contact-form/', 'landing context includes pathname only')
       assert(sentContext.utm_source === 'facebook', 'landing context includes approved utm_source')
@@ -1832,9 +1851,18 @@ if (existsSync(contactComponentPath)) {
       dispatch(arrayMessage)
       assert(iframe.style.height === '720px', 'non-plain-object message shape is rejected')
 
-      dispatch({ type: 'sanctum-forms:submitted', version: 1 }, 'https://attacker.example')
-      dispatch({ type: 'sanctum-forms:submitted', version: 1 })
-      dispatch({ type: 'sanctum-forms:submitted', version: 1 })
+      const completion = {
+        type: 'sanctum-forms:submitted',
+        version: 1,
+        submission_id: '323e4567-e89b-42d3-a456-426614174000',
+        correlation_id: '123e4567-e89b-42d3-a456-426614174000',
+        lead_event_id: 'sf-lead-323e4567-e89b-42d3-a456-426614174000',
+        analytics_consent: 'granted',
+        advertising_consent: 'granted'
+      }
+      dispatch(completion, 'https://attacker.example')
+      dispatch(completion)
+      dispatch(completion)
 
       const metaLeadCalls = fbqCalls.filter((call) => call[0] === 'track' && call[1] === 'Lead')
       const gaLeadCalls = gtagCalls.filter((call) => call[0] === 'event' && call[1] === 'generate_lead')
@@ -1844,6 +1872,8 @@ if (existsSync(contactComponentPath)) {
       assert(metaLeadCalls[0]?.[2]?.page_path === '/__fixtures__/contact-form/', 'Meta Lead includes page-path context')
       assert(gaLeadCalls[0]?.[2]?.pain_point === formProps.painPoint, 'GA4 generate_lead includes pain-point context')
       assert(gaLeadCalls[0]?.[2]?.page_path === '/__fixtures__/contact-form/', 'GA4 generate_lead includes page-path context')
+      assert(gaLeadCalls[0]?.[2]?.lead_event_id === completion.lead_event_id, 'GA4 generate_lead includes the server-issued lead event ID')
+      assert(metaLeadCalls[0]?.[3]?.eventID === completion.lead_event_id, 'Meta Lead uses the server-issued deduplication ID')
     }
 
     const genericHandlers = []
