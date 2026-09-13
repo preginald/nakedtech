@@ -20,6 +20,7 @@ const routeDefinitions = [
     sources: ['src/landing-pages/ivanhoe-primary-school-fundraiser.njk', 'src/_data/searchContent.js'],
   },
   { path: '/guides/slow-computer-fix-upgrade-replace/', sources: ['src/guides/slow-computer-fix-upgrade-replace.njk'] },
+  { path: '/guides/computer-slow-startup/', sources: ['src/guides/computer-slow-startup.njk'] },
   { path: '/toolkit/', sources: ['src/toolkit.njk'] },
   { path: '/legal/', sources: ['src/legal.njk'] },
   { path: '/service-terms/', sources: ['src/service-terms.njk'] },
