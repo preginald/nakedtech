@@ -1194,6 +1194,14 @@ assert(slowGuideHtml.includes('including GST'), 'slow computer guide: price expl
 assert(slowGuideHtml.includes('href="https://nakedtech.au/services/slow-computer-help-ivanhoe/#contact"'), 'slow computer guide: CTA reaches existing enquiry form')
 assert(readFileSync(routeToFile('/services/slow-computer-help-ivanhoe/'), 'utf8').includes(`href="${slowGuideRoute}"`), 'slow computer service: guide discovery link is rendered')
 
+const startupGuideRoute = '/guides/computer-slow-startup/'
+const startupGuideHtml = readFileSync(routeToFile(startupGuideRoute), 'utf8')
+assert(countOccurrences(sitemapXml, `https://nakedtech.au${startupGuideRoute}`) === 1, 'startup guide: canonical appears once in sitemap')
+assert(startupGuideHtml.includes('$190 including GST'), 'startup guide: current GST-inclusive price')
+assert(startupGuideHtml.includes('href="https://nakedtech.au/services/slow-computer-help-ivanhoe/#contact"'), 'startup guide: existing enquiry CTA')
+assert(startupGuideHtml.includes(`href="https://nakedtech.au${slowGuideRoute}"`), 'startup guide: links to pillar')
+assert(slowGuideHtml.includes(`href="${startupGuideRoute}"`), 'pillar: startup guide discoverable')
+
 const toolkitHtml = readFileSync(routeToFile('/toolkit/'), 'utf8')
 assert(documentTitle(toolkitHtml) === 'Technology Toolkit &amp; Selection Guide | Naked Tech', 'toolkit: descriptive title rendered')
 assert(
