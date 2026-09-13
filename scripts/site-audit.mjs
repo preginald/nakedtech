@@ -1187,6 +1187,13 @@ assert(privacyHtml.includes('https://www.oaic.gov.au/privacy/privacy-complaints'
 assert(privacyHtml.includes('privacy@nakedtech.au'), 'privacy: privacy contact address rendered')
 assert(!privacyHtml.includes('processed securely by Stripe'), 'privacy: unsupported Stripe processing claim is absent')
 
+const slowGuideRoute = '/guides/slow-computer-fix-upgrade-replace/'
+const slowGuideHtml = readFileSync(routeToFile(slowGuideRoute), 'utf8')
+assert(countOccurrences(sitemapXml, `https://nakedtech.au${slowGuideRoute}`) === 1, 'slow computer guide: canonical route appears once in sitemap')
+assert(slowGuideHtml.includes('including GST'), 'slow computer guide: price explicitly includes GST')
+assert(slowGuideHtml.includes('href="https://nakedtech.au/services/slow-computer-help-ivanhoe/#contact"'), 'slow computer guide: CTA reaches existing enquiry form')
+assert(readFileSync(routeToFile('/services/slow-computer-help-ivanhoe/'), 'utf8').includes(`href="${slowGuideRoute}"`), 'slow computer service: guide discovery link is rendered')
+
 const toolkitHtml = readFileSync(routeToFile('/toolkit/'), 'utf8')
 assert(documentTitle(toolkitHtml) === 'Technology Toolkit &amp; Selection Guide | Naked Tech', 'toolkit: descriptive title rendered')
 assert(

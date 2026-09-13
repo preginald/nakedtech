@@ -19,6 +19,7 @@ const routeDefinitions = [
     path: '/ivanhoe-primary-school-fundraiser/',
     sources: ['src/landing-pages/ivanhoe-primary-school-fundraiser.njk', 'src/_data/searchContent.js'],
   },
+  { path: '/guides/slow-computer-fix-upgrade-replace/', sources: ['src/guides/slow-computer-fix-upgrade-replace.njk'] },
   { path: '/toolkit/', sources: ['src/toolkit.njk'] },
   { path: '/legal/', sources: ['src/legal.njk'] },
   { path: '/service-terms/', sources: ['src/service-terms.njk'] },
