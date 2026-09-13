@@ -762,7 +762,7 @@ const sitemapXml = existsSync(sitemapPath) ? readFileSync(sitemapPath, 'utf8') :
 const sitemapEntries = [...sitemapXml.matchAll(/<url>\s*<loc>([^<]+)<\/loc>\s*<lastmod>([^<]+)<\/lastmod>\s*<\/url>/g)]
 const sitemapLocations = sitemapEntries.map((entry) => entry[1])
 const sitemapDates = sitemapEntries.map((entry) => entry[2])
-assert(sitemapEntries.length === 23, 'sitemap: every canonical public URL has a last-modified date')
+assert(sitemapEntries.length === 24, 'sitemap: every canonical public URL has a last-modified date')
 assert(new Set(sitemapLocations).size === sitemapEntries.length, 'sitemap: canonical locations are unique')
 assert(sitemapDates.every((date) => /^\d{4}-\d{2}-\d{2}$/.test(date)), 'sitemap: last-modified dates use the W3C calendar-date format')
 assert(sitemapDates.every((date) => Date.parse(`${date}T00:00:00Z`) <= Date.now()), 'sitemap: last-modified dates are not in the future')
@@ -1186,6 +1186,13 @@ assert(privacyHtml.includes('aim to provide a substantive response within 30 day
 assert(privacyHtml.includes('https://www.oaic.gov.au/privacy/privacy-complaints'), 'privacy: OAIC complaint route linked with qualified applicability')
 assert(privacyHtml.includes('privacy@nakedtech.au'), 'privacy: privacy contact address rendered')
 assert(!privacyHtml.includes('processed securely by Stripe'), 'privacy: unsupported Stripe processing claim is absent')
+
+const slowGuideRoute = '/guides/slow-computer-fix-upgrade-replace/'
+const slowGuideHtml = readFileSync(routeToFile(slowGuideRoute), 'utf8')
+assert(countOccurrences(sitemapXml, `https://nakedtech.au${slowGuideRoute}`) === 1, 'slow computer guide: canonical route appears once in sitemap')
+assert(slowGuideHtml.includes('including GST'), 'slow computer guide: price explicitly includes GST')
+assert(slowGuideHtml.includes('href="https://nakedtech.au/services/slow-computer-help-ivanhoe/#contact"'), 'slow computer guide: CTA reaches existing enquiry form')
+assert(readFileSync(routeToFile('/services/slow-computer-help-ivanhoe/'), 'utf8').includes(`href="${slowGuideRoute}"`), 'slow computer service: guide discovery link is rendered')
 
 const toolkitHtml = readFileSync(routeToFile('/toolkit/'), 'utf8')
 assert(documentTitle(toolkitHtml) === 'Technology Toolkit &amp; Selection Guide | Naked Tech', 'toolkit: descriptive title rendered')
