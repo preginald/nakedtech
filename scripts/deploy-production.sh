@@ -6,16 +6,34 @@ readonly DEPLOY_HOST='sanctum-prod'
 readonly REMOTE_REPOSITORY='/var/www/nakedtech.au'
 readonly DEPLOY_BRANCH='main'
 
-printf 'Deploying origin/%s to %s:%s\n' \
-  "${DEPLOY_BRANCH}" \
-  "${DEPLOY_HOST}" \
-  "${REMOTE_REPOSITORY}"
-
-ssh -o BatchMode=yes "${DEPLOY_HOST}" bash -s -- "${REMOTE_REPOSITORY}" "${DEPLOY_BRANCH}" <<'REMOTE_SCRIPT'
+expected_revision=''
+local_mode=false
+while (($#)); do
+  case "$1" in
+    --local) local_mode=true; shift ;;
+    --revision) expected_revision="${2:?Missing revision}"; shift 2 ;;
+    *) printf 'Unknown deployment option: %s\n' "$1" >&2; exit 2 ;;
+  esac
+done
+if [[ -n "$expected_revision" && ! "$expected_revision" =~ ^[0-9a-f]{40}$ ]]; then
+  printf 'Expected a full commit SHA\n' >&2; exit 2
+fi
+if [[ "$local_mode" == true && -z "$expected_revision" ]]; then
+  printf 'Local deployment requires an exact revision\n' >&2; exit 2
+fi
+run_deployment() {
+  if [[ "$local_mode" == true ]]; then
+    bash -s -- "$REMOTE_REPOSITORY" "$DEPLOY_BRANCH" "$expected_revision"
+  else
+    ssh -o BatchMode=yes "$DEPLOY_HOST" bash -s -- "$REMOTE_REPOSITORY" "$DEPLOY_BRANCH" "$expected_revision"
+  fi
+}
+run_deployment <<'REMOTE_SCRIPT'
 set -Eeuo pipefail
 
 readonly repository_path="$1"
 readonly deploy_branch="$2"
+readonly expected_revision="$3"
 
 if [[ ! -d "${repository_path}/.git" ]]; then
   printf 'Production repository not found at %s\n' "${repository_path}" >&2
@@ -44,7 +62,13 @@ if [[ "${current_branch}" != "${deploy_branch}" ]]; then
   exit 1
 fi
 
-git pull --ff-only origin "${deploy_branch}"
+git fetch origin "${deploy_branch}"
+remote_revision="$(git rev-parse "origin/${deploy_branch}")"
+if [[ -n "$expected_revision" && "$remote_revision" != "$expected_revision" ]]; then
+  printf 'Remote revision differs from approved revision; refusing deployment.\n' >&2
+  exit 1
+fi
+git merge --ff-only "$remote_revision"
 readonly target_commit="$(git rev-parse HEAD)"
 readonly deploy_workspace="$(mktemp -d "${repository_path}/.nakedtech-deploy.XXXXXX")"
 readonly build_checkout="${deploy_workspace}/checkout"
