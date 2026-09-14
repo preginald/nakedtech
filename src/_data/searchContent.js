@@ -18,6 +18,13 @@ const serviceSearchTerms = {
 
 const generalEntries = [
   {
+    path: '/guides/moving-to-a-new-windows-computer/',
+    title: 'Moving to a new Windows computer: what to prepare, transfer and check',
+    description: 'Plan files, applications and account access, compare transfer options and check the result before retiring your old computer.',
+    kind: 'Guide',
+    searchTerms: 'new Windows PC computer migration transfer files applications accounts backup handover checklist',
+  },
+  {
     path: '/',
     title: 'Home Technology Help Ivanhoe & Eaglemont',
     description: 'Straightforward in-home help with Wi-Fi, computers, printers, email, scams and everyday technology.',

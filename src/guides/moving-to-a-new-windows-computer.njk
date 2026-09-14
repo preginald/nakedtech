@@ -1,0 +1,96 @@
+---
+layout: layouts/base.njk
+permalink: /guides/moving-to-a-new-windows-computer/index.html
+title: "Moving to a new Windows computer: what to prepare, transfer and check"
+description: "A practical overview of ways to move to a new Windows computer, with limits, preparation steps and checks to reduce surprises without promising a perfect transfer."
+robots: index, follow
+ogImage: /img/nakedtech_hero_technician.webp
+ogImageWidth: 1408
+ogImageHeight: 768
+---
+{# Draft prepared against Naked Tech Editorial & Design Guide DOC-3511 v1.0. #}
+{% from "components/editorial/macros.njk" import choice, note, contents, nextReading, example %}
+<style>{% include "components/editorial/styles.css" %}</style>
+<header class="ed-hero bg-inverse pb-14 pt-32 text-inverse-ink md:pt-40">
+  <div class="mx-auto max-w-3xl px-6">
+    <p class="mb-4 text-sm font-bold uppercase tracking-widest text-accent">The Naked Tech field guide</p>
+    <h1 class="text-4xl font-extrabold tracking-tight md:text-5xl">Moving to a new Windows computer:<br><span>what to prepare, transfer and check</span></h1>
+    <p class="ed-deck">A new computer move is a small project, not just a file copy. Choose a method that matches your files, applications and accounts, then check the result while keeping your originals.</p>
+  </div>
+</header>
+<article class="ed-guide bg-canvas py-12 md:py-16" aria-label="Guide to moving to a new Windows computer">
+  <div class="ed-layout">
+    {{ contents([{"id": "start", "title": "Find your starting point"}, {"id": "understand", "title": "Prepare files, apps and access"}, {"id": "compare", "title": "Compare your options"}, {"id": "try", "title": "Check the everyday result"}, {"id": "related", "title": "What to read next"}]) }}
+    <div class="ed-reading guide-reading text-lg">
+      <p class="mb-5 leading-relaxed text-muted">Before moving anything, decide what “ready” means for you. That may include opening important files, signing in to essential accounts, reinstalling a few applications and reconnecting everyday equipment. It does not necessarily mean recreating every setting or transferring every saved password. The right method depends on the condition of the old computer, the type and volume of data, application licences and your control of account recovery.</p>
+
+      <section class="ed-start" id="start" aria-labelledby="start-heading">
+        <p class="ed-label">Start here</p>
+        <h2 id="start-heading">What kind of move are you planning?</h2>
+        <p class="mb-5 leading-relaxed text-muted">Use these three routes to orient yourself. The detailed preparation and post-move checks are covered in the two supporting guides linked below.</p>
+        <div class="ed-choices">
+          {{ choice("Files and the old computer", "Start with source health, storage and a usable backup before choosing a transfer method.", "#understand", "startup", "/img/guides/computer-move-essentials-v1.webp", "Folders containing a document and a photo.", "Read this part") }}
+          {{ choice("Applications and settings", "Separate personal files from programs, licences and settings that may need a fresh setup.", "#compare", "applications", "/img/guides/computer-move-essentials-v1.webp", "A laptop showing abstract application windows.", "Read this part") }}
+          {{ choice("Accounts and online files", "Check sign-in and recovery access, and do not treat visible cloud filenames as local copies.", "#try", "online", "/img/guides/computer-move-essentials-v1.webp", "A laptop account symbol beside a phone with an authentication symbol.", "Read this part") }}
+        </div>
+      </section>
+
+      <h2 class="ed-section-heading" id="understand"><span aria-hidden="true">01</span>Prepare files, apps and access</h2>
+      <p class="mb-5 leading-relaxed text-muted">A useful inventory separates four things: personal files, applications, accounts and equipment. Note which files are irreplaceable, which applications you actually use, how each account is recovered, and which devices must work afterwards. Include less obvious tasks such as opening an old document, printing, using a browser bookmark or finding a photograph.</p>
+      {% call note("care", "Take care", "Pause if the source is not healthy") %}<p class="mb-5 leading-relaxed text-muted">If the old computer will not start, files are inaccessible, malware is suspected or an unfamiliar encryption prompt appears, pause for assessment before copying or attempting a backup. Routine transfer instructions are not a recovery procedure.</p>{% endcall %}
+      <p class="mb-5 leading-relaxed text-muted">Check that the old computer starts normally and that the files you intend to move are readable. Make or confirm a current, usable backup before copying. A backup is not proven merely because a program says it completed: open a few representative files from the backup where practical.</p>
+      <p class="mb-5 leading-relaxed text-muted">Windows Backup can be opened from Start so you can inspect its status. Microsoft describes it for a consumer personal Microsoft account, with selected user folders synchronised through OneDrive when there is enough storage. It may help restore selected folders and settings, but applications may need reinstalling and it is not a full-disk clone. Inspecting the status is different from changing the backup configuration. <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="https://support.microsoft.com/en-us/windows/experience/backup-recovery/back-up-and-restore-with-windows-backup">Read Microsoft’s current Windows Backup guidance</a>.</p>
+
+      <h2 class="ed-section-heading" id="compare"><span aria-hidden="true">02</span>Compare your options</h2>
+      <p class="mb-5 leading-relaxed text-muted">There is no universal transfer method. Compare the boundaries before you begin:</p>
+      <div class="mb-8 overflow-x-auto" role="region" aria-label="Computer move methods and their limits" tabindex="0">
+        <table role="table" class="w-full border-collapse text-left text-sm md:text-base">
+          <caption class="sr-only">Computer move methods and their limits</caption>
+          <thead>
+            <tr role="row">
+              <th scope="col" class="border border-line bg-surface p-4 font-bold text-ink">Method</th>
+              <th scope="col" class="border border-line bg-surface p-4 font-bold text-ink">Useful for</th>
+              <th scope="col" class="border border-line bg-surface p-4 font-bold text-ink">Important limit</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr role="row">
+              <td role="cell" data-label="Method" class="border border-line p-4 align-top text-muted">Selected-file copy</td>
+              <td role="cell" data-label="Useful for" class="border border-line p-4 align-top text-muted">Chosen documents, photographs and other accessible personal files</td>
+              <td role="cell" data-label="Important limit" class="border border-line p-4 align-top text-muted">Does not recreate applications, licences, settings or account access</td>
+            </tr>
+            <tr role="row">
+              <td role="cell" data-label="Method" class="border border-line p-4 align-top text-muted">Cloud synchronisation</td>
+              <td role="cell" data-label="Useful for" class="border border-line p-4 align-top text-muted">Files already organised in a supported cloud service</td>
+              <td role="cell" data-label="Important limit" class="border border-line p-4 align-top text-muted">Needs account access, adequate storage and an internet connection</td>
+            </tr>
+            <tr role="row">
+              <td role="cell" data-label="Method" class="border border-line p-4 align-top text-muted">Windows Backup and restore</td>
+              <td role="cell" data-label="Useful for" class="border border-line p-4 align-top text-muted">Selected folders and supported settings when restoring a personal backup</td>
+              <td role="cell" data-label="Important limit" class="border border-line p-4 align-top text-muted">Needs a suitable backup and account; applications may require reinstallation</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="mb-5 leading-relaxed text-muted">A selected-file copy to an external drive can suit a clearly identified set of files, but it is not application migration. For a healthy source, copy rather than move the chosen files, check the destination has enough space and open representative copies before using them on the new computer. Keep the originals. Do not format a drive or overwrite existing files to make room without understanding what would be lost.</p>
+      <p class="mb-5 leading-relaxed text-muted">Older instructions may mention a direct PC-to-PC transfer option. <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="https://support.microsoft.com/en-us/windows/experience/backup-recovery/transfer-your-files-and-settings-to-a-new-windows-pc">Microsoft now marks that feature as unavailable</a> and points readers to Windows Backup and restore. Check the current supported route before following an older tutorial.</p>
+      <p class="mb-5 leading-relaxed text-muted">OneDrive Files On-Demand can show online-only files in File Explorer. Those filenames are not proof that a local copy is available: an internet connection may be needed to open the file. Check the file state and keep an independent usable backup where the data matters. <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="https://support.microsoft.com/en-us/onedrive/save-disk-space-with-onedrive-files-on-demand-for-windows">Read Microsoft’s Files On-Demand guidance</a>.</p>
+      <p class="mb-5 leading-relaxed text-muted">Applications may need to be downloaded and installed again. Check licence rules with each publisher. Do not assume a saved password, application database, browser profile or account recovery method will arrive with a file copy.</p>
+
+      <h2 class="ed-section-heading" id="try"><span aria-hidden="true">03</span>Check the everyday result</h2>
+      <p class="mb-5 leading-relaxed text-muted">Before the move, record a short list of representative checks: open a few important files, launch the applications you rely on, sign in to essential accounts, and test an everyday task such as printing or finding a stored photo. After setup, repeat the same checks on the new computer. Record what worked, what needs an account sign-in or licence, and what remains unresolved.</p>
+      <p class="mb-5 leading-relaxed text-muted">Use the <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="/guides/new-windows-computer-move-checklist/">new Windows computer move checklist</a> for the preparation inventory, backup and source-health questions. Then use <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="/guides/new-computer-handover-checks/">new computer handover checks</a> for representative files, applications, accounts, cloud-versus-local status and recovery ownership. This overview helps choose a method; those guides provide the narrower preparation and handover detail.</p>
+
+      {% call note("care", "Take care", "Do not erase the old computer yet") %}
+        <p class="mb-5 leading-relaxed text-muted">Keep the old computer, original files and usable backup while you review the result and resolve important exceptions. Passing a few checks is not, by itself, a reason to erase the old device; erasure and disposal need a separate decision. A sample is useful evidence, not exhaustive validation. If the old computer will not start, storage is inaccessible, malware is suspected, encryption is unexpected, or account recovery is unavailable, pause rather than forcing a routine copy. Keep passwords and recovery codes in the owner’s control; enter them yourself and do not send them through a form or message.</p>
+      {% endcall %}
+
+      <p class="mb-5 leading-relaxed text-muted">Start with the preparation checklist, then work through the handover checks after the new computer is set up. Keep a written list of exceptions so an unresolved item is visible rather than mistaken for a successful transfer.</p>
+      {{ nextReading([
+        { title: "Prepare for a new Windows computer move", href: "/guides/new-windows-computer-move-checklist/" },
+        { title: "Check a new computer after the move", href: "/guides/new-computer-handover-checks/" }
+      ], "/services/new-computer-setup-data-transfer-ivanhoe/", "Windows computer setup and data transfer service", "04") }}
+    </div>
+  </div>
+</article>
+<script>{% include "components/editorial/contents.js" %}</script>
