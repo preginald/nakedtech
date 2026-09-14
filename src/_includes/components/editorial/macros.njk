@@ -13,8 +13,10 @@
 <a class="ed-choice" href="{{ href }}"><strong>{{ title }}</strong><span>{{ detail }}</span><span class="ed-choice-action">Explore this symptom <span aria-hidden="true">↗</span></span></a>
 {% endmacro %}
 
-{% macro decision(kind, title, situation, question) %}
-<section class="ed-decision">{{ icon(kind) }}<h3>{{ title }}</h3><p>{{ situation }}</p><div class="ed-question"><span class="ed-label">Ask this</span><p>{{ question }}</p></div></section>
+{% macro decision(kind, title, situation, question, exampleText) %}
+<section class="ed-decision">{{ icon(kind) }}<h3>{{ title }}</h3><p>{{ situation }}</p><div class="ed-question"><span class="ed-label">Ask this</span><p>{{ question }}</p></div>
+{% if exampleText %}<details class="ed-example ed-decision-example"><summary>See an example<span class="sr-only"> — {{ title }}</span><span aria-hidden="true">⌄</span></summary><div class="ed-example-body"><p>{{ exampleText }}</p></div></details>{% endif %}
+</section>
 {% endmacro %}
 
 {% macro note(kind, label, title) %}

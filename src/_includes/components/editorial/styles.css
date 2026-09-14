@@ -119,3 +119,14 @@
   .ed-guide *, .ed-guide *::before, .ed-guide *::after { transition: none !important; animation: none !important; }
   .ed-choice, .ed-choice-action [aria-hidden], .ed-next-list a > [aria-hidden] { transform: none !important; }
 }
+
+/* Decision cards remain information; only their native disclosures are controls. */
+.ed-decisions { align-items: start; }
+.ed-decision { transition: border-color var(--ed-motion-fast) ease, background-color var(--ed-motion-fast) ease; }
+.ed-decision:focus-within { border-color: rgb(var(--nt-accent-ink)); background-color: rgb(var(--nt-surface-muted)); }
+.ed-decision .ed-decision-example { grid-column: 1 / -1; width: 100%; margin: 20px 0 0; border-bottom: 0; }
+.ed-decision-example summary { font-size: 15px; padding: 14px 0; gap: 8px; }
+.ed-decision-example .ed-example-body { font-size: 16px; padding: 0 0 4px; }
+@media (hover: hover) and (pointer: fine) {
+  .ed-decision:hover { border-color: rgb(var(--nt-accent-ink)); background-color: rgb(var(--nt-surface-muted)); }
+}

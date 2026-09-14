@@ -77,3 +77,8 @@ Peter endorsed a consistent motion vocabulary: 160ms feedback, 2px lift on actio
 `example(title)` is a native details/summary disclosure for optional worked examples. The first instance supplies an explicitly illustrative symptom note, while all essential instructions and safety advice remain visible. Its chevron reflects expansion; opening content is immediate, without height animation or scroll manipulation. Native controls work without JavaScript.
 
 Reduced-motion preference disables transitions and card/link translation while preserving colour, focus, checked and expanded states. No decorative entrance animations, automatic motion, timers, new dependencies, or tracking. Production remains unchanged.
+
+
+## Decision-card examples
+
+`decision(kind, title, situation, question, exampleText)` now optionally adds a native “See an example” disclosure. Each summary's accessible name includes its card title. Hypothetical Fix/Upgrade/Replace examples are conditional, not diagnoses or guarantees; core situations, questions and the surrounding safety callout remain visible. Cards independently expand, with no forced accordion behaviour. Card hover/focus-within changes only border and surface colour; no lift, arrow movement, click handler or pointer cursor on the card itself. The summary retains its native keyboard/touch control and reduced-motion behaviour. Existing essential content and service link remain unchanged; prototype only.
