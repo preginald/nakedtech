@@ -1,0 +1,22 @@
+{# Editorial kit: semantic HTML first; icons are decorative, labels carry meaning. #}
+{% macro icon(kind) %}
+<svg class="ed-icon" width="40" height="40" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+{% if kind == 'fix' %}<path d="M29 8a10 10 0 0 0-12 13L7 31a5 5 0 0 0 7 7l10-10A10 10 0 0 0 37 16l-7 7-6-6 7-7Z"/>
+{% elif kind == 'upgrade' %}<rect x="10" y="18" width="28" height="22" rx="3"/><path d="M24 30V6m-7 7 7-7 7 7M16 35h3m10 0h3"/>
+{% elif kind == 'replace' %}<rect x="6" y="8" width="36" height="26" rx="3"/><path d="M17 41h14m-7-7v7M12 27h24m-5-12 4 4-4 4m-14-8-4 4 4 4"/>
+{% elif kind == 'care' %}<path d="m24 5 18 33H6L24 5Z M24 17v10m0 5v1"/>
+{% else %}<circle cx="24" cy="24" r="17"/><path d="M24 21v12m0-19v1"/>{% endif %}
+</svg>
+{% endmacro %}
+
+{% macro choice(title, detail, href) %}
+<a class="ed-choice" href="{{ href }}"><strong>{{ title }}</strong><span>{{ detail }}</span><span class="ed-choice-action">Explore this symptom <span aria-hidden="true">↗</span></span></a>
+{% endmacro %}
+
+{% macro decision(kind, title, situation, question) %}
+<section class="ed-decision">{{ icon(kind) }}<h3>{{ title }}</h3><p>{{ situation }}</p><div class="ed-question"><span class="ed-label">Ask this</span><p>{{ question }}</p></div></section>
+{% endmacro %}
+
+{% macro note(kind, label, title) %}
+<aside class="ed-note ed-note--{{ kind }}">{{ icon(kind) }}<div><p class="ed-label">{{ label }}</p><h3>{{ title }}</h3>{{ caller() }}</div></aside>
+{% endmacro %}
