@@ -18,6 +18,28 @@ const serviceSearchTerms = {
 
 const generalEntries = [
   {
+    path: '/guides/home-computer-backup/',
+    title: 'How to set up a simple backup for one home computer',
+    description: 'A practical starting point for protecting important files on one Windows or Mac personal computer.',
+    kind: 'Guide',
+    searchTerms: 'computer backup restore files external drive cloud Windows Mac Time Machine File History',
+  },
+  {
+    path: '/guides/external-drive-or-cloud-backup/',
+    title: 'External drive or cloud: choosing a computer backup destination',
+    description: 'A calm comparison of external-drive and cloud destinations for a simple home-computer backup routine.',
+    kind: 'Guide',
+    searchTerms: 'computer backup restore files external drive cloud Windows Mac Time Machine File History',
+  },
+  {
+    path: '/guides/test-a-backup-file-restore/',
+    title: 'How to test restoring a file from your backup',
+    description: 'A bounded, low-risk method for checking whether one disposable file can be restored without touching important data.',
+    kind: 'Guide',
+    searchTerms: 'computer backup restore files external drive cloud Windows Mac Time Machine File History',
+  },
+
+  {
     path: '/guides/moving-to-a-new-windows-computer/',
     title: 'Moving to a new Windows computer: what to prepare, transfer and check',
     description: 'Plan files, applications and account access, compare transfer options and check the result before retiring your old computer.',
