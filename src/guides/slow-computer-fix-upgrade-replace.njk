@@ -10,7 +10,7 @@ ogImageHeight: 768
 ---
 
 
-{% from "components/editorial/macros.njk" import choice, decision, note, nextReading %}
+{% from "components/editorial/macros.njk" import choice, decision, note, nextReading, example %}
 <style>{% include "components/editorial/styles.css" %}</style>
 <header class="ed-hero bg-inverse pb-14 pt-32 text-inverse-ink md:pt-40">
   <div class="mx-auto max-w-3xl px-6">
@@ -53,6 +53,10 @@ ogImageHeight: 768
 <h2 class="ed-section-heading" id="try"><span aria-hidden="true">03</span>If you only have ten minutes</h2>
 {% call note("info", "Try this · ten minutes", "Describe one real task") %}<p class="mb-5 leading-relaxed text-muted">Start by describing one real task that feels slow: opening email, joining a video call or finding a document. Note whether the delay happens before the computer is ready, inside one program or only when using the internet. Those are different starting points for a conversation, even when the experience feels equally frustrating.</p>
 <p class="mb-5 leading-relaxed text-muted">The useful outcome is a clear next step. You should be able to understand what was checked, what was changed, what remains uncertain and whether more work would need a separate quote.</p>
+{% endcall %}
+{% call example('See an example of useful notes') %}
+<p>Example only: “Opening my usual spreadsheet takes longer than it used to. I first noticed it last week. Other tasks seem normal, and I have not changed any settings.”</p>
+<p>This describes the task, timing and observations without guessing the cause. Your notes can be shorter; record only what you know.</p>
 {% endcall %}
 <h2 class="ed-section-heading" id="checklist"><span aria-hidden="true">04</span>A practical checklist</h2>
 <p class="mb-5 leading-relaxed text-muted">Before arranging help, note what you can. You do not need to answer every question or diagnose the computer yourself:</p>

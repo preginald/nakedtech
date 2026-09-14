@@ -31,3 +31,7 @@
 {% if helpHref %}<p class="ed-optional-help">If you’d rather have local help, see our <a href="{{ helpHref }}">{{ helpLabel }}</a>.</p>{% endif %}
 </section>
 {% endmacro %}
+
+{% macro example(title) %}
+<details class="ed-example"><summary>{{ title }}<span aria-hidden="true">⌄</span></summary><div class="ed-example-body">{{ caller() }}</div></details>
+{% endmacro %}

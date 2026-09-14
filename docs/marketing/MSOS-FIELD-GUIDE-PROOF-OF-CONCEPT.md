@@ -68,3 +68,12 @@ At Peter's request, `data-editorial-contents` enables the reusable contents beha
 The optional link now reads **slow computer assessment**, replacing the broader computer support service label. Full sentence: “If you’d rather have local help, see our slow computer assessment.” The existing service destination and one-link limit remain. This supersedes the exact-label wording in the earlier revision brief, at Peter's request.
 
 Google Search Central recommends descriptive, concise, contextually relevant anchor text and natural wording without keyword stuffing: https://developers.google.com/search/docs/crawling-indexing/links-crawlable . This improves destination clarity, with no claim of a measured ranking uplift. Production remains unchanged.
+
+
+## Restrained interaction layer
+
+Peter endorsed a consistent motion vocabulary: 160ms feedback, 2px lift on actionable symptom cards, 3px directional feedback on reading links, gentle checked-row tint and text-colour change, and a fading current-section marker. Keyboard focus receives equivalent feedback with a distinct focus ring. Pointer hover movement is limited to fine pointers that support hover; informational decision cards remain static. Scroll positions, focus and URLs are not animated or changed by this layer.
+
+`example(title)` is a native details/summary disclosure for optional worked examples. The first instance supplies an explicitly illustrative symptom note, while all essential instructions and safety advice remain visible. Its chevron reflects expansion; opening content is immediate, without height animation or scroll manipulation. Native controls work without JavaScript.
+
+Reduced-motion preference disables transitions and card/link translation while preserving colour, focus, checked and expanded states. No decorative entrance animations, automatic motion, timers, new dependencies, or tracking. Production remains unchanged.
