@@ -87,3 +87,8 @@ Reduced-motion preference disables transitions and card/link translation while p
 ## First conceptual illustration
 
 Peter endorsed a single branded illustration experiment for the symptom chooser. A generated triptych depicts startup waiting, application waiting and online waiting. `choice()` accepts an optional artwork identifier and displays the matching scene inside the existing actionable card. This is a first prototype-specific art mapping, not a global default for every future choice component. Labels, explanations and navigation remain native HTML; each framed scene has a short descriptive alt. One cached WebP supplies all three framed views; original and exact prompt are retained under docs/marketing/artwork. No fake software screenshot, text baked into the art, service change or production release.
+
+
+## Dark-room illustration correction
+
+Peter reported the pale artwork as uncomfortably bright in a dark bedroom. Added a separately generated dark edition with charcoal surfaces, soft warm-grey outlines and muted peach accents; no white document/screen panels. It preserves the three situations and framing. CSS selects the light/dark image using the same explicit site theme and system fallback as Brand v2.1. The artwork loading surface uses the current theme's surface token. Both small WebPs are loaded so switching is immediate; only the visible version contributes its alt text. The original light artwork remains for light mode. This supersedes the earlier deliberate-bone-in-both-themes note: visual legibility alone did not establish dark-room comfort. No claim of measuring a user's physical screen luminance.

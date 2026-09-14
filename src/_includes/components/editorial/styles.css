@@ -132,7 +132,16 @@
 }
 
 /* One generated triptych, framed into corresponding labelled choice cards. */
-.ed-choice .ed-choice-art { display: block; position: relative; overflow: hidden; aspect-ratio: 1.5; width: 100%; border-radius: 10px; background: #f7f4ef; margin-bottom: 20px; }
+.ed-choice .ed-choice-art { display: block; position: relative; overflow: hidden; aspect-ratio: 1.5; width: 100%; border-radius: 10px; background: rgb(var(--nt-surface)); margin-bottom: 20px; }
 .ed-choice-art img { position: absolute; width: 300%; max-width: none; height: auto; top: 50%; left: 0; transform: translateY(-50%); }
 .ed-choice-art--applications img { left: -100%; }
 .ed-choice-art--online img { left: -200%; }
+
+/* Match both explicit site theme and the system preference; no light loading plate. */
+.ed-choice-art .ed-art-dark { display: none; }
+:root[data-theme="dark"] .ed-choice-art .ed-art-light { display: none; }
+:root[data-theme="dark"] .ed-choice-art .ed-art-dark { display: block; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .ed-choice-art .ed-art-light { display: none; }
+  :root:not([data-theme]) .ed-choice-art .ed-art-dark { display: block; }
+}
