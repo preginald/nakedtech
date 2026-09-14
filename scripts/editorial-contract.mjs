@@ -3,7 +3,7 @@ export function editorialFindings(html, assetExists) {
   const issues = []
   const article = html.match(/<article\b[\s\S]*?<\/article>/)?.[0] || ''
   if (!article.includes('ed-guide')) issues.push('shared editorial article structure')
-  if (/REPLACE_[A-Z_]+/.test(html)) issues.push('unresolved template placeholder')
+  if (/REPLACE_[A-Za-z0-9_]+/.test(html)) issues.push('unresolved template placeholder')
   if (!article.includes('data-editorial-contents')) issues.push('contents navigation')
   if ((article.match(/class="ed-choice-art /g) || []).length !== 3) issues.push('three compact illustrated cards')
   const images = [...article.matchAll(/<img\b[^>]*>/g)].map(match => match[0])

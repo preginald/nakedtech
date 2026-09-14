@@ -1229,7 +1229,7 @@ for (const [route, serviceRoute, relatedRoute] of [
   } else assert(html.includes('$190 including GST'), `${route}: GST-inclusive price`)
 }
 // Discover every generated guide, including future articles; the guide landing index is not an article.
-const editorialFiles = walk(join(root, 'guides')).filter(file => file.endsWith('/index.html') && file !== join(root, 'guides/index.html'))
+const editorialFiles = walk(join(root, 'guides')).filter(file => file.endsWith('.html') && file !== join(root, 'guides/index.html'))
 for (const file of editorialFiles) {
   const route = '/' + relative(root, file).replace(/index\.html$/, '')
   const issues = editorialFindings(readFileSync(file, 'utf8'), src => existsSync(join(root, src)))
