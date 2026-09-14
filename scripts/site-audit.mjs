@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto'
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { extname, join, relative } from 'node:path'
 import { execFileSync } from 'node:child_process'
@@ -1675,7 +1676,9 @@ assert(baseHtml.includes('data-navigation-disclosures'), 'navigation: disclosure
 assert(baseHtml.includes('SERVICES &amp; PRICING'), 'navigation: services and pricing link rendered')
 assert(baseHtml.includes('href="#how-it-works"'), 'homepage navigation: how-it-works link targets local overview')
 assert(baseHtml.includes('data-theme-bootstrap'), 'theme: no-flash bootstrap rendered')
-assert(baseHtml.indexOf('data-theme-bootstrap') < baseHtml.indexOf('href="/css/styles.css"'), 'theme: bootstrap runs before stylesheet')
+const stylesheetHref = `href="/css/styles.css?v=${createHash('sha256').update(readFileSync(join(root, 'css/styles.css'))).digest('hex').slice(0, 16)}"`
+assert(baseHtml.includes(stylesheetHref), 'assets: stylesheet URL matches emitted CSS content hash')
+assert(baseHtml.indexOf('data-theme-bootstrap') < baseHtml.indexOf(stylesheetHref), 'theme: bootstrap runs before stylesheet')
 assert(baseHtml.includes('data-theme-controls'), 'theme: persistent controls rendered')
 for (const choice of ['system', 'light', 'dark']) {
   assert(baseHtml.includes(`data-theme-choice="${choice}"`), `theme: ${choice} choice rendered`)
