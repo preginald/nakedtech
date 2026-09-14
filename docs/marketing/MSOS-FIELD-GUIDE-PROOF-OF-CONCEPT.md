@@ -135,3 +135,7 @@ Reuses compact Wi-Fi image cards for device, location and task; preserves room-m
 ## Wi-Fi dropout diary supporting guide
 
 Uses compact device/location/time cards with the existing diary triptych; the notebook scene now fits its card's purpose. Preserves the eight-field table, fictional example, privacy advice and existing diagnostic prose. Adds active contents and consistent notes, educational next steps and one optional diagnosis link. Repairs truncated metadata. Seven guides now redesigned; five supporting guides remain.
+
+## Final five supporting guides — #4312
+
+Connection-test results, assessment notes, Windows performance observations, computer-move preparation and handover checks now use the shared three-card format, active contents and educational next steps. Original educational paragraphs, tables, lists and source links are preserved, with a redundant commercial sentence removed. Truncated descriptions are repaired. The two migration guides share a new compact files/applications/accounts illustration; Wi-Fi and performance guides reuse relevant existing assets. The choice macro accepts an optional action label so preparation cards say “Read this part”. The obsolete prototype label is removed from the first pillar. All twelve guides are covered by the image audit and final responsive/theme verification. No service offer, pricing, analytics or form behavior changes.

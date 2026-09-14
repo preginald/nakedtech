@@ -9,9 +9,9 @@
 </svg>
 {% endmacro %}
 
-{% macro choice(title, detail, href, artwork, artworkSrc, artworkAlt) %}
+{% macro choice(title, detail, href, artwork, artworkSrc, artworkAlt, actionLabel='Explore this symptom') %}
 {% set artDescriptions = { startup: 'A laptop powering on beside a clock.', applications: 'Application windows on a laptop beside an hourglass.', online: 'A globe on a laptop screen beside a Wi-Fi router.' } %}
-<a class="ed-choice" href="{{ href }}">{% if artwork %}<span class="ed-choice-art ed-choice-art--{{ artwork }}"><!-- themed artwork -->{% if artworkSrc %}<img class="ed-art-custom" src="{{ artworkSrc }}" width="2172" height="724" alt="{{ artworkAlt }}" decoding="async">{% else %}<img class="ed-art-light" src="/img/guides/slowdown-situations-v1.webp" width="2172" height="724" alt="{{ artDescriptions[artwork] }}" decoding="async"><img class="ed-art-dark" src="/img/guides/slowdown-situations-dark-v1.webp" width="2172" height="724" alt="{{ artDescriptions[artwork] }}" decoding="async">{% endif %}</span>{% endif %}<strong>{{ title }}</strong><span>{{ detail }}</span><span class="ed-choice-action">Explore this symptom <span aria-hidden="true">↗</span></span></a>
+<a class="ed-choice" href="{{ href }}">{% if artwork %}<span class="ed-choice-art ed-choice-art--{{ artwork }}"><!-- themed artwork -->{% if artworkSrc %}<img class="ed-art-custom" src="{{ artworkSrc }}" width="2172" height="724" alt="{{ artworkAlt }}" decoding="async">{% else %}<img class="ed-art-light" src="/img/guides/slowdown-situations-v1.webp" width="2172" height="724" alt="{{ artDescriptions[artwork] }}" decoding="async"><img class="ed-art-dark" src="/img/guides/slowdown-situations-dark-v1.webp" width="2172" height="724" alt="{{ artDescriptions[artwork] }}" decoding="async">{% endif %}</span>{% endif %}<strong>{{ title }}</strong><span>{{ detail }}</span><span class="ed-choice-action">{{ actionLabel }} <span aria-hidden="true">↗</span></span></a>
 {% endmacro %}
 
 {% macro decision(kind, title, situation, question, exampleText) %}

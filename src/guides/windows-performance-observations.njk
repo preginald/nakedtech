@@ -2,27 +2,29 @@
 layout: layouts/base.njk
 permalink: /guides/windows-performance-observations/index.html
 title: "Read Windows performance information without guessing at a fix"
-description: "A high number on a performance screen can look alarming. Before acting on it, record what the computer was doing and whether the reading coincided with."
+description: "Use Windows Task Manager to record performance observations alongside the task and timing, without changing settings or guessing which part needs replacing."
 robots: index, follow
 ogImage: /img/nakedtech_hero_technician.webp
 ogImageWidth: 1408
 ogImageHeight: 768
 ---
-<header class="bg-inverse pb-14 pt-32 text-inverse-ink md:pt-40">
-  <div class="mx-auto max-w-3xl px-6">
-    <p class="mb-4 text-sm font-bold uppercase tracking-widest text-accent">The Naked Tech guide</p>
-    <h1 class="text-4xl font-extrabold tracking-tight md:text-5xl">{{ title }}</h1>
-  </div>
-</header>
-<article class="guide-article bg-canvas py-12 md:py-16" aria-label="Read Windows performance information without guessing at a fix">
-  <div class="guide-reading mx-auto max-w-3xl px-6 text-lg">
+{% from "components/editorial/macros.njk" import choice, note, contents, nextReading %}
+<style>{% include "components/editorial/styles.css" %}</style>
+<header class="ed-hero bg-inverse pb-14 pt-32 text-inverse-ink md:pt-40"><div class="mx-auto max-w-3xl px-6"><p class="mb-4 text-sm font-bold uppercase tracking-widest text-accent">The Naked Tech field guide <span class="ed-edition"> / 10</span></p><h1 class="text-4xl font-extrabold tracking-tight md:text-5xl">Performance numbers need context.<br><span>Observe before changing.</span></h1><p class="ed-deck">Record what the computer was doing and when the delay happened. A reading is an observation, not a verdict.</p></div></header>
+<article class="ed-guide bg-canvas py-12 md:py-16" aria-label="Performance numbers need context."><div class="ed-layout">
+{{ contents([{"id": "start", "title": "Find your starting point"}, {"id": "section-1", "title": "Use the built-in Task Manager"}, {"id": "section-2", "title": "Give the numbers some context"}, {"id": "section-3", "title": "Make a short record"}, {"id": "section-4", "title": "Know what this exercise cannot decide"}, {"id": "related", "title": "What to read next"}]) }}
+<div class="ed-reading guide-reading text-lg">
 <p class="mb-5 leading-relaxed text-muted">A high number on a performance screen can look alarming. Before acting on it, record what the computer was doing and whether the reading coincided with the problem you felt. A snapshot is an observation, not a verdict on the machine.</p>
-{% include "components/guide-start.njk" %}
-<h2 class="mt-12 mb-5 text-2xl font-bold tracking-tight text-ink md:text-3xl">Use the built-in Task Manager</h2>
+<section class="ed-start" id="start" aria-labelledby="start-heading"><p class="ed-label">Start here</p><h2 id="start-heading">Connect the reading to a real task</h2><p>Record the task first, then the category, value and timing you observed.</p><div class="ed-choices">
+{{ choice("While getting ready", "Note whether the delay happens after signing in.", "#section-2", "startup", "", "", "Read this part") }}
+{{ choice("While using an app", "Record what you were opening or working on.", "#section-2", "applications", "", "", "Read this part") }}
+{{ choice("While working online", "Keep website delays distinct from local work.", "#section-4", "online", "", "", "Read this part") }}
+</div></section>
+<h2 class="ed-section-heading" id="section-1"><span aria-hidden="true">01</span>Use the built-in Task Manager</h2>
 <p class="mb-5 leading-relaxed text-muted">On Windows 11, press <strong>Ctrl + Shift + Esc</strong> to open Task Manager. Look at the <strong>Processes</strong> and <strong>Performance</strong> views. Microsoft describes Task Manager as a way to inspect CPU, memory and disk activity. <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="https://support.microsoft.com/en-us/windows/experience/performance-optimization/tips-to-improve-pc-performance-in-windows">See Microsoft's performance guidance</a>.</p>
-<aside class="guide-safety"><span class="guide-kicker">Look only</span><p>For this exercise, observe only. Do not choose End task, disable startup items or change priorities. If your screen differs, note that and stop rather than following unfamiliar controls. Closing Task Manager ends the observation; no reset or cleanup is required.</p></aside>
+{% call note("care", "Take care", "Observe only") %}<p>For this exercise, observe only. Do not choose End task, disable startup items or change priorities. If your screen differs, note that and stop rather than following unfamiliar controls. Closing Task Manager ends the observation; no reset or cleanup is required.</p>{% endcall %}
 <p class="mb-5 leading-relaxed text-muted">This is an educational use of a Windows tool, not a claim that every Naked Tech assessment uses one fixed diagnostic procedure.</p>
-<h2 class="mt-12 mb-5 text-2xl font-bold tracking-tight text-ink md:text-3xl">Give the numbers some context</h2>
+<h2 class="ed-section-heading" id="section-2"><span aria-hidden="true">02</span>Give the numbers some context</h2>
 <div class="mb-8 overflow-x-auto" role="region" aria-label="Read Windows performance information without guessing at a fix reference table" tabindex="0"><table role="table" class="w-full border-collapse text-left text-sm md:text-base">
 <thead>
 <tr role="row">
@@ -54,17 +56,17 @@ ogImageHeight: 768
 </tbody>
 </table></div>
 <p class="mb-5 leading-relaxed text-muted">You do not need a universal “good” percentage. Avoid comparing your computer with a different machine doing different work. If a reading appears high, write down the observation and the symptom rather than diagnosing a failed part.</p>
-<h2 class="mt-12 mb-5 text-2xl font-bold tracking-tight text-ink md:text-3xl">Make a short record</h2>
+<h2 class="ed-section-heading" id="section-3"><span aria-hidden="true">03</span>Make a short record</h2>
 <p class="mb-5 leading-relaxed text-muted">A fictional example:</p>
-<blockquote class="guide-note"><span class="guide-kicker">Example note</span>
+{% call note("info", "Example only", "Keep the observation specific") %}
 <p class="mb-5 leading-relaxed text-muted">While opening the application I normally use, I noticed [category and value] in Task Manager. The delay lasted about [time]. After the application opened, the reading [changed/stayed similar/I did not check].</p>
-</blockquote>
-<p class="mb-5 leading-relaxed text-muted">Use your own values. There is no need to send a screenshot of the whole process list, especially if it reveals private document titles or workplace information. Do not open confidential material just to reproduce a delay.</p>
-<h2 class="mt-12 mb-5 text-2xl font-bold tracking-tight text-ink md:text-3xl">Know what this exercise cannot decide</h2>
-<p class="mb-5 leading-relaxed text-muted">The display alone does not tell you which upgrade to buy, whether the device is secure or whether replacement is worthwhile. If the computer is unresponsive, important files are inaccessible or a recovery prompt appears, stop experimenting and explain that before arranging routine performance help.</p>
+{% endcall %}
+{% call note("care", "Take care", "Protect private information") %}<p class="mb-5 leading-relaxed text-muted">Use your own values. There is no need to send a screenshot of the whole process list, especially if it reveals private document titles or workplace information. Do not open confidential material just to reproduce a delay.</p>{% endcall %}
+<h2 class="ed-section-heading" id="section-4"><span aria-hidden="true">04</span>Know what this exercise cannot decide</h2>
+{% call note("info", "Good to know", "Know the limits of the observation") %}<p class="mb-5 leading-relaxed text-muted">The display alone does not tell you which upgrade to buy, whether the device is secure or whether replacement is worthwhile. If the computer is unresponsive, important files are inaccessible or a recovery prompt appears, stop experimenting and explain that before arranging routine performance help.</p>{% endcall %}
 <p class="mb-5 leading-relaxed text-muted">Put your observations into the <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="/guides/slow-computer-assessment-notes/">assessment-notes checklist</a>. If the wait happens mainly online, the <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="/guides/slow-computer-or-internet/">computer or internet guide</a> may be the more useful starting point.</p>
-<aside class="guide-service" aria-label="Service scope and next step"><p class="guide-kicker">If you would like help</p>
-<p class="mb-5 leading-relaxed text-muted">For the wider decision, read <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="/guides/slow-computer-fix-upgrade-replace/">fix, upgrade or replace</a>. Naked Tech's <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="/services/slow-computer-help-ivanhoe/">Slow Computer Performance Assessment</a> is <strong>$190 including GST</strong>, including local Ivanhoe/Eaglemont call-out, 60–75 minutes onsite and a written decision plan. Appropriate safe fixes are within scope; parts and additional work are separate. Scope and availability are confirmed before booking.</p>
-</aside>
-  </div>
-</article>
+
+
+{{ nextReading([{"title": "Prepare assessment notes", "href": "/guides/slow-computer-assessment-notes/"}, {"title": "Computer or internet: compare symptoms", "href": "/guides/slow-computer-or-internet/"}, {"title": "Locate a slow-startup delay", "href": "/guides/computer-slow-startup/"}, {"title": "Fix, upgrade or replace", "href": "/guides/slow-computer-fix-upgrade-replace/"}], "/services/slow-computer-help-ivanhoe/", "slow computer assessment", "05") }}
+</div></div></article>
+<script>{% include "components/editorial/contents.js" %}</script>
