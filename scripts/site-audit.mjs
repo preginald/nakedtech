@@ -1228,11 +1228,11 @@ for (const [route, serviceRoute, relatedRoute] of [
   } else assert(html.includes('$190 including GST'), `${route}: GST-inclusive price`)
 }
 // Visual acceptance rolls out with each redesigned article, never counts site logos.
-for (const route of [slowGuideRoute, wifiGuideRoute, startupGuideRoute, comparisonGuideRoute, '/guides/wifi-one-device-or-all/', '/guides/wifi-coverage-or-internet-service/', '/guides/wifi-dropout-diary/']) {
+for (const route of [slowGuideRoute, wifiGuideRoute, startupGuideRoute, comparisonGuideRoute, '/guides/wifi-one-device-or-all/', '/guides/wifi-coverage-or-internet-service/', '/guides/wifi-dropout-diary/', ...['connection-test-results', 'new-computer-handover-checks', 'new-windows-computer-move-checklist', 'slow-computer-assessment-notes', 'windows-performance-observations'].map(slug => `/guides/${slug}/`)]) {
   const html = readFileSync(routeToFile(route), 'utf8')
   const article = html.match(/<article\b[\s\S]*?<\/article>/)?.[0] || ''
   const images = [...article.matchAll(/<img\b[^>]*>/g)].map((match) => match[0])
-  assert(images.length >= 3, `${route}: pillar has explanatory image coverage`)
+  assert(images.length >= 3, `${route}: article has explanatory image coverage`)
   for (const img of images) {
     assert(/alt="[^"\s][^"]*"/.test(img), `${route}: explanatory image has meaningful alt text`)
     const src = img.match(/src="([^"]+)"/)?.[1]
@@ -1258,10 +1258,9 @@ for (const slug of remainingGuideSlugs) {
   const route = `/guides/${slug}/`
   const html = readFileSync(routeToFile(route), 'utf8')
   assert(countOccurrences(sitemapXml, `https://nakedtech.au${route}`) === 1, `${slug}: sitemap discovery`)
-  if (['wifi-coverage-or-internet-service', 'wifi-dropout-diary'].includes(slug)) {
-    assert(!html.includes('guide-service'), `${slug}: no sales panel`)
-    assert(countOccurrences(html.match(/<article\b[\s\S]*?<\/article>/)?.[0] || '', 'href="/services/wifi-dropouts-ivanhoe/"') === 1, `${slug}: one optional service link`)
-  } else assert(html.includes('including GST'), `${slug}: clear GST price`)
+  const article = html.match(/<article\b[\s\S]*?<\/article>/)?.[0] || ''
+  assert(!article.includes('guide-service'), `${slug}: no sales panel`)
+  assert((article.match(/href="(?:https:\/\/nakedtech.au)?\/services\//g) || []).length === 1, `${slug}: one optional service link`)
   assert(html.includes('/services/'), `${slug}: service route`)
 }
 
