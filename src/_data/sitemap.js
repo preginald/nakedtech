@@ -20,6 +20,7 @@ const routeDefinitions = [
     path: '/ivanhoe-primary-school-fundraiser/',
     sources: ['src/landing-pages/ivanhoe-primary-school-fundraiser.njk', 'src/_data/searchContent.js'],
   },
+  { path: '/guides/moving-to-a-new-windows-computer/', sources: ['src/guides/moving-to-a-new-windows-computer.njk', 'src/_includes/components/editorial/macros.njk', 'src/_includes/components/editorial/styles.css', 'src/_includes/components/editorial/contents.js'] },
   { path: '/guides/slow-computer-fix-upgrade-replace/', sources: ['src/guides/slow-computer-fix-upgrade-replace.njk', 'src/_includes/components/guide-start.njk', 'src/_data/guideReading.json', 'src/css/styles.css'] },
   { path: '/guides/computer-slow-startup/', sources: ['src/guides/computer-slow-startup.njk', 'src/_includes/components/guide-start.njk', 'src/_data/guideReading.json', 'src/css/styles.css'] },
   { path: '/guides/wifi-dropouts-diagnosis/', sources: ['src/guides/wifi-dropouts-diagnosis.njk', 'src/_includes/components/guide-start.njk', 'src/_data/guideReading.json', 'src/css/styles.css'] },
