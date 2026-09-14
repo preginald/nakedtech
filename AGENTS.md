@@ -32,3 +32,7 @@ Tests are custom Node.js audits rather than a unit-test framework. `scripts/site
 History follows Conventional Commits, commonly `feat:`, `feat(marketing):`, and `docs(marketing):`. Write imperative, scoped subjects, for example `fix(landing-page): correct booking CTA`.
 
 Pull requests should summarize the user-visible change, list validation performed, and link the relevant issue or marketing plan. Include before/after screenshots for layout or creative changes, and call out analytics, SEO, route, or configuration impacts explicitly.
+
+## Naked Tech educational articles
+
+Before drafting, editing, reviewing or publishing a guide, read `docs/marketing/NAKED-TECH-EDITORIAL-DESIGN-GUIDE.md`. It is the current editorial/design standard; the proof-of-concept document is historical. Use the appropriate scaffold in `docs/marketing/templates/` and shared editorial components. Preserve existing release authority. Routine private drafts/reviews do not require new Peter approval. Record guide version, editorial verdict, sources and visual/technical verification on the owning Core ticket through Sanctum Chat. `npm test` discovers new guide routes automatically; never bypass failed checks to publish a scaffold.
