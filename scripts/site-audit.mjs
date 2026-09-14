@@ -1235,6 +1235,9 @@ for (const route of [slowGuideRoute, wifiGuideRoute]) {
     assert(src?.startsWith('/img/guides/') && existsSync(join(root, src)), `${route}: explanatory image asset exists`)
   }
 }
+const wifiVisualHtml = readFileSync(routeToFile(wifiGuideRoute), 'utf8')
+assert(countOccurrences(wifiVisualHtml, 'class="ed-choice-art ') === 3, 'Wi-Fi pillar: three illustrations use the shared card treatment')
+assert(!wifiVisualHtml.includes('class="ed-illustration"'), 'Wi-Fi pillar: no oversized standalone illustration figures')
 assert(slowGuideHtml.includes(`href="${comparisonGuideRoute}"`), 'slow pillar: comparison guide discovery')
 assert(readFileSync(routeToFile('/services/wifi-dropouts-ivanhoe/'), 'utf8').includes(`href="${wifiGuideRoute}"`), 'wifi service: pillar discovery')
 

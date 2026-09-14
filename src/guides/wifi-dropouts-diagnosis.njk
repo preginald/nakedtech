@@ -8,7 +8,7 @@ ogImage: /img/nakedtech_hero_technician.webp
 ogImageWidth: 1408
 ogImageHeight: 768
 ---
-{% from "components/editorial/macros.njk" import choice, note, nextReading, contents, triptychFigure %}
+{% from "components/editorial/macros.njk" import choice, note, nextReading, contents %}
 <style>{% include "components/editorial/styles.css" %}</style>
 <header class="ed-hero bg-inverse pb-14 pt-32 text-inverse-ink md:pt-40"><div class="mx-auto max-w-3xl px-6">
 <p class="mb-4 text-sm font-bold uppercase tracking-widest text-accent">The Naked Tech field guide <span class="ed-edition"> / 02</span></p>
@@ -21,17 +21,15 @@ ogImageHeight: 768
 <p class="mb-5 leading-relaxed text-muted">A video call freezes in the study, but the television keeps streaming. Or every device loses access at once. Both experiences get called “bad Wi-Fi”, yet they give someone investigating the problem different places to start.</p>
 <p class="mb-5 leading-relaxed text-muted">You do not need to buy another booster or become a network technician before asking for help. Start with a few observations you can repeat and explain. They may help you solve a simple problem yourself, or make a conversation with your provider or a local technician more useful.</p>
 <section class="ed-start" id="start" aria-labelledby="start-heading"><p class="ed-label">Start here</p><h2 id="start-heading">What changes when the connection drops?</h2><p>Choose one comparison. A pattern is a clue, not a diagnosis.</p><div class="ed-choices">
-{{ choice('One device or several?', 'Compare another device on the same home Wi-Fi.', '/guides/wifi-one-device-or-all/') }}
-{{ choice('One room or everywhere?', 'Notice whether the experience changes near the router.', '/guides/wifi-coverage-or-internet-service/') }}
-{{ choice('One app or everything?', 'Try another familiar website or activity.', '#compare') }}
+{{ choice('One device or several?', 'Compare another device on the same home Wi-Fi.', '/guides/wifi-one-device-or-all/', 'startup', '/img/guides/wifi-card-situations-v2.webp', 'A laptop and smartphone side by side with wireless symbols.') }}
+{{ choice('One room or everywhere?', 'Notice whether the experience changes near the router.', '/guides/wifi-coverage-or-internet-service/', 'applications', '/img/guides/wifi-card-situations-v2.webp', 'A router and laptop in adjacent rooms.') }}
+{{ choice('One app or everything?', 'Try another familiar website or activity.', '#compare', 'online', '/img/guides/wifi-card-situations-v2.webp', 'A laptop displaying two abstract application windows for comparison.') }}
 </div></section>
 <h2 class="ed-section-heading" id="connection"><span aria-hidden="true">01</span>Separate the parts of the connection</h2>
 <p class="mb-5 leading-relaxed text-muted">Your device connects over Wi-Fi to your home router. The router connects your home network to your internet service. The website or application you are using is another part of the experience. A connection to the local network does not necessarily mean the internet is available; an individual app can also have trouble while the connection works. <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="https://support.microsoft.com/en-us/windows/experience/connectivity-networking/fix-wi-fi-connection-issues-in-windows">Microsoft explains these connection states</a>.</p>
 <figure class="guide-diagram"><figcaption class="guide-kicker">The connection path · a simplified map</figcaption><ol aria-label="Connection path"><li>Device</li><li>Wi-Fi</li><li>Router</li><li>Internet service</li><li>Website or app</li></ol><p>This map helps describe the symptom. It is not a test that identifies a faulty component.</p></figure>
-{{ triptychFigure('/img/guides/wifi-observations-v1.webp', 'rooms', 'A router on an open shelf in one room and a laptop in an adjacent room.', 'Compare locations: notice whether the same activity changes near the router. Illustration only; this is not a coverage measurement.') }}
 <h2 class="ed-section-heading" id="compare"><span aria-hidden="true">02</span>Make a small comparison</h2>
 <p class="mb-5 leading-relaxed text-muted">Choose one familiar activity, such as opening an ordinary website. Note what happened, then compare one thing at a time:</p>
-{{ triptychFigure('/img/guides/wifi-observations-v1.webp', 'devices', 'A laptop and smartphone side by side with wireless symbols.', 'Compare devices on the same home Wi-Fi. Check that the phone is not using its mobile connection.') }}
 <div class="mb-8 overflow-x-auto" role="region" aria-label="Wi-Fi dropout diagnosis guide comparison table" tabindex="0"><table role="table" class="w-full border-collapse text-left text-sm md:text-base">
 <thead>
 <tr role="row">
@@ -66,7 +64,6 @@ ogImageHeight: 768
 {% call note("care", "Take care", "Keep the comparison safe") %}<p class="mb-5 leading-relaxed text-muted">Use the test your internet provider directs you to, record its name, and keep the device and test consistent. Note the time, room and whether the connection was Wi-Fi or Ethernet. Keep the units shown with the result. Do not move unfamiliar cabling or connect directly to an nbn box to follow this article; skip a wired comparison if you are unsure.</p>{% endcall %}
 <p class="mb-5 leading-relaxed text-muted">Treat the result as an observation from that moment. Avoid turning one number into “the router is broken” or “we need a faster plan”. Bring your notes to the provider or technician so the result can be considered with the symptoms.</p>
 <h2 class="ed-section-heading" id="diary"><span aria-hidden="true">04</span>Keep a short dropout diary</h2>
-{{ triptychFigure('/img/guides/wifi-observations-v1.webp', 'diary', 'A notebook and clock beside a wireless router.', 'Record the time, device, room and what happened. A short observation is more useful than guessing the cause.') }}
 <p class="mb-5 leading-relaxed text-muted">Copy this into a note on your own device or onto paper:</p>
 {% call note("info", "Try this", "Your dropout diary") %}
 <p class="mb-5 leading-relaxed text-muted">At [time], I was using [device] in [room] for [activity]. The problem lasted about [duration]. Another device [had the same problem / worked / was not checked]. I saw [connection message]. This has happened [pattern]. The test I used was [name], and its result was [value and units].</p>
