@@ -1217,14 +1217,14 @@ for (const [route, serviceRoute, relatedRoute] of [
   assert(countOccurrences(sitemapXml, `https://nakedtech.au${route}`) === 1, `${route}: sitemap discovery`)
   assert(html.includes(`href="https://nakedtech.au${serviceRoute}"`), `${route}: service conversion route`)
   assert(html.includes(`href="${relatedRoute}"`), `${route}: related guide link`)
-  if (route === wifiGuideRoute) {
+  if ([wifiGuideRoute, comparisonGuideRoute].includes(route)) {
     assert(!html.includes('guide-service'), `${route}: educational guide has no sales panel`)
     assert(countOccurrences(html, `href="https://nakedtech.au${serviceRoute}"`) === 1, `${route}: one optional service link`)
     assert(html.includes('data-editorial-contents'), `${route}: active contents navigation`)
   } else assert(html.includes('$190 including GST'), `${route}: GST-inclusive price`)
 }
 // Visual acceptance rolls out with each redesigned article, never counts site logos.
-for (const route of [slowGuideRoute, wifiGuideRoute, startupGuideRoute]) {
+for (const route of [slowGuideRoute, wifiGuideRoute, startupGuideRoute, comparisonGuideRoute]) {
   const html = readFileSync(routeToFile(route), 'utf8')
   const article = html.match(/<article\b[\s\S]*?<\/article>/)?.[0] || ''
   const images = [...article.matchAll(/<img\b[^>]*>/g)].map((match) => match[0])
