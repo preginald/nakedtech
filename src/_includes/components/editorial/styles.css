@@ -176,3 +176,8 @@
 .ed-illustration-frame--rooms img { left: -100%; }
 .ed-illustration-frame--diary img { left: -200%; }
 .ed-illustration figcaption { margin-top: 12px; font-size: 14px; line-height: 1.6; color: rgb(var(--nt-muted)); }
+
+/* Small inset crop keeps neighbouring triptych scenes out of each Wi-Fi card. */
+.ed-choice-art .ed-art-custom { width: 312%; left: -2%; }
+.ed-choice-art--applications .ed-art-custom { left: -106%; }
+.ed-choice-art--online .ed-art-custom { left: -210%; }

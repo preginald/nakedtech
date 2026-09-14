@@ -111,3 +111,7 @@ The second field guide reuses choices, notes, active contents and educational ne
 ## Mandatory visual coverage
 
 The [editorial visual publishing checklist](EDITORIAL-VISUAL-PUBLISHING-CHECKLIST.md) is now part of acceptance for every new/redesigned article. The Wi-Fi rollout's diagram/table-only treatment did not satisfy Peter's expected illustrated reading experience. Three explanatory scenes now accompany room comparison, device comparison and dropout notes. The same low-glare charcoal artwork works in both site themes; it is not a separate light/dark pair. One 54KB WebP is reused through framed views. Native captions and alt text communicate meaning; no generated technical UI or measurement is presented as factual evidence.
+
+## Wi-Fi card-art consistency correction
+
+Peter rejected the oversized standalone illustrations. Wi-Fi now matches the Slow Computer symptom-card image layout using the same choice macro, 1.5 aspect ratio, spacing and radius. Three topic-matched scenes sit inside the three Start here cards. The diary scene was replaced with an abstract app comparison. Standalone illustration figures are removed; the useful connection-path diagram remains. This supersedes the earlier distributed-illustration requirement: consistent scale and purposeful placement matter more than quantity. `choice` accepts an optional source and alt while preserving its existing theme-pair defaults.
