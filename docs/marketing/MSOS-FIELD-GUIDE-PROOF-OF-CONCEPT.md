@@ -59,3 +59,12 @@ Peter endorsed educational next steps first and a quieter optional help link. At
 `nextReading(links, helpHref, helpLabel)` composes a What to read next section with topic-specific educational links and, optionally, one secondary local-help sentence. Supply the service label and destination explicitly; do not put pricing/package defaults into this component. Omit helpHref when no appropriate service link exists. Keep learning links primary, with a restrained text help link after them. No sales-card border, button, price or duration. The contents navigation now ends at What to read next.
 
 Exact concluding copy: “If you’d rather have local help, see our computer support service.” Only “computer support service” links to the full service page, not directly to the form. That page retains price, inclusions and exclusions. Header/footer booking links remain; the claim is one in-article commercial link, not zero website CTAs. Production remains unchanged. Required site tests now protect this reader journey instead of requiring a price/form CTA in an educational article.
+
+
+## Active contents and descriptive anchor refinement
+
+At Peter's request, `data-editorial-contents` enables the reusable contents behaviour in `contents.js`. The last listed section reaching the reading line below the fixed header is current; the first item is the default before that point. Active state uses `aria-current="location"`, underline, weight and a rail marker. Passive scrolling is coalesced into animation frames. Scroll, resize, hash navigation, restored pages and article size changes recalculate location. It never moves keyboard focus, rewrites URLs or animates scrolling; ordinary anchors remain usable without JavaScript.
+
+The optional link now reads **slow computer assessment**, replacing the broader computer support service label. Full sentence: “If you’d rather have local help, see our slow computer assessment.” The existing service destination and one-link limit remain. This supersedes the exact-label wording in the earlier revision brief, at Peter's request.
+
+Google Search Central recommends descriptive, concise, contextually relevant anchor text and natural wording without keyword stuffing: https://developers.google.com/search/docs/crawling-indexing/links-crawlable . This improves destination clarity, with no claim of a measured ranking uplift. Production remains unchanged.

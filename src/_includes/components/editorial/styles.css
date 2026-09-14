@@ -12,7 +12,7 @@
 .ed-reading > p { max-width: 68ch; }
 .ed-label { display: block; margin: 0 0 12px; font-size: 12px; line-height: 1.5; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; color: rgb(var(--nt-accent-ink)); }
 .ed-toc { position: sticky; top: 112px; align-self: start; border-left: 2px solid rgb(var(--nt-line)); padding-left: 20px; }
-.ed-toc a { display: block; color: rgb(var(--nt-muted)); text-decoration: none; font-size: 14px; line-height: 1.5; padding: 12px 0; }
+.ed-toc a { position: relative; display: block; color: rgb(var(--nt-muted)); text-decoration: none; font-size: 14px; line-height: 1.5; padding: 12px 0; }
 .ed-toc a:hover { color: rgb(var(--nt-accent-ink)); text-decoration: underline; }
 .ed-reading [id] { scroll-margin-top: 112px; }
 .ed-start { border-top: 4px solid rgb(var(--nt-accent)); padding-top: 24px; margin-bottom: 64px; }
@@ -79,4 +79,10 @@
   .ed-toc, .ed-prototype { display: none; }
   .ed-layout { display: block; }
   .ed-decision, .ed-note { break-inside: avoid; }
+}
+
+.ed-toc a[aria-current="location"] { color: rgb(var(--nt-accent-ink)); font-weight: 700; text-decoration: underline; text-underline-offset: 4px; }
+.ed-toc a[aria-current="location"]::before { content: ''; position: absolute; left: -22px; top: 10px; bottom: 10px; width: 3px; background: currentColor; border-radius: 2px; }
+@media (max-width: 1000px) {
+  .ed-toc a[aria-current="location"]::before { left: -8px; }
 }
