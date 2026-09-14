@@ -762,7 +762,7 @@ const sitemapXml = existsSync(sitemapPath) ? readFileSync(sitemapPath, 'utf8') :
 const sitemapEntries = [...sitemapXml.matchAll(/<url>\s*<loc>([^<]+)<\/loc>\s*<lastmod>([^<]+)<\/lastmod>\s*<\/url>/g)]
 const sitemapLocations = sitemapEntries.map((entry) => entry[1])
 const sitemapDates = sitemapEntries.map((entry) => entry[2])
-assert(sitemapEntries.length === 27, 'sitemap: every canonical public URL has a last-modified date')
+assert(sitemapEntries.length === 28, 'sitemap: every canonical public URL has a last-modified date')
 assert(new Set(sitemapLocations).size === sitemapEntries.length, 'sitemap: canonical locations are unique')
 assert(sitemapDates.every((date) => /^\d{4}-\d{2}-\d{2}$/.test(date)), 'sitemap: last-modified dates use the W3C calendar-date format')
 assert(sitemapDates.every((date) => Date.parse(`${date}T00:00:00Z`) <= Date.now()), 'sitemap: last-modified dates are not in the future')
@@ -1216,6 +1216,13 @@ for (const [route, serviceRoute, relatedRoute] of [
 }
 assert(slowGuideHtml.includes(`href="${comparisonGuideRoute}"`), 'slow pillar: comparison guide discovery')
 assert(readFileSync(routeToFile('/services/wifi-dropouts-ivanhoe/'), 'utf8').includes(`href="${wifiGuideRoute}"`), 'wifi service: pillar discovery')
+
+const deviceGuideRoute = '/guides/wifi-one-device-or-all/'
+const deviceGuideHtml = readFileSync(routeToFile(deviceGuideRoute), 'utf8')
+assert(countOccurrences(sitemapXml, `https://nakedtech.au${deviceGuideRoute}`) === 1, 'device guide: sitemap discovery')
+assert(deviceGuideHtml.includes('href="https://nakedtech.au/guides/wifi-dropouts-diagnosis/"'), 'device guide: links to pillar')
+assert(deviceGuideHtml.includes('href="https://nakedtech.au/services/wifi-dropouts-ivanhoe/"'), 'device guide: service CTA')
+assert(readFileSync(routeToFile(wifiGuideRoute), 'utf8').includes(`href="${deviceGuideRoute}"`), 'wifi pillar: device guide discovery')
 
 const toolkitHtml = readFileSync(routeToFile('/toolkit/'), 'utf8')
 assert(documentTitle(toolkitHtml) === 'Technology Toolkit &amp; Selection Guide | Naked Tech', 'toolkit: descriptive title rendered')

@@ -23,6 +23,7 @@ const routeDefinitions = [
   { path: '/guides/computer-slow-startup/', sources: ['src/guides/computer-slow-startup.njk'] },
   { path: '/guides/wifi-dropouts-diagnosis/', sources: ['src/guides/wifi-dropouts-diagnosis.njk'] },
   { path: '/guides/slow-computer-or-internet/', sources: ['src/guides/slow-computer-or-internet.njk'] },
+  { path: '/guides/wifi-one-device-or-all/', sources: ['src/guides/wifi-one-device-or-all.njk'] },
   { path: '/toolkit/', sources: ['src/toolkit.njk'] },
   { path: '/legal/', sources: ['src/legal.njk'] },
   { path: '/service-terms/', sources: ['src/service-terms.njk'] },
