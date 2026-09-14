@@ -1,0 +1,70 @@
+---
+layout: layouts/base.njk
+permalink: /guides/connection-test-results/index.html
+title: "How to use a connection test without overinterpreting it"
+description: "A speed-test result is most useful when you know how it was collected. Before comparing numbers or changing your internet plan, record the device,."
+robots: index, follow
+ogImage: /img/nakedtech_hero_technician.webp
+ogImageWidth: 1408
+ogImageHeight: 768
+---
+<header class="bg-inverse pb-14 pt-32 text-inverse-ink md:pt-40">
+  <div class="mx-auto max-w-3xl px-6">
+    <p class="mb-4 text-sm font-bold uppercase tracking-widest text-accent">The Naked Tech guide</p>
+    <h1 class="text-4xl font-extrabold tracking-tight md:text-5xl">{{ title }}</h1>
+  </div>
+</header>
+<article class="bg-canvas py-12 md:py-16" aria-label="How to use a connection test without overinterpreting it">
+  <div class="mx-auto max-w-3xl px-6 text-lg">
+<p class="mb-5 leading-relaxed text-muted">A speed-test result is most useful when you know how it was collected. Before comparing numbers or changing your internet plan, record the device, connection and task you were trying to understand.</p>
+<h2 class="mt-12 mb-5 text-2xl font-bold tracking-tight text-ink md:text-3xl">Choose a test and a quiet moment</h2>
+<p class="mb-5 leading-relaxed text-muted">If your internet provider has asked you to use a particular test, follow its instructions and keep that test's name with the result. Another public option is <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="https://speed.cloudflare.com/">Cloudflare Speed Test</a>, which Cloudflare lists as a tool for measuring an internet connection. <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="https://developers.cloudflare.com/fundamentals/performance/test-speed/">See Cloudflare's explanation</a>.</p>
+<p class="mb-5 leading-relaxed text-muted">A test transfers data and can affect other activities. Avoid running it during an important call or on a connection where you are concerned about data use. Read the test provider's information before using the external service; it is not a Naked Tech form. No claim is made that this is the application used on every service visit.</p>
+<h2 class="mt-12 mb-5 text-2xl font-bold tracking-tight text-ink md:text-3xl">Keep the comparison repeatable</h2>
+<ol class="mb-6 list-decimal space-y-3 pl-6 text-muted">
+<li>Record the device, room, time and whether it is using home Wi-Fi or Ethernet.</li>
+<li>Open the chosen test's official page and follow its displayed controls. Let the test finish before copying its result.</li>
+<li>Keep the names and units with the values. Note anything unusual about the conditions.</li>
+<li>For another comparison, use the same device and test. Change one condition, such as the room, and record the change.</li>
+<li>Close the test page when finished. You do not need to install a booster, change the router or sign up for a new plan to retain the results.</li>
+</ol>
+<p class="mb-5 leading-relaxed text-muted">nbn describes comparing near-router, other-room and practical wired results. <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="https://www.nbnco.com.au/learn/optimisation/what-to-look-for-in-a-wifi-router">Read its guidance</a>. Skip wired testing if you are unsure about the equipment; do not move unfamiliar nbn cabling for this exercise.</p>
+<h2 class="mt-12 mb-5 text-2xl font-bold tracking-tight text-ink md:text-3xl">Read the labels, not just the largest number</h2>
+<p class="mb-5 leading-relaxed text-muted">Cloudflare distinguishes throughput, latency, jitter and packet loss in its connection measurements. <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="https://developers.cloudflare.com/radar/glossary/">Its connection-quality glossary</a> explains the measurement context.</p>
+<div class="mb-8 overflow-x-auto" role="region" aria-label="How to use a connection test without overinterpreting it reference table" tabindex="0"><table class="w-full border-collapse text-left text-sm md:text-base">
+<thead>
+<tr>
+<th scope="col" class="border border-line bg-surface p-4 font-bold text-ink">Label</th>
+<th scope="col" class="border border-line bg-surface p-4 font-bold text-ink">Plain-English question</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="border border-line p-4 align-top text-muted">Download</td>
+<td class="border border-line p-4 align-top text-muted">How quickly did data reach this device during the test?</td>
+</tr>
+<tr>
+<td class="border border-line p-4 align-top text-muted">Upload</td>
+<td class="border border-line p-4 align-top text-muted">How quickly did the test send data from this device?</td>
+</tr>
+<tr>
+<td class="border border-line p-4 align-top text-muted">Latency</td>
+<td class="border border-line p-4 align-top text-muted">How long did the measured round trip take?</td>
+</tr>
+<tr>
+<td class="border border-line p-4 align-top text-muted">Jitter</td>
+<td class="border border-line p-4 align-top text-muted">How much did that timing vary?</td>
+</tr>
+<tr>
+<td class="border border-line p-4 align-top text-muted">Packet loss</td>
+<td class="border border-line p-4 align-top text-muted">Was some tested traffic not received?</td>
+</tr>
+</tbody>
+</table></div>
+<p class="mb-5 leading-relaxed text-muted">Keep Mbps and milliseconds separate. A result about throughput is not the same as a result about responsiveness. Do not use a single score as a guarantee about every website, call or room.</p>
+<h2 class="mt-12 mb-5 text-2xl font-bold tracking-tight text-ink md:text-3xl">Decide what to ask next</h2>
+<p class="mb-5 leading-relaxed text-muted">Write: “Using [test] on [device], in [room], at [time], I recorded [label, value and units]. The problem I was investigating was [symptom].” An unexplained result is a useful question for the provider or technician; it is not proof that you need new hardware.</p>
+<p class="mb-5 leading-relaxed text-muted">Use our <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="/guides/wifi-coverage-or-internet-service/">coverage worksheet</a> for location comparisons or <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="/guides/wifi-dropout-diary/">dropout diary</a> for intermittent trouble. The <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="/guides/wifi-dropouts-diagnosis/">Wi-Fi pillar</a> covers the wider diagnostic picture.</p>
+<p class="mb-5 leading-relaxed text-muted">Naked Tech's <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="/services/wifi-dropouts-ivanhoe/">Wi-Fi diagnosis</a> costs <strong>$190 including GST</strong> in Ivanhoe and Eaglemont, with local call-out and an action plan. Appropriate straightforward adjustments are included within scope; equipment, cabling, provider remediation and installation are separate. Scope and availability are confirmed before booking.</p>
+  </div>
+</article>
