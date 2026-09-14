@@ -119,3 +119,7 @@ Peter rejected the oversized standalone illustrations. Wi-Fi now matches the Slo
 ## Slow-startup supporting guide — #4307
 
 Reuses the original light/dark computer illustrations inside shared symptom cards: before work, inside a program, mainly online. Existing diagnostic paragraphs, comparison table and Microsoft source link remain. Added article-specific active contents and visible safety notes. Removed the commercial panel in favour of educational next steps and one optional assessment link. No new imagery or technical claims. Visual acceptance coverage now includes this supporting guide; nine supporting articles remain.
+
+## Computer-or-internet supporting guide — #4308
+
+Uses the approved three compact computer-art cards to distinguish startup, local work and online delay. The existing diagnostic comparison table, prose and Microsoft/nbn links remain. Active contents and visible note/safety callouts support reading. Educational resources replace the former multi-service sales panel, with one optional assessment link. Existing Wi-Fi guide links retain the connectivity route. Four articles now use the design; eight supporting articles remain.
