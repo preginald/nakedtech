@@ -145,3 +145,24 @@
   :root:not([data-theme]) .ed-choice-art .ed-art-light { display: none; }
   :root:not([data-theme]) .ed-choice-art .ed-art-dark { display: block; }
 }
+
+/* Compact contents disclosure only after enhancement; plain links remain without JS. */
+.ed-toc-toggle { display: none; }
+@media (max-width: 1000px) {
+  .ed-toc { display: block; }
+  .ed-toc-links { display: grid; grid-template-columns: 1fr 1fr; gap: 0 16px; }
+  .ed-toc[data-enhanced] { position: sticky; top: 80px; z-index: 30; padding: 0; border: 1px solid rgb(var(--nt-line)); border-radius: 10px; background: rgb(var(--nt-surface)); margin-bottom: 28px; }
+  .ed-toc[data-enhanced] .ed-toc-desktop-label { display: none; }
+  .ed-toc[data-enhanced] .ed-toc-toggle { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 54px; padding: 12px; text-align: left; color: rgb(var(--nt-ink)); border-radius: 10px; }
+  .ed-toc-prefix { flex-shrink: 0; font-size: 12px; color: rgb(var(--nt-muted)); }
+  .ed-toc-current { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px; font-weight: 600; }
+  .ed-toc-chevron { flex-shrink: 0; transition: transform var(--ed-motion-fast) ease; }
+  .ed-toc[data-open] .ed-toc-chevron { transform: rotate(180deg); }
+  .ed-toc-toggle:focus-visible { outline: 3px solid rgb(var(--nt-accent-ink)); outline-offset: 3px; }
+  .ed-toc[data-enhanced] .ed-toc-links { position: absolute; top: calc(100% + 4px); left: 0; right: 0; display: block; max-height: calc(100vh - 160px); max-height: calc(100dvh - 160px); overflow-y: auto; overscroll-behavior: contain; padding: 8px 16px; background: rgb(var(--nt-surface)); border: 1px solid rgb(var(--nt-line)); border-radius: 10px; box-shadow: 0 8px 20px rgb(0 0 0 / .15); }
+  .ed-toc[data-enhanced]:not([data-open]) .ed-toc-links { display: none; }
+  .ed-toc[data-enhanced] .ed-toc-links a { padding: 12px 8px; }
+  .ed-toc[data-enhanced] a::before { left: -2px; }
+  .ed-reading [id] { scroll-margin-top: 156px; }
+}
+@media print { .ed-toc[data-enhanced] { display: none; } }

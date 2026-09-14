@@ -92,3 +92,8 @@ Peter endorsed a single branded illustration experiment for the symptom chooser.
 ## Dark-room illustration correction
 
 Peter reported the pale artwork as uncomfortably bright in a dark bedroom. Added a separately generated dark edition with charcoal surfaces, soft warm-grey outlines and muted peach accents; no white document/screen panels. It preserves the three situations and framing. CSS selects the light/dark image using the same explicit site theme and system fallback as Brand v2.1. The artwork loading surface uses the current theme's surface token. Both small WebPs are loaded so switching is immediate; only the visible version contributes its alt text. The original light artwork remains for light mode. This supersedes the earlier deliberate-bone-in-both-themes note: visual legibility alone did not establish dark-room comfort. No claim of measuring a user's physical screen luminance.
+
+
+## Mobile sticky contents
+
+At widths up to 1000px, enhanced contents becomes a compact sticky disclosure beneath the 80px site header. Its one-line current section updates as the reader scrolls; the expanded list overlays rather than shifting article content and scrolls within the available viewport. Selecting a native anchor closes the list and moves focus to the chosen section; passive reading still never moves focus or changes history. Escape closes and restores toggle focus; outside click closes. Resize preserves usable focus when switching between the disclosure and desktop rail. `aria-expanded` and `aria-controls` expose state, and all links remain plain visible navigation if JavaScript is unavailable. The 156px mobile anchor margin accounts for both bars. Reduced motion disables chevron transitions. Prototype only; no production release.
