@@ -123,3 +123,7 @@ Reuses the original light/dark computer illustrations inside shared symptom card
 ## Computer-or-internet supporting guide — #4308
 
 Uses the approved three compact computer-art cards to distinguish startup, local work and online delay. The existing diagnostic comparison table, prose and Microsoft/nbn links remain. Active contents and visible note/safety callouts support reading. Educational resources replace the former multi-service sales panel, with one optional assessment link. Existing Wi-Fi guide links retain the connectivity route. Four articles now use the design; eight supporting articles remain.
+
+## Wi-Fi two-device supporting guide
+
+Uses the shared compact Wi-Fi artwork cards for connection, location and task. Preserves comparison instructions, five-result table, Microsoft source links, observation-only caution and fictional example. Adds active contents and consistent notes. Educational next resources precede one optional service link. No new technical claims or generated artwork. Five articles use the standard; seven supporting articles remain.
