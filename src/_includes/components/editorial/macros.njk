@@ -20,3 +20,14 @@
 {% macro note(kind, label, title) %}
 <aside class="ed-note ed-note--{{ kind }}">{{ icon(kind) }}<div><p class="ed-label">{{ label }}</p><h3>{{ title }}</h3>{{ caller() }}</div></aside>
 {% endmacro %}
+
+{# Educational continuation first. Commercial facts belong on the destination page. #}
+{% macro nextReading(links, helpHref, helpLabel) %}
+<section class="ed-next" aria-labelledby="related">
+<h2 class="ed-section-heading" id="related"><span aria-hidden="true">05</span>What to read next</h2>
+<ul class="ed-next-list">
+{% for link in links %}<li><a href="{{ link.href }}">{{ link.title }} <span aria-hidden="true">→</span></a></li>{% endfor %}
+</ul>
+{% if helpHref %}<p class="ed-optional-help">If you’d rather have local help, see our <a href="{{ helpHref }}">{{ helpLabel }}</a>.</p>{% endif %}
+</section>
+{% endmacro %}

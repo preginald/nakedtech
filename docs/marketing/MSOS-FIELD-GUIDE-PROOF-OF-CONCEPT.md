@@ -50,3 +50,12 @@ The prototype's small scoped stylesheet is included inline so its new components
 Required `npm test`, desktop/mobile light/dark screenshots, 390/650/1440px layout checks, local anchors, meaningful links, keyboard checkbox and overflow checks. Evidence lives in decision-register `growth/evidence/MSOS-FIELD-GUIDE-POC-20260914/`. No enquiry was submitted. No exhaustive assistive-technology or conversion testing is claimed.
 
 The team presentation should decide whether this editorial direction serves the reader, whether labels and illustrations clarify the content, and which components should become the shared standard. Rollout to the remaining articles follows that discussion; this branch is not a production release.
+
+
+## MSOS-owned revision — educational continuation
+
+Peter endorsed educational next steps first and a quieter optional help link. Athena commissioned Codex; Thalia authored the exact acceptance brief in Chat thread `187ec2ee-6dc1-41f2-8c9a-86c7f7afbdcb`, under #4305. This revision supersedes the original large service-panel demonstration above.
+
+`nextReading(links, helpHref, helpLabel)` composes a What to read next section with topic-specific educational links and, optionally, one secondary local-help sentence. Supply the service label and destination explicitly; do not put pricing/package defaults into this component. Omit helpHref when no appropriate service link exists. Keep learning links primary, with a restrained text help link after them. No sales-card border, button, price or duration. The contents navigation now ends at What to read next.
+
+Exact concluding copy: “If you’d rather have local help, see our computer support service.” Only “computer support service” links to the full service page, not directly to the form. That page retains price, inclusions and exclusions. Header/footer booking links remain; the claim is one in-article commercial link, not zero website CTAs. Production remains unchanged. Required site tests now protect this reader journey instead of requiring a price/form CTA in an educational article.

@@ -1190,8 +1190,12 @@ assert(!privacyHtml.includes('processed securely by Stripe'), 'privacy: unsuppor
 const slowGuideRoute = '/guides/slow-computer-fix-upgrade-replace/'
 const slowGuideHtml = readFileSync(routeToFile(slowGuideRoute), 'utf8')
 assert(countOccurrences(sitemapXml, `https://nakedtech.au${slowGuideRoute}`) === 1, 'slow computer guide: canonical route appears once in sitemap')
-assert(slowGuideHtml.includes('including GST'), 'slow computer guide: price explicitly includes GST')
-assert(slowGuideHtml.includes('href="https://nakedtech.au/services/slow-computer-help-ivanhoe/#contact"'), 'slow computer guide: CTA reaches existing enquiry form')
+const slowGuideArticle = slowGuideHtml.match(/<article\b[\s\S]*?<\/article>/)?.[0] || ''
+assert(slowGuideArticle.includes('What to read next'), 'slow computer guide: educational next steps exist')
+assert(!/\$190|ed-service|60–75/.test(slowGuideArticle), 'slow computer guide: no in-article sales panel or package facts')
+assert(slowGuideArticle.indexOf('/guides/new-computer-handover-checks/') < slowGuideArticle.indexOf('If you’d rather have local help'), 'slow computer guide: related learning precedes optional help')
+assert(countOccurrences(slowGuideArticle, 'https://nakedtech.au/services/slow-computer-help-ivanhoe/') === 1, 'slow computer guide: one optional service link')
+assert(slowGuideArticle.includes('href="https://nakedtech.au/services/slow-computer-help-ivanhoe/"'), 'slow computer guide: optional help reaches full service scope before enquiry')
 assert(readFileSync(routeToFile('/services/slow-computer-help-ivanhoe/'), 'utf8').includes(`href="${slowGuideRoute}"`), 'slow computer service: guide discovery link is rendered')
 
 const startupGuideRoute = '/guides/computer-slow-startup/'

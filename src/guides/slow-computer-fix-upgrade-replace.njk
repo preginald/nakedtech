@@ -10,7 +10,7 @@ ogImageHeight: 768
 ---
 
 
-{% from "components/editorial/macros.njk" import choice, decision, note %}
+{% from "components/editorial/macros.njk" import choice, decision, note, nextReading %}
 <style>{% include "components/editorial/styles.css" %}</style>
 <header class="ed-hero bg-inverse pb-14 pt-32 text-inverse-ink md:pt-40">
   <div class="mx-auto max-w-3xl px-6">
@@ -22,7 +22,7 @@ ogImageHeight: 768
 </header>
 <article class="ed-guide bg-canvas py-12 md:py-16" aria-label="Slow computer decision guide">
   <div class="ed-layout">
-  <nav class="ed-toc" aria-label="In this guide"><p class="ed-label">In this guide</p><a href="#start">Find your starting point</a><a href="#causes">Understand the slowdown</a><a href="#options">Fix, upgrade or replace</a><a href="#try">Try this in ten minutes</a><a href="#checklist">Prepare your notes</a><a href="#help">Get local help</a></nav>
+  <nav class="ed-toc" aria-label="In this guide"><p class="ed-label">In this guide</p><a href="#start">Find your starting point</a><a href="#causes">Understand the slowdown</a><a href="#options">Fix, upgrade or replace</a><a href="#try">Try this in ten minutes</a><a href="#checklist">Prepare your notes</a><a href="#related">What to read next</a></nav>
   <div class="ed-reading text-lg">
 <section class="ed-start" id="start" aria-labelledby="start-heading">
 <p class="ed-label">Start here</p><h2 id="start-heading">Where do you notice the slowdown?</h2>
@@ -57,24 +57,12 @@ ogImageHeight: 768
 <h2 class="ed-section-heading" id="checklist"><span aria-hidden="true">04</span>A practical checklist</h2>
 <p class="mb-5 leading-relaxed text-muted">Before arranging help, note what you can. You do not need to answer every question or diagnose the computer yourself:</p>
 <ul class="ed-checklist"><li><label><input type="checkbox"><span>When did the slowdown begin?</span></label></li><li><label><input type="checkbox"><span>Is it present at startup, while opening programs, or during a particular task?</span></label></li><li><label><input type="checkbox"><span>Does restarting make a temporary difference?</span></label></li><li><label><input type="checkbox"><span>How much storage appears to be available?</span></label></li><li><label><input type="checkbox"><span>Which programs do you use most often?</span></label></li><li><label><input type="checkbox"><span>Has the computer shown unusual messages, crashes or hardware noise?</span></label></li><li><label><input type="checkbox"><span>Are there important files or accounts that need special care?</span></label></li><li><label><input type="checkbox"><span>Do you need the computer for work, study, communication or another time-sensitive purpose?</span></label></li></ul><p class="ed-caption">Use the ticks as a reading aid. They are not saved or sent anywhere.</p>
-<p class="mb-5 leading-relaxed text-muted">Do not assume that every fault can be fixed in one visit. Some work may require parts, account recovery, data transfer, a new setup, provider assistance, workshop time or follow-up. Those are separate considerations from an initial performance assessment.</p>
-<h2 class="ed-section-heading" id="help"><span aria-hidden="true">05</span>When an assessment may help</h2>
-<aside class="ed-service" aria-label="Local assessment scope">
-<p class="ed-label">A clear next step, with local help</p><h3>Slow Computer Performance Assessment</h3>
-<div class="ed-service-facts"><p><strong>$190</strong><span>including GST</span></p><p><strong>60–75 min</strong><span>onsite review</span></p></div>
-<p>For Ivanhoe and Eaglemont. Understand what is worth fixing, upgrading or replacing.</p>
-<ul><li>Safe straightforward fixes within scope</li><li>A Windows compatibility review</li><li>A written fix, upgrade or replace plan</li></ul>
-<a class="ed-button" href="https://nakedtech.au/services/slow-computer-help-ivanhoe/#contact">See the scope &amp; enquire <span aria-hidden="true">↗</span></a>
-<p class="ed-caption">Or call <a href="tel:0370685422">03 7068 5422</a>. An enquiry is not an instant confirmed booking.</p>
-<div class="ed-service-boundary"><p class="ed-label">What to expect</p><p>The assessment clarifies the practical next step; it does not promise that every fault will be resolved during one visit. Parts, account recovery, data transfer, new setups, provider work, workshop work and follow-up are separate where required.</p></div>
-</aside>
-<h2 class="ed-section-heading" id="related"><span aria-hidden="true">06</span>Continue with a practical guide</h2>
-<ul class="mb-6 list-disc space-y-3 pl-6 text-muted">
-<li><a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="/guides/slow-computer-assessment-notes/">Prepare useful assessment notes</a></li>
-<li><a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="/guides/windows-performance-observations/">Read Windows performance information</a></li>
-<li><a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="/guides/new-windows-computer-move-checklist/">Prepare for a new Windows computer</a></li>
-<li><a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="/guides/new-computer-handover-checks/">Check the result after a move</a></li>
-</ul>
+{{ nextReading([
+  { title: 'Prepare useful assessment notes', href: '/guides/slow-computer-assessment-notes/' },
+  { title: 'Read Windows performance information', href: '/guides/windows-performance-observations/' },
+  { title: 'Prepare for a new Windows computer', href: '/guides/new-windows-computer-move-checklist/' },
+  { title: 'Check the result after a move', href: '/guides/new-computer-handover-checks/' }
+], 'https://nakedtech.au/services/slow-computer-help-ivanhoe/', 'computer support service') }}
   </div>
   </div>
 </article>
