@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto'
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { extname, join, relative } from 'node:path'
 import { execFileSync } from 'node:child_process'
@@ -1190,8 +1191,12 @@ assert(!privacyHtml.includes('processed securely by Stripe'), 'privacy: unsuppor
 const slowGuideRoute = '/guides/slow-computer-fix-upgrade-replace/'
 const slowGuideHtml = readFileSync(routeToFile(slowGuideRoute), 'utf8')
 assert(countOccurrences(sitemapXml, `https://nakedtech.au${slowGuideRoute}`) === 1, 'slow computer guide: canonical route appears once in sitemap')
-assert(slowGuideHtml.includes('including GST'), 'slow computer guide: price explicitly includes GST')
-assert(slowGuideHtml.includes('href="https://nakedtech.au/services/slow-computer-help-ivanhoe/#contact"'), 'slow computer guide: CTA reaches existing enquiry form')
+const slowGuideArticle = slowGuideHtml.match(/<article\b[\s\S]*?<\/article>/)?.[0] || ''
+assert(slowGuideArticle.includes('What to read next'), 'slow computer guide: educational next steps exist')
+assert(!/\$190|ed-service|60–75/.test(slowGuideArticle), 'slow computer guide: no in-article sales panel or package facts')
+assert(slowGuideArticle.indexOf('/guides/new-computer-handover-checks/') < slowGuideArticle.indexOf('If you’d rather have local help'), 'slow computer guide: related learning precedes optional help')
+assert(countOccurrences(slowGuideArticle, 'https://nakedtech.au/services/slow-computer-help-ivanhoe/') === 1, 'slow computer guide: one optional service link')
+assert(slowGuideArticle.includes('href="https://nakedtech.au/services/slow-computer-help-ivanhoe/"'), 'slow computer guide: optional help reaches full service scope before enquiry')
 assert(readFileSync(routeToFile('/services/slow-computer-help-ivanhoe/'), 'utf8').includes(`href="${slowGuideRoute}"`), 'slow computer service: guide discovery link is rendered')
 
 const startupGuideRoute = '/guides/computer-slow-startup/'
@@ -1671,7 +1676,9 @@ assert(baseHtml.includes('data-navigation-disclosures'), 'navigation: disclosure
 assert(baseHtml.includes('SERVICES &amp; PRICING'), 'navigation: services and pricing link rendered')
 assert(baseHtml.includes('href="#how-it-works"'), 'homepage navigation: how-it-works link targets local overview')
 assert(baseHtml.includes('data-theme-bootstrap'), 'theme: no-flash bootstrap rendered')
-assert(baseHtml.indexOf('data-theme-bootstrap') < baseHtml.indexOf('href="/css/styles.css"'), 'theme: bootstrap runs before stylesheet')
+const stylesheetHref = `href="/css/styles.css?v=${createHash('sha256').update(readFileSync(join(root, 'css/styles.css'))).digest('hex').slice(0, 16)}"`
+assert(baseHtml.includes(stylesheetHref), 'assets: stylesheet URL matches emitted CSS content hash')
+assert(baseHtml.indexOf('data-theme-bootstrap') < baseHtml.indexOf(stylesheetHref), 'theme: bootstrap runs before stylesheet')
 assert(baseHtml.includes('data-theme-controls'), 'theme: persistent controls rendered')
 for (const choice of ['system', 'light', 'dark']) {
   assert(baseHtml.includes(`data-theme-choice="${choice}"`), `theme: ${choice} choice rendered`)
