@@ -46,3 +46,11 @@
 <div class="ed-toc-links" id="editorial-contents-links">{% for section in sections %}<a href="#{{ section.id }}">{{ section.title }}</a>{% endfor %}</div>
 </nav>
 {% endmacro %}
+
+{# Each scene of an intentionally composed triptych supports adjacent prose. #}
+{% macro triptychFigure(src, scene, alt, caption) %}
+<figure class="ed-illustration" data-editorial-visual>
+<div class="ed-illustration-frame ed-illustration-frame--{{ scene }}"><img src="{{ src }}" width="2172" height="724" alt="{{ alt }}" loading="lazy" decoding="async"></div>
+<figcaption>{{ caption }}</figcaption>
+</figure>
+{% endmacro %}
