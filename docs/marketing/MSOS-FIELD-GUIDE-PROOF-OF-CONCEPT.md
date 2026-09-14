@@ -115,3 +115,7 @@ The [editorial visual publishing checklist](EDITORIAL-VISUAL-PUBLISHING-CHECKLIS
 ## Wi-Fi card-art consistency correction
 
 Peter rejected the oversized standalone illustrations. Wi-Fi now matches the Slow Computer symptom-card image layout using the same choice macro, 1.5 aspect ratio, spacing and radius. Three topic-matched scenes sit inside the three Start here cards. The diary scene was replaced with an abstract app comparison. Standalone illustration figures are removed; the useful connection-path diagram remains. This supersedes the earlier distributed-illustration requirement: consistent scale and purposeful placement matter more than quantity. `choice` accepts an optional source and alt while preserving its existing theme-pair defaults.
+
+## Slow-startup supporting guide — #4307
+
+Reuses the original light/dark computer illustrations inside shared symptom cards: before work, inside a program, mainly online. Existing diagnostic paragraphs, comparison table and Microsoft source link remain. Added article-specific active contents and visible safety notes. Removed the commercial panel in favour of educational next steps and one optional assessment link. No new imagery or technical claims. Visual acceptance coverage now includes this supporting guide; nine supporting articles remain.
