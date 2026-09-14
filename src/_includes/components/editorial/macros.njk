@@ -25,9 +25,9 @@
 {% endmacro %}
 
 {# Educational continuation first. Commercial facts belong on the destination page. #}
-{% macro nextReading(links, helpHref, helpLabel) %}
+{% macro nextReading(links, helpHref, helpLabel, sectionNumber='05') %}
 <section class="ed-next" aria-labelledby="related">
-<h2 class="ed-section-heading" id="related"><span aria-hidden="true">05</span>What to read next</h2>
+<h2 class="ed-section-heading" id="related"><span aria-hidden="true">{{ sectionNumber }}</span>What to read next</h2>
 <ul class="ed-next-list">
 {% for link in links %}<li><a href="{{ link.href }}">{{ link.title }} <span aria-hidden="true">→</span></a></li>{% endfor %}
 </ul>
@@ -37,4 +37,12 @@
 
 {% macro example(title) %}
 <details class="ed-example"><summary>{{ title }}<span aria-hidden="true">⌄</span></summary><div class="ed-example-body">{{ caller() }}</div></details>
+{% endmacro %}
+
+{% macro contents(sections) %}
+<nav data-editorial-contents class="ed-toc" aria-label="In this guide">
+<p class="ed-label ed-toc-desktop-label">In this guide</p>
+<button class="ed-toc-toggle" type="button" aria-expanded="false" aria-controls="editorial-contents-links" hidden><span class="ed-toc-prefix">In this guide</span><span data-current-section class="ed-toc-current">{{ sections[0].title }}</span><span class="ed-toc-chevron" aria-hidden="true">⌄</span></button>
+<div class="ed-toc-links" id="editorial-contents-links">{% for section in sections %}<a href="#{{ section.id }}">{{ section.title }}</a>{% endfor %}</div>
+</nav>
 {% endmacro %}

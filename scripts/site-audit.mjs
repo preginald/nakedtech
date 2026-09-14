@@ -1217,7 +1217,11 @@ for (const [route, serviceRoute, relatedRoute] of [
   assert(countOccurrences(sitemapXml, `https://nakedtech.au${route}`) === 1, `${route}: sitemap discovery`)
   assert(html.includes(`href="https://nakedtech.au${serviceRoute}"`), `${route}: service conversion route`)
   assert(html.includes(`href="${relatedRoute}"`), `${route}: related guide link`)
-  assert(html.includes('$190 including GST'), `${route}: GST-inclusive price`)
+  if (route === wifiGuideRoute) {
+    assert(!html.includes('guide-service'), `${route}: educational guide has no sales panel`)
+    assert(countOccurrences(html, `href="https://nakedtech.au${serviceRoute}"`) === 1, `${route}: one optional service link`)
+    assert(html.includes('data-editorial-contents'), `${route}: active contents navigation`)
+  } else assert(html.includes('$190 including GST'), `${route}: GST-inclusive price`)
 }
 assert(slowGuideHtml.includes(`href="${comparisonGuideRoute}"`), 'slow pillar: comparison guide discovery')
 assert(readFileSync(routeToFile('/services/wifi-dropouts-ivanhoe/'), 'utf8').includes(`href="${wifiGuideRoute}"`), 'wifi service: pillar discovery')
