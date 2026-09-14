@@ -1,0 +1,206 @@
+{
+  "computer-slow-startup": {
+    "summary": "Find where the waiting starts before changing anything.",
+    "steps": [
+      {
+        "title": "Before sign-in",
+        "detail": "Note the first delay"
+      },
+      {
+        "title": "After sign-in",
+        "detail": "Watch the desktop settle"
+      },
+      {
+        "title": "One application",
+        "detail": "Record the task that waits"
+      }
+    ]
+  },
+  "connection-test-results": {
+    "summary": "A result is useful when its test conditions travel with it.",
+    "steps": [
+      {
+        "title": "Choose one test",
+        "detail": "Use its official page"
+      },
+      {
+        "title": "Record the conditions",
+        "detail": "Device, room, time and connection"
+      },
+      {
+        "title": "Compare carefully",
+        "detail": "Keep the labels and units"
+      }
+    ]
+  },
+  "new-computer-handover-checks": {
+    "summary": "Check the agreed result and record anything still unfinished.",
+    "steps": [
+      {
+        "title": "Open agreed examples",
+        "detail": "Check files and everyday tasks"
+      },
+      {
+        "title": "Record exceptions",
+        "detail": "Keep a clear next step"
+      },
+      {
+        "title": "Keep control",
+        "detail": "Retain originals and recovery access"
+      }
+    ]
+  },
+  "new-windows-computer-move-checklist": {
+    "summary": "Prepare the source, backup and essentials before a move.",
+    "steps": [
+      {
+        "title": "List the essentials",
+        "detail": "Files, applications and accounts"
+      },
+      {
+        "title": "Check the starting point",
+        "detail": "Working source and usable backup"
+      },
+      {
+        "title": "Confirm the scope",
+        "detail": "Agree what will move and be checked"
+      }
+    ]
+  },
+  "slow-computer-assessment-notes": {
+    "summary": "A short symptom record is enough to start the conversation.",
+    "steps": [
+      {
+        "title": "Describe the task",
+        "detail": "Where does the waiting begin?"
+      },
+      {
+        "title": "Bring useful notes",
+        "detail": "Timing, messages and change history"
+      },
+      {
+        "title": "Ask for a plan",
+        "detail": "What fits and what remains uncertain?"
+      }
+    ]
+  },
+  "slow-computer-fix-upgrade-replace": {
+    "summary": "Match the next step to the condition of the computer and the work you need it to do.",
+    "steps": [
+      {
+        "title": "Fix?",
+        "detail": "Can the symptom be addressed safely?"
+      },
+      {
+        "title": "Upgrade?",
+        "detail": "Would a suitable change be worthwhile?"
+      },
+      {
+        "title": "Replace?",
+        "detail": "Would a new setup be more practical?"
+      }
+    ]
+  },
+  "slow-computer-or-internet": {
+    "summary": "Describe the delay before choosing which problem to investigate.",
+    "steps": [
+      {
+        "title": "Startup delay",
+        "detail": "Note when the computer becomes usable"
+      },
+      {
+        "title": "Local task delay",
+        "detail": "Try an ordinary file or application"
+      },
+      {
+        "title": "Online delay",
+        "detail": "Compare a familiar online activity"
+      }
+    ]
+  },
+  "wifi-coverage-or-internet-service": {
+    "summary": "Map the experience before deciding what equipment you need.",
+    "steps": [
+      {
+        "title": "Mark the rooms",
+        "detail": "Include the router and problem spot"
+      },
+      {
+        "title": "Repeat one task",
+        "detail": "Use the same device for comparison"
+      },
+      {
+        "title": "Keep the observations",
+        "detail": "Ask what would distinguish the causes"
+      }
+    ]
+  },
+  "wifi-dropout-diary": {
+    "summary": "One clear incident record is more useful than a guessed cause.",
+    "steps": [
+      {
+        "title": "When and where?",
+        "detail": "Note the time, room and device"
+      },
+      {
+        "title": "What happened?",
+        "detail": "Record the symptom and duration"
+      },
+      {
+        "title": "What else was checked?",
+        "detail": "Include unknowns and recovery"
+      }
+    ]
+  },
+  "wifi-dropouts-diagnosis": {
+    "summary": "Look for a repeatable pattern before buying more equipment.",
+    "steps": [
+      {
+        "title": "Compare devices",
+        "detail": "Keep the network and task consistent"
+      },
+      {
+        "title": "Compare places",
+        "detail": "Note where the experience changes"
+      },
+      {
+        "title": "Choose the next question",
+        "detail": "Bring observations, not a guessed fault"
+      }
+    ]
+  },
+  "wifi-one-device-or-all": {
+    "summary": "A fair comparison starts with the same connection and task.",
+    "steps": [
+      {
+        "title": "Same network",
+        "detail": "Confirm the intended home Wi-Fi"
+      },
+      {
+        "title": "Same task and room",
+        "detail": "Compare at roughly the same time"
+      },
+      {
+        "title": "Describe only what you saw",
+        "detail": "Two checked devices are not every device"
+      }
+    ]
+  },
+  "windows-performance-observations": {
+    "summary": "Look at the information without changing the computer.",
+    "steps": [
+      {
+        "title": "Open Task Manager",
+        "detail": "Ctrl + Shift + Esc on Windows 11"
+      },
+      {
+        "title": "Observe the views",
+        "detail": "Processes and Performance"
+      },
+      {
+        "title": "Record and close",
+        "detail": "Do not end tasks or change settings"
+      }
+    ]
+  }
+}

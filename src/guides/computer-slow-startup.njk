@@ -15,34 +15,35 @@ ogImageHeight: 768
     <h1 class="text-4xl font-extrabold tracking-tight md:text-5xl">{{ title }}</h1>
   </div>
 </header>
-<article class="bg-canvas py-12 md:py-16" aria-label="Slow computer startup guide">
-  <div class="mx-auto max-w-3xl px-6 text-lg">
+<article class="guide-article bg-canvas py-12 md:py-16" aria-label="Slow computer startup guide">
+  <div class="guide-reading mx-auto max-w-3xl px-6 text-lg">
 <p class="mb-5 leading-relaxed text-muted">You turn the computer on, wait for the sign-in screen, enter your password—and then wait again. By the time email opens, you have forgotten what you sat down to do.</p>
 <p class="mb-5 leading-relaxed text-muted">Before changing settings or buying a replacement, work out where the waiting happens. “Slow to start” can describe several different experiences. A useful first step is to describe yours clearly.</p>
+{% include "components/guide-start.njk" %}
 <h2 class="mt-12 mb-5 text-2xl font-bold tracking-tight text-ink md:text-3xl">Where does the delay happen?</h2>
-<div class="mb-8 overflow-x-auto" role="region" aria-label="Describe the startup delay" tabindex="0"><table class="w-full border-collapse text-left text-sm md:text-base">
+<div class="mb-8 overflow-x-auto" role="region" aria-label="Describe the startup delay" tabindex="0"><table role="table" class="w-full border-collapse text-left text-sm md:text-base">
 <thead>
-<tr>
-<th class="border border-line bg-surface p-4 font-bold text-ink">What you notice</th>
-<th class="border border-line bg-surface p-4 font-bold text-ink">What to tell someone helping you</th>
+<tr role="row">
+<th scope="col" class="border border-line bg-surface p-4 font-bold text-ink">What you notice</th>
+<th scope="col" class="border border-line bg-surface p-4 font-bold text-ink">What to tell someone helping you</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td class="border border-line p-4 align-top text-muted">A long wait before the sign-in screen</td>
-<td class="border border-line p-4 align-top text-muted">The delay starts before you enter your password. Note any message that appears.</td>
+<tr role="row">
+<td role="cell" data-label="What you notice" class="border border-line p-4 align-top text-muted">A long wait before the sign-in screen</td>
+<td role="cell" data-label="What to tell someone helping you" class="border border-line p-4 align-top text-muted">The delay starts before you enter your password. Note any message that appears.</td>
 </tr>
-<tr>
-<td class="border border-line p-4 align-top text-muted">Sign-in is quick, but the desktop takes time to settle</td>
-<td class="border border-line p-4 align-top text-muted">Describe what opens automatically and when the computer becomes usable.</td>
+<tr role="row">
+<td role="cell" data-label="What you notice" class="border border-line p-4 align-top text-muted">Sign-in is quick, but the desktop takes time to settle</td>
+<td role="cell" data-label="What to tell someone helping you" class="border border-line p-4 align-top text-muted">Describe what opens automatically and when the computer becomes usable.</td>
 </tr>
-<tr>
-<td class="border border-line p-4 align-top text-muted">The desktop works, but one program takes ages</td>
-<td class="border border-line p-4 align-top text-muted">Name the program and whether other tasks work normally.</td>
+<tr role="row">
+<td role="cell" data-label="What you notice" class="border border-line p-4 align-top text-muted">The desktop works, but one program takes ages</td>
+<td role="cell" data-label="What to tell someone helping you" class="border border-line p-4 align-top text-muted">Name the program and whether other tasks work normally.</td>
 </tr>
-<tr>
-<td class="border border-line p-4 align-top text-muted">Programs open normally, but websites are slow</td>
-<td class="border border-line p-4 align-top text-muted">Say that the delay is mainly online rather than during startup.</td>
+<tr role="row">
+<td role="cell" data-label="What you notice" class="border border-line p-4 align-top text-muted">Programs open normally, but websites are slow</td>
+<td role="cell" data-label="What to tell someone helping you" class="border border-line p-4 align-top text-muted">Say that the delay is mainly online rather than during startup.</td>
 </tr>
 </tbody>
 </table></div>
@@ -53,7 +54,7 @@ ogImageHeight: 768
 <p class="mb-5 leading-relaxed text-muted">If you do inspect startup apps, start by looking. Do not disable an unfamiliar item simply because it appears in the list, and do not disable security tools. Note what you recognise and ask about anything uncertain.</p>
 <h2 class="mt-12 mb-5 text-2xl font-bold tracking-tight text-ink md:text-3xl">Make a short before-and-after note</h2>
 <p class="mb-5 leading-relaxed text-muted">You do not need a spreadsheet or specialist software. A few lines are enough:</p>
-<blockquote>
+<blockquote class="guide-note"><span class="guide-kicker">Example note</span>
 <p class="mb-5 leading-relaxed text-muted">After switching on, the sign-in screen appears in about [time]. After signing in, I wait roughly [time] before [ordinary task] works. This started [when]. A normal restart [helped/did not help/I have not tried it]. The message I see is [message, if any].</p>
 </blockquote>
 <p class="mb-5 leading-relaxed text-muted">Approximate timings are useful. The aim is to give someone a repeatable description, not to meet a universal startup-speed target. Avoid comparing your computer with an advertisement or a different machine doing different work.</p>
@@ -63,7 +64,9 @@ ogImageHeight: 768
 <p class="mb-5 leading-relaxed text-muted">You do not have to diagnose the fault before asking for help. A clear description of the delay is more useful than a list of guesses or changes you cannot undo.</p>
 <h2 class="mt-12 mb-5 text-2xl font-bold tracking-tight text-ink md:text-3xl">Does slow startup mean you need a new computer?</h2>
 <p class="mb-5 leading-relaxed text-muted">Not by itself. The next decision depends on the computer’s condition, the work you need it to do, and what a proposed fix or upgrade would achieve. Our <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="https://nakedtech.au/guides/slow-computer-fix-upgrade-replace/">guide to fixing, upgrading or replacing a slow computer</a> explains how to compare those options.</p>
+<aside class="guide-service" aria-label="Service scope and next step"><p class="guide-kicker">If you would like help</p>
 <p class="mb-5 leading-relaxed text-muted">For help in Ivanhoe or Eaglemont, NakedTech’s <strong>Slow Computer Performance Assessment costs $190 including GST</strong>. It includes a local call-out, 60–75 minutes onsite and a written fix, upgrade or replace plan. Safe, straightforward fixes are included where appropriate within scope; parts and additional work are separate. It does not guarantee every fault can be fixed in one visit.</p>
 <p class="mb-5 leading-relaxed text-muted"><a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="https://nakedtech.au/services/slow-computer-help-ivanhoe/#contact">See the full assessment scope and enquire about a visit</a>, or call <strong>03 7068 5422</strong>. Availability and scope are confirmed before a booking is made.</p>
+</aside>
   </div>
 </article>

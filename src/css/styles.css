@@ -137,3 +137,38 @@
     transform: translateY(-0.2rem);
   }
 }
+
+/* Shared reading aids for the educational guides. */
+.guide-start, .guide-note, .guide-safety, .guide-service, .guide-diagram {
+  @apply my-8 rounded-2xl border border-line bg-surface p-5 md:p-7;
+}
+.guide-kicker { @apply mb-3 block text-xs font-bold uppercase tracking-widest text-accent-ink; }
+.guide-start .guide-summary { @apply mb-5 text-xl font-semibold leading-relaxed text-ink; }
+.guide-path { @apply m-0 grid list-none gap-4 p-0 md:grid-cols-3; }
+.guide-path li { @apply flex gap-3; }
+.guide-step-number { @apply flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-inverse text-sm font-bold text-inverse-ink; }
+.guide-path strong { @apply block text-base leading-snug text-ink; }
+.guide-path div > span { @apply mt-1 block text-sm leading-relaxed text-muted; }
+.guide-reading h2 { @apply border-t border-line pt-7; }
+.guide-reading > ol { @apply list-none space-y-3 pl-0; counter-reset: guide-action; }
+.guide-reading > ol > li { @apply rounded-xl border border-line bg-surface p-4; counter-increment: guide-action; }
+.guide-reading > ol > li::before { content: counter(guide-action) ". "; @apply font-bold text-accent-ink; }
+.guide-note { @apply border-l-4 border-l-accent; }
+.guide-note p:last-child, .guide-service p:last-child, .guide-safety p:last-child { margin-bottom: 0; }
+.guide-safety p { @apply text-lg leading-relaxed text-ink; }
+.guide-service { @apply border-l-4 border-l-accent-ink; }
+.guide-diagram ol { @apply flex list-none flex-wrap items-center gap-2 p-0; }
+.guide-diagram li { @apply rounded-lg border border-line px-3 py-2 text-sm font-semibold text-ink; }
+.guide-diagram li + li::before { content: '→ '; @apply text-accent-ink; }
+.guide-diagram p { @apply mt-4 text-sm leading-relaxed text-muted; }
+@media (max-width: 599px) {
+  .guide-reading table, .guide-reading tbody { display: block; width: 100%; }
+  .guide-reading thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .guide-reading tbody tr { @apply mb-4 block overflow-hidden rounded-xl border border-line bg-surface; }
+  .guide-reading tbody td { @apply block border-0 px-4 py-3 text-lg leading-relaxed; }
+  .guide-reading tbody td + td { @apply border-t border-line; }
+  .guide-reading tbody td::before { content: attr(data-label); @apply mb-1 block text-xs font-bold uppercase tracking-wide text-accent-ink; }
+}
+@media print {
+  .guide-start, .guide-note, .guide-safety, .guide-service, .guide-diagram, .guide-reading tr { break-inside: avoid; }
+}

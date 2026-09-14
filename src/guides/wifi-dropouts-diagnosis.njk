@@ -14,38 +14,39 @@ ogImageHeight: 768
     <h1 class="text-4xl font-extrabold tracking-tight md:text-5xl">{{ title }}</h1>
   </div>
 </header>
-<article class="bg-canvas py-12 md:py-16" aria-label="Wi-Fi dropout diagnosis guide">
-  <div class="mx-auto max-w-3xl px-6 text-lg">
+<article class="guide-article bg-canvas py-12 md:py-16" aria-label="Wi-Fi dropout diagnosis guide">
+  <div class="guide-reading mx-auto max-w-3xl px-6 text-lg">
 <p class="mb-5 leading-relaxed text-muted">A video call freezes in the study, but the television keeps streaming. Or every device loses access at once. Both experiences get called “bad Wi-Fi”, yet they give someone investigating the problem different places to start.</p>
 <p class="mb-5 leading-relaxed text-muted">You do not need to buy another booster or become a network technician before asking for help. Start with a few observations you can repeat and explain. They may help you solve a simple problem yourself, or make a conversation with your provider or a local technician more useful.</p>
+{% include "components/guide-start.njk" %}
 <h2 class="mt-12 mb-5 text-2xl font-bold tracking-tight text-ink md:text-3xl">Separate the parts of the connection</h2>
 <p class="mb-5 leading-relaxed text-muted">Your device connects over Wi-Fi to your home router. The router connects your home network to your internet service. The website or application you are using is another part of the experience. A connection to the local network does not necessarily mean the internet is available; an individual app can also have trouble while the connection works. <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="https://support.microsoft.com/en-us/windows/experience/connectivity-networking/fix-wi-fi-connection-issues-in-windows">Microsoft explains these connection states</a>.</p>
-<p class="mb-5 leading-relaxed text-muted">Think of the path as: <strong>device → Wi-Fi → router → internet service → website or app</strong>. This is a simplified map to help describe the symptom, not a test that identifies a faulty component.</p>
+<figure class="guide-diagram"><figcaption class="guide-kicker">The connection path · a simplified map</figcaption><ol aria-label="Connection path"><li>Device</li><li>Wi-Fi</li><li>Router</li><li>Internet service</li><li>Website or app</li></ol><p>This map helps describe the symptom. It is not a test that identifies a faulty component.</p></figure>
 <h2 class="mt-12 mb-5 text-2xl font-bold tracking-tight text-ink md:text-3xl">Make a small comparison</h2>
 <p class="mb-5 leading-relaxed text-muted">Choose one familiar activity, such as opening an ordinary website. Note what happened, then compare one thing at a time:</p>
-<div class="mb-8 overflow-x-auto" role="region" aria-label="Wi-Fi dropout diagnosis guide comparison table" tabindex="0"><table class="w-full border-collapse text-left text-sm md:text-base">
+<div class="mb-8 overflow-x-auto" role="region" aria-label="Wi-Fi dropout diagnosis guide comparison table" tabindex="0"><table role="table" class="w-full border-collapse text-left text-sm md:text-base">
 <thead>
-<tr>
+<tr role="row">
 <th scope="col" class="border border-line bg-surface p-4 font-bold text-ink">Comparison</th>
 <th scope="col" class="border border-line bg-surface p-4 font-bold text-ink">Useful question to record</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td class="border border-line p-4 align-top text-muted">Another device on the same home Wi-Fi</td>
-<td class="border border-line p-4 align-top text-muted">Does it have the same problem at about the same time?</td>
+<tr role="row">
+<td role="cell" data-label="Comparison" class="border border-line p-4 align-top text-muted">Another device on the same home Wi-Fi</td>
+<td role="cell" data-label="Useful question to record" class="border border-line p-4 align-top text-muted">Does it have the same problem at about the same time?</td>
 </tr>
-<tr>
-<td class="border border-line p-4 align-top text-muted">The same device in another room</td>
-<td class="border border-line p-4 align-top text-muted">Does the experience change near the router?</td>
+<tr role="row">
+<td role="cell" data-label="Comparison" class="border border-line p-4 align-top text-muted">The same device in another room</td>
+<td role="cell" data-label="Useful question to record" class="border border-line p-4 align-top text-muted">Does the experience change near the router?</td>
 </tr>
-<tr>
-<td class="border border-line p-4 align-top text-muted">Another familiar website or app</td>
-<td class="border border-line p-4 align-top text-muted">Is the difficulty limited to one service?</td>
+<tr role="row">
+<td role="cell" data-label="Comparison" class="border border-line p-4 align-top text-muted">Another familiar website or app</td>
+<td role="cell" data-label="Useful question to record" class="border border-line p-4 align-top text-muted">Is the difficulty limited to one service?</td>
 </tr>
-<tr>
-<td class="border border-line p-4 align-top text-muted">The same activity later</td>
-<td class="border border-line p-4 align-top text-muted">Is the problem continuous or intermittent?</td>
+<tr role="row">
+<td role="cell" data-label="Comparison" class="border border-line p-4 align-top text-muted">The same activity later</td>
+<td role="cell" data-label="Useful question to record" class="border border-line p-4 align-top text-muted">Is the problem continuous or intermittent?</td>
 </tr>
 </tbody>
 </table></div>
@@ -58,7 +59,7 @@ ogImageHeight: 768
 <p class="mb-5 leading-relaxed text-muted">Treat the result as an observation from that moment. Avoid turning one number into “the router is broken” or “we need a faster plan”. Bring your notes to the provider or technician so the result can be considered with the symptoms.</p>
 <h2 class="mt-12 mb-5 text-2xl font-bold tracking-tight text-ink md:text-3xl">Keep a short dropout diary</h2>
 <p class="mb-5 leading-relaxed text-muted">Copy this into a note on your own device or onto paper:</p>
-<blockquote class="my-6 border-l-4 border-accent pl-5">
+<blockquote class="guide-note"><span class="guide-kicker">Example note</span>
 <p class="mb-5 leading-relaxed text-muted">At [time], I was using [device] in [room] for [activity]. The problem lasted about [duration]. Another device [had the same problem / worked / was not checked]. I saw [connection message]. This has happened [pattern]. The test I used was [name], and its result was [value and units].</p>
 </blockquote>
 <p class="mb-5 leading-relaxed text-muted">You can leave any field blank. You do not need to include passwords, authentication codes, account numbers or private documents. If you share a screenshot, check what else it reveals first.</p>
@@ -68,9 +69,11 @@ ogImageHeight: 768
 <p class="mb-5 leading-relaxed text-muted">If ordinary computer tasks also feel slow, our <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="https://nakedtech.au/guides/slow-computer-fix-upgrade-replace/">fix, upgrade or replace guide</a> can help you organise that separate question.</p>
 <p class="mb-5 leading-relaxed text-muted">For a side-by-side comparison, read <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="/guides/slow-computer-or-internet/">Is your computer slow, or is the internet slow?</a>.</p>
 <h2 class="mt-12 mb-5 text-2xl font-bold tracking-tight text-ink md:text-3xl">Local help with an honest starting scope</h2>
+<aside class="guide-service" aria-label="Service scope and next step"><p class="guide-kicker">If you would like help</p>
 <p class="mb-5 leading-relaxed text-muted">Naked Tech's <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="https://nakedtech.au/services/wifi-dropouts-ivanhoe/">Wi-Fi diagnosis in Ivanhoe and Eaglemont</a> costs <strong>$190 including GST</strong>. It includes local call-out, onsite diagnosis, appropriate straightforward adjustments within scope and a clear action plan.</p>
 <p class="mb-5 leading-relaxed text-muted">Hardware, cabling, provider remediation and installation projects are separate. A diagnosis does not require a Mesh purchase, and the fee does not guarantee a fault controlled by a third party will be fixed.</p>
 <p class="mb-5 leading-relaxed text-muted"><a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="https://nakedtech.au/services/wifi-dropouts-ivanhoe/">See the diagnosis scope and tell us where the Wi-Fi drops out</a>, or call <strong>03 7068 5422</strong>. Scope and availability are confirmed before booking. You can also read <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="https://nakedtech.au/toolkit/">how Naked Tech selects tools and equipment</a>.</p>
+</aside>
 <h2 class="mt-12 mb-5 text-2xl font-bold tracking-tight text-ink md:text-3xl">Continue with a practical guide</h2>
 <ul class="mb-6 list-disc space-y-3 pl-6 text-muted">
 <li><a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="/guides/wifi-coverage-or-internet-service/">Map coverage and service symptoms</a></li>

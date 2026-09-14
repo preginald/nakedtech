@@ -14,45 +14,46 @@ ogImageHeight: 768
     <h1 class="text-4xl font-extrabold tracking-tight md:text-5xl">{{ title }}</h1>
   </div>
 </header>
-<article class="bg-canvas py-12 md:py-16" aria-label="Wi-Fi two-device comparison guide">
-  <div class="mx-auto max-w-3xl px-6 text-lg">
+<article class="guide-article bg-canvas py-12 md:py-16" aria-label="Wi-Fi two-device comparison guide">
+  <div class="guide-reading mx-auto max-w-3xl px-6 text-lg">
 <p class="mb-5 leading-relaxed text-muted">Your laptop will not open a website, but someone says their phone is working. Does that clear the Wi-Fi—or are you comparing two different connections?</p>
 <p class="mb-5 leading-relaxed text-muted">A second device can help narrow the investigation. The useful part is making a fair comparison and recording what you actually checked. This guide walks through that small exercise; our <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="https://nakedtech.au/guides/wifi-dropouts-diagnosis/">Wi-Fi dropout guide</a> explains the wider path from your device to your internet service.</p>
+{% include "components/guide-start.njk" %}
 <h2 class="mt-12 mb-5 text-2xl font-bold tracking-tight text-ink md:text-3xl">Start with the same connection and task</h2>
 <p class="mb-5 leading-relaxed text-muted">Choose two devices you are allowed to use. Leave another person's work, accounts and settings alone. Pick a familiar public website that does not need a sign-in, and try it on both devices at roughly the same time and in the same room.</p>
 <p class="mb-5 leading-relaxed text-muted">Check that both devices show the intended home Wi-Fi connection. “My phone works” is not a comparison of home Wi-Fi if it is using mobile data. If you cannot tell which connection it used, record that uncertainty rather than treating the result as proof.</p>
 <p class="mb-5 leading-relaxed text-muted">Microsoft includes trying another device on the same network in its troubleshooting guidance. It also distinguishes connection status from trouble with an individual app or website. <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="https://support.microsoft.com/en-us/windows/experience/connectivity-networking/fix-wi-fi-connection-issues-in-windows">Read Microsoft's Wi-Fi troubleshooting guidance</a>.</p>
 <h2 class="mt-12 mb-5 text-2xl font-bold tracking-tight text-ink md:text-3xl">On Windows 11: look before changing</h2>
 <p class="mb-5 leading-relaxed text-muted">Select the network, sound or battery area on the right of the taskbar. Look at whether Wi-Fi is on and whether your recognised home network shows as connected. Write down any different status you see. These checks follow <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="https://support.microsoft.com/en-us/windows/experience/connectivity-networking/fix-wi-fi-connection-issues-in-windows">Microsoft's connection-status instructions</a>.</p>
-<p class="mb-5 leading-relaxed text-muted">For this comparison, you only need to observe. Do not select an unfamiliar network, forget saved networks or change router settings. Close the panel when finished. If your screen differs, describe what it shows instead of guessing at a setting. This article uses built-in status information; you do not need to install a diagnostic app.</p>
+<aside class="guide-safety"><span class="guide-kicker">Look only</span><p>For this comparison, you only need to observe. Do not select an unfamiliar network, forget saved networks or change router settings. Close the panel when finished. If your screen differs, describe what it shows instead of guessing at a setting. This article uses built-in status information; you do not need to install a diagnostic app.</p></aside>
 <h2 class="mt-12 mb-5 text-2xl font-bold tracking-tight text-ink md:text-3xl">Record the result without overstating it</h2>
-<div class="mb-8 overflow-x-auto" role="region" aria-label="Two-device comparison results" tabindex="0"><table class="w-full border-collapse text-left text-sm md:text-base">
+<div class="mb-8 overflow-x-auto" role="region" aria-label="Two-device comparison results" tabindex="0"><table role="table" class="w-full border-collapse text-left text-sm md:text-base">
 <thead>
-<tr>
+<tr role="row">
 <th scope="col" class="border border-line bg-surface p-4 font-bold text-ink">What you observed</th>
 <th scope="col" class="border border-line bg-surface p-4 font-bold text-ink">What to say next</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td class="border border-line p-4 align-top text-muted">One device worked and the other did not</td>
-<td class="border border-line p-4 align-top text-muted">“The problem affected this device during this comparison.” Note which task failed.</td>
+<tr role="row">
+<td role="cell" data-label="What you observed" class="border border-line p-4 align-top text-muted">One device worked and the other did not</td>
+<td role="cell" data-label="What to say next" class="border border-line p-4 align-top text-muted">“The problem affected this device during this comparison.” Note which task failed.</td>
 </tr>
-<tr>
-<td class="border border-line p-4 align-top text-muted">Both failed on the same website</td>
-<td class="border border-line p-4 align-top text-muted">Try another familiar public website before describing it as a general internet problem.</td>
+<tr role="row">
+<td role="cell" data-label="What you observed" class="border border-line p-4 align-top text-muted">Both failed on the same website</td>
+<td role="cell" data-label="What to say next" class="border border-line p-4 align-top text-muted">Try another familiar public website before describing it as a general internet problem.</td>
 </tr>
-<tr>
-<td class="border border-line p-4 align-top text-muted">Both failed on more than one website</td>
-<td class="border border-line p-4 align-top text-muted">Record the connection messages and time, then discuss the shared symptom with your provider or technician.</td>
+<tr role="row">
+<td role="cell" data-label="What you observed" class="border border-line p-4 align-top text-muted">Both failed on more than one website</td>
+<td role="cell" data-label="What to say next" class="border border-line p-4 align-top text-muted">Record the connection messages and time, then discuss the shared symptom with your provider or technician.</td>
 </tr>
-<tr>
-<td class="border border-line p-4 align-top text-muted">Both worked when you checked</td>
-<td class="border border-line p-4 align-top text-muted">“I could not reproduce it.” Keep the original time and symptom; do not call the intermittent issue fixed.</td>
+<tr role="row">
+<td role="cell" data-label="What you observed" class="border border-line p-4 align-top text-muted">Both worked when you checked</td>
+<td role="cell" data-label="What to say next" class="border border-line p-4 align-top text-muted">“I could not reproduce it.” Keep the original time and symptom; do not call the intermittent issue fixed.</td>
 </tr>
-<tr>
-<td class="border border-line p-4 align-top text-muted">You could not confirm the same network</td>
-<td class="border border-line p-4 align-top text-muted">Mark the comparison incomplete. You can still ask for help.</td>
+<tr role="row">
+<td role="cell" data-label="What you observed" class="border border-line p-4 align-top text-muted">You could not confirm the same network</td>
+<td role="cell" data-label="What to say next" class="border border-line p-4 align-top text-muted">Mark the comparison incomplete. You can still ask for help.</td>
 </tr>
 </tbody>
 </table></div>
@@ -60,14 +61,16 @@ ogImageHeight: 768
 <h2 class="mt-12 mb-5 text-2xl font-bold tracking-tight text-ink md:text-3xl">Change one part of the comparison</h2>
 <p class="mb-5 leading-relaxed text-muted">If you have time, repeat the same simple task in the room where the problem normally occurs. Keep a note of which device, room and task you changed. Do not combine a new device, different app and different location and then assume you know which change mattered.</p>
 <p class="mb-5 leading-relaxed text-muted">Here is a fictional example of a useful handoff:</p>
-<blockquote class="my-6 border-l-4 border-accent pl-5">
+<blockquote class="guide-note"><span class="guide-kicker">Example note</span>
 <p class="mb-5 leading-relaxed text-muted">At about 7 pm, the laptop could not open either of two public websites in the study. The tablet opened both in the same room. Both showed our home Wi-Fi name. I have not checked the laptop in another room or tried a wired connection.</p>
 </blockquote>
 <p class="mb-5 leading-relaxed text-muted">That description leaves the cause open while giving the person helping you something concrete to investigate. Keep passwords, authentication codes and private documents out of any shared notes or screenshots.</p>
 <h2 class="mt-12 mb-5 text-2xl font-bold tracking-tight text-ink md:text-3xl">Know when to hand it over</h2>
 <p class="mb-5 leading-relaxed text-muted">For a suspected service outage or problems across the devices you checked, contact your internet provider with the observations. If only a work-managed device is affected, follow your workplace's support process before changing its configuration. Avoid resetting equipment or disabling security protections to finish this exercise.</p>
 <p class="mb-5 leading-relaxed text-muted">If local programs are slow too, use our <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="https://nakedtech.au/guides/slow-computer-or-internet/">computer or internet comparison guide</a> to separate that symptom. For broader coverage and dropout questions, return to the <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="https://nakedtech.au/guides/wifi-dropouts-diagnosis/">Wi-Fi pillar</a>.</p>
+<aside class="guide-service" aria-label="Service scope and next step"><p class="guide-kicker">If you would like help</p>
 <p class="mb-5 leading-relaxed text-muted">For help with your home setup in Ivanhoe or Eaglemont, Naked Tech's <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="https://nakedtech.au/services/wifi-dropouts-ivanhoe/">Wi-Fi diagnosis costs $190 including GST</a>. Local call-out, onsite diagnosis, appropriate straightforward adjustments within scope and a clear action plan are included. Hardware, cabling, provider remediation and installation work are separate; the diagnosis does not require a Mesh purchase or guarantee every fault will be fixed.</p>
 <p class="mb-5 leading-relaxed text-muted"><a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="https://nakedtech.au/services/wifi-dropouts-ivanhoe/">See the full scope and tell us which devices are affected</a>, or call <strong>03 7068 5422</strong>. Scope and availability are confirmed before booking.</p>
+</aside>
   </div>
 </article>

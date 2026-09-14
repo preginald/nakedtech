@@ -14,35 +14,36 @@ ogImageHeight: 768
     <h1 class="text-4xl font-extrabold tracking-tight md:text-5xl">{{ title }}</h1>
   </div>
 </header>
-<article class="bg-canvas py-12 md:py-16" aria-label="Wi-Fi coverage or internet service: what should you record?">
-  <div class="mx-auto max-w-3xl px-6 text-lg">
+<article class="guide-article bg-canvas py-12 md:py-16" aria-label="Wi-Fi coverage or internet service: what should you record?">
+  <div class="guide-reading mx-auto max-w-3xl px-6 text-lg">
 <p class="mb-5 leading-relaxed text-muted">The connection feels fine at the kitchen table but unreliable in the study. Is the internet plan too slow, or is the difficulty getting a useful connection to that room? Before changing a plan or buying equipment, make a small map of the experience.</p>
+{% include "components/guide-start.njk" %}
 <h2 class="mt-12 mb-5 text-2xl font-bold tracking-tight text-ink md:text-3xl">Start with a room map</h2>
 <p class="mb-5 leading-relaxed text-muted">Draw your home's rooms on paper. Mark the router's location and the places where you normally work, stream or make calls. You do not need measurements or a professional floor plan. Use labels such as “study desk” rather than an address if you share the notes.</p>
 <p class="mb-5 leading-relaxed text-muted">Beside each location, record one ordinary task and what happened. Keep the device and task the same for the first comparison. This is a record of your experience, not a signal survey.</p>
-<div class="mb-8 overflow-x-auto" role="region" aria-label="Wi-Fi coverage or internet service: what should you record? reference table" tabindex="0"><table class="w-full border-collapse text-left text-sm md:text-base">
+<div class="mb-8 overflow-x-auto" role="region" aria-label="Wi-Fi coverage or internet service: what should you record? reference table" tabindex="0"><table role="table" class="w-full border-collapse text-left text-sm md:text-base">
 <thead>
-<tr>
+<tr role="row">
 <th scope="col" class="border border-line bg-surface p-4 font-bold text-ink">Location</th>
 <th scope="col" class="border border-line bg-surface p-4 font-bold text-ink">Device and task</th>
 <th scope="col" class="border border-line bg-surface p-4 font-bold text-ink">Observation</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td class="border border-line p-4 align-top text-muted">Beside the router</td>
-<td class="border border-line p-4 align-top text-muted">Same laptop, same familiar website</td>
-<td class="border border-line p-4 align-top text-muted">Worked, slow, failed, or not checked</td>
+<tr role="row">
+<td role="cell" data-label="Location" class="border border-line p-4 align-top text-muted">Beside the router</td>
+<td role="cell" data-label="Device and task" class="border border-line p-4 align-top text-muted">Same laptop, same familiar website</td>
+<td role="cell" data-label="Observation" class="border border-line p-4 align-top text-muted">Worked, slow, failed, or not checked</td>
 </tr>
-<tr>
-<td class="border border-line p-4 align-top text-muted">Usual problem spot</td>
-<td class="border border-line p-4 align-top text-muted">Same laptop and task</td>
-<td class="border border-line p-4 align-top text-muted">What changed?</td>
+<tr role="row">
+<td role="cell" data-label="Location" class="border border-line p-4 align-top text-muted">Usual problem spot</td>
+<td role="cell" data-label="Device and task" class="border border-line p-4 align-top text-muted">Same laptop and task</td>
+<td role="cell" data-label="Observation" class="border border-line p-4 align-top text-muted">What changed?</td>
 </tr>
-<tr>
-<td class="border border-line p-4 align-top text-muted">Another useful room</td>
-<td class="border border-line p-4 align-top text-muted">Same laptop and task</td>
-<td class="border border-line p-4 align-top text-muted">Was the result repeatable?</td>
+<tr role="row">
+<td role="cell" data-label="Location" class="border border-line p-4 align-top text-muted">Another useful room</td>
+<td role="cell" data-label="Device and task" class="border border-line p-4 align-top text-muted">Same laptop and task</td>
+<td role="cell" data-label="Observation" class="border border-line p-4 align-top text-muted">Was the result repeatable?</td>
 </tr>
 </tbody>
 </table></div>
@@ -55,6 +56,8 @@ ogImageHeight: 768
 <p class="mb-5 leading-relaxed text-muted">Do not compare a phone on mobile data with a laptop on home Wi-Fi and treat that as the same test. Our <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="/guides/wifi-one-device-or-all/">one-device or all-devices guide</a> explains a fair comparison.</p>
 <h2 class="mt-12 mb-5 text-2xl font-bold tracking-tight text-ink md:text-3xl">Keep the useful result</h2>
 <p class="mb-5 leading-relaxed text-muted">You may finish with a clear pattern, an intermittent pattern or no repeatable problem. All three are worth recording. Do not turn an inconclusive test into a purchase decision. You can stop after a few representative observations; there is no need to test every corner of the house.</p>
+<aside class="guide-service" aria-label="Service scope and next step"><p class="guide-kicker">If you would like help</p>
 <p class="mb-5 leading-relaxed text-muted">For the bigger picture, read the <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="/guides/wifi-dropouts-diagnosis/">Wi-Fi diagnosis pillar</a>. Naked Tech's <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="/services/wifi-dropouts-ivanhoe/">Wi-Fi diagnosis in Ivanhoe and Eaglemont</a> is <strong>$190 including GST</strong>, including local call-out and an action plan. Appropriate straightforward adjustments are within scope; hardware, cabling, provider remediation and installation are separate. Scope and availability are confirmed before booking, and a diagnosis does not oblige you to buy a Mesh system.</p>
+</aside>
   </div>
 </article>

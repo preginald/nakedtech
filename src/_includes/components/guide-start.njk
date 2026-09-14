@@ -1,0 +1,12 @@
+{% set reading = guideReading[page.fileSlug] %}
+{% if reading %}
+<aside class="guide-start" aria-labelledby="guide-start-heading">
+  <p class="guide-kicker" id="guide-start-heading">Start here</p>
+  <p class="guide-summary">{{ reading.summary }}</p>
+  <ol class="guide-path" aria-label="A useful reading path">
+    {% for step in reading.steps %}
+    <li><span class="guide-step-number" aria-hidden="true">{{ loop.index }}</span><div><strong>{{ step.title }}</strong><span>{{ step.detail }}</span></div></li>
+    {% endfor %}
+  </ol>
+</aside>
+{% endif %}
