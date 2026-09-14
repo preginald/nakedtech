@@ -14,57 +14,58 @@ ogImageHeight: 768
     <h1 class="text-4xl font-extrabold tracking-tight md:text-5xl">{{ title }}</h1>
   </div>
 </header>
-<article class="bg-canvas py-12 md:py-16" aria-label="Intermittent Wi-Fi dropouts: keep a useful symptom diary">
-  <div class="mx-auto max-w-3xl px-6 text-lg">
+<article class="guide-article bg-canvas py-12 md:py-16" aria-label="Intermittent Wi-Fi dropouts: keep a useful symptom diary">
+  <div class="guide-reading mx-auto max-w-3xl px-6 text-lg">
 <p class="mb-5 leading-relaxed text-muted">The connection recovers just as someone arrives to help. Instead of trying to recreate every interruption, keep a short diary of what happened during normal use. A useful diary records the symptom and the gaps in your knowledge, without guessing at the cause.</p>
+{% include "components/guide-start.njk" %}
 <h2 class="mt-12 mb-5 text-2xl font-bold tracking-tight text-ink md:text-3xl">Capture the next incident</h2>
 <p class="mb-5 leading-relaxed text-muted">Use paper or a note stored on your own device. Record the incident when convenient; do not interrupt something important simply to collect a measurement.</p>
-<div class="mb-8 overflow-x-auto" role="region" aria-label="Intermittent Wi-Fi dropouts: keep a useful symptom diary reference table" tabindex="0"><table class="w-full border-collapse text-left text-sm md:text-base">
+<div class="mb-8 overflow-x-auto" role="region" aria-label="Intermittent Wi-Fi dropouts: keep a useful symptom diary reference table" tabindex="0"><table role="table" class="w-full border-collapse text-left text-sm md:text-base">
 <thead>
-<tr>
+<tr role="row">
 <th scope="col" class="border border-line bg-surface p-4 font-bold text-ink">Field</th>
 <th scope="col" class="border border-line bg-surface p-4 font-bold text-ink">What to write</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td class="border border-line p-4 align-top text-muted">Time</td>
-<td class="border border-line p-4 align-top text-muted">Date and approximate start time</td>
+<tr role="row">
+<td role="cell" data-label="Field" class="border border-line p-4 align-top text-muted">Time</td>
+<td role="cell" data-label="What to write" class="border border-line p-4 align-top text-muted">Date and approximate start time</td>
 </tr>
-<tr>
-<td class="border border-line p-4 align-top text-muted">Place</td>
-<td class="border border-line p-4 align-top text-muted">Room or normal working position</td>
+<tr role="row">
+<td role="cell" data-label="Field" class="border border-line p-4 align-top text-muted">Place</td>
+<td role="cell" data-label="What to write" class="border border-line p-4 align-top text-muted">Room or normal working position</td>
 </tr>
-<tr>
-<td class="border border-line p-4 align-top text-muted">Device</td>
-<td class="border border-line p-4 align-top text-muted">The device you were using</td>
+<tr role="row">
+<td role="cell" data-label="Field" class="border border-line p-4 align-top text-muted">Device</td>
+<td role="cell" data-label="What to write" class="border border-line p-4 align-top text-muted">The device you were using</td>
 </tr>
-<tr>
-<td class="border border-line p-4 align-top text-muted">Activity</td>
-<td class="border border-line p-4 align-top text-muted">Call, website, streaming or another task</td>
+<tr role="row">
+<td role="cell" data-label="Field" class="border border-line p-4 align-top text-muted">Activity</td>
+<td role="cell" data-label="What to write" class="border border-line p-4 align-top text-muted">Call, website, streaming or another task</td>
 </tr>
-<tr>
-<td class="border border-line p-4 align-top text-muted">Symptom</td>
-<td class="border border-line p-4 align-top text-muted">Frozen picture, disconnect message, slow response or other observation</td>
+<tr role="row">
+<td role="cell" data-label="Field" class="border border-line p-4 align-top text-muted">Symptom</td>
+<td role="cell" data-label="What to write" class="border border-line p-4 align-top text-muted">Frozen picture, disconnect message, slow response or other observation</td>
 </tr>
-<tr>
-<td class="border border-line p-4 align-top text-muted">Duration</td>
-<td class="border border-line p-4 align-top text-muted">Rough duration, or “unknown”</td>
+<tr role="row">
+<td role="cell" data-label="Field" class="border border-line p-4 align-top text-muted">Duration</td>
+<td role="cell" data-label="What to write" class="border border-line p-4 align-top text-muted">Rough duration, or “unknown”</td>
 </tr>
-<tr>
-<td class="border border-line p-4 align-top text-muted">Comparison</td>
-<td class="border border-line p-4 align-top text-muted">Another device worked, failed or was not checked</td>
+<tr role="row">
+<td role="cell" data-label="Field" class="border border-line p-4 align-top text-muted">Comparison</td>
+<td role="cell" data-label="What to write" class="border border-line p-4 align-top text-muted">Another device worked, failed or was not checked</td>
 </tr>
-<tr>
-<td class="border border-line p-4 align-top text-muted">Recovery</td>
-<td class="border border-line p-4 align-top text-muted">Recovered alone, after an action, or still unresolved</td>
+<tr role="row">
+<td role="cell" data-label="Field" class="border border-line p-4 align-top text-muted">Recovery</td>
+<td role="cell" data-label="What to write" class="border border-line p-4 align-top text-muted">Recovered alone, after an action, or still unresolved</td>
 </tr>
 </tbody>
 </table></div>
 <p class="mb-5 leading-relaxed text-muted">If you changed something, record it. “I restarted the router and it worked afterwards” describes an order of events; it does not establish why the problem happened.</p>
 <h2 class="mt-12 mb-5 text-2xl font-bold tracking-tight text-ink md:text-3xl">Keep facts separate from guesses</h2>
 <p class="mb-5 leading-relaxed text-muted">A fictional example:</p>
-<blockquote class="my-6 border-l-4 border-accent pl-5">
+<blockquote class="guide-note"><span class="guide-kicker">Example note</span>
 <p class="mb-5 leading-relaxed text-muted">Tuesday, about 6:40 pm: the laptop's call froze in the study for roughly a minute. I did not check another device. The call resumed without me changing anything. I do not know whether other websites worked.</p>
 </blockquote>
 <p class="mb-5 leading-relaxed text-muted">That is more useful than “The whole network failed again” when the only observation came from one call. Our <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="/guides/wifi-one-device-or-all/">two-device guide</a> explains how to add a fair comparison if the opportunity arises.</p>
@@ -74,6 +75,8 @@ ogImageHeight: 768
 <h2 class="mt-12 mb-5 text-2xl font-bold tracking-tight text-ink md:text-3xl">Share only what helps</h2>
 <p class="mb-5 leading-relaxed text-muted">Remove passwords, account identifiers, private conversations and unrelated screenshots. A plain-language summary is enough for an initial enquiry. Keep the original diary yourself so you can answer a follow-up question without sending everything at once.</p>
 <p class="mb-5 leading-relaxed text-muted">You do not need a week's worth of evidence before reporting an outage to your internet provider or asking for help. If the issue disrupts your normal use, explain that and provide whatever observations you have.</p>
+<aside class="guide-service" aria-label="Service scope and next step"><p class="guide-kicker">If you would like help</p>
 <p class="mb-5 leading-relaxed text-muted">The <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="/guides/wifi-dropouts-diagnosis/">Wi-Fi pillar</a> explains how the different parts of the connection fit together. Naked Tech's <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="/services/wifi-dropouts-ivanhoe/">local Wi-Fi diagnosis</a> is <strong>$190 including GST</strong> in Ivanhoe and Eaglemont, including local call-out and an action plan. Appropriate simple adjustments are within scope; hardware, provider work, cabling and installation are separate. Scope and availability are confirmed before booking, without a promise that every fault will be fixed in one visit.</p>
+</aside>
   </div>
 </article>
