@@ -7,6 +7,10 @@ const gitCalendarDate = require('../../lib/git-calendar-date')
 const projectRoot = resolve(__dirname, '../..')
 
 const routeDefinitions = [
+  { path: '/guides/home-computer-backup/', sources: ['src/guides/home-computer-backup.njk', 'src/_includes/components/editorial/macros.njk', 'src/_includes/components/editorial/styles.css', 'src/_includes/components/editorial/contents.js'] },
+  { path: '/guides/external-drive-or-cloud-backup/', sources: ['src/guides/external-drive-or-cloud-backup.njk', 'src/_includes/components/editorial/macros.njk', 'src/_includes/components/editorial/styles.css', 'src/_includes/components/editorial/contents.js'] },
+  { path: '/guides/test-a-backup-file-restore/', sources: ['src/guides/test-a-backup-file-restore.njk', 'src/_includes/components/editorial/macros.njk', 'src/_includes/components/editorial/styles.css', 'src/_includes/components/editorial/contents.js'] },
+
   {
     path: '/',
     sources: ['src/index.njk', 'src/_data/problemServices.js', 'src/_data/services.js', 'src/_data/serviceCatalogue.js', 'src/_data/projectServices.json'],
