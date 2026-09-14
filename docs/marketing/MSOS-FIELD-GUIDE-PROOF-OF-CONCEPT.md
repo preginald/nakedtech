@@ -103,3 +103,7 @@ Mobile navigation visual refinement: the enhanced bar spans the viewport beneath
 ## First production adoption
 
 Peter approved the consolidated MSOS recommendation and first-guide release. The build now versions every shared stylesheet reference from the emitted CSS SHA-256 after Tailwind completes. The unversioned CSS file remains available to older HTML. Development watcher URLs remain unchanged. A returning-browser check verifies both legacy-to-versioned and versioned-to-next-version transitions with a 30-day cache lifetime. No article other than Slow Computer adopts the editorial components in this release; shared stylesheet references update site-wide.
+
+## Wi-Fi pillar adoption — Core #4306
+
+The second field guide reuses choices, notes, active contents and educational next steps. Its existing connection-path diagram and responsive comparison table remain the main explanatory visuals; no computer-specific illustration is reused as Wi-Fi evidence. All pre-existing diagnostic paragraphs and source links before the former service section are retained. Safety/privacy paragraphs become visible callouts. Service details remain on the linked service page; the article ends with four educational/toolkit resources followed by one optional Wi-Fi diagnosis link. `contents(sections)` accepts article-specific IDs and labels; `nextReading` accepts an optional section number while retaining the Slow Computer default.
