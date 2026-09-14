@@ -127,3 +127,7 @@ Uses the approved three compact computer-art cards to distinguish startup, local
 ## Wi-Fi two-device supporting guide
 
 Uses the shared compact Wi-Fi artwork cards for connection, location and task. Preserves comparison instructions, five-result table, Microsoft source links, observation-only caution and fictional example. Adds active contents and consistent notes. Educational next resources precede one optional service link. No new technical claims or generated artwork. Five articles use the standard; seven supporting articles remain.
+
+## Wi-Fi coverage supporting guide
+
+Reuses compact Wi-Fi image cards for device, location and task; preserves room-map table and diagnostic prose/source links. Added active contents, safety/info notes and educational next steps with one optional service link. Corrected the previously truncated meta description with an accurate complete summary. Six articles now use the design; six supporting articles remain.

@@ -1224,7 +1224,7 @@ for (const [route, serviceRoute, relatedRoute] of [
   } else assert(html.includes('$190 including GST'), `${route}: GST-inclusive price`)
 }
 // Visual acceptance rolls out with each redesigned article, never counts site logos.
-for (const route of [slowGuideRoute, wifiGuideRoute, startupGuideRoute, comparisonGuideRoute, '/guides/wifi-one-device-or-all/']) {
+for (const route of [slowGuideRoute, wifiGuideRoute, startupGuideRoute, comparisonGuideRoute, '/guides/wifi-one-device-or-all/', '/guides/wifi-coverage-or-internet-service/']) {
   const html = readFileSync(routeToFile(route), 'utf8')
   const article = html.match(/<article\b[\s\S]*?<\/article>/)?.[0] || ''
   const images = [...article.matchAll(/<img\b[^>]*>/g)].map((match) => match[0])
@@ -1254,7 +1254,10 @@ for (const slug of remainingGuideSlugs) {
   const route = `/guides/${slug}/`
   const html = readFileSync(routeToFile(route), 'utf8')
   assert(countOccurrences(sitemapXml, `https://nakedtech.au${route}`) === 1, `${slug}: sitemap discovery`)
-  assert(html.includes('including GST'), `${slug}: clear GST price`)
+  if (slug === 'wifi-coverage-or-internet-service') {
+    assert(!html.includes('guide-service'), `${slug}: no sales panel`)
+    assert(countOccurrences(html.match(/<article\b[\s\S]*?<\/article>/)?.[0] || '', 'href="/services/wifi-dropouts-ivanhoe/"') === 1, `${slug}: one optional service link`)
+  } else assert(html.includes('including GST'), `${slug}: clear GST price`)
   assert(html.includes('/services/'), `${slug}: service route`)
 }
 

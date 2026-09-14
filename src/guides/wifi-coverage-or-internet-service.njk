@@ -2,23 +2,25 @@
 layout: layouts/base.njk
 permalink: /guides/wifi-coverage-or-internet-service/index.html
 title: "Wi-Fi coverage or internet service: what should you record?"
-description: "The connection feels fine at the kitchen table but unreliable in the study. Is the internet plan too slow, or is the difficulty getting a useful."
+description: "Compare Wi-Fi in different rooms, keep the device and task consistent, and record useful observations before changing your internet plan or equipment."
 robots: index, follow
 ogImage: /img/nakedtech_hero_technician.webp
 ogImageWidth: 1408
 ogImageHeight: 768
 ---
-<header class="bg-inverse pb-14 pt-32 text-inverse-ink md:pt-40">
-  <div class="mx-auto max-w-3xl px-6">
-    <p class="mb-4 text-sm font-bold uppercase tracking-widest text-accent">The Naked Tech guide</p>
-    <h1 class="text-4xl font-extrabold tracking-tight md:text-5xl">{{ title }}</h1>
-  </div>
-</header>
-<article class="guide-article bg-canvas py-12 md:py-16" aria-label="Wi-Fi coverage or internet service: what should you record?">
-  <div class="guide-reading mx-auto max-w-3xl px-6 text-lg">
+{% from "components/editorial/macros.njk" import choice, note, contents, nextReading %}
+<style>{% include "components/editorial/styles.css" %}</style>
+<header class="ed-hero bg-inverse pb-14 pt-32 text-inverse-ink md:pt-40"><div class="mx-auto max-w-3xl px-6"><p class="mb-4 text-sm font-bold uppercase tracking-widest text-accent">The Naked Tech field guide <span class="ed-edition"> / 06</span></p><h1 class="text-4xl font-extrabold tracking-tight md:text-5xl">Wi-Fi changes by room?<br><span>Map the experience.</span></h1><p class="ed-deck">Compare locations before changing your plan or buying equipment. Keep a useful record of what happens.</p></div></header>
+<article class="ed-guide bg-canvas py-12 md:py-16" aria-label="Wi-Fi coverage or internet service guide"><div class="ed-layout">
+{{ contents([{ id: 'start', title: 'Find your starting point' }, { id: 'map', title: 'Make a room map' }, { id: 'measure', title: 'Compare measurements' }, { id: 'question', title: 'Choose the next question' }, { id: 'notes', title: 'Keep useful notes' }, { id: 'related', title: 'What to read next' }]) }}
+<div class="ed-reading guide-reading text-lg">
 <p class="mb-5 leading-relaxed text-muted">The connection feels fine at the kitchen table but unreliable in the study. Is the internet plan too slow, or is the difficulty getting a useful connection to that room? Before changing a plan or buying equipment, make a small map of the experience.</p>
-{% include "components/guide-start.njk" %}
-<h2 class="mt-12 mb-5 text-2xl font-bold tracking-tight text-ink md:text-3xl">Start with a room map</h2>
+<section class="ed-start" id="start" aria-labelledby="start-heading"><p class="ed-label">Start here</p><h2 id="start-heading">Compare the experience, one room at a time</h2><p>Keep the device and task consistent while you change location.</p><div class="ed-choices">
+{{ choice('Choose one device', 'Use the same laptop or device for the first comparison.', '#map', 'startup', '/img/guides/wifi-card-situations-v2.webp', 'A laptop and phone with wireless symbols.') }}
+{{ choice('Mark the places', 'Note the router and the rooms where you usually work.', '#map', 'applications', '/img/guides/wifi-card-situations-v2.webp', 'A router and laptop in adjacent rooms.') }}
+{{ choice('Repeat one task', 'Try the same familiar activity in each location.', '#measure', 'online', '/img/guides/wifi-card-situations-v2.webp', 'A laptop with abstract application windows.') }}
+</div></section>
+<h2 class="ed-section-heading" id="map"><span aria-hidden="true">01</span>Start with a room map</h2>
 <p class="mb-5 leading-relaxed text-muted">Draw your home's rooms on paper. Mark the router's location and the places where you normally work, stream or make calls. You do not need measurements or a professional floor plan. Use labels such as “study desk” rather than an address if you share the notes.</p>
 <p class="mb-5 leading-relaxed text-muted">Beside each location, record one ordinary task and what happened. Keep the device and task the same for the first comparison. This is a record of your experience, not a signal survey.</p>
 <div class="mb-8 overflow-x-auto" role="region" aria-label="Wi-Fi coverage or internet service: what should you record? reference table" tabindex="0"><table role="table" class="w-full border-collapse text-left text-sm md:text-base">
@@ -47,17 +49,16 @@ ogImageHeight: 768
 </tr>
 </tbody>
 </table></div>
-<h2 class="mt-12 mb-5 text-2xl font-bold tracking-tight text-ink md:text-3xl">Add a comparable measurement</h2>
+<h2 class="ed-section-heading" id="measure"><span aria-hidden="true">02</span>Add a comparable measurement</h2>
 <p class="mb-5 leading-relaxed text-muted">nbn describes comparing speed tests beside the router, in other rooms and over Ethernet to the router where practical. It also identifies walls and other obstructions as possible influences on coverage. <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="https://www.nbnco.com.au/learn/optimisation/what-to-look-for-in-a-wifi-router">See nbn's comparison guidance</a>.</p>
-<p class="mb-5 leading-relaxed text-muted">For the measurement steps and limits, use our <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="/guides/connection-test-results/">connection-test guide</a>. Keep the time, device, connection type and test name with each result. Skip a wired comparison if it requires unfamiliar cabling or equipment changes.</p>
-<h2 class="mt-12 mb-5 text-2xl font-bold tracking-tight text-ink md:text-3xl">Choose the next question</h2>
-<p class="mb-5 leading-relaxed text-muted">A room-specific pattern is useful to discuss when assessing coverage. A problem in several places needs a wider conversation. Neither pattern, by itself, proves which component has failed.</p>
+{% call note("care", "Take care", "Keep equipment changes out of this check") %}<p class="mb-5 leading-relaxed text-muted">For the measurement steps and limits, use our <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="/guides/connection-test-results/">connection-test guide</a>. Keep the time, device, connection type and test name with each result. Skip a wired comparison if it requires unfamiliar cabling or equipment changes.</p>{% endcall %}
+<h2 class="ed-section-heading" id="question"><span aria-hidden="true">03</span>Choose the next question</h2>
+{% call note("info", "Good to know", "A pattern is not a diagnosis") %}<p class="mb-5 leading-relaxed text-muted">A room-specific pattern is useful to discuss when assessing coverage. A problem in several places needs a wider conversation. Neither pattern, by itself, proves which component has failed.</p>{% endcall %}
 <p class="mb-5 leading-relaxed text-muted">Ask: “What would you check to distinguish the incoming service from the connection inside the house?” Bring the map rather than asking for a particular booster. If a provider investigates the service, keep its reference and findings so you do not lose that part of the history.</p>
 <p class="mb-5 leading-relaxed text-muted">Do not compare a phone on mobile data with a laptop on home Wi-Fi and treat that as the same test. Our <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="/guides/wifi-one-device-or-all/">one-device or all-devices guide</a> explains a fair comparison.</p>
-<h2 class="mt-12 mb-5 text-2xl font-bold tracking-tight text-ink md:text-3xl">Keep the useful result</h2>
-<p class="mb-5 leading-relaxed text-muted">You may finish with a clear pattern, an intermittent pattern or no repeatable problem. All three are worth recording. Do not turn an inconclusive test into a purchase decision. You can stop after a few representative observations; there is no need to test every corner of the house.</p>
-<aside class="guide-service" aria-label="Service scope and next step"><p class="guide-kicker">If you would like help</p>
-<p class="mb-5 leading-relaxed text-muted">For the bigger picture, read the <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="/guides/wifi-dropouts-diagnosis/">Wi-Fi diagnosis pillar</a>. Naked Tech's <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="/services/wifi-dropouts-ivanhoe/">Wi-Fi diagnosis in Ivanhoe and Eaglemont</a> is <strong>$190 including GST</strong>, including local call-out and an action plan. Appropriate straightforward adjustments are within scope; hardware, cabling, provider remediation and installation are separate. Scope and availability are confirmed before booking, and a diagnosis does not oblige you to buy a Mesh system.</p>
-</aside>
-  </div>
-</article>
+<h2 class="ed-section-heading" id="notes"><span aria-hidden="true">04</span>Keep the useful result</h2>
+{% call note("info", "Keep this", "An inconclusive result is still useful") %}<p class="mb-5 leading-relaxed text-muted">You may finish with a clear pattern, an intermittent pattern or no repeatable problem. All three are worth recording. Do not turn an inconclusive test into a purchase decision. You can stop after a few representative observations; there is no need to test every corner of the house.</p>{% endcall %}
+
+{{ nextReading([{ title: 'Narrow down Wi-Fi dropouts', href: '/guides/wifi-dropouts-diagnosis/' }, { title: 'Understand connection-test results', href: '/guides/connection-test-results/' }, { title: 'Compare one device with another', href: '/guides/wifi-one-device-or-all/' }, { title: 'Keep a dropout diary', href: '/guides/wifi-dropout-diary/' }], '/services/wifi-dropouts-ivanhoe/', 'Wi-Fi dropout diagnosis') }}
+</div></div></article>
+<script>{% include "components/editorial/contents.js" %}</script>
