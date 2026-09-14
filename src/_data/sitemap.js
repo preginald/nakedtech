@@ -2,6 +2,7 @@ const { execFileSync } = require('node:child_process')
 const { resolve } = require('node:path')
 
 const serviceCatalogue = require('./serviceCatalogue.js')
+const gitCalendarDate = require('../../lib/git-calendar-date')
 
 const projectRoot = resolve(__dirname, '../..')
 
@@ -54,12 +55,13 @@ const landingPageSourceByServiceKey = {
 }
 
 function gitLastModified(sources) {
-  const lastModified = execFileSync(
+  const timestamp = execFileSync(
     'git',
-    ['log', '-1', '--format=%cs', '--', ...sources],
+    ['log', '-1', '--format=%ct', '--', ...sources],
     { cwd: projectRoot, encoding: 'utf8' },
   ).trim()
 
+  const lastModified = gitCalendarDate(timestamp)
   if (!/^\d{4}-\d{2}-\d{2}$/.test(lastModified)) {
     throw new Error(`Could not determine an accurate sitemap date for ${sources.join(', ')}`)
   }
@@ -69,12 +71,13 @@ function gitLastModified(sources) {
 
 function serviceCatalogueLastModified(serviceKey) {
   const range = `/serviceKey: '${serviceKey}'/,/^  },$/:src/_data/serviceCatalogue.js`
-  const lastModified = execFileSync(
+  const timestamp = execFileSync(
     'git',
-    ['log', '-1', '--format=%cs', '-L', range],
+    ['log', '-1', '--format=%ct', '-L', range],
     { cwd: projectRoot, encoding: 'utf8' },
   ).trim().split('\n')[0]
 
+  const lastModified = gitCalendarDate(timestamp)
   if (!/^\d{4}-\d{2}-\d{2}$/.test(lastModified)) {
     throw new Error(`Could not determine an accurate catalogue date for ${serviceKey}`)
   }

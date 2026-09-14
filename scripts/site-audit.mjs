@@ -760,6 +760,10 @@ const generatedMetadata = htmlFiles.map((file) => {
 
 const sitemapXml = existsSync(sitemapPath) ? readFileSync(sitemapPath, 'utf8') : ''
 
+const gitCalendarDate = require('../lib/git-calendar-date')
+assert(gitCalendarDate(Date.parse('2026-09-15T00:02:26+10:00') / 1000) === '2026-09-14', 'sitemap: Melbourne midnight converts to the correct UTC date')
+assert(gitCalendarDate(Date.parse('2026-09-14T23:30:00-07:00') / 1000) === '2026-09-15', 'sitemap: negative timezone offset converts across UTC midnight')
+assert(gitCalendarDate(Date.parse('2026-09-15T00:00:00Z') / 1000) === '2026-09-15', 'sitemap: UTC midnight remains stable')
 const sitemapEntries = [...sitemapXml.matchAll(/<url>\s*<loc>([^<]+)<\/loc>\s*<lastmod>([^<]+)<\/lastmod>\s*<\/url>/g)]
 const sitemapLocations = sitemapEntries.map((entry) => entry[1])
 const sitemapDates = sitemapEntries.map((entry) => entry[2])
