@@ -131,3 +131,7 @@ Uses the shared compact Wi-Fi artwork cards for connection, location and task. P
 ## Wi-Fi coverage supporting guide
 
 Reuses compact Wi-Fi image cards for device, location and task; preserves room-map table and diagnostic prose/source links. Added active contents, safety/info notes and educational next steps with one optional service link. Corrected the previously truncated meta description with an accurate complete summary. Six articles now use the design; six supporting articles remain.
+
+## Wi-Fi dropout diary supporting guide
+
+Uses compact device/location/time cards with the existing diary triptych; the notebook scene now fits its card's purpose. Preserves the eight-field table, fictional example, privacy advice and existing diagnostic prose. Adds active contents and consistent notes, educational next steps and one optional diagnosis link. Repairs truncated metadata. Seven guides now redesigned; five supporting guides remain.

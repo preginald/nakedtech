@@ -2,23 +2,25 @@
 layout: layouts/base.njk
 permalink: /guides/wifi-dropout-diary/index.html
 title: "Intermittent Wi-Fi dropouts: keep a useful symptom diary"
-description: "The connection recovers just as someone arrives to help. Instead of trying to recreate every interruption, keep a short diary of what happened during."
+description: "Record the time, place and symptoms of intermittent Wi-Fi dropouts, spot useful patterns and share only the details needed for help."
 robots: index, follow
 ogImage: /img/nakedtech_hero_technician.webp
 ogImageWidth: 1408
 ogImageHeight: 768
 ---
-<header class="bg-inverse pb-14 pt-32 text-inverse-ink md:pt-40">
-  <div class="mx-auto max-w-3xl px-6">
-    <p class="mb-4 text-sm font-bold uppercase tracking-widest text-accent">The Naked Tech guide</p>
-    <h1 class="text-4xl font-extrabold tracking-tight md:text-5xl">{{ title }}</h1>
-  </div>
-</header>
-<article class="guide-article bg-canvas py-12 md:py-16" aria-label="Intermittent Wi-Fi dropouts: keep a useful symptom diary">
-  <div class="guide-reading mx-auto max-w-3xl px-6 text-lg">
+{% from "components/editorial/macros.njk" import choice, note, contents, nextReading %}
+<style>{% include "components/editorial/styles.css" %}</style>
+<header class="ed-hero bg-inverse pb-14 pt-32 text-inverse-ink md:pt-40"><div class="mx-auto max-w-3xl px-6"><p class="mb-4 text-sm font-bold uppercase tracking-widest text-accent">The Naked Tech field guide <span class="ed-edition"> / 07</span></p><h1 class="text-4xl font-extrabold tracking-tight md:text-5xl">Wi-Fi drops out, then recovers?<br><span>Keep a useful diary.</span></h1><p class="ed-deck">Record what happened during normal use. Keep the observations clear and leave the cause open.</p></div></header>
+<article class="ed-guide bg-canvas py-12 md:py-16" aria-label="Wi-Fi dropout diary guide"><div class="ed-layout">
+{{ contents([{ id: 'start', title: 'Find your starting point' }, { id: 'capture', title: 'Capture the incident' }, { id: 'facts', title: 'Separate facts from guesses' }, { id: 'pattern', title: 'Look for a pattern' }, { id: 'share', title: 'Share only what helps' }, { id: 'related', title: 'What to read next' }]) }}
+<div class="ed-reading guide-reading text-lg">
 <p class="mb-5 leading-relaxed text-muted">The connection recovers just as someone arrives to help. Instead of trying to recreate every interruption, keep a short diary of what happened during normal use. A useful diary records the symptom and the gaps in your knowledge, without guessing at the cause.</p>
-{% include "components/guide-start.njk" %}
-<h2 class="mt-12 mb-5 text-2xl font-bold tracking-tight text-ink md:text-3xl">Capture the next incident</h2>
+<section class="ed-start" id="start" aria-labelledby="start-heading"><p class="ed-label">Start here</p><h2 id="start-heading">Keep three things clear</h2><p>A short, honest observation is enough to begin.</p><div class="ed-choices">
+{{ choice('Which device?', 'Name what you were using and what you did not check.', '#capture', 'startup', '/img/guides/wifi-observations-v1.webp', 'A laptop and phone with wireless symbols.') }}
+{{ choice('Where were you?', 'Record the room or your usual working position.', '#capture', 'applications', '/img/guides/wifi-observations-v1.webp', 'A router and laptop in adjacent rooms.') }}
+{{ choice('When did it happen?', 'Note the approximate time and how long it lasted.', '#capture', 'online', '/img/guides/wifi-observations-v1.webp', 'A notebook and clock beside a router.') }}
+</div></section>
+<h2 class="ed-section-heading" id="capture"><span aria-hidden="true">01</span>Capture the next incident</h2>
 <p class="mb-5 leading-relaxed text-muted">Use paper or a note stored on your own device. Record the incident when convenient; do not interrupt something important simply to collect a measurement.</p>
 <div class="mb-8 overflow-x-auto" role="region" aria-label="Intermittent Wi-Fi dropouts: keep a useful symptom diary reference table" tabindex="0"><table role="table" class="w-full border-collapse text-left text-sm md:text-base">
 <thead>
@@ -62,21 +64,20 @@ ogImageHeight: 768
 </tr>
 </tbody>
 </table></div>
-<p class="mb-5 leading-relaxed text-muted">If you changed something, record it. “I restarted the router and it worked afterwards” describes an order of events; it does not establish why the problem happened.</p>
-<h2 class="mt-12 mb-5 text-2xl font-bold tracking-tight text-ink md:text-3xl">Keep facts separate from guesses</h2>
+{% call note("info", "Good to know", "Sequence is not the same as cause") %}<p class="mb-5 leading-relaxed text-muted">If you changed something, record it. “I restarted the router and it worked afterwards” describes an order of events; it does not establish why the problem happened.</p>{% endcall %}
+<h2 class="ed-section-heading" id="facts"><span aria-hidden="true">02</span>Keep facts separate from guesses</h2>
 <p class="mb-5 leading-relaxed text-muted">A fictional example:</p>
-<blockquote class="guide-note"><span class="guide-kicker">Example note</span>
+{% call note("info", "Example only", "Describe what you observed") %}
 <p class="mb-5 leading-relaxed text-muted">Tuesday, about 6:40 pm: the laptop's call froze in the study for roughly a minute. I did not check another device. The call resumed without me changing anything. I do not know whether other websites worked.</p>
-</blockquote>
+{% endcall %}
 <p class="mb-5 leading-relaxed text-muted">That is more useful than “The whole network failed again” when the only observation came from one call. Our <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="/guides/wifi-one-device-or-all/">two-device guide</a> explains how to add a fair comparison if the opportunity arises.</p>
-<h2 class="mt-12 mb-5 text-2xl font-bold tracking-tight text-ink md:text-3xl">Review for a pattern</h2>
+<h2 class="ed-section-heading" id="pattern"><span aria-hidden="true">03</span>Review for a pattern</h2>
 <p class="mb-5 leading-relaxed text-muted">After a few ordinary incidents, look for repeated rooms, devices, activities or times. Do not invent a pattern from a single row, and keep contradictory observations. A quiet period is worth noting, but it does not prove the underlying issue has disappeared.</p>
 <p class="mb-5 leading-relaxed text-muted">If you decide to measure the connection, keep those results alongside the diary using the <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="/guides/connection-test-results/">connection-test guide</a>. Do not let repeated tests become the main use of your internet connection. For location comparisons, use the <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="/guides/wifi-coverage-or-internet-service/">coverage worksheet</a>.</p>
-<h2 class="mt-12 mb-5 text-2xl font-bold tracking-tight text-ink md:text-3xl">Share only what helps</h2>
-<p class="mb-5 leading-relaxed text-muted">Remove passwords, account identifiers, private conversations and unrelated screenshots. A plain-language summary is enough for an initial enquiry. Keep the original diary yourself so you can answer a follow-up question without sending everything at once.</p>
+<h2 class="ed-section-heading" id="share"><span aria-hidden="true">04</span>Share only what helps</h2>
+{% call note("care", "Take care", "Keep private details out") %}<p class="mb-5 leading-relaxed text-muted">Remove passwords, account identifiers, private conversations and unrelated screenshots. A plain-language summary is enough for an initial enquiry. Keep the original diary yourself so you can answer a follow-up question without sending everything at once.</p>{% endcall %}
 <p class="mb-5 leading-relaxed text-muted">You do not need a week's worth of evidence before reporting an outage to your internet provider or asking for help. If the issue disrupts your normal use, explain that and provide whatever observations you have.</p>
-<aside class="guide-service" aria-label="Service scope and next step"><p class="guide-kicker">If you would like help</p>
-<p class="mb-5 leading-relaxed text-muted">The <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="/guides/wifi-dropouts-diagnosis/">Wi-Fi pillar</a> explains how the different parts of the connection fit together. Naked Tech's <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="/services/wifi-dropouts-ivanhoe/">local Wi-Fi diagnosis</a> is <strong>$190 including GST</strong> in Ivanhoe and Eaglemont, including local call-out and an action plan. Appropriate simple adjustments are within scope; hardware, provider work, cabling and installation are separate. Scope and availability are confirmed before booking, without a promise that every fault will be fixed in one visit.</p>
-</aside>
-  </div>
-</article>
+
+{{ nextReading([{ title: 'Narrow down Wi-Fi dropouts', href: '/guides/wifi-dropouts-diagnosis/' }, { title: 'Compare one device with another', href: '/guides/wifi-one-device-or-all/' }, { title: 'Map coverage and service symptoms', href: '/guides/wifi-coverage-or-internet-service/' }, { title: 'Understand connection-test results', href: '/guides/connection-test-results/' }], '/services/wifi-dropouts-ivanhoe/', 'Wi-Fi dropout diagnosis') }}
+</div></div></article>
+<script>{% include "components/editorial/contents.js" %}</script>
