@@ -82,3 +82,8 @@ Reduced-motion preference disables transitions and card/link translation while p
 ## Decision-card examples
 
 `decision(kind, title, situation, question, exampleText)` now optionally adds a native “See an example” disclosure. Each summary's accessible name includes its card title. Hypothetical Fix/Upgrade/Replace examples are conditional, not diagnoses or guarantees; core situations, questions and the surrounding safety callout remain visible. Cards independently expand, with no forced accordion behaviour. Card hover/focus-within changes only border and surface colour; no lift, arrow movement, click handler or pointer cursor on the card itself. The summary retains its native keyboard/touch control and reduced-motion behaviour. Existing essential content and service link remain unchanged; prototype only.
+
+
+## First conceptual illustration
+
+Peter endorsed a single branded illustration experiment for the symptom chooser. A generated triptych depicts startup waiting, application waiting and online waiting. `choice()` accepts an optional artwork identifier and displays the matching scene inside the existing actionable card. This is a first prototype-specific art mapping, not a global default for every future choice component. Labels, explanations and navigation remain native HTML; each framed scene has a short descriptive alt. One cached WebP supplies all three framed views; original and exact prompt are retained under docs/marketing/artwork. No fake software screenshot, text baked into the art, service change or production release.
