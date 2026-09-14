@@ -1224,7 +1224,7 @@ for (const [route, serviceRoute, relatedRoute] of [
   } else assert(html.includes('$190 including GST'), `${route}: GST-inclusive price`)
 }
 // Visual acceptance rolls out with each redesigned article, never counts site logos.
-for (const route of [slowGuideRoute, wifiGuideRoute, startupGuideRoute, comparisonGuideRoute]) {
+for (const route of [slowGuideRoute, wifiGuideRoute, startupGuideRoute, comparisonGuideRoute, '/guides/wifi-one-device-or-all/']) {
   const html = readFileSync(routeToFile(route), 'utf8')
   const article = html.match(/<article\b[\s\S]*?<\/article>/)?.[0] || ''
   const images = [...article.matchAll(/<img\b[^>]*>/g)].map((match) => match[0])
@@ -1245,7 +1245,8 @@ const deviceGuideRoute = '/guides/wifi-one-device-or-all/'
 const deviceGuideHtml = readFileSync(routeToFile(deviceGuideRoute), 'utf8')
 assert(countOccurrences(sitemapXml, `https://nakedtech.au${deviceGuideRoute}`) === 1, 'device guide: sitemap discovery')
 assert(deviceGuideHtml.includes('href="https://nakedtech.au/guides/wifi-dropouts-diagnosis/"'), 'device guide: links to pillar')
-assert(deviceGuideHtml.includes('href="https://nakedtech.au/services/wifi-dropouts-ivanhoe/"'), 'device guide: service CTA')
+assert(countOccurrences(deviceGuideHtml, 'href="https://nakedtech.au/services/wifi-dropouts-ivanhoe/"') === 1, 'device guide: one optional service link')
+assert(!deviceGuideHtml.includes('guide-service'), 'device guide: no sales panel')
 assert(readFileSync(routeToFile(wifiGuideRoute), 'utf8').includes(`href="${deviceGuideRoute}"`), 'wifi pillar: device guide discovery')
 
 const remainingGuideSlugs = ["connection-test-results", "new-computer-handover-checks", "new-windows-computer-move-checklist", "slow-computer-assessment-notes", "wifi-coverage-or-internet-service", "wifi-dropout-diary", "windows-performance-observations"]
