@@ -1,0 +1,54 @@
+---
+layout: layouts/base.njk
+permalink: /guides/REPLACE_SLUG/index.html
+title: "REPLACE_BROAD_READER_QUESTION"
+description: "REPLACE_ACCURATE_COMPLETE_SUMMARY"
+robots: index, follow
+ogImage: /img/REPLACE_SOCIAL_IMAGE.webp
+ogImageWidth: 1408
+ogImageHeight: 768
+---
+{# Scaffold only. Read NAKED-TECH-EDITORIAL-DESIGN-GUIDE.md. Replace ALL REPLACE_ tokens before moving into src/guides. #}
+{% from "components/editorial/macros.njk" import choice, note, contents, nextReading, example %}
+<style>{% include "components/editorial/styles.css" %}</style>
+<header class="ed-hero bg-inverse pb-14 pt-32 text-inverse-ink md:pt-40">
+  <div class="mx-auto max-w-3xl px-6">
+    <p class="mb-4 text-sm font-bold uppercase tracking-widest text-accent">The Naked Tech field guide</p>
+    <h1 class="text-4xl font-extrabold tracking-tight md:text-5xl">REPLACE_READER_QUESTION<br><span>REPLACE_USEFUL_OUTCOME</span></h1>
+    <p class="ed-deck">REPLACE_SCOPE_AND_READER_BENEFIT</p>
+  </div>
+</header>
+<article class="ed-guide bg-canvas py-12 md:py-16" aria-label="REPLACE_ARTICLE_LABEL">
+  <div class="ed-layout">
+    {{ contents([{"id": "start", "title": "Find your starting point"}, {"id": "understand", "title": "Understand the problem"}, {"id": "compare", "title": "Compare your options"}, {"id": "try", "title": "Make a useful observation"}, {"id": "related", "title": "What to read next"}]) }}
+    <div class="ed-reading guide-reading text-lg">
+      <p>REPLACE_OPENING_ANSWER_AND_LIMITS</p>
+      <section class="ed-start" id="start" aria-labelledby="start-heading">
+        <p class="ed-label">Start here</p>
+        <h2 id="start-heading">REPLACE_MEANINGFUL_CHOICE</h2>
+        <p>REPLACE_SHORT_ORIENTATION</p>
+        <div class="ed-choices">
+          {{ choice("REPLACE_CARD_ONE", "REPLACE_DETAIL_ONE", "#understand", "startup", "/img/guides/REPLACE_RELEVANT_TRIPTYCH.webp", "REPLACE_FIRST_SCENE_ALT", "Read this part") }}
+          {{ choice("REPLACE_CARD_TWO", "REPLACE_DETAIL_TWO", "#compare", "applications", "/img/guides/REPLACE_RELEVANT_TRIPTYCH.webp", "REPLACE_SECOND_SCENE_ALT", "Read this part") }}
+          {{ choice("REPLACE_CARD_THREE", "REPLACE_DETAIL_THREE", "#try", "online", "/img/guides/REPLACE_RELEVANT_TRIPTYCH.webp", "REPLACE_THIRD_SCENE_ALT", "Read this part") }}
+        </div>
+      </section>
+      <h2 class="ed-section-heading" id="understand"><span aria-hidden="true">01</span>Understand the problem</h2>
+      <p>REPLACE_SECTION_1_WITH_SOURCE_CHECKED_ADVICE</p>
+      <h2 class="ed-section-heading" id="compare"><span aria-hidden="true">02</span>Compare your options</h2>
+      <p>REPLACE_SECTION_2_WITH_SOURCE_CHECKED_ADVICE</p>
+      <h2 class="ed-section-heading" id="try"><span aria-hidden="true">03</span>Make a useful observation</h2>
+      <p>REPLACE_SECTION_3_WITH_SOURCE_CHECKED_ADVICE</p>
+      {% call note("care", "Take care", "REPLACE_RELEVANT_SAFETY_HEADING") %}
+        <p>REPLACE_PROPORTIONATE_VISIBLE_SAFETY_ADVICE</p>
+      {% endcall %}
+      {# Move the safety note beside the relevant instruction; add examples/tables only where useful. #}
+      {{ nextReading([
+        { title: "REPLACE_RELATED_EDUCATIONAL_TITLE", href: "/guides/REPLACE_EXISTING_RELATED_SLUG/" },
+        { title: "REPLACE_RELATED_EDUCATIONAL_TITLE_TWO", href: "/guides/REPLACE_EXISTING_RELATED_SLUG_TWO/" }
+      ], "/services/REPLACE_RELEVANT_SERVICE/", "REPLACE_DESCRIPTIVE_SERVICE_LABEL", "04") }}
+      {# Omit the service arguments if no relevant service exists. Satellites must link to their pillar; pillars to relevant satellites. #}
+    </div>
+  </div>
+</article>
+<script>{% include "components/editorial/contents.js" %}</script>

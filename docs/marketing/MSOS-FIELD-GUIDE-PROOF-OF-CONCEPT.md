@@ -1,5 +1,7 @@
 # Naked Tech field guide — contractor presentation
 
+> Historical design log. For current requirements, use [Naked Tech Editorial & Design Guide](NAKED-TECH-EDITORIAL-DESIGN-GUIDE.md). Earlier service panels and prototype-only instructions below are superseded.
+
 Core #4305. Review-only prototype on branch `design/msos-field-guide-poc`, based on production `542a4d4`. Article: `/guides/slow-computer-fix-upgrade-replace/`. Peter will assemble the MSOS team and introduce the contractor; this document prepares that presentation without convening the team or implying its acceptance. Production remains unchanged.
 
 ## Design proposition

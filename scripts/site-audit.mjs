@@ -5,6 +5,7 @@ import { execFileSync } from 'node:child_process'
 import { createRequire } from 'node:module'
 import vm from 'node:vm'
 import nunjucks from 'nunjucks'
+import { editorialFindings } from './editorial-contract.mjs'
 
 const require = createRequire(import.meta.url)
 const serviceCatalogue = require('../src/_data/serviceCatalogue.js')
@@ -1227,18 +1228,19 @@ for (const [route, serviceRoute, relatedRoute] of [
     assert(html.includes('data-editorial-contents'), `${route}: active contents navigation`)
   } else assert(html.includes('$190 including GST'), `${route}: GST-inclusive price`)
 }
-// Visual acceptance rolls out with each redesigned article, never counts site logos.
-for (const route of [slowGuideRoute, wifiGuideRoute, startupGuideRoute, comparisonGuideRoute, '/guides/wifi-one-device-or-all/', '/guides/wifi-coverage-or-internet-service/', '/guides/wifi-dropout-diary/', ...['connection-test-results', 'new-computer-handover-checks', 'new-windows-computer-move-checklist', 'slow-computer-assessment-notes', 'windows-performance-observations'].map(slug => `/guides/${slug}/`)]) {
-  const html = readFileSync(routeToFile(route), 'utf8')
-  const article = html.match(/<article\b[\s\S]*?<\/article>/)?.[0] || ''
-  const images = [...article.matchAll(/<img\b[^>]*>/g)].map((match) => match[0])
-  assert(images.length >= 3, `${route}: article has explanatory image coverage`)
-  for (const img of images) {
-    assert(/alt="[^"\s][^"]*"/.test(img), `${route}: explanatory image has meaningful alt text`)
-    const src = img.match(/src="([^"]+)"/)?.[1]
-    assert(src?.startsWith('/img/guides/') && existsSync(join(root, src)), `${route}: explanatory image asset exists`)
-  }
+// Discover every generated guide, including future articles; the guide landing index is not an article.
+const editorialFiles = walk(join(root, 'guides')).filter(file => file.endsWith('.html') && file !== join(root, 'guides/index.html'))
+for (const file of editorialFiles) {
+  const route = '/' + relative(root, file).replace(/index\.html$/, '')
+  const issues = editorialFindings(readFileSync(file, 'utf8'), src => existsSync(join(root, src)))
+  assert(issues.length === 0, `${route}: editorial contract${issues.length ? ': ' + issues.join(', ') : ''}`)
 }
+// A future article must not escape validation simply because its slug is absent from a fixed list.
+const editorialSample = readFileSync(routeToFile(slowGuideRoute), 'utf8')
+assert(editorialFindings(editorialSample.replace(/<img\b[^>]*>/g, ''), () => true).includes('explanatory image coverage'), 'editorial contract rejects missing images on any route')
+assert(editorialFindings(editorialSample.replace('id="start"', 'id="REPLACE_SECTION_ID"'), () => true).includes('unresolved template placeholder'), 'editorial contract rejects unresolved scaffold')
+assert(editorialFindings(editorialSample, () => false).includes('existing explanatory image asset'), 'editorial contract rejects unavailable artwork')
+assert(editorialFindings(editorialSample.replace('href="#causes"', 'href="#missing-target"'), () => true).includes('existing anchor target #missing-target'), 'editorial contract rejects broken contents targets')
 const wifiVisualHtml = readFileSync(routeToFile(wifiGuideRoute), 'utf8')
 assert(countOccurrences(wifiVisualHtml, 'class="ed-choice-art ') === 3, 'Wi-Fi pillar: three illustrations use the shared card treatment')
 assert(!wifiVisualHtml.includes('class="ed-illustration"'), 'Wi-Fi pillar: no oversized standalone illustration figures')
