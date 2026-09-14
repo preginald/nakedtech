@@ -168,3 +168,11 @@
   .ed-reading [id] { scroll-margin-top: 156px; }
 }
 @media print { .ed-toc[data-enhanced] { display: none; } }
+
+/* Low-glare conceptual artwork; captions remain accessible native text. */
+.ed-illustration { margin: 28px 0 36px; max-width: 640px; }
+.ed-illustration-frame { position: relative; overflow: hidden; aspect-ratio: 1.5; background: #202326; border: 1px solid rgb(var(--nt-line)); border-radius: 12px; }
+.ed-illustration-frame img { position: absolute; width: 300%; max-width: none; height: auto; top: 50%; left: 0; transform: translateY(-50%); }
+.ed-illustration-frame--rooms img { left: -100%; }
+.ed-illustration-frame--diary img { left: -200%; }
+.ed-illustration figcaption { margin-top: 12px; font-size: 14px; line-height: 1.6; color: rgb(var(--nt-muted)); }

@@ -1223,6 +1223,18 @@ for (const [route, serviceRoute, relatedRoute] of [
     assert(html.includes('data-editorial-contents'), `${route}: active contents navigation`)
   } else assert(html.includes('$190 including GST'), `${route}: GST-inclusive price`)
 }
+// Visual acceptance rolls out with each redesigned article, never counts site logos.
+for (const route of [slowGuideRoute, wifiGuideRoute]) {
+  const html = readFileSync(routeToFile(route), 'utf8')
+  const article = html.match(/<article\b[\s\S]*?<\/article>/)?.[0] || ''
+  const images = [...article.matchAll(/<img\b[^>]*>/g)].map((match) => match[0])
+  assert(images.length >= 3, `${route}: pillar has explanatory image coverage`)
+  for (const img of images) {
+    assert(/alt="[^"\s][^"]*"/.test(img), `${route}: explanatory image has meaningful alt text`)
+    const src = img.match(/src="([^"]+)"/)?.[1]
+    assert(src?.startsWith('/img/guides/') && existsSync(join(root, src)), `${route}: explanatory image asset exists`)
+  }
+}
 assert(slowGuideHtml.includes(`href="${comparisonGuideRoute}"`), 'slow pillar: comparison guide discovery')
 assert(readFileSync(routeToFile('/services/wifi-dropouts-ivanhoe/'), 'utf8').includes(`href="${wifiGuideRoute}"`), 'wifi service: pillar discovery')
 

@@ -107,3 +107,7 @@ Peter approved the consolidated MSOS recommendation and first-guide release. The
 ## Wi-Fi pillar adoption — Core #4306
 
 The second field guide reuses choices, notes, active contents and educational next steps. Its existing connection-path diagram and responsive comparison table remain the main explanatory visuals; no computer-specific illustration is reused as Wi-Fi evidence. All pre-existing diagnostic paragraphs and source links before the former service section are retained. Safety/privacy paragraphs become visible callouts. Service details remain on the linked service page; the article ends with four educational/toolkit resources followed by one optional Wi-Fi diagnosis link. `contents(sections)` accepts article-specific IDs and labels; `nextReading` accepts an optional section number while retaining the Slow Computer default.
+
+## Mandatory visual coverage
+
+The [editorial visual publishing checklist](EDITORIAL-VISUAL-PUBLISHING-CHECKLIST.md) is now part of acceptance for every new/redesigned article. The Wi-Fi rollout's diagram/table-only treatment did not satisfy Peter's expected illustrated reading experience. Three explanatory scenes now accompany room comparison, device comparison and dropout notes. The same low-glare charcoal artwork works in both site themes; it is not a separate light/dark pair. One 54KB WebP is reused through framed views. Native captions and alt text communicate meaning; no generated technical UI or measurement is presented as factual evidence.
