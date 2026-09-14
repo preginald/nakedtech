@@ -1202,8 +1202,8 @@ assert(readFileSync(routeToFile('/services/slow-computer-help-ivanhoe/'), 'utf8'
 const startupGuideRoute = '/guides/computer-slow-startup/'
 const startupGuideHtml = readFileSync(routeToFile(startupGuideRoute), 'utf8')
 assert(countOccurrences(sitemapXml, `https://nakedtech.au${startupGuideRoute}`) === 1, 'startup guide: canonical appears once in sitemap')
-assert(startupGuideHtml.includes('$190 including GST'), 'startup guide: current GST-inclusive price')
-assert(startupGuideHtml.includes('href="https://nakedtech.au/services/slow-computer-help-ivanhoe/#contact"'), 'startup guide: existing enquiry CTA')
+assert(!startupGuideHtml.includes('guide-service'), 'startup guide: no in-article sales panel')
+assert(countOccurrences(startupGuideHtml, 'href="https://nakedtech.au/services/slow-computer-help-ivanhoe/"') === 1, 'startup guide: one optional assessment link')
 assert(startupGuideHtml.includes(`href="https://nakedtech.au${slowGuideRoute}"`), 'startup guide: links to pillar')
 assert(slowGuideHtml.includes(`href="${startupGuideRoute}"`), 'pillar: startup guide discoverable')
 
@@ -1224,7 +1224,7 @@ for (const [route, serviceRoute, relatedRoute] of [
   } else assert(html.includes('$190 including GST'), `${route}: GST-inclusive price`)
 }
 // Visual acceptance rolls out with each redesigned article, never counts site logos.
-for (const route of [slowGuideRoute, wifiGuideRoute]) {
+for (const route of [slowGuideRoute, wifiGuideRoute, startupGuideRoute]) {
   const html = readFileSync(routeToFile(route), 'utf8')
   const article = html.match(/<article\b[\s\S]*?<\/article>/)?.[0] || ''
   const images = [...article.matchAll(/<img\b[^>]*>/g)].map((match) => match[0])

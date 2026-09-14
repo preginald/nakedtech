@@ -8,19 +8,20 @@ ogImage: /img/nakedtech_hero_technician.webp
 ogImageWidth: 1408
 ogImageHeight: 768
 ---
-
-<header class="bg-inverse pb-14 pt-32 text-inverse-ink md:pt-40">
-  <div class="mx-auto max-w-3xl px-6">
-    <p class="mb-4 text-sm font-bold uppercase tracking-widest text-accent">The Naked Tech guide</p>
-    <h1 class="text-4xl font-extrabold tracking-tight md:text-5xl">{{ title }}</h1>
-  </div>
-</header>
-<article class="guide-article bg-canvas py-12 md:py-16" aria-label="Slow computer startup guide">
-  <div class="guide-reading mx-auto max-w-3xl px-6 text-lg">
+{% from "components/editorial/macros.njk" import choice, note, contents, nextReading %}
+<style>{% include "components/editorial/styles.css" %}</style>
+<header class="ed-hero bg-inverse pb-14 pt-32 text-inverse-ink md:pt-40"><div class="mx-auto max-w-3xl px-6"><p class="mb-4 text-sm font-bold uppercase tracking-widest text-accent">The Naked Tech field guide <span class="ed-edition"> / 03</span></p><h1 class="text-4xl font-extrabold tracking-tight md:text-5xl">Slow to start?<br><span>Pinpoint the waiting.</span></h1><p class="ed-deck">Notice when the delay happens, try one safe check and keep a useful note.</p></div></header>
+<article class="ed-guide bg-canvas py-12 md:py-16" aria-label="Slow computer startup guide"><div class="ed-layout">
+{{ contents([{ id: 'start', title: 'Find your starting point' }, { id: 'delay', title: 'Locate the delay' }, { id: 'restart', title: 'Try one restart' }, { id: 'notes', title: 'Keep useful notes' }, { id: 'stop', title: 'Know when to stop' }, { id: 'options', title: 'Consider your options' }, { id: 'related', title: 'What to read next' }]) }}
+<div class="ed-reading guide-reading text-lg">
 <p class="mb-5 leading-relaxed text-muted">You turn the computer on, wait for the sign-in screen, enter your password—and then wait again. By the time email opens, you have forgotten what you sat down to do.</p>
 <p class="mb-5 leading-relaxed text-muted">Before changing settings or buying a replacement, work out where the waiting happens. “Slow to start” can describe several different experiences. A useful first step is to describe yours clearly.</p>
-{% include "components/guide-start.njk" %}
-<h2 class="mt-12 mb-5 text-2xl font-bold tracking-tight text-ink md:text-3xl">Where does the delay happen?</h2>
+<section class="ed-start" id="start" aria-labelledby="start-heading"><p class="ed-label">Start here</p><h2 id="start-heading">Which wait sounds familiar?</h2><p>Separate getting started from waiting on a program or website.</p><div class="ed-choices">
+{{ choice('Before you can work', 'The sign-in screen or desktop takes time to become usable.', '#delay', 'startup') }}
+{{ choice('Inside one program', 'The desktop works, but a particular application keeps you waiting.', '#delay', 'applications') }}
+{{ choice('Mainly online', 'Programs open normally, but websites feel slow.', '/guides/slow-computer-or-internet/', 'online') }}
+</div></section>
+<h2 class="ed-section-heading" id="delay"><span aria-hidden="true">01</span>Where does the delay happen?</h2>
 <div class="mb-8 overflow-x-auto" role="region" aria-label="Describe the startup delay" tabindex="0"><table role="table" class="w-full border-collapse text-left text-sm md:text-base">
 <thead>
 <tr role="row">
@@ -48,25 +49,23 @@ ogImageHeight: 768
 </tbody>
 </table></div>
 <p class="mb-5 leading-relaxed text-muted">These observations do not diagnose the cause. They help keep the conversation focused on the part of the experience that is actually frustrating you.</p>
-<h2 class="mt-12 mb-5 text-2xl font-bold tracking-tight text-ink md:text-3xl">Try one ordinary restart</h2>
-<p class="mb-5 leading-relaxed text-muted">Save your work first. If Windows is responding normally, use its usual <strong>Restart</strong> option. After signing in, open only the program you need and note whether the same delay returns. Do not interrupt an update or repeatedly force the computer off to hurry it along.</p>
+<h2 class="ed-section-heading" id="restart"><span aria-hidden="true">02</span>Try one ordinary restart</h2>
+{% call note("care", "Take care", "Restart safely") %}<p class="mb-5 leading-relaxed text-muted">Save your work first. If Windows is responding normally, use its usual <strong>Restart</strong> option. After signing in, open only the program you need and note whether the same delay returns. Do not interrupt an update or repeatedly force the computer off to hurry it along.</p>{% endcall %}
 <p class="mb-5 leading-relaxed text-muted">Microsoft lists closing unused apps and restarting among its performance suggestions. It also identifies startup apps, limited storage, outdated software and older hardware as possible contributors to poor performance. Its guidance explains how to review startup apps in Task Manager. See <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="https://support.microsoft.com/en-us/windows/experience/performance-optimization/tips-to-improve-pc-performance-in-windows">Microsoft’s Windows performance guidance</a>.</p>
-<p class="mb-5 leading-relaxed text-muted">If you do inspect startup apps, start by looking. Do not disable an unfamiliar item simply because it appears in the list, and do not disable security tools. Note what you recognise and ask about anything uncertain.</p>
-<h2 class="mt-12 mb-5 text-2xl font-bold tracking-tight text-ink md:text-3xl">Make a short before-and-after note</h2>
+{% call note("care", "Take care", "Look before changing anything") %}<p class="mb-5 leading-relaxed text-muted">If you do inspect startup apps, start by looking. Do not disable an unfamiliar item simply because it appears in the list, and do not disable security tools. Note what you recognise and ask about anything uncertain.</p>{% endcall %}
+<h2 class="ed-section-heading" id="notes"><span aria-hidden="true">03</span>Make a short before-and-after note</h2>
 <p class="mb-5 leading-relaxed text-muted">You do not need a spreadsheet or specialist software. A few lines are enough:</p>
-<blockquote class="guide-note"><span class="guide-kicker">Example note</span>
+{% call note("info", "Try this", "Describe the waiting") %}
 <p class="mb-5 leading-relaxed text-muted">After switching on, the sign-in screen appears in about [time]. After signing in, I wait roughly [time] before [ordinary task] works. This started [when]. A normal restart [helped/did not help/I have not tried it]. The message I see is [message, if any].</p>
-</blockquote>
+{% endcall %}
 <p class="mb-5 leading-relaxed text-muted">Approximate timings are useful. The aim is to give someone a repeatable description, not to meet a universal startup-speed target. Avoid comparing your computer with an advertisement or a different machine doing different work.</p>
 <p class="mb-5 leading-relaxed text-muted">Also note whether anything changed around the same time: a new program, an update, a new peripheral or a change in how you use the computer. A change is a clue to discuss, not proof that it caused the problem.</p>
-<h2 class="mt-12 mb-5 text-2xl font-bold tracking-tight text-ink md:text-3xl">When to stop experimenting</h2>
-<p class="mb-5 leading-relaxed text-muted">If the computer will not start, important files are inaccessible, or you see an unfamiliar recovery prompt, explain that before arranging a routine performance visit. Do not reset Windows or delete unfamiliar files just to see whether startup improves. Avoid downloading a “speed booster” from a pop-up.</p>
+<h2 class="ed-section-heading" id="stop"><span aria-hidden="true">04</span>When to stop experimenting</h2>
+{% call note("care", "Take care", "Protect access to your files") %}<p class="mb-5 leading-relaxed text-muted">If the computer will not start, important files are inaccessible, or you see an unfamiliar recovery prompt, explain that before arranging a routine performance visit. Do not reset Windows or delete unfamiliar files just to see whether startup improves. Avoid downloading a “speed booster” from a pop-up.</p>{% endcall %}
 <p class="mb-5 leading-relaxed text-muted">You do not have to diagnose the fault before asking for help. A clear description of the delay is more useful than a list of guesses or changes you cannot undo.</p>
-<h2 class="mt-12 mb-5 text-2xl font-bold tracking-tight text-ink md:text-3xl">Does slow startup mean you need a new computer?</h2>
+<h2 class="ed-section-heading" id="options"><span aria-hidden="true">05</span>Does slow startup mean you need a new computer?</h2>
 <p class="mb-5 leading-relaxed text-muted">Not by itself. The next decision depends on the computer’s condition, the work you need it to do, and what a proposed fix or upgrade would achieve. Our <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="https://nakedtech.au/guides/slow-computer-fix-upgrade-replace/">guide to fixing, upgrading or replacing a slow computer</a> explains how to compare those options.</p>
-<aside class="guide-service" aria-label="Service scope and next step"><p class="guide-kicker">If you would like help</p>
-<p class="mb-5 leading-relaxed text-muted">For help in Ivanhoe or Eaglemont, NakedTech’s <strong>Slow Computer Performance Assessment costs $190 including GST</strong>. It includes a local call-out, 60–75 minutes onsite and a written fix, upgrade or replace plan. Safe, straightforward fixes are included where appropriate within scope; parts and additional work are separate. It does not guarantee every fault can be fixed in one visit.</p>
-<p class="mb-5 leading-relaxed text-muted"><a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="https://nakedtech.au/services/slow-computer-help-ivanhoe/#contact">See the full assessment scope and enquire about a visit</a>, or call <strong>03 7068 5422</strong>. Availability and scope are confirmed before a booking is made.</p>
-</aside>
-  </div>
-</article>
+
+{{ nextReading([{ title: 'Fix, upgrade or replace a slow computer', href: '/guides/slow-computer-fix-upgrade-replace/' }, { title: 'Computer or internet: compare the symptoms', href: '/guides/slow-computer-or-internet/' }, { title: 'Prepare useful assessment notes', href: '/guides/slow-computer-assessment-notes/' }, { title: 'Read Windows performance observations', href: '/guides/windows-performance-observations/' }], 'https://nakedtech.au/services/slow-computer-help-ivanhoe/', 'slow computer assessment', '06') }}
+</div></div></article>
+<script>{% include "components/editorial/contents.js" %}</script>
