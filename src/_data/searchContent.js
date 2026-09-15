@@ -18,6 +18,28 @@ const serviceSearchTerms = {
 
 const generalEntries = [
   {
+    path: '/guides/email-not-sending-receiving-syncing/',
+    title: 'Email not sending, receiving or syncing? Start here',
+    description: 'A calm first check for a personal email account that is not sending, receiving or updating on a phone, tablet or computer.',
+    kind: 'Guide',
+    searchTerms: 'email sending receiving sync missing mail inbox webmail app troubleshooting',
+  },
+  {
+    path: '/guides/find-missing-email/',
+    title: 'How to look for a missing email without deleting anything',
+    description: 'A safe way to search the right mailbox, folders and filters before deciding that an email is missing.',
+    kind: 'Guide',
+    searchTerms: 'email sending receiving sync missing mail inbox webmail app troubleshooting',
+  },
+  {
+    path: '/guides/test-email-sending-and-receiving/',
+    title: 'A simple test for email sending and receiving',
+    description: 'A voluntary, low-risk send-and-reply test using a trusted contact or a second account you control.',
+    kind: 'Guide',
+    searchTerms: 'email sending receiving sync missing mail inbox webmail app troubleshooting',
+  },
+
+  {
     path: '/guides/suspected-scam-first-steps/',
     title: 'What to do after a suspected scam: first steps and who can help',
     description: 'A calm first-response guide for deciding what to do after a suspicious message, call, payment request, account event or remote-access incident.',

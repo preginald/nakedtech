@@ -7,6 +7,10 @@ const gitCalendarDate = require('../../lib/git-calendar-date')
 const projectRoot = resolve(__dirname, '../..')
 
 const routeDefinitions = [
+  { path: '/guides/email-not-sending-receiving-syncing/', sources: ['src/guides/email-not-sending-receiving-syncing.njk', 'src/_includes/components/editorial/macros.njk', 'src/_includes/components/editorial/styles.css', 'src/_includes/components/editorial/contents.js'] },
+  { path: '/guides/find-missing-email/', sources: ['src/guides/find-missing-email.njk', 'src/_includes/components/editorial/macros.njk', 'src/_includes/components/editorial/styles.css', 'src/_includes/components/editorial/contents.js'] },
+  { path: '/guides/test-email-sending-and-receiving/', sources: ['src/guides/test-email-sending-and-receiving.njk', 'src/_includes/components/editorial/macros.njk', 'src/_includes/components/editorial/styles.css', 'src/_includes/components/editorial/contents.js'] },
+
   { path: '/guides/suspected-scam-first-steps/', sources: ['src/guides/suspected-scam-first-steps.njk', 'src/_includes/components/editorial/macros.njk', 'src/_includes/components/editorial/styles.css', 'src/_includes/components/editorial/contents.js'] },
   { path: '/guides/check-account-access-after-a-scam/', sources: ['src/guides/check-account-access-after-a-scam.njk', 'src/_includes/components/editorial/macros.njk', 'src/_includes/components/editorial/styles.css', 'src/_includes/components/editorial/contents.js'] },
   { path: '/guides/record-a-suspected-scam/', sources: ['src/guides/record-a-suspected-scam.njk', 'src/_includes/components/editorial/macros.njk', 'src/_includes/components/editorial/styles.css', 'src/_includes/components/editorial/contents.js'] },
