@@ -18,6 +18,28 @@ const serviceSearchTerms = {
 
 const generalEntries = [
   {
+    path: '/guides/computer-virus-warning-first-steps/',
+    title: 'Think your computer has a virus? Safe first steps',
+    description: 'A calm first response for one working personal Windows or Mac computer when something looks wrong, without jumping to a diagnosis.',
+    kind: 'Guide',
+    searchTerms: 'virus malware browser warning popups security scan windows protection history',
+  },
+  {
+    path: '/guides/stop-fake-virus-popups/',
+    title: 'Fake virus pop-ups: close the warning and check browser permissions',
+    description: 'How to recognise a browser-based scare message, close it safely and review the website permission that may be producing desktop notifications.',
+    kind: 'Guide',
+    searchTerms: 'virus malware browser warning popups security scan windows protection history',
+  },
+  {
+    path: '/guides/understand-windows-security-scan/',
+    title: 'What a Windows Security scan result means',
+    description: 'A bounded interpretation guide for a personal Windows 11 computer with Microsoft Defender Antivirus active.',
+    kind: 'Guide',
+    searchTerms: 'virus malware browser warning popups security scan windows protection history',
+  },
+
+  {
     path: '/guides/email-not-sending-receiving-syncing/',
     title: 'Email not sending, receiving or syncing? Start here',
     description: 'A calm first check for a personal email account that is not sending, receiving or updating on a phone, tablet or computer.',

@@ -7,6 +7,10 @@ const gitCalendarDate = require('../../lib/git-calendar-date')
 const projectRoot = resolve(__dirname, '../..')
 
 const routeDefinitions = [
+  { path: '/guides/computer-virus-warning-first-steps/', sources: ['src/guides/computer-virus-warning-first-steps.njk', 'src/_includes/components/editorial/macros.njk', 'src/_includes/components/editorial/styles.css', 'src/_includes/components/editorial/contents.js'] },
+  { path: '/guides/stop-fake-virus-popups/', sources: ['src/guides/stop-fake-virus-popups.njk', 'src/_includes/components/editorial/macros.njk', 'src/_includes/components/editorial/styles.css', 'src/_includes/components/editorial/contents.js'] },
+  { path: '/guides/understand-windows-security-scan/', sources: ['src/guides/understand-windows-security-scan.njk', 'src/_includes/components/editorial/macros.njk', 'src/_includes/components/editorial/styles.css', 'src/_includes/components/editorial/contents.js'] },
+
   { path: '/guides/email-not-sending-receiving-syncing/', sources: ['src/guides/email-not-sending-receiving-syncing.njk', 'src/_includes/components/editorial/macros.njk', 'src/_includes/components/editorial/styles.css', 'src/_includes/components/editorial/contents.js'] },
   { path: '/guides/find-missing-email/', sources: ['src/guides/find-missing-email.njk', 'src/_includes/components/editorial/macros.njk', 'src/_includes/components/editorial/styles.css', 'src/_includes/components/editorial/contents.js'] },
   { path: '/guides/test-email-sending-and-receiving/', sources: ['src/guides/test-email-sending-and-receiving.njk', 'src/_includes/components/editorial/macros.njk', 'src/_includes/components/editorial/styles.css', 'src/_includes/components/editorial/contents.js'] },
