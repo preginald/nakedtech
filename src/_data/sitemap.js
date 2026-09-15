@@ -7,6 +7,10 @@ const gitCalendarDate = require('../../lib/git-calendar-date')
 const projectRoot = resolve(__dirname, '../..')
 
 const routeDefinitions = [
+  { path: '/guides/move-to-new-phone-or-tablet/', sources: ['src/guides/move-to-new-phone-or-tablet.njk', 'src/_includes/components/editorial/macros.njk', 'src/_includes/components/editorial/styles.css', 'src/_includes/components/editorial/contents.js'] },
+  { path: '/guides/prepare-phone-tablet-transfer/', sources: ['src/guides/prepare-phone-tablet-transfer.njk', 'src/_includes/components/editorial/macros.njk', 'src/_includes/components/editorial/styles.css', 'src/_includes/components/editorial/contents.js'] },
+  { path: '/guides/check-new-phone-before-erasing-old/', sources: ['src/guides/check-new-phone-before-erasing-old.njk', 'src/_includes/components/editorial/macros.njk', 'src/_includes/components/editorial/styles.css', 'src/_includes/components/editorial/contents.js'] },
+
   { path: '/guides/computer-virus-warning-first-steps/', sources: ['src/guides/computer-virus-warning-first-steps.njk', 'src/_includes/components/editorial/macros.njk', 'src/_includes/components/editorial/styles.css', 'src/_includes/components/editorial/contents.js'] },
   { path: '/guides/stop-fake-virus-popups/', sources: ['src/guides/stop-fake-virus-popups.njk', 'src/_includes/components/editorial/macros.njk', 'src/_includes/components/editorial/styles.css', 'src/_includes/components/editorial/contents.js'] },
   { path: '/guides/understand-windows-security-scan/', sources: ['src/guides/understand-windows-security-scan.njk', 'src/_includes/components/editorial/macros.njk', 'src/_includes/components/editorial/styles.css', 'src/_includes/components/editorial/contents.js'] },
