@@ -73,6 +73,7 @@
       {"question": "Can you help me choose what to buy?", "answer": "Yes. If the current equipment does not support the layout you want, we can help identify the practical gaps before you spend."},
       {"question": "What should I have ready for the visit?", "answer": "Have the devices, chargers and accessories you regularly use available, plus access to the desk and nearby power points."}
     ],
+    "relatedGuide": {"href": "/guides/home-office-technology-setup/", "label": "Read the home office technology guide"},
     "cta": "Book an office reset"
   }
 ]

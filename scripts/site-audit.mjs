@@ -86,6 +86,20 @@ function jsonLdBlocks(html) {
 }
 
 const expectedRoutes = [
+  '/guides/',
+  '/guides/printer-not-printing-first-checks/',
+  '/guides/check-stuck-print-queue/',
+  '/guides/printer-prints-but-will-not-scan/',
+  '/guides/set-up-new-home-printer/',
+  '/guides/prepare-new-printer-setup/',
+  '/guides/test-new-printer-and-scanner/',
+  '/guides/start-using-password-manager/',
+  '/guides/move-passwords-without-losing-access/',
+  '/guides/password-manager-recovery-plan/',
+  '/guides/home-office-technology-setup/',
+  '/guides/check-monitor-dock-and-cables/',
+  '/guides/check-video-call-camera-sound-light/',
+
   '/guides/move-to-new-phone-or-tablet/',
   '/guides/prepare-phone-tablet-transfer/',
   '/guides/check-new-phone-before-erasing-old/',
@@ -789,7 +803,7 @@ assert(gitCalendarDate(Date.parse('2026-09-15T00:00:00Z') / 1000) === '2026-09-1
 const sitemapEntries = [...sitemapXml.matchAll(/<url>\s*<loc>([^<]+)<\/loc>\s*<lastmod>([^<]+)<\/lastmod>\s*<\/url>/g)]
 const sitemapLocations = sitemapEntries.map((entry) => entry[1])
 const sitemapDates = sitemapEntries.map((entry) => entry[2])
-assert(sitemapEntries.length === 51, 'sitemap: every canonical public URL has a last-modified date')
+assert(sitemapEntries.length === 64, 'sitemap: every canonical public URL has a last-modified date')
 assert(new Set(sitemapLocations).size === sitemapEntries.length, 'sitemap: canonical locations are unique')
 assert(sitemapDates.every((date) => /^\d{4}-\d{2}-\d{2}$/.test(date)), 'sitemap: last-modified dates use the W3C calendar-date format')
 assert(sitemapDates.every((date) => Date.parse(`${date}T00:00:00Z`) <= Date.now()), 'sitemap: last-modified dates are not in the future')
@@ -2065,6 +2079,23 @@ if (phoneTrackingScript) {
     assert(gaPhoneCalls[0]?.[2]?.page_path === '/services/wifi-dropouts-ivanhoe/', 'GA4 phone_click includes page-path context')
   }
 }
+
+// Every published article must remain reachable from the guide library.
+const libraryTopics = require('../src/_data/guideLibrary.js')
+const libraryPaths = libraryTopics.flatMap((topic) => topic.articles.map((article) => article.path))
+const libraryHtml = readFileSync(routeToFile('/guides/'), 'utf8')
+assert(new Set(libraryPaths).size === libraryPaths.length, 'guide library: no duplicate article entries')
+assert(libraryPaths.length === editorialFiles.length, 'guide library: every published article is represented')
+for (const path of libraryPaths) {
+  assert(existsSync(routeToFile(path)), `guide library: destination exists ${path}`)
+  assert(libraryHtml.includes(`href="${path}"`), `guide library: static link exists ${path}`)
+}
+for (const file of editorialFiles) {
+  const path = '/' + relative(root, file).replace(/index\.html$/, '')
+  assert(libraryPaths.includes(path), `guide library: includes ${path}`)
+}
+assert(libraryHtml.includes('data-guide-filter hidden'), 'guide library: enhancement controls hidden until JavaScript runs')
+assert(libraryHtml.includes('aria-label="Guide topics"'), 'guide library: topic navigation labelled')
 
 if (failures.length) {
   console.error(`Site audit failed with ${failures.length} issue(s):`)

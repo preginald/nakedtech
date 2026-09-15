@@ -181,3 +181,6 @@
 .ed-choice-art .ed-art-custom { width: 312%; left: -2%; }
 .ed-choice-art--applications .ed-art-custom { left: -106%; }
 .ed-choice-art--online .ed-art-custom { left: -210%; }
+
+.ed-library-link { margin: 1.5rem 0; font-size: 1rem; }
+.ed-library-link a { text-decoration: underline; text-underline-offset: .25em; }

@@ -1,0 +1,5 @@
+# Conceptual guide artwork
+
+Generated15September2026 using built-in imagegen. Source PNG retained; production WebP quality82. Shared1.5:1/10px card crops. Not real software/customer/test evidence.
+
+Prompt: Premium calm Naked Tech conceptual editorial illustration sprite, wide3:1 canvas three equal square thirds on continuous matte charcoal #202326, no dividers. Small tactile charcoal objects restrained peach #ff8867 and muted bone, dark-room soft light, no bright white or glow. LEFT small monitor keyboard on slim tidy desk; MIDDLE small USB dock with loosely curved neatly routed cables, no mains socket; RIGHT small webcam beside desk lamp pointed toward an abstract peach disc suggesting soft light, no human or face. Each GROUP occupies ONLY40% totalcanvasheight and60% ofthirdwidth, centred at50%height and each thirdcentre; lots of emptybackground above/below for1.5:1crop. Objects fully visible, equalweight, consistentperspective, softshadows. No readabletext, logos, realsoftware, guarantee marks or sales.
