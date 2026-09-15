@@ -1,0 +1,7 @@
+# Scam response illustration
+
+Built-in image-generation tool, Core #4320, 15 September 2026. Source: scam-response-v1.png. Published compressed asset: src/img/guides/scam-response-v1.webp. Conceptual phone/bank card, account review, and private incident record scenes; no actual customer records or software screenshots. Standard 1.5:1 frames and shared crop rules. Inspect in light/dark and mobile/desktop before release.
+
+Prompt:
+
+Naked Tech educational illustration triptych, wide 3:1 canvas. Three equal self-contained scenes, each group entirely inside central 55% of image height so cropped 1.5:1 cards never cut objects. Left third: dark smartphone beside a blank peach bank card, symbolic of calling your bank independently. Middle third: compact laptop and abstract user profile tile, symbolic of reviewing account access. Right third: small notebook and envelope beside a pencil, symbolic of making a private incident record. No words, numbers, logos, lock/shield/tick icons, promises of safety, frightening hacker imagery, people or fake screenshots. Understated matte dimensional editorial style matching Naked Tech dark article cards: charcoal #202326 background, dark graphite objects/screens, warm grey details, muted peach #ff8c69 accent. Very low glare, no white panels, bright glow or neon. Generous equal padding around all three groups. All subjects centred within own third; never cross boundaries. Compact horizontally balanced groups, no tall stacks. Calm, practical reference-book illustration.
