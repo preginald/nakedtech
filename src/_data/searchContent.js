@@ -18,6 +18,28 @@ const serviceSearchTerms = {
 
 const generalEntries = [
   {
+    path: '/guides/move-to-new-phone-or-tablet/',
+    title: 'Moving to a new phone or tablet: choose a supported path',
+    description: 'A practical overview for choosing a safe transfer path between Apple devices or Android devices, with checks for compatibility, access, space and readiness.',
+    kind: 'Guide',
+    searchTerms: 'phone tablet migration transfer setup backup Apple Android iPhone iPad'
+  },
+  {
+    path: '/guides/prepare-phone-tablet-transfer/',
+    title: 'Prepare your phone or tablet before a transfer',
+    description: 'A preparation checklist for identifying important content, confirming private account access and checking backup, power, storage and compatibility before copying data.',
+    kind: 'Guide',
+    searchTerms: 'phone tablet migration transfer setup backup Apple Android iPhone iPad'
+  },
+  {
+    path: '/guides/check-new-phone-before-erasing-old/',
+    title: 'Check your new phone or tablet before letting the old one go',
+    description: 'A representative verification checklist for checking content, app records, account access and pending work before deciding what happens to the old device.',
+    kind: 'Guide',
+    searchTerms: 'phone tablet migration transfer setup backup Apple Android iPhone iPad'
+  },
+
+  {
     path: '/guides/computer-virus-warning-first-steps/',
     title: 'Think your computer has a virus? Safe first steps',
     description: 'A calm first response for one working personal Windows or Mac computer when something looks wrong, without jumping to a diagnosis.',
