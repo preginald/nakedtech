@@ -86,6 +86,10 @@ function jsonLdBlocks(html) {
 }
 
 const expectedRoutes = [
+  '/guides/computer-virus-warning-first-steps/',
+  '/guides/stop-fake-virus-popups/',
+  '/guides/understand-windows-security-scan/',
+
   '/guides/email-not-sending-receiving-syncing/',
   '/guides/find-missing-email/',
   '/guides/test-email-sending-and-receiving/',
@@ -781,7 +785,7 @@ assert(gitCalendarDate(Date.parse('2026-09-15T00:00:00Z') / 1000) === '2026-09-1
 const sitemapEntries = [...sitemapXml.matchAll(/<url>\s*<loc>([^<]+)<\/loc>\s*<lastmod>([^<]+)<\/lastmod>\s*<\/url>/g)]
 const sitemapLocations = sitemapEntries.map((entry) => entry[1])
 const sitemapDates = sitemapEntries.map((entry) => entry[2])
-assert(sitemapEntries.length === 45, 'sitemap: every canonical public URL has a last-modified date')
+assert(sitemapEntries.length === 48, 'sitemap: every canonical public URL has a last-modified date')
 assert(new Set(sitemapLocations).size === sitemapEntries.length, 'sitemap: canonical locations are unique')
 assert(sitemapDates.every((date) => /^\d{4}-\d{2}-\d{2}$/.test(date)), 'sitemap: last-modified dates use the W3C calendar-date format')
 assert(sitemapDates.every((date) => Date.parse(`${date}T00:00:00Z`) <= Date.now()), 'sitemap: last-modified dates are not in the future')
