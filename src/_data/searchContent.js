@@ -18,6 +18,28 @@ const serviceSearchTerms = {
 
 const generalEntries = [
   {
+    path: '/guides/suspected-scam-first-steps/',
+    title: 'What to do after a suspected scam: first steps and who can help',
+    description: 'A calm first-response guide for deciding what to do after a suspicious message, call, payment request, account event or remote-access incident.',
+    kind: 'Guide',
+    searchTerms: 'scam account security suspicious sign in incident record bank help email access',
+  },
+  {
+    path: '/guides/check-account-access-after-a-scam/',
+    title: 'Check account access after a scam or suspicious sign-in',
+    description: 'A focused checklist for checking personal email and account control after suspicious activity, while separating accessible and locked-out paths.',
+    kind: 'Guide',
+    searchTerms: 'scam account security suspicious sign in incident record bank help email access',
+  },
+  {
+    path: '/guides/record-a-suspected-scam/',
+    title: 'What to record after a suspected scam',
+    description: 'A private, practical record-keeping guide for preserving useful details after urgent safety, account and payment actions.',
+    kind: 'Guide',
+    searchTerms: 'scam account security suspicious sign in incident record bank help email access',
+  },
+
+  {
     path: '/guides/home-computer-backup/',
     title: 'How to set up a simple backup for one home computer',
     description: 'A practical starting point for protecting important files on one Windows or Mac personal computer.',
