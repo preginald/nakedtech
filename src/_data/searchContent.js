@@ -18,6 +18,101 @@ const serviceSearchTerms = {
 
 const generalEntries = [
   {
+    path: '/guides/',
+    title: 'Practical home technology guides',
+    description: 'Browse guides for computers, Wi-Fi, printers, backups, passwords and your home office.',
+    kind: 'Page',
+    searchTerms: 'articles library learning tutorials help guides',
+  },
+  {
+    path: '/guides/home-office-technology-setup/',
+    title: 'Set up a home office that works with you',
+    description: 'A practical way to review your home-office equipment, position the workspace and make everyday technology easier to use.',
+    kind: 'Guide',
+    searchTerms: 'Home Office Setup'
+  },
+  {
+    path: '/guides/check-monitor-dock-and-cables/',
+    title: 'Check your monitor, dock and cables',
+    description: 'A bounded checklist for finding whether a display, dock, charger and cable arrangement is connected and configured as expected.',
+    kind: 'Guide',
+    searchTerms: 'Home Office Setup'
+  },
+  {
+    path: '/guides/check-video-call-camera-sound-light/',
+    title: 'Check your video-call camera, sound and light',
+    description: 'A private pre-call check for camera framing, microphone, speaker selection and lighting using the app and equipment you already have.',
+    kind: 'Guide',
+    searchTerms: 'Home Office Setup'
+  },
+
+  {
+    path: '/guides/start-using-password-manager/',
+    title: 'Start using a password manager without making life harder',
+    description: 'A practical introduction to choosing and using a maintained password manager for everyday accounts, supported devices and safer sign-ins.',
+    kind: 'Guide',
+    searchTerms: 'Password Safety and Control'
+  },
+  {
+    path: '/guides/move-passwords-without-losing-access/',
+    title: 'Move passwords without losing access',
+    description: 'A careful way to plan a password move, check import support and verify records without exposing a secret export or disabling the old system too soon.',
+    kind: 'Guide',
+    searchTerms: 'Password Safety and Control'
+  },
+  {
+    path: '/guides/password-manager-recovery-plan/',
+    title: 'Build a password manager recovery plan',
+    description: 'A bounded recovery plan for the master passphrase, account email, multi-factor authentication, devices and provider recovery options.',
+    kind: 'Guide',
+    searchTerms: 'Password Safety and Control'
+  },
+
+  {
+    path: '/guides/set-up-new-home-printer/',
+    title: 'Set up a new home printer without guesswork',
+    description: 'A practical sequence for identifying, connecting and checking a new household printer or multifunction printer.',
+    kind: 'Guide',
+    searchTerms: 'New Printer Setup'
+  },
+  {
+    path: '/guides/prepare-new-printer-setup/',
+    title: 'Prepare for a new printer setup',
+    description: 'A preparation checklist for getting the model, essentials, placement and instructions ready before unboxing.',
+    kind: 'Guide',
+    searchTerms: 'New Printer Setup'
+  },
+  {
+    path: '/guides/test-new-printer-and-scanner/',
+    title: 'Test a new printer and scanner',
+    description: 'A bounded way to check everyday printing and basic scanning without treating one test as a full warranty assessment.',
+    kind: 'Guide',
+    searchTerms: 'New Printer Setup'
+  },
+
+  {
+    path: '/guides/printer-not-printing-first-checks/',
+    title: 'Printer not printing? Start with these safe checks',
+    description: 'A calm first look at printer status, connection, device selection and the exact error before changing anything.',
+    kind: 'Guide',
+    searchTerms: 'Printer Troubleshooting'
+  },
+  {
+    path: '/guides/check-stuck-print-queue/',
+    title: 'How to check a stuck print queue',
+    description: 'Inspect a Windows 11 print queue carefully, identify the affected job and cancel only your own unwanted copy.',
+    kind: 'Guide',
+    searchTerms: 'Printer Troubleshooting'
+  },
+  {
+    path: '/guides/printer-prints-but-will-not-scan/',
+    title: 'Printer prints but will not scan',
+    description: 'Printing and scanning are separate functions. Check scanner capability, the selected source and one safe test without sending confidential material.',
+    kind: 'Guide',
+    searchTerms: 'Printer Troubleshooting'
+  },
+
+  {
     path: '/guides/move-to-new-phone-or-tablet/',
     title: 'Moving to a new phone or tablet: choose a supported path',
     description: 'A practical overview for choosing a safe transfer path between Apple devices or Android devices, with checks for compatibility, access, space and readiness.',

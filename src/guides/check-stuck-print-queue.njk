@@ -1,0 +1,31 @@
+---
+layout: layouts/base.njk
+permalink: /guides/check-stuck-print-queue/index.html
+title: "How to check a stuck print queue"
+description: "Inspect a Windows 11 print queue carefully, identify the affected job and cancel only your own unwanted copy."
+robots: index, follow
+ogImage: /img/nakedtech_hero_technician.webp
+ogImageWidth: 1408
+ogImageHeight: 768
+---
+{% from "components/editorial/macros.njk" import choice, note, contents, nextReading %}
+<style>{% include "components/editorial/styles.css" %}</style>
+<header class="ed-hero bg-inverse pb-14 pt-32 text-inverse-ink md:pt-40"><div class="mx-auto max-w-3xl px-6"><p class="mb-4 text-sm font-bold uppercase tracking-widest text-accent">The Naked Tech field guide</p><h1 class="text-4xl font-extrabold tracking-tight md:text-5xl">How to check a stuck print queue</h1><p class="ed-deck">Look at the queue before cancelling anything.</p></div></header>
+<article class="ed-guide bg-canvas py-12 md:py-16" aria-label="How to check a stuck print queue"><div class="ed-layout">
+{{ contents([{"id": "start", "title": "Find your starting point"}, {"id": "open-queue", "title": "Open the intended printer"}, {"id": "inspect-job", "title": "Read the queue before acting"}, {"id": "limited-cancel", "title": "Make one narrow queue change"}, {"id": "related", "title": "What to read next"}]) }}
+<div class="ed-reading guide-reading text-lg">
+<p class="mb-5 leading-relaxed text-muted">A document that appears not to print may still be waiting in a queue. The queue can show whether a job is pending, paused or reporting an error, but it does not explain every printer fault. Inspect the selected printer and the individual job first, then make one limited change if appropriate.</p>
+<section class="ed-start" id="start" aria-labelledby="start-heading"><p class="ed-label">Start here</p><h2 id="start-heading">Open the queue without guessing</h2><p class="mb-5 leading-relaxed text-muted">The steps below are for Windows 11 and use the normal printer settings.</p><div class="ed-choices">
+{{ choice("Open the chosen printer", "Go to Settings, Bluetooth & devices, Printers & scanners, then select the printer you intended to use.", "#open-queue", "startup", "/img/guides/printer-field-guide-v1.webp", "A household printer with a sheet of paper.", "Read this part") }}
+{{ choice("Inspect the exact job", "Open the print queue and compare the document name, status and printer with what you meant to send.", "#inspect-job", "applications", "/img/guides/printer-field-guide-v1.webp", "A laptop and connection cable.", "Read this part") }}
+{{ choice("Cancel only your unwanted copy", "If the job is yours and no longer needed, cancel that queued copy through the normal queue control.", "#limited-cancel", "online", "/img/guides/printer-field-guide-v1.webp", "A magnifying glass over a printed test page.", "Read this part") }}
+</div></section>
+<h2 class="ed-section-heading" id="open-queue"><span aria-hidden="true">01</span>Open the intended printer</h2>
+<p class="mb-5 leading-relaxed text-muted">In Windows 11, open Settings, choose Bluetooth &amp; devices, select Printers &amp; scanners, and then choose the printer you meant to use. Open its print queue. Check the printer name before touching a job, particularly if several similar printers or old entries are listed.</p><p class="mb-5 leading-relaxed text-muted">If the printer is shown as offline or unavailable, note that status. Do not assume the queue is the only issue.</p>
+<h2 class="ed-section-heading" id="inspect-job"><span aria-hidden="true">02</span>Read the queue before acting</h2>
+<p class="mb-5 leading-relaxed text-muted">Look at the document name and status. Ask whether this is the copy you just sent, an older copy, or a job belonging to another person. A queued item is not necessarily the original document: cancelling it removes that queued print copy, not the file saved on the computer.</p><p class="mb-5 leading-relaxed text-muted">Write down the status without including private document names. If you take a screenshot, keep it private and redact sensitive details before sharing. Avoid repeatedly pressing Print, because each attempt can add another copy and make the queue harder to read.</p>{% call note("care", "Take care", "Check ownership first") %}<p class="mb-5 leading-relaxed text-muted">Do not cancel another person’s job or clear the entire queue simply because one document is waiting.</p>{% endcall %}
+<h2 class="ed-section-heading" id="limited-cancel"><span aria-hidden="true">03</span>Make one narrow queue change</h2>
+<p class="mb-5 leading-relaxed text-muted">If you identify your own unwanted job and it is still queued, use the queue’s normal cancel control for that item. Wait briefly and check whether that one item disappears or changes status. Do not keep cancelling and resending the same document in a loop.</p><p class="mb-5 leading-relaxed text-muted">If the item will not clear, the queue may not be the only problem. Record the printer status, job status and connection type instead of deleting spooler files or applying an unverified repair. The <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="https://support.microsoft.com/en-us/windows/hardware/printer/troubleshooting-offline-printer-problems-in-windows">Microsoft Windows printer guidance</a> provides the relevant status, network and queue context.</p><p class="mb-5 leading-relaxed text-muted">Once the queue is readable, send one small, non-confidential test. If it fails again, compare the exact message with the printer’s own display and the selected device. That distinction helps separate a queue problem from a connection, driver or printer condition.</p>
+{{ nextReading([{"title": "Printer not printing? Start with these safe checks", "href": "/guides/printer-not-printing-first-checks/"}, {"title": "Printer prints but will not scan", "href": "/guides/printer-prints-but-will-not-scan/"}], "/services/printer-help-ivanhoe/", "printer troubleshooting help", "04") }}
+</div></div></article>
+<script>{% include "components/editorial/contents.js" %}</script>

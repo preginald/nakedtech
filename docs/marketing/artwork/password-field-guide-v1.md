@@ -1,0 +1,5 @@
+# Conceptual guide artwork
+
+Generated15September2026 using built-in imagegen. Source PNG retained; production WebP quality82. Shared1.5:1/10px card crops. Not real software/customer/test evidence.
+
+Prompt: Premium calm Naked Tech conceptual editorial illustration sprite, wide 3:1 canvas, three equal square thirds, continuous matte charcoal #202326 without dividers. Tactile dark charcoal objects, restrained peach #ff8867 and muted bone accents. LEFT small closed personal vault beside a key; MIDDLE small browser-shaped card and phone with abstract masked field dots; RIGHT small sealed recovery envelope beside closed notebook. Each group ONLY40% canvas height and60% of its third width, centred vertically at50% and at each third centre; extensive empty background for safe1.5:1 landscape crops. Fully visible, equal weight, coherent camera/materials, elegant soft shadows, dark-room comfort. No readable text, credentials, logos, success marks, bright panels or glow, people or real software UI.
