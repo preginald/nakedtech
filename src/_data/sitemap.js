@@ -24,6 +24,7 @@ const routeDefinitions = [
   { path: '/guides/move-to-new-phone-or-tablet/', sources: ['src/guides/move-to-new-phone-or-tablet.njk', 'src/_includes/components/editorial/macros.njk', 'src/_includes/components/editorial/styles.css', 'src/_includes/components/editorial/contents.js'] },
   { path: '/guides/prepare-phone-tablet-transfer/', sources: ['src/guides/prepare-phone-tablet-transfer.njk', 'src/_includes/components/editorial/macros.njk', 'src/_includes/components/editorial/styles.css', 'src/_includes/components/editorial/contents.js'] },
   { path: '/guides/check-new-phone-before-erasing-old/', sources: ['src/guides/check-new-phone-before-erasing-old.njk', 'src/_includes/components/editorial/macros.njk', 'src/_includes/components/editorial/styles.css', 'src/_includes/components/editorial/contents.js'] },
+  { path: '/guides/phone-account-continuity-after-device-move/', sources: ['src/guides/phone-account-continuity-after-device-move.njk', 'src/_includes/components/editorial/macros.njk', 'src/_includes/components/editorial/styles.css', 'src/_includes/components/editorial/contents.js'] },
 
   { path: '/guides/computer-virus-warning-first-steps/', sources: ['src/guides/computer-virus-warning-first-steps.njk', 'src/_includes/components/editorial/macros.njk', 'src/_includes/components/editorial/styles.css', 'src/_includes/components/editorial/contents.js'] },
   { path: '/guides/stop-fake-virus-popups/', sources: ['src/guides/stop-fake-virus-popups.njk', 'src/_includes/components/editorial/macros.njk', 'src/_includes/components/editorial/styles.css', 'src/_includes/components/editorial/contents.js'] },
@@ -38,6 +39,7 @@ const routeDefinitions = [
   { path: '/guides/record-a-suspected-scam/', sources: ['src/guides/record-a-suspected-scam.njk', 'src/_includes/components/editorial/macros.njk', 'src/_includes/components/editorial/styles.css', 'src/_includes/components/editorial/contents.js'] },
 
   { path: '/guides/home-computer-backup/', sources: ['src/guides/home-computer-backup.njk', 'src/_includes/components/editorial/macros.njk', 'src/_includes/components/editorial/styles.css', 'src/_includes/components/editorial/contents.js'] },
+  { path: '/guides/one-onsite-two-offsite-backups/', sources: ['src/guides/one-onsite-two-offsite-backups.njk', 'src/_includes/components/editorial/macros.njk', 'src/_includes/components/editorial/styles.css', 'src/_includes/components/editorial/contents.js'] },
   { path: '/guides/external-drive-or-cloud-backup/', sources: ['src/guides/external-drive-or-cloud-backup.njk', 'src/_includes/components/editorial/macros.njk', 'src/_includes/components/editorial/styles.css', 'src/_includes/components/editorial/contents.js'] },
   { path: '/guides/test-a-backup-file-restore/', sources: ['src/guides/test-a-backup-file-restore.njk', 'src/_includes/components/editorial/macros.njk', 'src/_includes/components/editorial/styles.css', 'src/_includes/components/editorial/contents.js'] },
 
@@ -58,6 +60,9 @@ const routeDefinitions = [
   { path: '/guides/slow-computer-fix-upgrade-replace/', sources: ['src/guides/slow-computer-fix-upgrade-replace.njk', 'src/_includes/components/guide-start.njk', 'src/_data/guideReading.json', 'src/css/styles.css'] },
   { path: '/guides/computer-slow-startup/', sources: ['src/guides/computer-slow-startup.njk', 'src/_includes/components/guide-start.njk', 'src/_data/guideReading.json', 'src/css/styles.css'] },
   { path: '/guides/wifi-dropouts-diagnosis/', sources: ['src/guides/wifi-dropouts-diagnosis.njk', 'src/_includes/components/guide-start.njk', 'src/_data/guideReading.json', 'src/css/styles.css'] },
+  { path: '/guides/need-mesh-wifi-access-point-router-position/', sources: ['src/guides/need-mesh-wifi-access-point-router-position.njk', 'src/_includes/components/editorial/macros.njk', 'src/_includes/components/editorial/styles.css', 'src/_includes/components/editorial/contents.js'] },
+  { path: '/guides/mesh-wifi-placement-backhaul/', sources: ['src/guides/mesh-wifi-placement-backhaul.njk', 'src/_includes/components/editorial/macros.njk', 'src/_includes/components/editorial/styles.css', 'src/_includes/components/editorial/contents.js'] },
+  { path: '/guides/take-ownership-new-home-wifi/', sources: ['src/guides/take-ownership-new-home-wifi.njk', 'src/_includes/components/editorial/macros.njk', 'src/_includes/components/editorial/styles.css', 'src/_includes/components/editorial/contents.js'] },
   { path: '/guides/slow-computer-or-internet/', sources: ['src/guides/slow-computer-or-internet.njk', 'src/_includes/components/guide-start.njk', 'src/_data/guideReading.json', 'src/css/styles.css'] },
   { path: '/guides/wifi-one-device-or-all/', sources: ['src/guides/wifi-one-device-or-all.njk', 'src/_includes/components/guide-start.njk', 'src/_data/guideReading.json', 'src/css/styles.css'] },
   { path: '/guides/connection-test-results/', sources: ['src/guides/connection-test-results.njk', 'src/_includes/components/guide-start.njk', 'src/_data/guideReading.json', 'src/css/styles.css'] },

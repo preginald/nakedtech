@@ -1,0 +1,47 @@
+---
+layout: layouts/base.njk
+permalink: /guides/mesh-wifi-placement-backhaul/index.html
+title: "Planning mesh Wi-Fi placement and backhaul"
+description: "Plan mesh Wi-Fi locations and node connections without assuming that more equipment fixes every coverage or speed problem."
+robots: index, follow
+ogImage: /img/guides/wifi-card-situations-v2.webp
+ogImageWidth: 1408
+ogImageHeight: 768
+---
+{% from "components/editorial/macros.njk" import choice, note, contents, nextReading %}
+<style>{% include "components/editorial/styles.css" %}</style>
+<header class="ed-hero bg-inverse pb-14 pt-32 text-inverse-ink md:pt-40"><div class="mx-auto max-w-3xl px-6">
+<p class="mb-4 text-sm font-bold uppercase tracking-widest text-accent">The Naked Tech field guide <span class="ed-edition"> / 08</span></p>
+<h1 class="text-4xl font-extrabold tracking-tight md:text-5xl">Planning mesh Wi-Fi<br><span>placement and backhaul.</span></h1>
+<p class="ed-deck">Plan where nodes need to sit and how they connect before adding equipment.</p>
+</div></header>
+<article class="ed-guide bg-canvas py-12 md:py-16" aria-label="Mesh Wi-Fi placement and backhaul guide"><div class="ed-layout">
+{{ contents([{ id: 'start', title: 'Start with the layout' }, { id: 'layout', title: 'Map the useful locations' }, { id: 'backhaul', title: 'Plan the node connection' }, { id: 'check', title: 'Check the result' }, { id: 'next', title: 'What to do next' }]) }}
+<div class="ed-reading guide-reading text-lg">
+<section class="ed-start" id="start" aria-labelledby="start-heading"><p class="ed-label">Start here</p><h2 id="start-heading">What do you need to place?</h2><p>Choose the planning question that matches what you know.</p><div class="ed-choices">
+{{ choice('Map the rooms', 'Mark the router, affected areas, floors and the tasks that matter.', '#layout', 'applications', '/img/guides/wifi-card-situations-v2.webp', 'A router and laptop in adjacent rooms for mapping Wi-Fi coverage.', 'Read this part') }}
+{{ choice('Check the node path', 'Plan how a secondary node can communicate with the main network.', '#backhaul', 'startup', '/img/guides/wifi-card-situations-v2.webp', 'A laptop and phone with Wi-Fi symbols, representing wireless connections.', 'Read this part') }}
+{{ choice('Record the result', 'Compare the same device and task before and after a change.', '#check', 'online', '/img/guides/wifi-observations-v1.webp', 'A notebook beside a clock and router for recording a repeatable Wi-Fi check.', 'Read this part') }}
+</div></section>
+<p class="mb-5 leading-relaxed text-muted">A mesh system uses coordinated nodes, but each node still needs a useful location and a connection back to the rest of the network. More nodes do not automatically mean better speed or fewer dropouts.</p>
+<h2 class="ed-section-heading" id="layout"><span aria-hidden="true">01</span>Map the useful locations</h2>
+<p class="mb-5 leading-relaxed text-muted">Record the main router, the rooms and floors that need coverage, thick walls or other construction between them, and the devices and tasks that matter. Include the room where the connection is already useful so it can be compared with the difficult area.</p>
+<div class="mb-8 overflow-x-auto" role="region" aria-label="Mesh Wi-Fi placement planning table" tabindex="0"><table role="table" class="w-full border-collapse text-left text-sm md:text-base"><thead><tr role="row"><th scope="col" class="border border-line bg-surface p-4 font-bold text-ink">Record</th><th scope="col" class="border border-line bg-surface p-4 font-bold text-ink">Question</th></tr></thead><tbody>
+<tr role="row"><td role="cell" data-label="Record" class="border border-line p-4 align-top text-muted">Room and floor</td><td role="cell" data-label="Question" class="border border-line p-4 align-top text-muted">Where is the device used, and where is the main router?</td></tr>
+<tr role="row"><td role="cell" data-label="Record" class="border border-line p-4 align-top text-muted">Construction</td><td role="cell" data-label="Question" class="border border-line p-4 align-top text-muted">Are walls, floors or other barriers between the locations?</td></tr>
+<tr role="row"><td role="cell" data-label="Record" class="border border-line p-4 align-top text-muted">Device and task</td><td role="cell" data-label="Question" class="border border-line p-4 align-top text-muted">What device and ordinary activity showed the difference?</td></tr>
+</tbody></table></div>
+<h2 class="ed-section-heading" id="backhaul"><span aria-hidden="true">02</span>Plan the node connection</h2>
+<p class="mb-5 leading-relaxed text-muted">A secondary node needs a path back to the main network. Wired backhaul uses an existing suitable network connection. Wireless backhaul uses Wi-Fi between nodes. The two arrangements have different constraints, and the equipment documentation determines what combinations are supported.</p>
+<p class="mb-5 leading-relaxed text-muted">A wireless node placed at the edge of a weak area may have the same difficulty as the device it is meant to help. Plan a location where the node can both reach the area of interest and maintain a useful connection back to the main node. Do not assume that products from different systems will coordinate because both use the word “mesh”.</p>
+<p class="mb-5 leading-relaxed text-muted">For a manufacturer example, Google’s <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="https://support.google.com/googlehome/answer/7183150?hl=en">Wi-Fi placement guidance</a> explains why points need a strong connection to one another, while its <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="https://support.google.com/googlenest/answer/7215624?hl=en">wired-backhaul and compatibility guidance</a> distinguishes models with Ethernet ports from wireless-only points. These examples are not a product recommendation; use the instructions for your exact equipment.</p>
+{% call note("care", "Take care", "Do not improvise connection work") %}<p class="mb-5 leading-relaxed text-muted">This guide does not provide fixed-wiring, electrical or mains instructions. If a suitable connection path is not already available, record that as a constraint and use the relevant qualified provider or current equipment guidance.</p>{% endcall %}
+<h2 class="ed-section-heading" id="check"><span aria-hidden="true">03</span>Check one change at a time</h2>
+<p class="mb-5 leading-relaxed text-muted">Before changing equipment, note the device, room, task, time and connection type. After a change, repeat the same task in the same place where practical. A different result is an observation, not proof that one component caused the original problem.</p>
+<p class="mb-5 leading-relaxed text-muted">For repeated dropouts or uncertain symptoms, use the <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="/guides/wifi-dropouts-diagnosis/">Wi-Fi dropout diagnosis</a> guide. It remains the diagnostic owner; this satellite is about placement planning.</p>
+<h2 class="ed-section-heading" id="next"><span aria-hidden="true">04</span>What to do next</h2>
+<p class="mb-5 leading-relaxed text-muted">If the layout question is still unclear, return to the <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="/guides/need-mesh-wifi-access-point-router-position/">mesh Wi-Fi, access point or router-position guide</a>. If you need to take control of a new system after installation, use <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="/guides/take-ownership-new-home-wifi/">checking and taking ownership of a new home Wi-Fi setup</a> for the handover.</p>
+<p class="mb-5 leading-relaxed text-muted">Sources checked: <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="/guides/wifi-coverage-or-internet-service/">Wi-Fi coverage or internet service</a>, <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="/guides/connection-test-results/">connection-test guide</a>, the confirmed Full Strip service source at <code class="break-all">https://nakedtech.au/services/full-strip/</code>, the Naked Tech Editorial &amp; Design Guide v1.0 / DOC-3511, and <code>satellite-article.njk</code>; checked 20 September 2026. Manufacturer references added above were checked 22 September 2026. Current source revision: <code class="break-all">ce7cff7700f3d5f3a2265068b8af494b7ada3d4a</code>.</p>
+{{ nextReading([{ title: 'Choose between mesh, an access point and router position', href: '/guides/need-mesh-wifi-access-point-router-position/' }, { title: 'Map coverage and service symptoms', href: '/guides/wifi-coverage-or-internet-service/' }, { title: 'Understand connection-test results', href: '/guides/connection-test-results/' }], 'https://nakedtech.au/services/full-strip/', 'The Full Strip whole-home Mesh Wi-Fi', '08') }}
+</div></div></article>
+<script>{% include "components/editorial/contents.js" %}</script>

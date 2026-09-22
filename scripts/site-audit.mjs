@@ -803,7 +803,7 @@ assert(gitCalendarDate(Date.parse('2026-09-15T00:00:00Z') / 1000) === '2026-09-1
 const sitemapEntries = [...sitemapXml.matchAll(/<url>\s*<loc>([^<]+)<\/loc>\s*<lastmod>([^<]+)<\/lastmod>\s*<\/url>/g)]
 const sitemapLocations = sitemapEntries.map((entry) => entry[1])
 const sitemapDates = sitemapEntries.map((entry) => entry[2])
-assert(sitemapEntries.length === 64, 'sitemap: every canonical public URL has a last-modified date')
+assert(sitemapEntries.length === 69, 'sitemap: every canonical public URL has a last-modified date')
 assert(new Set(sitemapLocations).size === sitemapEntries.length, 'sitemap: canonical locations are unique')
 assert(sitemapDates.every((date) => /^\d{4}-\d{2}-\d{2}$/.test(date)), 'sitemap: last-modified dates use the W3C calendar-date format')
 assert(sitemapDates.every((date) => Date.parse(`${date}T00:00:00Z`) <= Date.now()), 'sitemap: last-modified dates are not in the future')
@@ -1264,14 +1264,26 @@ for (const [route, serviceRoute, relatedRoute] of [
   } else assert(html.includes('$190 including GST'), `${route}: GST-inclusive price`)
 }
 // Discover every generated guide, including future articles; the guide landing index is not an article.
+// Revision identities and literal URLs must not widen a narrow viewport.
+function hasUnwrappedRevisionHash(html) {
+  const article = html.match(/<article\b[^>]*>([\s\S]*?)<\/article>/i)?.[1] || ''
+  return /`(?:[a-f0-9]{40}|https?:\/\/[^`\s]+)`/i.test(article) || [...article.matchAll(/<code\b([^>]*)>(?:[a-f0-9]{40}|https?:\/\/[^<\s]+)<\/code>/gi)]
+    .some((match) => !/\bclass=["'][^"']*\bbreak-all\b[^"']*["']/i.test(match[1]))
+}
 const editorialFiles = walk(join(root, 'guides')).filter(file => file.endsWith('.html') && file !== join(root, 'guides/index.html'))
 for (const file of editorialFiles) {
   const route = '/' + relative(root, file).replace(/index\.html$/, '')
-  const issues = editorialFindings(readFileSync(file, 'utf8'), src => existsSync(join(root, src)))
+  const html = readFileSync(file, 'utf8')
+  const issues = editorialFindings(html, src => existsSync(join(root, src)))
   assert(issues.length === 0, `${route}: editorial contract${issues.length ? ': ' + issues.join(', ') : ''}`)
+  assert(!hasUnwrappedRevisionHash(html), `${route}: revision hashes allow narrow-screen wrapping`)
 }
 // A future article must not escape validation simply because its slug is absent from a fixed list.
 const editorialSample = readFileSync(routeToFile(slowGuideRoute), 'utf8')
+assert(hasUnwrappedRevisionHash(editorialSample.replaceAll('class="break-all"', '')), 'revision wrapping rejects an unwrapped code hash')
+assert(hasUnwrappedRevisionHash('<article>`' + 'a'.repeat(40) + '`</article>'), 'revision wrapping rejects literal Markdown hash markup')
+assert(hasUnwrappedRevisionHash('<article>`https://example.com/a-long-reference/`</article>'), 'source wrapping rejects literal Markdown URL markup')
+assert(hasUnwrappedRevisionHash('<article><code>https://example.com/a-long-reference/</code></article>'), 'source wrapping rejects an unwrapped code URL')
 assert(editorialFindings(editorialSample.replace(/<img\b[^>]*>/g, ''), () => true).includes('explanatory image coverage'), 'editorial contract rejects missing images on any route')
 assert(editorialFindings(editorialSample.replace('id="start"', 'id="REPLACE_SECTION_ID"'), () => true).includes('unresolved template placeholder'), 'editorial contract rejects unresolved scaffold')
 assert(editorialFindings(editorialSample, () => false).includes('existing explanatory image asset'), 'editorial contract rejects unavailable artwork')
@@ -1470,6 +1482,7 @@ if (existsSync(siteSearchSourcePath) && existsSync(siteSearchBuiltPath) && exist
   }
 }
 const builtStyles = readFileSync(join(root, 'css', 'styles.css'), 'utf8')
+assert(/\.break-all\{word-break:break-all\}/.test(builtStyles), 'revision wrapping utility is present in the built stylesheet')
 assert(builtStyles.includes('site-search-backdrop-in'), 'search: built styles include the opening backdrop transition')
 assert(builtStyles.includes('site-search-backdrop-out'), 'search: built styles include the closing backdrop transition')
 

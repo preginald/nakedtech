@@ -1,0 +1,51 @@
+---
+layout: layouts/base.njk
+permalink: /guides/take-ownership-new-home-wifi/index.html
+title: "Checking and taking ownership of a new home Wi-Fi setup"
+description: "Check administrator ownership, updates, recovery records and guest access after a new home Wi-Fi system is installed."
+robots: index, follow
+ogImage: /img/guides/wifi-card-situations-v2.webp
+ogImageWidth: 1408
+ogImageHeight: 768
+---
+{% from "components/editorial/macros.njk" import choice, note, contents, nextReading %}
+<style>{% include "components/editorial/styles.css" %}</style>
+<header class="ed-hero bg-inverse pb-14 pt-32 text-inverse-ink md:pt-40"><div class="mx-auto max-w-3xl px-6">
+<p class="mb-4 text-sm font-bold uppercase tracking-widest text-accent">The Naked Tech field guide <span class="ed-edition"> / 09</span></p>
+<h1 class="text-4xl font-extrabold tracking-tight md:text-5xl">A new home Wi-Fi setup?<br><span>Keep the control with you.</span></h1>
+<p class="ed-deck">Check ownership, recovery and everyday administration before calling the setup complete.</p>
+</div></header>
+<article class="ed-guide bg-canvas py-12 md:py-16" aria-label="New home Wi-Fi ownership guide"><div class="ed-layout">
+{{ contents([{ id: 'start', title: 'Start with ownership' }, { id: 'owner', title: 'Identify the administrator' }, { id: 'records', title: 'Keep recovery records' }, { id: 'guest', title: 'Check guest access' }, { id: 'check', title: 'Check the handover' }, { id: 'next', title: 'What to do next' }]) }}
+<div class="ed-reading guide-reading text-lg">
+<section class="ed-start" id="start" aria-labelledby="start-heading"><p class="ed-label">Start here</p><h2 id="start-heading">What needs to stay in the household’s control?</h2><p>Choose the handover check that matters most.</p><div class="ed-choices">
+{{ choice('Find the administrator', 'Confirm who can manage the main router or mesh system.', '#owner', 'online', '/img/guides/computer-move-essentials-v1.webp', 'A laptop with an account symbol beside a phone, representing account access.', 'Read this part') }}
+{{ choice('Keep recovery records', 'Record model, update and recovery information without writing down secrets.', '#records', 'online', '/img/guides/wifi-observations-v1.webp', 'A notebook, clock and router for keeping household network records.', 'Read this part') }}
+{{ choice('Check guest access', 'Understand how visitors connect and what the equipment separates.', '#guest', 'startup', '/img/guides/wifi-card-situations-v2.webp', 'A laptop and phone with Wi-Fi symbols, representing devices joining a network.', 'Read this part') }}
+</div></section>
+<p class="mb-5 leading-relaxed text-muted">A setup is not fully handed over merely because devices can connect. The household should know who administers the system, how access is recovered, who applies updates and what was checked. This guide does not collect passwords or promise a particular coverage or speed result.</p>
+<h2 class="ed-section-heading" id="owner"><span aria-hidden="true">01</span>Identify the administrator</h2>
+<p class="mb-5 leading-relaxed text-muted">Record the person or household role that administers the main router or mesh controller. Check that the system is not still attached only to an installer’s account, a former resident’s account or an administrator nobody can reach.</p>
+<p class="mb-5 leading-relaxed text-muted">Also record which device is the main network device, where its current documentation is kept and what the household expects to happen if the administrator changes. Enter credentials privately in the equipment’s supported process; do not place them in a shared checklist or send them to someone helping.</p>
+<h2 class="ed-section-heading" id="records"><span aria-hidden="true">02</span>Keep recovery and update records</h2>
+<div class="mb-8 overflow-x-auto" role="region" aria-label="New home Wi-Fi handover records" tabindex="0"><table role="table" class="w-full border-collapse text-left text-sm md:text-base"><thead><tr role="row"><th scope="col" class="border border-line bg-surface p-4 font-bold text-ink">Record</th><th scope="col" class="border border-line bg-surface p-4 font-bold text-ink">Keep this context</th></tr></thead><tbody>
+<tr role="row"><td role="cell" data-label="Record" class="border border-line p-4 align-top text-muted">Equipment</td><td role="cell" data-label="Keep this context" class="border border-line p-4 align-top text-muted">Model, hardware details and date added</td></tr>
+<tr role="row"><td role="cell" data-label="Record" class="border border-line p-4 align-top text-muted">Ownership</td><td role="cell" data-label="Keep this context" class="border border-line p-4 align-top text-muted">Administrator and update responsibility</td></tr>
+<tr role="row"><td role="cell" data-label="Record" class="border border-line p-4 align-top text-muted">Recovery</td><td role="cell" data-label="Keep this context" class="border border-line p-4 align-top text-muted">Where the private recovery process is documented</td></tr>
+<tr role="row"><td role="cell" data-label="Record" class="border border-line p-4 align-top text-muted">Changes</td><td role="cell" data-label="Keep this context" class="border border-line p-4 align-top text-muted">What changed and what was checked afterward</td></tr>
+</tbody></table></div>
+{% call note("care", "Take care", "A reset can remove configuration") %}<p class="mb-5 leading-relaxed text-muted">Before resetting or replacing equipment, make sure the household knows how it will regain administrator access and reconnect essential devices. Keep recovery codes and passwords in the household’s secure system, not in this article’s worksheet.</p>{% endcall %}
+<p class="mb-5 leading-relaxed text-muted">For example, Google warns that a <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="https://support.google.com/googlehome/answer/6246619?hl=en">factory reset erases its Wi-Fi devices’ settings and requires setup again</a>. This is a reason to check the recovery plan, not an instruction to reset working equipment.</p>
+<h2 class="ed-section-heading" id="guest"><span aria-hidden="true">03</span>Check guest access</h2>
+<p class="mb-5 leading-relaxed text-muted">If visitors or temporary devices need Wi-Fi, check whether the equipment supports a guest network and what separation it provides. Read the current documentation for whether guest devices can reach household devices, whether access can be limited or turned off, which nodes provide it, and whether the setting survives an update or reset.</p>
+<p class="mb-5 leading-relaxed text-muted">Do not assume every guest network behaves the same way. The household should enter its own credentials privately and decide who is allowed to change guest access.</p>
+<p class="mb-5 leading-relaxed text-muted">Google’s <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="https://support.google.com/googlehome/answer/6327302?hl=en">guest Wi-Fi documentation</a>, for example, allows selected household devices to be shared with guests. A “guest” label therefore does not establish that all household devices are inaccessible; check the exact product and settings.</p>
+<h2 class="ed-section-heading" id="check"><span aria-hidden="true">04</span>Check the handover</h2>
+<p class="mb-5 leading-relaxed text-muted">Ask the administrator to demonstrate, without sharing a password, which device is the main controller, where the documentation is kept, how updates are handled and where recovery information is securely managed. Record any item that remains unknown rather than treating the setup as complete.</p>
+<p class="mb-5 leading-relaxed text-muted">A successful connection proves only that a device connected at that moment. It does not prove that administrator ownership, recovery, updates or guest separation are ready.</p>
+<h2 class="ed-section-heading" id="next"><span aria-hidden="true">05</span>What to do next</h2>
+<p class="mb-5 leading-relaxed text-muted">For placement questions, return to <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="/guides/mesh-wifi-placement-backhaul/">planning mesh Wi-Fi placement and backhaul</a>. For repeated dropouts or uncertain symptoms, use the <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="/guides/wifi-dropouts-diagnosis/">Wi-Fi dropout diagnosis</a> guide, which remains the diagnostic owner.</p>
+<p class="mb-5 leading-relaxed text-muted">Sources checked: the mesh planning satellite, the <a class="font-semibold text-accent-ink underline underline-offset-4 hover:text-ink" href="/guides/need-mesh-wifi-access-point-router-position/">mesh Wi-Fi, access point or router-position guide</a>, the confirmed Full Strip service source at <code class="break-all">https://nakedtech.au/services/full-strip/</code>, the Naked Tech Editorial &amp; Design Guide v1.0 / DOC-3511, and <code>satellite-article.njk</code>; checked 20 September 2026. Manufacturer references added above were checked 22 September 2026. Current source revision: <code class="break-all">ce7cff7700f3d5f3a2265068b8af494b7ada3d4a</code>.</p>
+{{ nextReading([{ title: 'Plan mesh Wi-Fi placement and backhaul', href: '/guides/mesh-wifi-placement-backhaul/' }, { title: 'Choose between mesh, an access point and router position', href: '/guides/need-mesh-wifi-access-point-router-position/' }, { title: 'Narrow down Wi-Fi dropouts', href: '/guides/wifi-dropouts-diagnosis/' }], 'https://nakedtech.au/services/full-strip/', 'The Full Strip whole-home Mesh Wi-Fi', '09') }}
+</div></div></article>
+<script>{% include "components/editorial/contents.js" %}</script>

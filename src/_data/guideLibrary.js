@@ -21,6 +21,9 @@ const topics = [
     description: 'Separate device, coverage and internet-service problems.',
     slugs: [
       'wifi-dropouts-diagnosis',
+      'need-mesh-wifi-access-point-router-position',
+      'mesh-wifi-placement-backhaul',
+      'take-ownership-new-home-wifi',
       'wifi-one-device-or-all',
       'wifi-coverage-or-internet-service',
       'connection-test-results',
@@ -43,6 +46,7 @@ const topics = [
     description: 'Choose a backup approach and practise restoring a harmless file.',
     slugs: [
       'home-computer-backup',
+      'one-onsite-two-offsite-backups',
       'external-drive-or-cloud-backup',
       'test-a-backup-file-restore',
     ]
@@ -84,6 +88,7 @@ const topics = [
     slugs: [
       'move-to-new-phone-or-tablet',
       'prepare-phone-tablet-transfer',
+      'phone-account-continuity-after-device-move',
       'check-new-phone-before-erasing-old',
     ]
   },
