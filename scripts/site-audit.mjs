@@ -1270,6 +1270,10 @@ function hasUnwrappedRevisionHash(html) {
   return /`(?:[a-f0-9]{40}|https?:\/\/[^`\s]+)`/i.test(article) || [...article.matchAll(/<code\b([^>]*)>(?:[a-f0-9]{40}|https?:\/\/[^<\s]+)<\/code>/gi)]
     .some((match) => !/\bclass=["'][^"']*\bbreak-all\b[^"']*["']/i.test(match[1]))
 }
+function hasPublicInternalProvenance(html) {
+  const article = html.match(/<article\b[^>]*>([\s\S]*?)<\/article>/i)?.[1] || ''
+  return /\bDOC-3511\b|\b(?:pillar|satellite)-article\.njk\b|\b(?:current source|repository reference) revision:|\bSources checked(?:\s+\d|:)/i.test(article)
+}
 const editorialFiles = walk(join(root, 'guides')).filter(file => file.endsWith('.html') && file !== join(root, 'guides/index.html'))
 for (const file of editorialFiles) {
   const route = '/' + relative(root, file).replace(/index\.html$/, '')
@@ -1277,13 +1281,15 @@ for (const file of editorialFiles) {
   const issues = editorialFindings(html, src => existsSync(join(root, src)))
   assert(issues.length === 0, `${route}: editorial contract${issues.length ? ': ' + issues.join(', ') : ''}`)
   assert(!hasUnwrappedRevisionHash(html), `${route}: revision hashes allow narrow-screen wrapping`)
+  assert(!hasPublicInternalProvenance(html), `${route}: internal review provenance is not public guide copy`)
 }
 // A future article must not escape validation simply because its slug is absent from a fixed list.
 const editorialSample = readFileSync(routeToFile(slowGuideRoute), 'utf8')
-assert(hasUnwrappedRevisionHash(editorialSample.replaceAll('class="break-all"', '')), 'revision wrapping rejects an unwrapped code hash')
+assert(hasUnwrappedRevisionHash('<article><code>' + 'a'.repeat(40) + '</code></article>'), 'revision wrapping rejects an unwrapped code hash')
 assert(hasUnwrappedRevisionHash('<article>`' + 'a'.repeat(40) + '`</article>'), 'revision wrapping rejects literal Markdown hash markup')
 assert(hasUnwrappedRevisionHash('<article>`https://example.com/a-long-reference/`</article>'), 'source wrapping rejects literal Markdown URL markup')
 assert(hasUnwrappedRevisionHash('<article><code>https://example.com/a-long-reference/</code></article>'), 'source wrapping rejects an unwrapped code URL')
+assert(hasPublicInternalProvenance('<article><p>Current source revision: abc</p></article>'), 'guide audit rejects public internal provenance')
 assert(editorialFindings(editorialSample.replace(/<img\b[^>]*>/g, ''), () => true).includes('explanatory image coverage'), 'editorial contract rejects missing images on any route')
 assert(editorialFindings(editorialSample.replace('id="start"', 'id="REPLACE_SECTION_ID"'), () => true).includes('unresolved template placeholder'), 'editorial contract rejects unresolved scaffold')
 assert(editorialFindings(editorialSample, () => false).includes('existing explanatory image asset'), 'editorial contract rejects unavailable artwork')
